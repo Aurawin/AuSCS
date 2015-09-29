@@ -4,6 +4,8 @@ package com.aurawin.scs.stored.domain.network;
 import com.aurawin.core.lang.Database;
 import com.aurawin.core.lang.Table;
 import com.aurawin.core.stored.annotations.EntityDispatch;
+import com.aurawin.core.stored.annotations.QueryById;
+import com.aurawin.core.stored.annotations.QueryByName;
 import com.aurawin.core.stored.entities.Entities;
 import com.aurawin.core.stored.entities.Stored;
 
@@ -22,7 +24,7 @@ import java.util.List;
 @DynamicInsert(value=true)
 @DynamicUpdate(value=true)
 @SelectBeforeUpdate(value=true)
-@javax.persistence.Table(name = Database.Table.Domain.Folder)
+@javax.persistence.Table(name = Database.Table.Domain.Network.Folder)
 @NamedQueries(
         {
                 @NamedQuery(
@@ -33,6 +35,21 @@ import java.util.List;
                         name  = Database.Query.Domain.Network.Folder.ById.name,
                         query = Database.Query.Domain.Network.Folder.ById.value
                 )
+        }
+)
+@QueryById(
+        Name = Database.Query.Domain.Network.Folder.ById.name,
+        Fields = {
+                "Id",
+                "DomainId"
+        }
+)
+@QueryByName(
+        Name = Database.Query.Domain.Network.Folder.ByPath.name,
+        Fields = {
+                "DomainId",
+                "NetworkId",
+                "Path"
         }
 )
 @EntityDispatch(

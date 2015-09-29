@@ -67,7 +67,7 @@ public class Avatar extends Stored {
     @Column (name = Database.Field.Domain.Avatar.Modified)
     private long Modified;
 
-    @Column (name = Database.Field.Domain.Avatar.Data)
+    @Column (name = Database.Field.Domain.Avatar.Data, length = 1024*256)
     private String Data;
 
     public Avatar(long domainId, long ownerId, long kind) {

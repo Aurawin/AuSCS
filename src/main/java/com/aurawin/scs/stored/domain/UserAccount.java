@@ -88,53 +88,120 @@ public class UserAccount extends Stored {
     public List<Roster>Contacts = new ArrayList<Roster>();
 
     @Column(name = Database.Field.Domain.UserAccount.DomainId)
-    private long DomainId;
+    protected long DomainId;
+    public long getDomainId() {   return DomainId; }
 
     @Column(name = Database.Field.Domain.UserAccount.CabinetId)
-    private long CabinetId;
+    protected long CabinetId;
+    protected long getCabinetId(long id){
+        return CabinetId;
+    }
+    public void setCabinetId(long id){
+        CabinetId=id;
+    }
 
     @Column(name = Database.Field.Domain.UserAccount.RosterId)
-    private long RosterId;
+    protected long RosterId;
+    public long getRosterId(){return RosterId;}
+    public void setRosterId(long id){RosterId = id; }
 
     @Column(name = Database.Field.Domain.UserAccount.AvatarId)
-    private long AvatarId;
+    protected long AvatarId;
+    public long getAvatarId() { return AvatarId; }
+    public void setAvatarId(long id){ AvatarId= id;}
 
     @Column(name = Database.Field.Domain.UserAccount.User)
-    private String User;
+    protected String User;
+    public String getUser() { return User; }
+    public void setUser(String user) { this.User = user;}
 
     @Column(name = Database.Field.Domain.UserAccount.Pass)
-    private String Pass;
+    protected String Pass;
+    public String getPass() {return Pass; }
+    public void setPass(String pass) {
+        Pass = pass;
+    }
 
-    @Column(name = Database.Field.Domain.UserAccount.Auth)
-    private String Auth;
+    @Column(name = Database.Field.Domain.UserAccount.Auth, length = 16)
+    protected String Auth;
+    public String getAuth() {
+        return Auth;
+    }
+    public void setAuth(String auth) {
+        Auth = auth;
+    }
 
 
     @Column(name = Database.Field.Domain.UserAccount.FirstIP)
-    private long FirstIP;
+    protected long FirstIP;
+    public long getFirstIP() {
+        return FirstIP;
+    }
+    public void setFirstIP(long firstIP) {
+        FirstIP = firstIP;
+    }
+
 
     @Column(name = Database.Field.Domain.UserAccount.LastIP)
-    private long LastIP;
+    protected long LastIP;
+    public long getLastIP() {
+        return LastIP;
+    }
+    public void setLastIP(long lastIP) {
+        LastIP = lastIP;
+    }
 
     @Column(name = Database.Field.Domain.UserAccount.LockCount)
-    private int Lockcount;
+    protected int Lockcount;
+    public int getLockcount() {
+        return Lockcount;
+    }
+    public void setLockcount(int lockcount) {
+        Lockcount = lockcount;
+    }
 
     @Column(name = Database.Field.Domain.UserAccount.Created)
-    private long Created;
+    protected long Created;
+    public long getCreated() {        return Created;    }
+    public void setCreated(long created) {        Created = created;    }
 
     @Column(name = Database.Field.Domain.UserAccount.Modified)
-    private long Modified;
+    protected long Modified;
+    public long getModified() {        return Modified;    }
+    public void setModified(long modified) {        Modified = modified;    }
 
     @Column(name = Database.Field.Domain.UserAccount.LastLogin)
-    private long LastLogin;
+    protected long LastLogin;
+    public long getLastLogin() {
+        return LastLogin;
+    }
+    public void setLastLogin(long lastLogin) {
+        LastLogin = lastLogin;
+    }
 
     @Column(name = Database.Field.Domain.UserAccount.LastConsumptionCalc)
-    private long LastConsumptionCalculation;
+    protected long LastConsumptionCalculation;
+    public long getLastConsumptionCalculation() {
+        return LastConsumptionCalculation;
+    }
+    public void setLastConsumptionCalculation(long lastConsumptionCalculation) {
+        LastConsumptionCalculation = lastConsumptionCalculation;
+    }
 
     @Column(name = Database.Field.Domain.UserAccount.Consumption)
-    private long Consumption;
+    protected long Consumption;
+    public long getConsumption(){return Consumption;}
+    public void setConsumption(long consumption){Consumption = consumption;}
 
     @Column(name = Database.Field.Domain.UserAccount.Quota)
-    private long Quota;
+    protected long Quota;
+    public long getQuota(){ return Quota;}
+    public void setQuota(long quota){ Quota = quota;}
+
+    @Column(name = Database.Field.Domain.UserAccount.AllowLogin)
+    protected boolean AllowLogin;
+    public boolean isAllowLogin() {        return AllowLogin;    }
+    public void setAllowLogin(boolean allowLogin) {        AllowLogin = allowLogin;    }
 
     public UserAccount(long domainId, String user) {
         this.DomainId=domainId;
@@ -192,69 +259,6 @@ public class UserAccount extends Stored {
         Quota=src.Quota;
         Consumption=src.Consumption;
     }
-
-    public long getDomainId() {   return DomainId; }
-    public long getAvatarId() { return AvatarId; }
-    public void setAvatarId(long id){ AvatarId= id;}
-
-    public String getUser() { return User; }
-    public void setUser(String user) { this.User = user;}
-
-    public String getPass() {return Pass; }
-    public void setPass(String pass) {
-        Pass = pass;
-    }
-    protected long getCabinetId(long id){
-        return CabinetId;
-    }
-    public void setCabinetId(long id){
-        CabinetId=id;
-    }
-
-    public long getRosterId(){return RosterId;}
-    public void setRosterId(long id){RosterId = id; }
-
-    public String getAuth() {
-        return Auth;
-    }
-    public void setAuth(String auth) {
-        Auth = auth;
-    }
-
-    public long getFirstIP() {
-        return FirstIP;
-    }
-    public void setFirstIP(long firstIP) {
-        FirstIP = firstIP;
-    }
-
-    public long getLastIP() {
-        return LastIP;
-    }
-    public void setLastIP(long lastIP) {
-        LastIP = lastIP;
-    }
-
-    public int getLockcount() {
-        return Lockcount;
-    }
-    public void setLockcount(int lockcount) {
-        Lockcount = lockcount;
-    }
-
-    public long getLastLogin() {
-        return LastLogin;
-    }
-    public void setLastLogin(long lastLogin) {
-        LastLogin = lastLogin;
-    }
-
-    public long getConsumption(){return Consumption;}
-    public void setConsumption(long consumption){Consumption = consumption;}
-
-    public long getQuota(){return Quota; }
-    public void setQuota(long quota){Quota = quota;}
-
     public Roster getMe(){
         if (Contacts.isEmpty()==true) return null;
         return Contacts.stream().filter( (r) -> r.getId()==RosterId).findFirst().get();
