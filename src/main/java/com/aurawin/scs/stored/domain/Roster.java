@@ -3,10 +3,10 @@ package com.aurawin.scs.stored.domain;
 
 import com.aurawin.core.lang.Table;
 import com.aurawin.core.lang.Database;
-import com.aurawin.core.storage.annotations.EntityDispatch;
-import com.aurawin.core.storage.entities.Entities;
-import com.aurawin.core.storage.entities.Stored;
-import com.aurawin.core.storage.entities.domain.network.Exposure;
+import com.aurawin.core.stored.annotations.EntityDispatch;
+import com.aurawin.core.stored.entities.Entities;
+import com.aurawin.core.stored.entities.Stored;
+import com.aurawin.scs.stored.domain.network.Exposure;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.annotations.CascadeType;

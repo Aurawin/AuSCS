@@ -1,11 +1,7 @@
 package com.aurawin.scs.stored.domain.network;
 
-import static com.aurawin.core.storage.entities.domain.network.Permission.*;
-//import static com.aurawin.core.storage.entities.domain.network.Permission.Create;
-//import static com.aurawin.core.storage.entities.domain.network.Permission.Delete;
-//import static com.aurawin.core.storage.entities.domain.network.Permission.None;
-//import static com.aurawin.core.storage.entities.domain.network.Permission.Read;
-import static com.aurawin.core.storage.entities.domain.network.Permission.Write;
+import static com.aurawin.scs.stored.domain.network.Permission.*;
+import static com.aurawin.scs.stored.domain.network.Permission.Write;
 public enum Standing {
     Anonymous ((byte)0      , None                                      ),
     Administrator ((byte)1  , All                                       ),

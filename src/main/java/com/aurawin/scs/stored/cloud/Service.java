@@ -1,12 +1,12 @@
 package com.aurawin.scs.stored.cloud;
 
 import com.aurawin.core.lang.Database;
-import com.aurawin.core.storage.annotations.EntityDispatch;
-import com.aurawin.core.storage.annotations.QueryById;
-import com.aurawin.core.storage.annotations.QueryByName;
-import com.aurawin.core.storage.entities.Entities;
-import com.aurawin.core.storage.entities.Stored;
-import com.aurawin.core.storage.entities.UniqueId;
+import com.aurawin.core.stored.annotations.EntityDispatch;
+import com.aurawin.core.stored.annotations.QueryById;
+import com.aurawin.core.stored.annotations.QueryByName;
+import com.aurawin.core.stored.entities.Entities;
+import com.aurawin.core.stored.entities.Stored;
+import com.aurawin.core.stored.entities.UniqueId;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.SelectBeforeUpdate;
