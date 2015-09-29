@@ -24,11 +24,12 @@ import javax.persistence.Table;
         onDeleted = false,
         onUpdated = false
 )
-public class RosterField {
-    @javax.persistence.Id
+public class RosterField extends Stored {
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = Database.Field.Domain.RosterField.Id)
     protected long Id;
+    @Override
     public long getId() {
         return Id;
     }
@@ -48,12 +49,8 @@ public class RosterField {
     public RosterField() {
     }
 
-    public static void entityCreated(Entities List,Stored Entity) {
-        if (Entity instanceof UserAccount){
-            UserAccount ua = (UserAccount) Entity;
-        }
-    }
-    public static void entitUpdated(Entities List,Stored Entity, boolean Caascade) { }
-    public static void entityDeleted(Entities List,Stored Entity, boolean Caascade) { }
+    public static void entityCreated(Entities List,Stored Entity) {}
+    public static void entityUpdated(Entities List,Stored Entity, boolean Caascade) {}
+    public static void entityDeleted(Entities List,Stored Entity, boolean Caascade) {}
 
 }

@@ -5,22 +5,23 @@ import com.aurawin.core.stored.Dialect;
 import com.aurawin.core.stored.Driver;
 import com.aurawin.core.stored.Manifest;
 import com.aurawin.core.stored.entities.Entities;
+import com.aurawin.scs.stored.DBMS;
 import com.aurawin.scs.stored.cloud.*;
 import com.aurawin.scs.stored.domain.Domain;
 import com.aurawin.scs.stored.domain.Roster;
 import com.aurawin.scs.stored.domain.UserAccount;
 import com.aurawin.scs.stored.domain.network.Network;
+
 import org.junit.Test;
 import org.junit.Before; 
 import org.junit.After;
 
 public class EntitiesTest {
-    private Entities entities;
-    public Manifest manifest;
+    private DBMS db;
 
     @Before
     public void before() throws Exception {
-
+        db=new DBMS();
     }
 
     @After
@@ -30,7 +31,7 @@ public class EntitiesTest {
 
     @Test
     public void testCheckEntitiesAsCreate() throws Exception {
-        manifest = new Manifest(
+        Manifest mf=db.createManifest(
                 "Test",                                 // username
                 "Test",                                 // password
                 "172.16.1.1",                           // host
@@ -45,20 +46,20 @@ public class EntitiesTest {
                 Dialect.Postgresql.getValue(),          // Dialect
                 Driver.Postgresql.getValue()            // Driver
         );
-        entities = new Entities(manifest);
+        db.setManifest(mf);
 
         Domain crD = new Domain("test.com","root");
-        if (Entities.Create(entities,crD)==true) {
-            Domain lD = (Domain) Entities.Lookup(Domain.class,entities, 1l);
-            UserAccount lUA = (UserAccount) Entities.Lookup(UserAccount.class,entities, lD.getId(), lD.getRootId());
-            Entities.Fetch(entities, lUA);
+        if (Entities.Create(db.Entities,crD)==true) {
+            Domain lD = (Domain) Entities.Lookup(Domain.class,db.Entities, 1l);
+            UserAccount lUA = (UserAccount) Entities.Lookup(UserAccount.class,db.Entities, lD.getId(), lD.getRootId());
+            Entities.Fetch(db.Entities, lUA);
             Network lCAB = lUA.getCabinet();
             Roster lME = lUA.getMe();
         } else{
             throw new Exception("Create Domain Failed!");
         }
         Location lc = new Location();
-        if (Entities.Create(entities,lc)==true) {
+        if (Entities.Create(db.Entities,lc)==true) {
             lc.setBuilding("19309");
             lc.setStreet("Stage Line Trail");
             lc.setRegion("Southwest");
@@ -75,19 +76,19 @@ public class EntitiesTest {
             gp.setRack("Primary");
             gp.setRow("Primary");
             gp.setLocation(lc);
-            Entities.Create(entities, gp);
-            Entities.Update(entities,lc,Entities.CascadeOff);
+            Entities.Create(db.Entities, gp);
+            Entities.Update(db.Entities,lc,Entities.CascadeOff);
 
             Resource rc = new Resource();
             rc.setGroup(gp);
             rc.setName("Phoenix");
-            if (Entities.Create(entities,rc) ==true ){
+            if (Entities.Create(db.Entities,rc) ==true ){
                 Node n = new Node();
                 n.setResource(rc);
-                if (Entities.Create(entities,n)==true) {
+                if (Entities.Create(db.Entities,n)==true) {
                     n.setName("phoenix");
                     n.setIP("172.16.1.1");
-                    Entities.Update(entities, n, Entities.CascadeOff);
+                    Entities.Update(db.Entities, n, Entities.CascadeOff);
                 } else {
                     throw new Exception("Create Node failed!");
                 }
@@ -97,12 +98,12 @@ public class EntitiesTest {
             Resource rcDataHouse= new Resource();
             rcDataHouse.setGroup(gp);
             rcDataHouse.setName("Datahouse");
-            if (Entities.Create(entities,rcDataHouse)==true){
+            if (Entities.Create(db.Entities,rcDataHouse)==true){
                 Node n=new Node();
                 n.setResource(rcDataHouse);
                 n.setName("datahouse");
                 n.setIP("172.16.1.2");
-                if (Entities.Create(entities,n)==true){
+                if (Entities.Create(db.Entities,n)==true){
 
                 } else {
                     throw new Exception("Create DataHouse Node failed!");
@@ -120,7 +121,7 @@ public class EntitiesTest {
 
     @Test
     public void testCheckEntitiesAsUpdate() throws Exception {
-        manifest = new Manifest(
+        Manifest mf = db.createManifest(
                 "Test",                                 // username
                 "Test",                                 // password
                 "172.16.1.1",                           // host
@@ -135,20 +136,21 @@ public class EntitiesTest {
                 Dialect.Postgresql.getValue(),          // Dialect
                 Driver.Postgresql.getValue()            // Driver
         );
-        entities = new Entities(manifest);
-        Domain crD = (Domain) Entities.Lookup(Domain.class,entities,"test.com");
+        db.setManifest(mf);
+
+        Domain crD = (Domain) Entities.Lookup(Domain.class,db.Entities,"test.com");
         if (crD!=null){
-            if (Entities.Fetch(entities, crD)==true) {
-                UserAccount lUA = (UserAccount) Entities.Lookup(UserAccount.class,entities,crD.getId(), crD.getRootId());
-                Entities.Fetch(entities, lUA);
+            if (Entities.Fetch(db.Entities, crD)==true) {
+                UserAccount lUA = (UserAccount) Entities.Lookup(UserAccount.class,db.Entities,crD.getId(), crD.getRootId());
+                Entities.Fetch(db.Entities, lUA);
                 Network lCAB = lUA.getCabinet();
                 Roster lME = lUA.getMe();
             };
         } else {
             throw new Exception("Load Domain Failed!");
         }
-        Location l = (Location) Entities.Lookup(Location.class, entities,"Pflugerville");
-        Resource r = (Resource) Entities.Lookup(Resource.class, entities,1l);
+        Location l = (Location) Entities.Lookup(Location.class, db.Entities,"Pflugerville");
+        Resource r = (Resource) Entities.Lookup(Resource.class, db.Entities,1l);
 
 
     }
