@@ -3,20 +3,22 @@ package com.aurawin.scs.core;
 import com.aurawin.core.stored.entities.UniqueId;
 import org.hibernate.Session;
 
-public abstract class AObject {
+import java.util.HashMap;
 
+public abstract class CoreObject extends HashMap<String,CoreCommand> {
     protected boolean initialized = false;
     protected boolean entered=false;
 
     protected UniqueId Id;
 
-    public Verify(Session ssn){
+    public CoreObject(String namespace) {
+        Id = new UniqueId(namespace);
+    }
+
+    public void Verify(Session ssn){
         Id.Verify(ssn);
     }
 
-    public AObject(String namespace) {
-        Id = new UniqueId(namespace);
-    }
 
     protected abstract CoreResult Initialize();
     protected abstract CoreResult Finalize();
