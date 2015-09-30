@@ -15,8 +15,9 @@ public abstract class CoreObject extends HashMap<String,CoreCommand> {
         Id = new UniqueId(namespace);
     }
 
-    public void Verify(Session ssn){
+    public CoreResult Verify(Session ssn){
         Id.Verify(ssn);
+        return CoreResult.Ok;
     }
 
 

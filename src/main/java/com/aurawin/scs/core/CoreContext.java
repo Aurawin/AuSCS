@@ -4,12 +4,12 @@ import com.aurawin.core.array.KeyPair;
 import com.aurawin.core.lang.Table;
 import com.aurawin.core.stream.MemoryStream;
 
-public class CoreExecutor {
+public class CoreContext {
     public KeyPair Parameters = new KeyPair();
     public MemoryStream Input = new MemoryStream();
     public MemoryStream Output = new MemoryStream();
 
-    public CoreExecutor(){
+    public CoreContext(){
         Parameters.DelimiterField=": ";
         Parameters.DelimiterItem=Table.CRLF;
     }

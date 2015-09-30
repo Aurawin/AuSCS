@@ -17,5 +17,5 @@ public abstract class CoreCommand {
     }
     protected abstract CoreResult Initialize();
     protected abstract CoreResult Finalize();
-    protected abstract CoreResult Execute();
+    protected abstract CoreResult Execute(CoreContext Context);
 }
