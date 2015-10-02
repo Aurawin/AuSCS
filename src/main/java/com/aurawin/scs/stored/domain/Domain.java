@@ -6,11 +6,14 @@ import com.aurawin.core.stored.entities.Entities;
 import com.aurawin.core.stored.entities.Stored;
 import com.aurawin.core.lang.Database;
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.SelectBeforeUpdate;
+import org.json.JSONObject;
+
 import javax.persistence.*;
 
 @Entity
@@ -108,6 +111,10 @@ public class Domain extends Stored {
 
     public static Domain fromJSON(Gson Parser, String Data) {
         return (Domain) Parser.fromJson(Data, Domain.class);
+    }
+
+    public static Domain fromJSON(Gson Parser, JsonElement Data){
+        return (Domain) Parser.fromJson(Data,Domain.class);
     }
     @Override
     public boolean equals(Object o) {
