@@ -5,7 +5,7 @@ import com.aurawin.core.stored.annotations.EntityDispatch;
 import com.aurawin.core.stored.annotations.QueryById;
 import com.aurawin.core.stored.annotations.QueryByName;
 import com.aurawin.core.stored.entities.Entities;
-import com.aurawin.core.stored.entities.Stored;
+import com.aurawin.core.stored.Stored;
 import com.aurawin.core.stored.entities.UniqueId;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;

@@ -5,7 +5,7 @@ import com.aurawin.core.lang.Table;
 import com.aurawin.core.lang.Database;
 import com.aurawin.core.stored.annotations.EntityDispatch;
 import com.aurawin.core.stored.entities.Entities;
-import com.aurawin.core.stored.entities.Stored;
+import com.aurawin.core.stored.Stored;
 import com.aurawin.scs.stored.domain.network.Exposure;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -14,6 +14,8 @@ import org.hibernate.annotations.*;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -22,7 +24,15 @@ import java.util.List;
 @DynamicInsert(value = true)
 @DynamicUpdate(value = true)
 @SelectBeforeUpdate( value = true)
-@javax.persistence.Table(name = Database.Table.Domain.Roster)
+@javax.persistence.Table(name = Database.Table.Domain.UserAccount.Roster.Items)
+@NamedQueries(
+        {
+                @NamedQuery(
+                        name = Database.Query.Domain.UserAccount.Roster.ByDomainId.name,
+                        query = Database.Query.Domain.UserAccount.Roster.ByDomainId.value
+                )
+        }
+)
 @EntityDispatch(
         onCreated = true,
         onDeleted = true,
@@ -39,7 +49,7 @@ public class Roster extends Stored {
 
     @ManyToOne()
     @JoinColumn(name = Database.Field.Domain.Roster.OwnerId)
-    private UserAccount Owner;
+    protected UserAccount Owner;
     public long getOwnerId(){ return Owner.getId();}
 
     @OneToMany(
@@ -48,19 +58,19 @@ public class Roster extends Stored {
             cascade = javax.persistence.CascadeType.ALL,
             fetch = FetchType.EAGER
     )
-    private List<RosterField> Custom = new ArrayList<RosterField>();
+    protected List<RosterField> Custom = new ArrayList<RosterField>();
 
     @Column(name = Database.Field.Domain.Roster.DomainId)
-    private long DomainId;
+    protected long DomainId;
     public long getDomainId(){ return DomainId;}
 
     @Column(name = Database.Field.Domain.Roster.AvatarId)
-    private long AvatarId;
+    protected long AvatarId;
     public long getAvatarId(){ return AvatarId;}
     public void setAvatarId(long id){ AvatarId=id;}
 
     @Column(name = Database.Field.Domain.Roster.FirstName)
-    private String FirstName;
+    protected String FirstName;
     public String getFirstName() {
         return FirstName;
     }
@@ -69,7 +79,7 @@ public class Roster extends Stored {
     }
 
     @Column(name = Database.Field.Domain.Roster.MiddleName)
-    private String MiddleName;
+    protected String MiddleName;
     public String getMiddleName() {
         return MiddleName;
     }
@@ -78,22 +88,22 @@ public class Roster extends Stored {
     }
 
     @Column(name = Database.Field.Domain.Roster.FamilyName)
-    private String FamilyName;
+    protected String FamilyName;
     public String getFamilyName() {        return FamilyName;    }
     public void setFamilyName(String familyName) {        FamilyName = familyName;    }
 
     @Column(name = Database.Field.Domain.Roster.Alias)
-    private String Alias;
+    protected String Alias;
     public String getAlias() {        return Alias;    }
     public void setAlias(String alias) {        Alias = alias;    }
 
     @Column(name = Database.Field.Domain.Roster.Addresses)
-    private String Addresses;
+    protected String Addresses;
     public String getAddresses() {        return Addresses;    }
     public void setAddresses(String addresses) {        Addresses = addresses;    }
 
     @Column(name = Database.Field.Domain.Roster.City)
-    private String City;
+    protected String City;
     public String getCity() {
         return City;
     }
@@ -102,7 +112,7 @@ public class Roster extends Stored {
     }
 
     @Column(name = Database.Field.Domain.Roster.State)
-    private String State;
+    protected String State;
     public String getState() {
         return State;
     }
@@ -111,7 +121,7 @@ public class Roster extends Stored {
     }
 
     @Column(name = Database.Field.Domain.Roster.Postal)
-    private String Postal;
+    protected String Postal;
     public String getPostal() {
         return Postal;
     }
@@ -120,7 +130,7 @@ public class Roster extends Stored {
     }
 
     @Column(name = Database.Field.Domain.Roster.Country)
-    private String Country;
+    protected String Country;
     public String getCountry() {
         return Country;
     }
@@ -129,7 +139,7 @@ public class Roster extends Stored {
     }
 
     @Column(name = Database.Field.Domain.Roster.Websites)
-    private String Websites;
+    protected String Websites;
     public String getWebsites() {
         return Websites;
     }

@@ -4,14 +4,18 @@ package com.aurawin.scs.stored.domain.network;
 import com.aurawin.core.lang.Database;
 import com.aurawin.core.lang.Table;
 import com.aurawin.core.stored.annotations.EntityDispatch;
+import com.aurawin.core.stored.annotations.QueryByDomainId;
 import com.aurawin.core.stored.annotations.QueryById;
 import com.aurawin.core.stored.annotations.QueryByName;
 import com.aurawin.core.stored.entities.Entities;
-import com.aurawin.core.stored.entities.Stored;
+import com.aurawin.core.stored.Stored;
 
+import com.aurawin.scs.stored.domain.Domain;
 import com.aurawin.scs.stored.domain.UserAccount;
 import com.aurawin.core.time.Time;
 
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.SelectBeforeUpdate;
@@ -32,11 +36,16 @@ import java.util.List;
                         query = Database.Query.Domain.Network.Folder.ByPath.value
                 ),
                 @NamedQuery(
+                        name  = Database.Query.Domain.Network.Folder.ByDomainId.name,
+                        query = Database.Query.Domain.Network.Folder.ByDomainId.value
+                ),
+                @NamedQuery(
                         name  = Database.Query.Domain.Network.Folder.ById.name,
                         query = Database.Query.Domain.Network.Folder.ById.value
                 )
         }
 )
+@QueryByDomainId(Name = Database.Query.Domain.Network.Folder.ByDomainId.name)
 @QueryById(
         Name = Database.Query.Domain.Network.Folder.ById.name,
         Fields = {
@@ -190,16 +199,37 @@ public class Folder extends Stored {
             // todo AuDisk delete all native files in this folder
         }
     }
-    public static void entityUpdated(Entities List,Stored Entity, boolean Cascade){
+    public static void entityUpdated(Entities List,Stored Entity, boolean Cascade) throws Exception{
         if (Entity instanceof Folder) {
             Folder f = (Folder) Entity;
             if (Cascade == true) {
                 // note, just Update all children re-entrant will handle their children
-                for (Folder c : f.Children){
+                for (Folder c : f.Children) {
                     //todo Entities.Domain.Folder.
                 }
             }
-        }
+        } else if (Entity instanceof Domain) {
+            Domain d = (Domain) Entity;
+            Session ssn = List.Sessions.openSession();
+            try {
+                Transaction tx = ssn.beginTransaction();
+                try {
+                    ArrayList<Stored> lst = Entities.Lookup(
+                            Folder.class.getAnnotation(QueryByDomainId.class),
+                            List,
+                            d.getId()
+                    );
+                    for (Stored h : lst) {
+                        ssn.delete(h);
+                    }
+                } finally {
+                    tx.commit();
+                }
+            } finally {
+                ssn.close();
+            }
 
+
+        }
     }
 }

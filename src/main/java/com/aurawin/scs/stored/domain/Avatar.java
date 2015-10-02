@@ -4,7 +4,7 @@ import com.aurawin.core.lang.Database;
 import com.aurawin.core.lang.Namespace;
 import com.aurawin.core.stored.annotations.EntityDispatch;
 import com.aurawin.core.stored.entities.Entities;
-import com.aurawin.core.stored.entities.Stored;
+import com.aurawin.core.stored.Stored;
 
 import com.aurawin.scs.stored.domain.network.Network;
 import com.aurawin.core.time.Time;

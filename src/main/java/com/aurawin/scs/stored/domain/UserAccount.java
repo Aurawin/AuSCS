@@ -2,15 +2,14 @@ package com.aurawin.scs.stored.domain;
 
 import com.aurawin.core.lang.*;
 import com.aurawin.core.lang.Table;
-import com.aurawin.core.stored.annotations.EntityDispatch;
-import com.aurawin.core.stored.annotations.FetchFields;
-import com.aurawin.core.stored.annotations.FetchField;
+import com.aurawin.core.stored.annotations.*;
 import com.aurawin.core.stored.entities.Entities;
-import com.aurawin.core.stored.entities.Stored;
-import com.aurawin.core.stored.annotations.QueryById;
+import com.aurawin.core.stored.Stored;
 
 import com.aurawin.scs.stored.domain.network.Network;
 import com.aurawin.core.time.Time;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.DynamicInsert;
@@ -25,7 +24,7 @@ import java.util.List;
 @DynamicInsert(value=true)
 @DynamicUpdate(value=true)
 @SelectBeforeUpdate(value=true)
-@javax.persistence.Table(name = Database.Table.Domain.UserAccounts)
+@javax.persistence.Table(name = Database.Table.Domain.UserAccount.Items)
 @NamedQueries(
         {
                 @NamedQuery(
@@ -36,6 +35,10 @@ import java.util.List;
                 @NamedQuery(
                         name  = Database.Query.Domain.UserAccount.ByAuth.name,
                         query = Database.Query.Domain.UserAccount.ByAuth.value
+                ),
+                @NamedQuery(
+                        name = Database.Query.Domain.UserAccount.ByDomainId.name,
+                        query= Database.Query.Domain.UserAccount.ByDomainId.value
                 ),
                 @NamedQuery(
                         name  = Database.Query.Domain.UserAccount.ById.name,
@@ -49,6 +52,9 @@ import java.util.List;
                 "Id",
                 "DomainId"
         }
+)
+@QueryByDomainId(
+        Name = Database.Query.Domain.UserAccount.ByDomainId.name
 )
 @EntityDispatch(
         onCreated = true,
@@ -279,6 +285,28 @@ public class UserAccount extends Stored {
         }
     }
     public static void entityUpdated(Entities List, Stored Entity, boolean Cascade){}
-    public static void entityDeleted(Entities List,Stored Entity, boolean Cascade){}
+    public static void entityDeleted(Entities List,Stored Entity, boolean Cascade) throws Exception{
+        if (Entity instanceof Domain){
+            Domain d = (Domain) Entity;
+            Session ssn = List.Sessions.openSession();
+            try {
+                Transaction tx = ssn.beginTransaction();
+                try {
+                    ArrayList<Stored> lst = Entities.Lookup(
+                            UserAccount.class.getAnnotation(QueryByDomainId.class),
+                            List,
+                            d.getId()
+                    );
+                    for (Stored h : lst) {
+                        ssn.delete(h);
+                    }
+                } finally {
+                    tx.commit();
+                }
+            } finally {
+                ssn.close();
+            }
+        }
+    }
 
 }

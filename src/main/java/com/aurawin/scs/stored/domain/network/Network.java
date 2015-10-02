@@ -4,16 +4,22 @@ import com.aurawin.core.lang.Database;
 import com.aurawin.core.lang.Table;
 
 import com.aurawin.core.stored.annotations.EntityDispatch;
+import com.aurawin.core.stored.annotations.QueryByDomainId;
 import com.aurawin.core.stored.entities.Entities;
-import com.aurawin.core.stored.entities.Stored;
+import com.aurawin.core.stored.Stored;
+import com.aurawin.scs.stored.domain.Domain;
 import com.aurawin.scs.stored.domain.UserAccount;
 
 import javax.persistence.*;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 
 
 import com.aurawin.core.time.Time;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.annotations.*;
 
 import java.util.ArrayList;
@@ -29,6 +35,17 @@ import java.util.List;
         onCreated = true,
         onDeleted = true,
         onUpdated = true
+)
+@NamedQueries(
+        {
+                @NamedQuery(
+                        name  = Database.Query.Domain.Network.ByDomainId.name,
+                        query = Database.Query.Domain.Network.ByDomainId.value
+                )
+        }
+)
+@QueryByDomainId(
+        Name = Database.Query.Domain.Network.ByDomainId.name
 )
 public class Network extends Stored {
     public static class Default {
@@ -146,7 +163,29 @@ public class Network extends Stored {
         }
     }
     public static void entityUpdated(Entities List,Stored Entity, boolean Cascade) { }
-    public static void entityDeleted(Entities List,Stored Entity, boolean Cascade) { }
+    public static void entityDeleted(Entities List,Stored Entity, boolean Cascade) throws Exception{
+        if (Entity instanceof Domain) {
+            Domain d = (Domain) Entity;
+            Session ssn = List.Sessions.openSession();
+            try {
+                Transaction tx = ssn.beginTransaction();
+                try {
+                    ArrayList<Stored> lst = Entities.Lookup(
+                            Network.class.getAnnotation(QueryByDomainId.class),
+                            List,
+                            d.getId()
+                    );
+                    for (Stored h : lst) {
+                        ssn.delete(h);
+                    }
+                } finally {
+                    tx.commit();
+                }
+            } finally {
+                ssn.close();
+            }
+        }
+    }
 
 
 }

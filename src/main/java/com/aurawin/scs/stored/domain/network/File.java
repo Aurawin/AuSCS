@@ -2,18 +2,27 @@ package com.aurawin.scs.stored.domain.network;
 
 import com.aurawin.core.lang.Database;
 import com.aurawin.core.stored.entities.Entities;
-import com.aurawin.core.stored.entities.Stored;
+import com.aurawin.core.stored.Stored;
 import com.aurawin.core.stored.annotations.*;
+import com.aurawin.scs.stored.domain.Domain;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.SelectBeforeUpdate;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+
 @NamedQueries(
         {
                 @NamedQuery(
                         name  = Database.Query.Domain.Network.File.ByName.name,
                         query = Database.Query.Domain.Network.File.ByName.value
+                ),
+                @NamedQuery(
+                        name  = Database.Query.Domain.Network.File.ByDomainId.name,
+                        query = Database.Query.Domain.Network.File.ByDomainId.value
                 ),
                 @NamedQuery(
                         name  = Database.Query.Domain.Network.File.ById.name,
@@ -23,7 +32,7 @@ import javax.persistence.*;
 )
 @EntityDispatch(
         onCreated = false,
-        onDeleted = false,
+        onDeleted = true,
         onUpdated = false
 )
 @QueryById(
@@ -34,6 +43,7 @@ import javax.persistence.*;
                 "Id"
         }
 )
+@QueryByDomainId(Name=Database.Query.Domain.Network.File.ByDomainId.name)
 @Entity
 @DynamicInsert(value=true)
 @DynamicUpdate(value=true)
@@ -91,5 +101,27 @@ public class File extends Stored {
 
     public static void entityCreated(Entities List,Stored Entity) { }
     public static void entityUpdated(Entities List,Stored Entity, boolean Cascade) {}
-    public static void entityDeleted(Entities List,Stored Entity, boolean Cascade) {}
+    public static void entityDeleted(Entities List,Stored Entity, boolean Cascade) throws Exception{
+        if (Entity instanceof Domain){
+            Domain d = (Domain) Entity;
+            Session ssn = List.Sessions.openSession();
+            try {
+                Transaction tx = ssn.beginTransaction();
+                try {
+                    ArrayList<Stored> lst = Entities.Lookup(
+                            File.class.getAnnotation(QueryByDomainId.class),
+                            List,
+                            d.getId()
+                    );
+                    for (Stored h : lst) {
+                        ssn.delete(h);
+                    }
+                } finally {
+                    tx.commit();
+                }
+            } finally {
+                ssn.close();
+            }
+        }
+    }
 }
