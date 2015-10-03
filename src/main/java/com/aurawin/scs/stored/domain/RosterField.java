@@ -46,6 +46,7 @@ public class RosterField extends Stored {
     public long getId() {
         return Id;
     }
+
     @ManyToOne()
     @JoinColumn(name = Database.Field.Domain.RosterField.OwnerId)
     private Roster Owner;

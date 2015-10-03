@@ -10,6 +10,10 @@ import com.aurawin.scs.stored.domain.*;
 import com.aurawin.scs.stored.domain.network.Folder;
 import com.aurawin.scs.stored.domain.network.Member;
 import com.aurawin.scs.stored.domain.network.Network;
+import com.aurawin.scs.stored.domain.vendor.Vendor;
+import com.aurawin.scs.stored.domain.vendor.hawker.Hawker;
+import com.aurawin.scs.stored.domain.vendor.hawker.item.HawkItem;
+import com.aurawin.scs.stored.domain.vendor.hawker.item.HawkItemField;
 
 public class DBMS {
     private Manifest Manifest;
@@ -52,6 +56,11 @@ public class DBMS {
         al.add(Transactions.class);
         al.add(Uptime.class);
 
+        // vendor.*
+        al.add(Vendor.class);
+        al.add(Hawker.class);
+        al.add(HawkItem.class);
+        al.add(HawkItemField.class);
 
         Manifest m = new Manifest(
                 username,

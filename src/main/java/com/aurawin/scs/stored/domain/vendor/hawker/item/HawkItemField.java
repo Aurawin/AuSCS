@@ -1,4 +1,4 @@
-package com.aurawin.core.stored.entities.vendor.hawker.manifest;
+package com.aurawin.scs.stored.domain.vendor.hawker.item;
 
 import com.aurawin.core.Memo;
 import com.aurawin.core.array.KeyItem;
@@ -7,13 +7,18 @@ import com.aurawin.core.array.VarString;
 import com.aurawin.core.lang.Database;
 import com.aurawin.core.stored.Stored;
 import com.aurawin.core.stored.annotations.EntityDispatch;
+import com.aurawin.core.stored.annotations.QueryByDomainId;
 import com.aurawin.core.stored.annotations.QueryById;
 import com.aurawin.core.stored.entities.Entities;
+import com.aurawin.scs.stored.domain.Domain;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.SelectBeforeUpdate;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 
 @Entity
 @EntityDispatch(
@@ -24,20 +29,20 @@ import javax.persistence.*;
 @NamedQueries(
         {
                 @NamedQuery(
-                        name  = Database.Query.Domain.Vendor.Hawker.Manifest.Field.ById.name,
-                        query = Database.Query.Domain.Vendor.Hawker.Manifest.Field.ById.value
+                        name  = Database.Query.Domain.Vendor.Hawker.Item.Field.ById.name,
+                        query = Database.Query.Domain.Vendor.Hawker.Item.Field.ById.value
                 )
         }
 )
 @DynamicInsert(value=true)
 @DynamicUpdate(value=true)
 @SelectBeforeUpdate(value=true)
-@Table(name=Database.Table.Domain.Vendor.Hawker.Manifest.Field.Items)
+@Table(name=Database.Table.Domain.Vendor.Hawker.Item.Field.Items)
 @QueryById(
-        Name = Database.Query.Domain.Vendor.Hawker.Manifest.Field.ById.name,
+        Name = Database.Query.Domain.Vendor.Hawker.Item.Field.ById.name,
         Fields = {"DomainId","VendorId","OwnerId","Id"}
 )
-public class ManifestField extends Stored {
+public class HawkItemField extends Stored {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name=Database.Field.Domain.Entities.Vendor.Hawker.Manifest.Fields.Id)
@@ -58,84 +63,109 @@ public class ManifestField extends Stored {
     protected long defaultLength;
 
     @ManyToOne(
-            targetEntity=Manifest.class,
-            cascade= CascadeType.ALL,
-            fetch = FetchType.EAGER
+            fetch = FetchType.EAGER,
+            cascade = CascadeType.ALL,
+            targetEntity = HawkItem.class
     )
     @JoinColumn(name=Database.Field.Domain.Entities.Vendor.Hawker.Manifest.Fields.OwnerId)
-    protected Manifest Owner;
+    protected HawkItem Owner;
 
 
     @Transient
-    public ManifestFieldValue Value;
+    public FieldValue Value;
 
-    public ManifestField(ManifestField src){
+    public HawkItemField() {
+    }
+
+    public HawkItemField(HawkItemField src){
         Name = src.Name;
-        Value = new ManifestFieldValue(src.Value.getKind());
+        Value = new FieldValue(src.Value.getKind());
         Value.setValue(src.Value.getData());
         defaultLength =src.Value.getKind().getLength();
     }
-    public ManifestField(String name, ManifestFieldValueKind kind){
+    public HawkItemField(String name, FieldValueKind kind){
         Name = name;
-        Value = new ManifestFieldValue(kind);
+        Value = new FieldValue(kind);
         defaultLength=kind.getLength();
     }
-    public ManifestField(String name, String value) throws Exception{
+    public HawkItemField(String name, String value) throws Exception{
         Name = name;
-        Value = new ManifestFieldValue(ManifestFieldValueKind.String);
+        Value = new FieldValue(FieldValueKind.String);
         Value.setValue(value);
         defaultLength=Value.getKind().getLength();
     }
-    public ManifestField(String name, Memo value) throws Exception{
+    public HawkItemField(String name, Memo value) throws Exception{
         Name = name;
-        Value = new ManifestFieldValue(ManifestFieldValueKind.Memo);
+        Value = new FieldValue(FieldValueKind.Memo);
         Value.setValue(value);
         defaultLength=Value.getKind().getLength();
     }
-    public ManifestField(String name, VarString value) throws Exception{
+    public HawkItemField(String name, VarString value) throws Exception{
         Name = name;
-        Value = new ManifestFieldValue(ManifestFieldValueKind.StringList);
+        Value = new FieldValue(FieldValueKind.StringList);
         Value.setValue(value);
         defaultLength=Value.getKind().getLength();
     }
-    public ManifestField(String name, int value) throws Exception{
+    public HawkItemField(String name, int value) throws Exception{
         Name = name;
-        Value = new ManifestFieldValue(ManifestFieldValueKind.Integer);
+        Value = new FieldValue(FieldValueKind.Integer);
         Value.setValue(value);
         defaultLength=Value.getKind().getLength();
     }
-    public ManifestField(String name, long value) throws Exception{
+    public HawkItemField(String name, long value) throws Exception{
         Name = name;
-        Value = new ManifestFieldValue(ManifestFieldValueKind.Int64);
+        Value = new FieldValue(FieldValueKind.Int64);
         Value.setValue(value);
         defaultLength=Value.getKind().getLength();
     }
-    public ManifestField(String name, KeyItem value) throws Exception{
+    public HawkItemField(String name, KeyItem value) throws Exception{
         Name = name;
-        Value = new ManifestFieldValue(ManifestFieldValueKind.KeyPair);
+        Value = new FieldValue(FieldValueKind.KeyPair);
         Value.setValue(value);
         defaultLength=Value.getKind().getLength();
     }
-    public ManifestField(String name, KeyPair value) throws Exception{
+    public HawkItemField(String name, KeyPair value) throws Exception{
         Name = name;
-        Value = new ManifestFieldValue(ManifestFieldValueKind.KeyPairList);
+        Value = new FieldValue(FieldValueKind.KeyPairList);
         Value.setValue(value);
         defaultLength=Value.getKind().getLength();
     }
-    public ManifestField(String name, double value) throws Exception{
+    public HawkItemField(String name, double value) throws Exception{
         Name = name;
-        Value = new ManifestFieldValue(ManifestFieldValueKind.Double);
+        Value = new FieldValue(FieldValueKind.Double);
         Value.setValue(value);
         defaultLength=Value.getKind().getLength();
     }
-    public ManifestField(String name, boolean value) throws Exception{
+    public HawkItemField(String name, boolean value) throws Exception{
         Name = name;
-        Value = new ManifestFieldValue(ManifestFieldValueKind.Boolean);
+        Value = new FieldValue(FieldValueKind.Boolean);
         Value.setValue(value);
         defaultLength=Value.getKind().getLength();
     }
 
     public static void entityCreated(Entities List, Stored Entity){}
-    public static void entityDeleted(Entities List, Stored Entity, boolean Cascade){}
+    public static void entityDeleted(Entities List, Stored Entity, boolean Cascade)throws Exception{
+        if (Entity instanceof Domain) {
+            Domain d = (Domain) Entity;
+            Session ssn = List.Sessions.openSession();
+            try {
+                Transaction tx = ssn.beginTransaction();
+                try {
+                    ArrayList<Stored> lst = Entities.Lookup(
+                            HawkItemField.class.getAnnotation(QueryByDomainId.class),
+                            List,
+                            d.getId()
+                    );
+                    for (Stored h : lst) {
+                        ssn.delete(h);
+                    }
+                } finally {
+                    tx.commit();
+                }
+            } finally {
+                ssn.close();
+            }
+        }
+    }
     public static void entityUpdated(Entities List, Stored Entity, boolean Cascade){}
 }

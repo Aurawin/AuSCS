@@ -1,6 +1,6 @@
-package com.aurawin.core.stored.entities.vendor.hawker.manifest;
+package com.aurawin.scs.stored.domain.vendor.hawker.item;
 
-public enum ManifestFieldValueKind {
+public enum FieldValueKind {
     String ("String",255l),
     Memo ("Memo",1024*1014*1024l),
     StringList("StringList",1024*1024*2l),
@@ -12,15 +12,15 @@ public enum ManifestFieldValueKind {
     Boolean ("Boolean",0l);
     private final String value;
     private final long length;
-    ManifestFieldValueKind(String val, long len) {
+    FieldValueKind(String val, long len) {
         value = val;
         length = len;
     }
     public String getValue(){return value;}
     public long getLength(){return length;}
 
-    public static ManifestFieldValueKind fromString(String value){
-        for (ManifestFieldValueKind k : ManifestFieldValueKind.values()){
+    public static FieldValueKind fromString(String value){
+        for (FieldValueKind k : FieldValueKind.values()){
             if (k.getValue().compareToIgnoreCase(value)==0){
                 return k;
             }

@@ -1,1 +1,1 @@
-package com.aurawin.core.stored.entities.vendor;
+package com.aurawin.scs.stored.domain.vendor;

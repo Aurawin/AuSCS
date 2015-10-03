@@ -1,17 +1,17 @@
-package com.aurawin.core.stored.entities.vendor.hawker.manifest;
+package com.aurawin.scs.stored.domain.vendor.hawker.item;
 
 
-public enum ManifestKind {
+public enum ItemKind {
     Singleton ("Singleton"),
     Collection ("Collection");
     private final String value;
-    ManifestKind(String val) {
+    ItemKind(String val) {
         value = val;
     }
     public String getValue(){return value;}
 
-    public static ManifestKind fromString(String value){
-        for (ManifestKind k : ManifestKind.values()){
+    public static ItemKind fromString(String value){
+        for (ItemKind k : ItemKind.values()){
             if (k.getValue().compareToIgnoreCase(value)==0){
                 return k;
             }

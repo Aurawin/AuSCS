@@ -11,6 +11,7 @@ import com.aurawin.scs.stored.domain.Domain;
 import com.aurawin.scs.stored.domain.Roster;
 import com.aurawin.scs.stored.domain.UserAccount;
 import com.aurawin.scs.stored.domain.network.Network;
+import com.aurawin.scs.stored.domain.vendor.Vendor;
 
 import org.junit.Test;
 import org.junit.Before; 
@@ -28,7 +29,37 @@ public class EntitiesTest {
     public void after() throws Exception {
     }
 
+    @Test
+    public void testDomainDelete() throws Exception{
+        Manifest mf=db.createManifest(
+                "Test",                                 // username
+                "Test",                                 // password
+                "172.16.1.1",                           // host
+                5432,                                   // port
+                2,                                      // Min Poolsize
+                20,                                     // Max Poolsize
+                1,                                      // Pool Acquire Increment
+                50,                                     // Max statements
+                10,                                     // timeout
+                Database.Config.Automatic.Update,       //
+                "Test",                                 // database
+                Dialect.Postgresql.getValue(),          // Dialect
+                Driver.Postgresql.getValue()            // Driver
+        );
+        db.setManifest(mf);
+        Domain vD = new Domain("vendors.com","root");
+        Entities.Create(db.Entities,vD);
 
+        UserAccount vA = (UserAccount) Entities.Lookup(UserAccount.class,db.Entities, vD.getId(), vD.getRootId());
+        Vendor vV = new Vendor();
+        vV.setDomainId(vD.getId());
+        vV.setOwnerId(vA.getId());
+        vV.setNamespace("com.vendors.test");
+        Entities.Create(db.Entities,vV);
+
+
+        Entities.Delete(db.Entities,vD,Entities.CascadeOff);
+    }
     @Test
     public void testCheckEntitiesAsCreate() throws Exception {
         Manifest mf=db.createManifest(

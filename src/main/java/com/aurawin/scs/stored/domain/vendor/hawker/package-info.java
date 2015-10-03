@@ -1,1 +1,1 @@
-package com.aurawin.core.stored.entities.vendor.hawker;
+package com.aurawin.scs.stored.domain.vendor.hawker;

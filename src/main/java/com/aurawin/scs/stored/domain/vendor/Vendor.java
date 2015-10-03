@@ -1,17 +1,23 @@
-package com.aurawin.core.stored.entities.vendor;
+package com.aurawin.scs.stored.domain.vendor;
 
 import com.aurawin.core.lang.Database;
 import com.aurawin.core.stored.Stored;
 import com.aurawin.core.stored.annotations.EntityDispatch;
+import com.aurawin.core.stored.annotations.QueryByDomainId;
 import com.aurawin.core.stored.annotations.QueryById;
 import com.aurawin.core.stored.annotations.QueryByName;
 import com.aurawin.core.stored.entities.Entities;
+import com.aurawin.core.time.Time;
+import com.aurawin.scs.stored.domain.Domain;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.SelectBeforeUpdate;
 
 import javax.persistence.*;
 import javax.xml.crypto.Data;
+import java.util.ArrayList;
 
 @Entity
 @EntityDispatch(
@@ -32,6 +38,10 @@ import javax.xml.crypto.Data;
                 @NamedQuery(
                         name  = Database.Query.Domain.Vendor.ById.name,
                         query = Database.Query.Domain.Vendor.ById.value
+                ),
+                @NamedQuery(
+                        name = Database.Query.Domain.Vendor.ByDomainId.name,
+                        query= Database.Query.Domain.Vendor.ByDomainId.value
                 )
         }
 )
@@ -42,6 +52,9 @@ import javax.xml.crypto.Data;
 @QueryByName(
         Name = Database.Query.Domain.Vendor.ByNamespace.name,
         Fields = {"DomainId","Namespace"}
+)
+@QueryByDomainId(
+        Name=Database.Query.Domain.Vendor.ByDomainId.name
 )
 
 public class Vendor extends Stored {
@@ -55,6 +68,7 @@ public class Vendor extends Stored {
     @Column(name = Database.Field.Domain.Entities.Vendor.DomainId)
     protected long DomainId;
     public long getDomainId(){return DomainId;}
+    public void setDomainId(long val){ DomainId=val;}
 
     @Column(name = Database.Field.Domain.Entities.Vendor.NetworkId)
     protected long NetworkId;
@@ -63,6 +77,7 @@ public class Vendor extends Stored {
     @Column(name = Database.Field.Domain.Entities.Vendor.OwnerId)
     protected long OwnerId;
     public long getOwnerId(){return OwnerId;}
+    public void setOwnerId(long val){ OwnerId=val;}
 
     @Column(name=Database.Field.Domain.Entities.Vendor.Created)
     protected long Created;
@@ -78,7 +93,41 @@ public class Vendor extends Stored {
     public String getNamespace(){return Namespace;}
     public void setNamespace(String val){ Namespace=val;}
 
+    public Vendor() {
+        Id=0;
+        DomainId=0;
+        NetworkId=0;
+        OwnerId=0;
+        Created= Time.dtUTC();
+        Modified=Created;
+        Namespace="";
+    }
+
     public static void entityCreated(Entities List, Stored Entity){}
-    public static void entityDeleted(Entities List, Stored Entity, boolean Cascade){}
-    public static void entityUpdated(Entities List, Stored Entity, boolean Cascade){}
+    public static void entityDeleted(Entities List, Stored Entity, boolean Cascade)throws Exception {
+        if (Entity instanceof Domain) {
+            Domain d = (Domain) Entity;
+            Session ssn = List.Sessions.openSession();
+            try {
+                Transaction tx = ssn.beginTransaction();
+                try {
+                    ArrayList<Stored> lst = Entities.Lookup(
+                            Vendor.class.getAnnotation(QueryByDomainId.class),
+                            List,
+                            d.getId()
+                    );
+                    for (Stored h : lst) {
+                        ssn.delete(h);
+                    }
+                } finally {
+                    tx.commit();
+                }
+            } finally {
+                ssn.close();
+            }
+        }
+    }
+    public static void entityUpdated(Entities List, Stored Entity, boolean Cascade) throws Exception{
+
+    }
 }

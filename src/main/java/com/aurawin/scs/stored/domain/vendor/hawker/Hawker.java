@@ -1,4 +1,4 @@
-package com.aurawin.core.stored.entities.vendor.hawker;
+package com.aurawin.scs.stored.domain.vendor.hawker;
 
 
 import com.aurawin.core.lang.Database;
@@ -51,7 +51,7 @@ import java.util.ArrayList;
 )
 @QueryByName(
         Name = Database.Query.Domain.Vendor.Hawker.ByNamespace.name,
-        Fields ={"DomainId","VendorId","Namepsace"}
+        Fields ={"DomainId","VendorId","Namespace"}
 )
 @QueryByDomainId(
         Name = Database.Query.Domain.Vendor.Hawker.ByDomainId.name
