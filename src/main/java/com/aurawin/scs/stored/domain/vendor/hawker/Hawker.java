@@ -70,19 +70,28 @@ public class Hawker extends Stored {
     @Column(name = Database.Field.Domain.Entities.Vendor.Hawker.VendorId)
     protected long VendorId;
     public long getVendorId(){return VendorId;}
+    public void setVendorId(long val){ VendorId=val;}
 
     @Column(name = Database.Field.Domain.Entities.Vendor.Hawker.Namespace)
     protected String Namespace;
+    public String getNamespace(){return Namespace;}
+    public void setNamepsace(String val){Namespace=val;}
+
     public Hawker(){
         Id=0;
         VendorId=0;
+        Namespace="";
     }
 
     public void Empty(){
         Id=0;
+        VendorId = 0;
+        Namespace="";
     }
     public void Assign(Hawker src){
         Id=src.Id;
+        VendorId=src.VendorId;
+        Namespace=src.Namespace;
     }
 
     public static void entityCreated(Entities List, Stored Entity){}

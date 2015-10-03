@@ -13,6 +13,7 @@ import com.aurawin.scs.stored.domain.UserAccount;
 import com.aurawin.scs.stored.domain.network.Network;
 import com.aurawin.scs.stored.domain.vendor.Vendor;
 
+import com.aurawin.scs.stored.domain.vendor.hawker.Hawker;
 import org.junit.Test;
 import org.junit.Before; 
 import org.junit.After;
@@ -56,6 +57,9 @@ public class EntitiesTest {
         vV.setOwnerId(vA.getId());
         vV.setNamespace("com.vendors.test");
         Entities.Create(db.Entities,vV);
+
+        Hawker = vH = new Hawker();
+        vH.
 
 
         Entities.Delete(db.Entities,vD,Entities.CascadeOff);

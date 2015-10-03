@@ -2,25 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a5f23b2a-0c02-4a72-885e-dee946f9b629" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/aurawin/scs/stored/domain/vendor/hawker/item/package-info.java" />
-      <change type="DELETED" beforePath="C:\Users\Andrew\Documents\Aurawin\Developer\Java\AuSCS\.idea\libraries\Maven__com_aurawin_core_2015_10_2_6.xml" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Andrew\Documents\Aurawin\Developer\Java\AuSCS\src\main\java\com\aurawin\scs\stored\domain\vendor\hawker\manifest\package-info.java" afterPath="" />
-      <change type="MOVED" beforePath="C:\Users\Andrew\Documents\Aurawin\Developer\Java\AuSCS\.idea\libraries\Maven__com_aurawin_core_2015_9_29_3.xml" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_aurawin_core_2015_10_2_9.xml" />
-      <change type="MOVED" beforePath="C:\Users\Andrew\Documents\Aurawin\Developer\Java\AuSCS\src\main\java\com\aurawin\scs\stored\domain\vendor\hawker\manifest\Manifest.java" afterPath="$PROJECT_DIR$/src/main/java/com/aurawin/scs/stored/domain/vendor/hawker/item/HawkItem.java" />
-      <change type="MOVED" beforePath="C:\Users\Andrew\Documents\Aurawin\Developer\Java\AuSCS\src\main\java\com\aurawin\scs\stored\domain\vendor\hawker\manifest\ManifestField.java" afterPath="$PROJECT_DIR$/src/main/java/com/aurawin/scs/stored/domain/vendor/hawker/item/HawkItemField.java" />
-      <change type="MOVED" beforePath="C:\Users\Andrew\Documents\Aurawin\Developer\Java\AuSCS\src\main\java\com\aurawin\scs\stored\domain\vendor\hawker\manifest\ManifestFieldValue.java" afterPath="$PROJECT_DIR$/src/main/java/com/aurawin/scs/stored/domain/vendor/hawker/item/FieldValue.java" />
-      <change type="MOVED" beforePath="C:\Users\Andrew\Documents\Aurawin\Developer\Java\AuSCS\src\main\java\com\aurawin\scs\stored\domain\vendor\hawker\manifest\ManifestFieldValueKind.java" afterPath="$PROJECT_DIR$/src/main/java/com/aurawin/scs/stored/domain/vendor/hawker/item/FieldValueKind.java" />
-      <change type="MOVED" beforePath="C:\Users\Andrew\Documents\Aurawin\Developer\Java\AuSCS\src\main\java\com\aurawin\scs\stored\domain\vendor\hawker\manifest\ManifestKind.java" afterPath="$PROJECT_DIR$/src/main/java/com/aurawin/scs/stored/domain/vendor/hawker/item/ItemKind.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/AuSCS.iml" afterPath="$PROJECT_DIR$/AuSCS.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/aurawin/scs/stored/DBMS.java" afterPath="$PROJECT_DIR$/src/main/java/com/aurawin/scs/stored/DBMS.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/test/com/aurawin/scs/stored/EntitiesTest.java" afterPath="$PROJECT_DIR$/src/main/java/test/com/aurawin/scs/stored/EntitiesTest.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/aurawin/scs/stored/domain/vendor/hawker/Hawker.java" afterPath="$PROJECT_DIR$/src/main/java/com/aurawin/scs/stored/domain/vendor/hawker/Hawker.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_hibernate_hibernate_core_5_0_1_Final.xml" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_hibernate_hibernate_core_5_0_1_Final.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/aurawin/scs/stored/domain/RosterField.java" afterPath="$PROJECT_DIR$/src/main/java/com/aurawin/scs/stored/domain/RosterField.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/aurawin/scs/stored/domain/vendor/Vendor.java" afterPath="$PROJECT_DIR$/src/main/java/com/aurawin/scs/stored/domain/vendor/Vendor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/aurawin/scs/stored/domain/vendor/package-info.java" afterPath="$PROJECT_DIR$/src/main/java/com/aurawin/scs/stored/domain/vendor/package-info.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/aurawin/scs/stored/domain/vendor/hawker/package-info.java" afterPath="$PROJECT_DIR$/src/main/java/com/aurawin/scs/stored/domain/vendor/hawker/package-info.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="AuSCS.iws" />
@@ -76,10 +59,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="HawkItem.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="HawkItem.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/aurawin/scs/stored/domain/vendor/hawker/item/HawkItem.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
+            <state vertical-scroll-proportion="0.4347826">
               <caret line="44" column="0" selection-start-line="44" selection-start-column="0" selection-end-line="46" selection-end-column="47" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -93,7 +76,7 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/test/com/aurawin/scs/stored/EntitiesTest.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="60" column="0" selection-start-line="60" selection-start-column="0" selection-end-line="60" selection-end-column="0" />
+              <caret line="60" column="27" selection-start-line="60" selection-start-column="27" selection-end-line="60" selection-end-column="27" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -101,10 +84,20 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Vendor.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Hawker.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/aurawin/scs/stored/domain/vendor/hawker/Hawker.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="93" column="32" selection-start-line="93" selection-start-column="32" selection-end-line="93" selection-end-column="32" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Vendor.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/aurawin/scs/stored/domain/vendor/Vendor.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.5380435">
+            <state vertical-scroll-proportion="0.0">
               <caret line="115" column="31" selection-start-line="115" selection-start-column="31" selection-end-line="115" selection-end-column="31" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -177,9 +170,7 @@
         <option value="$PROJECT_DIR$/src/main/java/com/aurawin/scs/stored/domain/vendor/hawker/manifest/Manifest.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/aurawin/scs/stored/domain/vendor/hawker/manifest/ManifestField.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/aurawin/scs/stored/domain/vendor/hawker/manifest/ManifestFieldValue.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/aurawin/scs/stored/domain/vendor/hawker/Hawker.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/aurawin/scs/stored/domain/vendor/package-info.java" />
-        <option value="$PROJECT_DIR$/src/main/java/test/com/aurawin/scs/stored/EntitiesTest.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/aurawin/scs/stored/domain/vendor/Vendor.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/aurawin/scs/stored/domain/RosterField.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/aurawin/scs/stored/domain/vendor/hawker/item/ItemField.java" />
@@ -187,6 +178,8 @@
         <option value="$PROJECT_DIR$/src/main/java/com/aurawin/scs/stored/DBMS.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/aurawin/scs/stored/domain/vendor/hawker/item/HawkItemField.java" />
         <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/src/main/java/test/com/aurawin/scs/stored/EntitiesTest.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/aurawin/scs/stored/domain/vendor/hawker/Hawker.java" />
       </list>
     </option>
   </component>
@@ -1267,12 +1260,18 @@
       <option name="project" value="LOCAL" />
       <updated>1443813716991</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Core Vendor Hawker Manifest">
+      <created>1443831785664</created>
+      <option name="number" value="00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1443831785664</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="-1928" y="-94" width="1936" height="1096" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -1285,7 +1284,7 @@
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32157677" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25373134" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25373134" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -1327,19 +1326,19 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/test/com/aurawin/scs/stored/EntitiesTest.java</url>
-          <line>171</line>
+          <line>175</line>
           <properties />
           <option name="timeStamp" value="4" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/test/com/aurawin/scs/stored/EntitiesTest.java</url>
-          <line>169</line>
+          <line>173</line>
           <properties />
           <option name="timeStamp" value="5" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/test/com/aurawin/scs/stored/EntitiesTest.java</url>
-          <line>49</line>
+          <line>50</line>
           <properties />
           <option name="timeStamp" value="7" />
         </line-breakpoint>
@@ -1642,16 +1641,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/aurawin/scs/stored/domain/vendor/hawker/Hawker.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="59" column="13" selection-start-line="59" selection-start-column="13" selection-end-line="59" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/aurawin/scs/stored/domain/vendor/hawker/package-info.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1738,13 +1727,22 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/aurawin/scs/stored/domain/vendor/hawker/item/HawkItem.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/aurawin/scs/stored/domain/vendor/hawker/item/HawkItemField.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="44" column="0" selection-start-line="44" selection-start-column="0" selection-end-line="46" selection-end-column="47" />
+          <caret line="60" column="0" selection-start-line="60" selection-start-column="0" selection-end-line="60" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#1748#1763#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/aurawin/scs/stored/domain/vendor/Vendor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="115" column="31" selection-start-line="115" selection-start-column="31" selection-end-line="115" selection-end-column="31" />
+          <folding>
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1757,32 +1755,31 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/aurawin/scs/stored/domain/vendor/hawker/item/HawkItemField.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="60" column="0" selection-start-line="60" selection-start-column="0" selection-end-line="60" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/test/com/aurawin/scs/stored/EntitiesTest.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="60" column="0" selection-start-line="60" selection-start-column="0" selection-end-line="60" selection-end-column="0" />
+          <caret line="60" column="27" selection-start-line="60" selection-start-column="27" selection-end-line="60" selection-end-column="27" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/aurawin/scs/stored/domain/vendor/Vendor.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/aurawin/scs/stored/domain/vendor/hawker/Hawker.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5380435">
-          <caret line="115" column="31" selection-start-line="115" selection-start-column="31" selection-end-line="115" selection-end-column="31" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="93" column="32" selection-start-line="93" selection-start-column="32" selection-end-line="93" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/aurawin/scs/stored/domain/vendor/hawker/item/HawkItem.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.4347826">
+          <caret line="44" column="0" selection-start-line="44" selection-start-column="0" selection-end-line="46" selection-end-column="47" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#1748#1763#0" expanded="true" />
           </folding>
         </state>
       </provider>
