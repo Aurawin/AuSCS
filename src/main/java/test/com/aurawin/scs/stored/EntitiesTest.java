@@ -48,18 +48,23 @@ public class EntitiesTest {
                 Driver.Postgresql.getValue()            // Driver
         );
         db.setManifest(mf);
-        Domain vD = new Domain("vendors.com","root");
+        Domain vD = new Domain("repository.foo.com","root");
         Entities.Create(db.Entities,vD);
 
         UserAccount vA = (UserAccount) Entities.Lookup(UserAccount.class,db.Entities, vD.getId(), vD.getRootId());
         Vendor vV = new Vendor();
         vV.setDomainId(vD.getId());
         vV.setOwnerId(vA.getId());
-        vV.setNamespace("com.vendors.test");
+        vV.setNamespace("net.some.vendor");
         Entities.Create(db.Entities,vV);
+        Hawker vH = new Hawker();
+        vH.setNamespace("collage");
+        vH.setDomainId(vD.getId());
+        vH.setVendorId(vV.getId());
+        Entities.Create(db.Entities,vH);
 
-        Hawker = vH = new Hawker();
-        vH.
+
+
 
 
         Entities.Delete(db.Entities,vD,Entities.CascadeOff);

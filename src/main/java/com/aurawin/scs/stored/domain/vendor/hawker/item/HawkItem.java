@@ -6,6 +6,7 @@ import com.aurawin.core.stored.annotations.EntityDispatch;
 import com.aurawin.core.stored.annotations.QueryByDomainId;
 import com.aurawin.core.stored.entities.Entities;
 import com.aurawin.scs.stored.domain.Domain;
+import com.aurawin.scs.stored.domain.vendor.hawker.Hawker;
 import com.google.gson.Gson;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -31,20 +32,24 @@ import java.util.List;
 public class HawkItem extends Stored {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = Database.Field.Domain.Entities.Vendor.Hawker.Manifest.Id)
+    @Column(name = Database.Field.Domain.Entities.Vendor.Hawker.HawkItem.Id)
     protected long Id;
     @Override
     public long getId(){
         return Id;
     }
 
-    @Column(name = Database.Field.Domain.Entities.Vendor.Hawker.Manifest.DomainId)
+    @Column(name = Database.Field.Domain.Entities.Vendor.Hawker.HawkItem.DomainId)
     protected long DomainId;
     public long getDomainId(){return DomainId;}
 
-    @Column(name = Database.Field.Domain.Entities.Vendor.Hawker.Manifest.VendorId)
+    @Column(name = Database.Field.Domain.Entities.Vendor.Hawker.HawkItem.VendorId)
     protected long VendorId;
     public long getVendorId(){return VendorId;}
+
+    @ManyToOne(targetEntity=Hawker.class,cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @JoinColumn(name = Database.Field.Domain.Entities.Vendor.Hawker.HawkItem.OwnerId)
+    protected Hawker Owner;
 
     @OneToMany(
             targetEntity = HawkItemField.class,

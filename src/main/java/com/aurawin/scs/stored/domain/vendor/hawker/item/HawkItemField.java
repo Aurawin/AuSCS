@@ -45,21 +45,21 @@ import java.util.ArrayList;
 public class HawkItemField extends Stored {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name=Database.Field.Domain.Entities.Vendor.Hawker.Manifest.Fields.Id)
+    @Column(name=Database.Field.Domain.Entities.Vendor.Hawker.HawkItem.Fields.Id)
     protected long Id;
     @Override
     public long getId(){return Id;}
 
-    @Column (name=Database.Field.Domain.Entities.Vendor.Hawker.Manifest.Fields.DomainId)
+    @Column (name=Database.Field.Domain.Entities.Vendor.Hawker.HawkItem.Fields.DomainId)
     protected long DomainId;
 
-    @Column(name=Database.Field.Domain.Entities.Vendor.Hawker.Manifest.Fields.VendorId)
+    @Column(name=Database.Field.Domain.Entities.Vendor.Hawker.HawkItem.Fields.VendorId)
     protected long VendorId;
 
-    @Column(name=Database.Field.Domain.Entities.Vendor.Hawker.Manifest.Fields.Name)
+    @Column(name=Database.Field.Domain.Entities.Vendor.Hawker.HawkItem.Fields.Name)
     public String Name;
 
-    @Column(name=Database.Field.Domain.Entities.Vendor.Hawker.Manifest.Fields.DefaultLength)
+    @Column(name=Database.Field.Domain.Entities.Vendor.Hawker.HawkItem.Fields.DefaultLength)
     protected long defaultLength;
 
     @ManyToOne(
@@ -67,7 +67,7 @@ public class HawkItemField extends Stored {
             cascade = CascadeType.ALL,
             targetEntity = HawkItem.class
     )
-    @JoinColumn(name=Database.Field.Domain.Entities.Vendor.Hawker.Manifest.Fields.OwnerId)
+    @JoinColumn(name=Database.Field.Domain.Entities.Vendor.Hawker.HawkItem.Fields.OwnerId)
     protected HawkItem Owner;
 
 

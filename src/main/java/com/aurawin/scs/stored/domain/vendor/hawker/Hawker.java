@@ -9,6 +9,7 @@ import com.aurawin.core.stored.annotations.QueryById;
 import com.aurawin.core.stored.annotations.QueryByName;
 import com.aurawin.core.stored.entities.Entities;
 import com.aurawin.scs.stored.domain.Domain;
+import com.aurawin.scs.stored.domain.vendor.hawker.item.HawkItem;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.annotations.DynamicInsert;
@@ -17,6 +18,7 @@ import org.hibernate.annotations.SelectBeforeUpdate;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @DynamicInsert(value=true)
@@ -66,6 +68,10 @@ public class Hawker extends Stored {
     public long getId(){
         return Id;
     }
+    @Column(name = Database.Field.Domain.Entities.Vendor.Hawker.DomainId)
+    protected long DomainId;
+    public long getDomainId(){return DomainId;}
+    public void setDomainId(long val){ DomainId=val;}
 
     @Column(name = Database.Field.Domain.Entities.Vendor.Hawker.VendorId)
     protected long VendorId;
@@ -75,21 +81,27 @@ public class Hawker extends Stored {
     @Column(name = Database.Field.Domain.Entities.Vendor.Hawker.Namespace)
     protected String Namespace;
     public String getNamespace(){return Namespace;}
-    public void setNamepsace(String val){Namespace=val;}
+    public void setNamespace(String val){Namespace=val;}
+
+    @OneToMany(targetEntity=HawkItem.class,cascade = CascadeType.ALL,fetch=FetchType.EAGER,mappedBy = "Owner")
+    public List<HawkItem> Items = new ArrayList<HawkItem>();
 
     public Hawker(){
         Id=0;
+        DomainId=0;
         VendorId=0;
         Namespace="";
     }
 
     public void Empty(){
         Id=0;
+        DomainId=0;
         VendorId = 0;
         Namespace="";
     }
     public void Assign(Hawker src){
         Id=src.Id;
+        DomainId=0;
         VendorId=src.VendorId;
         Namespace=src.Namespace;
     }

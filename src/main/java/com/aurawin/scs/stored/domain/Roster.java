@@ -9,7 +9,7 @@ import com.aurawin.core.stored.Stored;
 import com.aurawin.scs.stored.domain.network.Exposure;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.annotations.CascadeType;
+import javax.persistence.CascadeType;
 import org.hibernate.annotations.*;
 
 import javax.persistence.*;
@@ -55,7 +55,7 @@ public class Roster extends Stored {
     @OneToMany(
             targetEntity = RosterField.class,
             mappedBy = "Owner",
-            cascade = javax.persistence.CascadeType.ALL,
+            cascade = CascadeType.ALL,
             fetch = FetchType.EAGER
     )
     protected List<RosterField> Custom = new ArrayList<RosterField>();
