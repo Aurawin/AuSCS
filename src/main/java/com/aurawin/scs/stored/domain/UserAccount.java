@@ -8,8 +8,7 @@ import com.aurawin.core.stored.Stored;
 
 import com.aurawin.scs.stored.domain.network.Network;
 import com.aurawin.core.time.Time;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
+import org.hibernate.*;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.DynamicInsert;
@@ -250,6 +249,26 @@ public class UserAccount extends Stored {
         );
 
     }
+    @Override
+    public void Identify(Session ssn){
+        if (Id == 0) {
+            UserAccount ua = null;
+            Transaction tx = ssn.beginTransaction();
+            try {
+                org.hibernate.Query q = Database.Query.Domain.UserAccount.ByName.Create(ssn,DomainId,User);
+                ua = (UserAccount) q.uniqueResult();
+                if (ua == null) {
+                    ssn.save(this);
+                } else {
+                    Assign(ua);
+                }
+                tx.commit();
+            } catch (Exception e){
+                tx.rollback();
+                throw e;
+            }
+        }
+    }
     public void Assign(UserAccount src){
         Id=src.Id;
         DomainId=src.DomainId;
@@ -279,9 +298,9 @@ public class UserAccount extends Stored {
         if (Entity instanceof Domain){
             Domain d = (Domain) Entity;
             UserAccount ua = new UserAccount(d.getId(),Table.String(Table.Entities.Domain.Root));
-            Entities.Create(List,ua);
+            List.Save(ua);
             d.setRootId(ua.getId());
-            Entities.Update(List,d, Entities.CascadeOff);
+            List.Update(d, Entities.CascadeOff);
         }
     }
     public static void entityUpdated(Entities List, Stored Entity, boolean Cascade){}
@@ -292,9 +311,8 @@ public class UserAccount extends Stored {
             try {
                 Transaction tx = ssn.beginTransaction();
                 try {
-                    ArrayList<Stored> lst = Entities.Lookup(
+                    ArrayList<Stored> lst = List.Lookup(
                             UserAccount.class.getAnnotation(QueryByDomainId.class),
-                            List,
                             d.getId()
                     );
                     for (Stored h : lst) {

@@ -21,6 +21,7 @@ import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.SelectBeforeUpdate;
 
 import javax.persistence.*;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -87,10 +88,10 @@ public class Folder extends Stored {
     private byte Exposition;
 
     @Column(name = Database.Field.Domain.Network.Folders.Created)
-    private long Created;
+    private Instant Created;
 
     @Column(name = Database.Field.Domain.Network.Folders.Modified)
-    private long Modified;
+    private Instant Modified;
 
     @Column(name = Database.Field.Domain.Network.Folders.Path)
     private String Path;
@@ -122,10 +123,21 @@ public class Folder extends Stored {
     }
     public void recalculatePath(){
         Path=buildPath();
-        Modified=Time.dtUTC();
+        Modified=Time.instantUTC();
         for (Folder f : Children){
             f.recalculatePath();
         }
+    }
+    public void Assign(Folder Source){
+        Id = Source.Id;
+        DomainId=Source.DomainId;
+        OwnerId=Source.OwnerId;
+        NetworkId=Source.NetworkId;
+        Modified=Source.Modified;
+        Created = Source.Created;
+        Exposition = Source.Exposition;
+        Path = Source.Path;
+        Name = Source.Name;
     }
     public Folder addChild(String name){
         Folder c = new Folder(DomainId,OwnerId,NetworkId,name);
@@ -133,7 +145,10 @@ public class Folder extends Stored {
         c.DomainId =DomainId;
         c.OwnerId = OwnerId;
         c.NetworkId=NetworkId;
-        Modified=Time.dtUTC();
+        c.Exposition=Exposition;
+
+        Modified=c.Created;
+
         Children.add(c);
         return c;
     }
@@ -166,8 +181,10 @@ public class Folder extends Stored {
         Parent=null;
         Id=0;
         DomainId=0;
-        Created=0;
-        Modified=0;
+        Created=Time.instantUTC();
+        Modified=Created;
+        Exposition = Exposure.None;
+        Name="";
         Path="";
     }
     public Folder(long domainId, long ownerId, long networkId, String name) {
@@ -177,9 +194,28 @@ public class Folder extends Stored {
         NetworkId = networkId;
         Name = name;
         Path = buildPath();
-        Created = Time.dtUTC();
+        Created=Time.instantUTC();
         Modified = Created;
-
+    }
+    @Override
+    public void Identify(Session ssn){
+        if (Id == 0) {
+            Folder f = null;
+            Transaction tx = ssn.beginTransaction();
+            try {
+                org.hibernate.Query q = Database.Query.Domain.Network.Folder.ByPath.Create(ssn,DomainId,NetworkId,Path);
+                f = (Folder) q.uniqueResult();
+                if (f == null) {
+                    ssn.save(this);
+                } else {
+                    Assign(f);
+                }
+                tx.commit();
+            } catch (Exception e){
+                tx.rollback();
+                throw e;
+            }
+        }
     }
     public static void entityCreated(Entities List,Stored Entity){
         if (Entity instanceof UserAccount){
@@ -214,9 +250,8 @@ public class Folder extends Stored {
             try {
                 Transaction tx = ssn.beginTransaction();
                 try {
-                    ArrayList<Stored> lst = Entities.Lookup(
+                    ArrayList<Stored> lst = List.Lookup(
                             Folder.class.getAnnotation(QueryByDomainId.class),
-                            List,
                             d.getId()
                     );
                     for (Stored h : lst) {

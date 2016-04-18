@@ -37,6 +37,7 @@ public class EntitiesTest {
                 "Test",                                 // password
                 "172.16.1.1",                           // host
                 5432,                                   // port
+                Database.Config.Automatic.Commit.On,    // autocommit
                 2,                                      // Min Poolsize
                 20,                                     // Max Poolsize
                 1,                                      // Pool Acquire Increment
@@ -48,26 +49,26 @@ public class EntitiesTest {
                 Driver.Postgresql.getValue()            // Driver
         );
         db.setManifest(mf);
-        Domain vD = new Domain("repository.foo.com","root");
-        Entities.Create(db.Entities,vD);
 
-        UserAccount vA = (UserAccount) Entities.Lookup(UserAccount.class,db.Entities, vD.getId(), vD.getRootId());
+        Domain vD = (Domain) db.Entities.Lookup(Domain.class,"repository.foo.com");
+        if (vD==null) {
+            vD = new Domain("repository.foo.com", "root");
+            db.Entities.Save(vD);
+        }
+
+        UserAccount vA = (UserAccount) db.Entities.Lookup(UserAccount.class,vD.getId(), vD.getRootId());
         Vendor vV = new Vendor();
         vV.setDomainId(vD.getId());
         vV.setOwnerId(vA.getId());
         vV.setNamespace("net.some.vendor");
-        Entities.Create(db.Entities,vV);
+        db.Entities.Save(vV);
         Hawker vH = new Hawker();
         vH.setNamespace("collage");
         vH.setDomainId(vD.getId());
         vH.setVendorId(vV.getId());
-        Entities.Create(db.Entities,vH);
+        db.Entities.Save(vH);
 
-
-
-
-
-        Entities.Delete(db.Entities,vD,Entities.CascadeOff);
+        db.Entities.Delete(vD,Entities.CascadeOff);
     }
     @Test
     public void testCheckEntitiesAsCreate() throws Exception {
@@ -76,6 +77,7 @@ public class EntitiesTest {
                 "Test",                                 // password
                 "172.16.1.1",                           // host
                 5432,                                   // port
+                Database.Config.Automatic.Commit.On,    // autocommit
                 2,                                      // Min Poolsize
                 20,                                     // Max Poolsize
                 1,                                      // Pool Acquire Increment
@@ -89,17 +91,17 @@ public class EntitiesTest {
         db.setManifest(mf);
 
         Domain crD = new Domain("test.com","root");
-        if (Entities.Create(db.Entities,crD)==true) {
-            Domain lD = (Domain) Entities.Lookup(Domain.class,db.Entities, 1l);
-            UserAccount lUA = (UserAccount) Entities.Lookup(UserAccount.class,db.Entities, lD.getId(), lD.getRootId());
-            Entities.Fetch(db.Entities, lUA);
+        if (db.Entities.Save(crD)==true) {
+            Domain lD = (Domain) db.Entities.Lookup(Domain.class,1l);
+            UserAccount lUA = (UserAccount) db.Entities.Lookup(UserAccount.class,lD.getId(), lD.getRootId());
+            db.Entities.Fetch(lUA);
             Network lCAB = lUA.getCabinet();
             Roster lME = lUA.getMe();
         } else{
             throw new Exception("Create Domain Failed!");
         }
         Location lc = new Location();
-        if (Entities.Create(db.Entities,lc)==true) {
+        if (db.Entities.Save(lc)==true) {
             lc.setBuilding("19309");
             lc.setStreet("Stage Line Trail");
             lc.setRegion("Southwest");
@@ -116,19 +118,19 @@ public class EntitiesTest {
             gp.setRack("Primary");
             gp.setRow("Primary");
             gp.setLocation(lc);
-            Entities.Create(db.Entities, gp);
-            Entities.Update(db.Entities,lc,Entities.CascadeOff);
+            db.Entities.Save(gp);
+            db.Entities.Update(lc,Entities.CascadeOff);
 
             Resource rc = new Resource();
             rc.setGroup(gp);
             rc.setName("Phoenix");
-            if (Entities.Create(db.Entities,rc) ==true ){
+            if (db.Entities.Save(rc) ==true ){
                 Node n = new Node();
                 n.setResource(rc);
-                if (Entities.Create(db.Entities,n)==true) {
+                if (db.Entities.Save(n)==true) {
                     n.setName("phoenix");
                     n.setIP("172.16.1.1");
-                    Entities.Update(db.Entities, n, Entities.CascadeOff);
+                    db.Entities.Update(n, Entities.CascadeOff);
                 } else {
                     throw new Exception("Create Node failed!");
                 }
@@ -138,12 +140,12 @@ public class EntitiesTest {
             Resource rcDataHouse= new Resource();
             rcDataHouse.setGroup(gp);
             rcDataHouse.setName("Datahouse");
-            if (Entities.Create(db.Entities,rcDataHouse)==true){
+            if (db.Entities.Save(rcDataHouse)==true){
                 Node n=new Node();
                 n.setResource(rcDataHouse);
                 n.setName("datahouse");
                 n.setIP("172.16.1.2");
-                if (Entities.Create(db.Entities,n)==true){
+                if (db.Entities.Save(n)==true){
 
                 } else {
                     throw new Exception("Create DataHouse Node failed!");
@@ -166,6 +168,7 @@ public class EntitiesTest {
                 "Test",                                 // password
                 "172.16.1.1",                           // host
                 5432,                                   // port
+                Database.Config.Automatic.Commit.On,    // autocommit
                 2,                                      // Min Poolsize
                 20,                                     // Max Poolsize
                 1,                                      // Pool Acquire Increment
@@ -178,20 +181,19 @@ public class EntitiesTest {
         );
         db.setManifest(mf);
 
-        Domain crD = (Domain) Entities.Lookup(Domain.class,db.Entities,"test.com");
+        Domain crD = (Domain) db.Entities.Lookup(Domain.class,"test.com");
         if (crD!=null){
-            if (Entities.Fetch(db.Entities, crD)==true) {
-                UserAccount lUA = (UserAccount) Entities.Lookup(UserAccount.class,db.Entities,crD.getId(), crD.getRootId());
-                Entities.Fetch(db.Entities, lUA);
+            if (db.Entities.Fetch(crD)==true) {
+                UserAccount lUA = (UserAccount) db.Entities.Lookup(UserAccount.class,crD.getId(), crD.getRootId());
+                db.Entities.Fetch(lUA);
                 Network lCAB = lUA.getCabinet();
                 Roster lME = lUA.getMe();
             };
         } else {
             throw new Exception("Load Domain Failed!");
         }
-        Location l = (Location) Entities.Lookup(Location.class, db.Entities,"Pflugerville");
-        Resource r = (Resource) Entities.Lookup(Resource.class, db.Entities,1l);
-
+        Location l = (Location) db.Entities.Lookup(Location.class, "Pflugerville");
+        Resource r = (Resource) db.Entities.Lookup(Resource.class, 1l);
 
     }
 

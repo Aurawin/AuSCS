@@ -157,15 +157,28 @@ public class Roster extends Stored {
         DomainId = owner.getDomainId();
         Alias=alias;
     }
+    @Override
+    public void Identify(Session ssn){
+        if (Id == 0) {
+            Transaction tx = ssn.beginTransaction();
+            try {
+                ssn.save(this);
+                tx.commit();
+            } catch (Exception e){
+                tx.rollback();
+                throw e;
+            }
+        }
+    }
     public static void entityCreated(Entities List,Stored Entity) throws Exception{
         if (Entity instanceof UserAccount){
             UserAccount ua = (UserAccount) Entity;
             if (ua.getMe()==null) {
                 Roster me = new Roster(ua,Table.String(Table.Entities.Domain.Roster.Me));
-                Entities.Create(List,me);
+                List.Save(me);
                 ua.Contacts.add(me);
                 ua.setRosterId(me.Id);
-                Entities.Update(List,ua,Entities.CascadeOff);
+                List.Update(ua,Entities.CascadeOff);
             }
         }
     }

@@ -82,6 +82,19 @@ public class HawkItem extends Stored {
             fields.add(new HawkItemField(f));
         }
     }
+    @Override
+    public void Identify(Session ssn){
+        if (Id == 0) {
+            Transaction tx = ssn.beginTransaction();
+            try {
+                ssn.save(this);
+                tx.commit();
+            } catch (Exception e){
+                tx.rollback();
+                throw e;
+            }
+        }
+    }
     public static void entityCreated(Entities List, Stored Entity){}
     public static void entityDeleted(Entities List, Stored Entity, boolean Cascade)throws Exception{
         if (Entity instanceof Domain) {
@@ -90,9 +103,8 @@ public class HawkItem extends Stored {
             try {
                 Transaction tx = ssn.beginTransaction();
                 try {
-                    ArrayList<Stored> lst = Entities.Lookup(
+                    ArrayList<Stored> lst = List.Lookup(
                             HawkItem.class.getAnnotation(QueryByDomainId.class),
-                            List,
                             d.getId()
                     );
                     for (Stored h : lst) {

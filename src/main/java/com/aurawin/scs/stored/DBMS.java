@@ -1,7 +1,7 @@
 package com.aurawin.scs.stored;
 
 import com.aurawin.core.stored.Manifest;
-import com.aurawin.core.stored.annotations.StoredAnnotations;
+import com.aurawin.core.stored.annotations.AnnotatedList;
 import com.aurawin.core.stored.entities.Entities;
 import com.aurawin.core.stored.entities.UniqueId;
 
@@ -23,6 +23,7 @@ public class DBMS {
             String password,
             String host,
             int port,
+            boolean autocommit,
             int poolsizeMin,
             int poolsizeMax,
             int poolAcrement,
@@ -34,7 +35,7 @@ public class DBMS {
             String driver
 
     ){
-        StoredAnnotations al = new StoredAnnotations();
+        AnnotatedList al = new AnnotatedList();
 
         // basic
         al.add(Domain.class);
@@ -67,6 +68,7 @@ public class DBMS {
                 password,
                 host,
                 port,
+                autocommit,
                 poolsizeMin,
                 poolsizeMax,
                 poolAcrement,

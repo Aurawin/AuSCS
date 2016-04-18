@@ -5,6 +5,8 @@ import com.aurawin.core.stored.annotations.EntityDispatch;
 import com.aurawin.core.stored.annotations.QueryById;
 import com.aurawin.core.stored.entities.Entities;
 import com.aurawin.core.stored.Stored;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.SelectBeforeUpdate;
@@ -65,15 +67,27 @@ public class Transactions extends Stored {
     protected Node Node;
     public Node getNode() { return Node; }
     public void setNode(Node node) { Node = node; }
-
-    public static void entityCreated(Entities List, Stored Entity) {
+    @Override
+    public void Identify(Session ssn){
+        if (Id == 0) {
+            Transaction tx = ssn.beginTransaction();
+            try {
+                ssn.save(this);
+                tx.commit();
+            } catch (Exception e){
+                tx.rollback();
+                throw e;
+            }
+        }
+    }
+    public static void entityCreated(Entities List, Stored Entity) throws Exception{
         if (Entity instanceof Node) {
             Node n = (Node) Entity;
             if (n.Transactions==null) {
                 n.Transactions= new Transactions();
                 n.Transactions.Node=n;
-                Entities.Create(List,n.Transactions);
-                Entities.Update(List,n,Entities.CascadeOff);
+                List.Save(n.Transactions);
+                List.Update(n,Entities.CascadeOff);
             }
         }
     }

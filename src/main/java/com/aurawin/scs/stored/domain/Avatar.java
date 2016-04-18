@@ -90,31 +90,45 @@ public class Avatar extends Stored {
         Ext = ext;
     }
 
+    @Override
+    public void Identify(Session ssn){
+        if (Id == 0) {
+            Transaction tx = ssn.beginTransaction();
+            try {
+                ssn.save(this);
+                tx.commit();
+            } catch (Exception e){
+                tx.rollback();
+                throw e;
+            }
+        }
+    }
+
     public static void entityCreated(Entities List,Stored Entity)throws Exception {
         if (Entity instanceof UserAccount) {
             UserAccount ua = (UserAccount) Entity;
             if (ua.getAvatarId() == 0) {
                 Avatar a = new Avatar(ua.getDomainId(),ua.getId(),Namespace.Entities.Domain.UserAccount.Avatar.getId());
-                Entities.Create(List, a);
+                List.Save(a);
                 ua.setAvatarId(a.getId());
-                Entities.Update(List,ua,Entities.CascadeOff);
+                List.Update(ua,Entities.CascadeOff);
             }
         } else if (Entity instanceof Roster){
             Roster r = (Roster) Entity;
             if (r.getAvatarId()==0) {
                 Avatar a = new Avatar(r.getDomainId(),r.getOwnerId(),Namespace.Entities.Domain.Roster.Avatar.getId());
-                Entities.Create(List, a);
+                List.Save(a);
                 r.setAvatarId(a.getId());
-                Entities.Update(List,r,Entities.CascadeOff);
+                List.Update(r,Entities.CascadeOff);
 
             }
         } else if (Entity instanceof Network){
             Network n = (Network) Entity;
             if (n.getAvatarId()==0){
                 Avatar a = new Avatar(n.getDomainId(),n.getOwnerId(),Namespace.Entities.Domain.Network.Avatar.getId());
-                Entities.Create(List,a);
+                List.Save(a);
                 n.setAvatarId(a.getId());
-                Entities.Update(List,n,Entities.CascadeOff);
+                List.Update(n,Entities.CascadeOff);
             }
         }
     }

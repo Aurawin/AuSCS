@@ -5,6 +5,7 @@ import com.aurawin.core.stored.entities.Entities;
 import com.aurawin.core.stored.Stored;
 import com.aurawin.core.stored.annotations.*;
 import com.aurawin.scs.stored.domain.Domain;
+
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.annotations.DynamicInsert;
@@ -12,6 +13,7 @@ import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.SelectBeforeUpdate;
 
 import javax.persistence.*;
+import java.time.Instant;
 import java.util.ArrayList;
 
 @NamedQueries(
@@ -81,14 +83,14 @@ public class File extends Stored {
     public String getDigest() {  return Digest; }
 
     @Column(name =Database.Field.Domain.Network.Files.Created)
-    protected long Created;
-    public long getCreated() {        return Created;    }
-    public void setCreated(long created) {        Created = created;   }
+    protected Instant Created;
+    public Instant getCreated() {        return Created;    }
+    public void setCreated(Instant created) {        Created = created;   }
 
     @Column(name = Database.Field.Domain.Network.Files.Modified)
-    protected long Modified;
-    public long getModified() {        return Modified;    }
-    public void setModified(long modified) {        Modified = modified;    }
+    protected Instant Modified;
+    public Instant getModified() {        return Modified;    }
+    public void setModified(Instant modified) {        Modified = modified;    }
 
     @Column(name = Database.Field.Domain.Network.Files.Size)
     protected long Size;
@@ -99,6 +101,38 @@ public class File extends Stored {
     public String getSummary() {return Summary;  }
     public void setSummary(String summary) {Summary = summary;  }
 
+    public void Assign(File Source){
+        Id = Source.Id;
+        DomainId = Source.DomainId;
+        NetworkId = Source.NetworkId;
+        FolderId = Source.FolderId;
+        Name = Source.Name;
+        Digest = Source.Digest;
+        Created = Source.Created;
+        Modified = Source.Modified;
+        Size = Source.Size;
+        Summary = Source.Summary;
+    }
+    @Override
+    public void Identify(Session ssn){
+        if (Id == 0) {
+            File f = null;
+            Transaction tx = ssn.beginTransaction();
+            try {
+                org.hibernate.Query q = Database.Query.Domain.Network.File.ByName.Create(ssn,DomainId,NetworkId,FolderId,Name);
+                f = (File) q.uniqueResult();
+                if (f == null) {
+                    ssn.save(this);
+                } else {
+                    Assign(f);
+                }
+                tx.commit();
+            } catch (Exception e){
+                tx.rollback();
+                throw e;
+            }
+        }
+    }
     public static void entityCreated(Entities List,Stored Entity) { }
     public static void entityUpdated(Entities List,Stored Entity, boolean Cascade) {}
     public static void entityDeleted(Entities List,Stored Entity, boolean Cascade) throws Exception{
@@ -108,9 +142,8 @@ public class File extends Stored {
             try {
                 Transaction tx = ssn.beginTransaction();
                 try {
-                    ArrayList<Stored> lst = Entities.Lookup(
+                    ArrayList<Stored> lst = List.Lookup(
                             File.class.getAnnotation(QueryByDomainId.class),
-                            List,
                             d.getId()
                     );
                     for (Stored h : lst) {

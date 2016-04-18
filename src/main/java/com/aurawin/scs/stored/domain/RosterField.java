@@ -63,6 +63,19 @@ public class RosterField extends Stored {
     public RosterField() {
     }
 
+    @Override
+    public void Identify(Session ssn){
+        if (Id == 0) {
+            Transaction tx = ssn.beginTransaction();
+            try {
+                ssn.save(this);
+                tx.commit();
+            } catch (Exception e){
+                tx.rollback();
+                throw e;
+            }
+        }
+    }
     public static void entityCreated(Entities List,Stored Entity) {}
     public static void entityUpdated(Entities List,Stored Entity, boolean Caascade) {}
     public static void entityDeleted(Entities List,Stored Entity, boolean Caascade) throws Exception {
@@ -72,9 +85,8 @@ public class RosterField extends Stored {
             try {
                 Transaction tx = ssn.beginTransaction();
                 try {
-                    ArrayList<Stored> lst = Entities.Lookup(
+                    ArrayList<Stored> lst = List.Lookup(
                             RosterField.class.getAnnotation(QueryByDomainId.class),
-                            List,
                             d.getId()
                     );
                     for (Stored h : lst) {

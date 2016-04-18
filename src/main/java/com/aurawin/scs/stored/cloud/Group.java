@@ -7,6 +7,8 @@ import com.aurawin.core.stored.annotations.QueryByName;
 import com.aurawin.core.stored.entities.Entities;
 import com.aurawin.core.stored.Stored;
 import com.aurawin.scs.stored.domain.Roster;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.SelectBeforeUpdate;
@@ -66,6 +68,19 @@ public class Group extends Stored {
             Location.Groups.add(this);
     }
 
+    @Override
+    public void Identify(Session ssn){
+        if (Id == 0) {
+            Transaction tx = ssn.beginTransaction();
+            try {
+                ssn.save(this);
+                tx.commit();
+            } catch (Exception e){
+                tx.rollback();
+                throw e;
+            }
+        }
+    }
     @OneToMany(
             targetEntity = Resource.class,
             cascade = CascadeType.ALL,

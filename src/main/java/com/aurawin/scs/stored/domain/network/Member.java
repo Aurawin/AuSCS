@@ -113,7 +113,20 @@ public class Member extends Stored {
         this.ACL = ACL;
     }
 
-    public static void entityCreated(Entities List,Stored Entity) {
+    @Override
+    public void Identify(Session ssn){
+        if (Id == 0) {
+            Transaction tx = ssn.beginTransaction();
+            try {
+                ssn.save(this);
+                tx.commit();
+            } catch (Exception e){
+                tx.rollback();
+                throw e;
+            }
+        }
+    }
+    public static void entityCreated(Entities List,Stored Entity) throws Exception {
         if (Entity instanceof Member) {
             Member m = (Member) Entity;
             m.Owner.Members.add(m);
@@ -123,7 +136,7 @@ public class Member extends Stored {
             m.setExposition(Exposure.Private);
             m.setStanding(Standing.Administrator.Level);
             m.setACL(Standing.Administrator.Permission);
-            Entities.Create(List, m);
+            List.Save(m);
         }
     }
 
@@ -135,9 +148,8 @@ public class Member extends Stored {
             try {
                 Transaction tx = ssn.beginTransaction();
                 try {
-                    ArrayList<Stored> lst = Entities.Lookup(
+                    java.util.List<Stored> lst = List.Lookup(
                             Member.class.getAnnotation(QueryByDomainId.class),
-                            List,
                             d.getId()
                     );
                     for (Stored h : lst) {

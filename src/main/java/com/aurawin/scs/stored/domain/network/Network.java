@@ -22,6 +22,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.annotations.*;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -83,10 +84,8 @@ public class Network extends Stored {
     @Column(name = Database.Field.Domain.Network.AvatarId)
     private long AvatarId;
 
-
     @Column(name = Database.Field.Domain.Network.DomainId)
     private long DomainId;
-
 
     @Column(name = Database.Field.Domain.Network.Exposition)
     private byte Exposition;
@@ -94,12 +93,11 @@ public class Network extends Stored {
     @Column(name = Database.Field.Domain.Network.Flags)
     private int Flags;
 
-
     @Column(name = Database.Field.Domain.Network.Created)
-    private long Created;
+    private Instant Created;
 
     @Column(name = Database.Field.Domain.Network.Modified)
-    private long Modified;
+    private Instant Modified;
 
     @Column(name = Database.Field.Domain.Network.Title)
     private String Title;
@@ -113,13 +111,50 @@ public class Network extends Stored {
     @Transient
     public List<Folder> Folders = new ArrayList<Folder>();
 
+    public void Assign(Network Source){
+        Id = Source.Id;
+        Owner = Source.Owner;
+        Members.clear();
+        Members.addAll(Source.Members);
+        AvatarId = Source.AvatarId;
+        DomainId = Source.DomainId;
+        Exposition = Source.Exposition;
+        Flags = Source.Flags;
+        Created = Source.Created;
+        Modified = Source.Modified;
+        Title = Source.Title;
+        Description = Source.Description;
+        CustomFolders = Source.CustomFolders;
+        // don't copy over folders
+    }
+
+    @Override
+    public void Identify(Session ssn){
+        if (Id == 0) {
+            Network n = null;
+            Transaction tx = ssn.beginTransaction();
+            try {
+                org.hibernate.Query q = Database.Query.Domain.Network.ByOwnerAndTitle.Create(ssn,DomainId,Owner.getId(),Title);
+                n = (Network) q.uniqueResult();
+                if (n == null) {
+                    ssn.save(this);
+                } else {
+                    Assign(n);
+                }
+                tx.commit();
+            } catch (Exception e){
+                tx.rollback();
+                throw e;
+            }
+        }
+    }
     public Network() {
         Id=0;
         DomainId=0;
         AvatarId=0;
         Exposition= Exposure.None;
-        Created = 0;
-        Modified =0;
+        Created = Time.instantUTC();
+        Modified = Created;
         Title = "";
         Description = "";
     }
@@ -128,7 +163,7 @@ public class Network extends Stored {
         DomainId=owner.getDomainId();
         Owner = owner;
         Exposition = exposition;
-        Created = Time.dtUTC();
+        Created = Time.instantUTC();
         Modified = Created;
         Title = title;
         Description = description;
@@ -141,7 +176,7 @@ public class Network extends Stored {
     }
     public long getAvatarId() {  return AvatarId; }
     public void setAvatarId(long id){ AvatarId=id; }
-    public static void entityCreated(Entities List,Stored Entity) {
+    public static void entityCreated(Entities List,Stored Entity) throws Exception{
         if (Entity instanceof UserAccount) {
             UserAccount ua = (UserAccount) Entity;
             if (ua.getCabinet() == null) {
@@ -151,14 +186,14 @@ public class Network extends Stored {
                         Table.String(Table.Entities.Domain.Network.Default.Title),
                         Table.Format(Table.Entities.Domain.Network.Default.Description, ua.getUser())
                 );
-                Entities.Create(List,cab);
+                List.Save(cab);
             }
         } else if (Entity instanceof Network) {
             Network n = (Network) Entity;
             if (n.Owner.getCabinet() == null) {
                 n.Owner.setCabinetId(n.getId());
                 n.Owner.Networks.add(n);
-                Entities.Update(List, n.Owner,Entities.CascadeOff);
+                List.Update(n.Owner,Entities.CascadeOff);
             }
         }
     }
@@ -170,9 +205,8 @@ public class Network extends Stored {
             try {
                 Transaction tx = ssn.beginTransaction();
                 try {
-                    ArrayList<Stored> lst = Entities.Lookup(
+                    ArrayList<Stored> lst = List.Lookup(
                             Network.class.getAnnotation(QueryByDomainId.class),
-                            List,
                             d.getId()
                     );
                     for (Stored h : lst) {

@@ -6,11 +6,14 @@ import com.aurawin.core.stored.annotations.QueryById;
 import com.aurawin.core.stored.entities.Entities;
 import com.aurawin.core.stored.Stored;
 import com.aurawin.core.time.Time;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.SelectBeforeUpdate;
 
 import javax.persistence.*;
+import java.time.Instant;
 
 @Entity
 @DynamicInsert(value=true)
@@ -51,33 +54,46 @@ public class Uptime extends Stored{
     public void setNode(Node node){ Node=node;}
 
     @Column(name = Database.Field.Cloud.Uptime.Stamp)
-    protected long Stamp;
-    public long getStamp() {
+    protected Instant Stamp;
+    public Instant getStamp() {
         return Stamp;
     }
-    public void setStamp(long stamp) {
+    public void setStamp(Instant stamp) {
         Stamp = stamp;
     }
 
     public Uptime(long id) {
         Id = id;
-        Stamp= Time.dtUTC();
+        Stamp= Time.instantUTC();
         Node=null;
     }
 
     public Uptime() {
         Id = 0;
-        Stamp=Time.dtUTC();
+        Stamp=Time.instantUTC();
         Node=null;
     }
-    public static void entityCreated(Entities List, Stored Entity) {
+    @Override
+    public void Identify(Session ssn){
+        if (Id == 0) {
+            Transaction tx = ssn.beginTransaction();
+            try {
+                ssn.save(this);
+                tx.commit();
+            } catch (Exception e){
+                tx.rollback();
+                throw e;
+            }
+        }
+    }
+    public static void entityCreated(Entities List, Stored Entity) throws Exception {
         if (Entity instanceof Node){
             Node n = (Node) Entity;
             if (n.Uptime==null){
                 n.Uptime=new Uptime();
                 n.Uptime.Node=n;
-                Entities.Create(List,n.Uptime);
-                Entities.Update(List,n,Entities.CascadeOff);
+                List.Save(n.Uptime);
+                List.Update(n,Entities.CascadeOff);
             }
         }
     }

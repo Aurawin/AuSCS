@@ -112,7 +112,6 @@ public class Domain extends Stored {
     public static Domain fromJSON(Gson Parser, String Data) {
         return (Domain) Parser.fromJson(Data, Domain.class);
     }
-
     public static Domain fromJSON(Gson Parser, JsonElement Data){
         return (Domain) Parser.fromJson(Data,Domain.class);
     }
@@ -199,7 +198,26 @@ public class Domain extends Stored {
         DefaultOptionQuota = defaultOptionQuota;
     }
 
-
+    @Override
+    public void Identify(Session ssn){
+        if (Id == 0) {
+            Domain d = null;
+            Transaction tx = ssn.beginTransaction();
+            try {
+                org.hibernate.Query q = Database.Query.Domain.ByName.Create(ssn,Name);
+                d = (Domain) q.uniqueResult();
+                if (d == null) {
+                    ssn.save(this);
+                } else {
+                    Assign(d);
+                }
+                tx.commit();
+            } catch (Exception e){
+                tx.rollback();
+                throw e;
+            }
+        }
+    }
     public static void entityCreated(Entities List,Stored Entity) {}
     public static void entityUpdated(Entities List,Stored Entity, boolean Cascade) {}
     public static void entityDeleted(Entities List,Stored Entity, boolean Cascade) {}
