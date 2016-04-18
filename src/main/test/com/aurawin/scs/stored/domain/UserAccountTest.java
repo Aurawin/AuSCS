@@ -1,4 +1,4 @@
-package test.com.aurawin.scs.stored.domain;
+package com.aurawin.scs.stored.domain;
 
 import com.aurawin.core.VarString;
 import com.aurawin.core.lang.Database;

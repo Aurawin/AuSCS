@@ -1,4 +1,4 @@
-package test.com.aurawin.scs.stored;
+package com.aurawin.scs.stored;
 
 import com.aurawin.core.lang.Database;
 import com.aurawin.core.stored.Dialect;

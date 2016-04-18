@@ -38,6 +38,7 @@ public class DBMS {
         AnnotatedList al = new AnnotatedList();
 
         // basic
+        al.add(UniqueId.class);
         al.add(Domain.class);
         al.add(UserAccount.class);
         al.add(RosterField.class);
