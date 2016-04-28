@@ -15,14 +15,14 @@
         <dependency>
             <groupId>com.aurawin</groupId>
             <artifactId>core</artifactId>
-            <version>2016.4.18.0</version>
+            <version>2016.4.18.1</version>
         </dependency>
     </dependencies>
     <repositories>
         <repository>
             <id>aurawin</id>
             <name>aurawin</name>
-            <url>http://au2.aurawin.com:8081/nexus/content/repositories/aurawin</url>
+            <url>http://au2.aurawin.com:8081/repository/aurawin</url>
         </repository>
     </repositories>
     <profiles>
