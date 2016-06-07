@@ -1,6 +1,6 @@
 package com.aurawin.scs.stored.domain.vendor;
 
-import com.aurawin.core.lang.Database;
+import com.aurawin.lang.Database;
 import com.aurawin.core.stored.Stored;
 import com.aurawin.core.stored.annotations.EntityDispatch;
 import com.aurawin.core.stored.annotations.QueryByDomainId;
@@ -16,7 +16,6 @@ import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.SelectBeforeUpdate;
 
 import javax.persistence.*;
-import javax.xml.crypto.Data;
 import java.util.ArrayList;
 
 @Entity

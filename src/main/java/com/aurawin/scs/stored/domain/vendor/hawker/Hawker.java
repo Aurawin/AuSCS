@@ -1,7 +1,7 @@
 package com.aurawin.scs.stored.domain.vendor.hawker;
 
 
-import com.aurawin.core.lang.Database;
+import com.aurawin.lang.Database;
 import com.aurawin.core.stored.Stored;
 import com.aurawin.core.stored.annotations.EntityDispatch;
 import com.aurawin.core.stored.annotations.QueryByDomainId;

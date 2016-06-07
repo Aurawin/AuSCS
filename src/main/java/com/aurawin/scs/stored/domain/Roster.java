@@ -2,11 +2,10 @@ package com.aurawin.scs.stored.domain;
 
 
 import com.aurawin.core.lang.Table;
-import com.aurawin.core.lang.Database;
+import com.aurawin.lang.Database;
 import com.aurawin.core.stored.annotations.EntityDispatch;
 import com.aurawin.core.stored.entities.Entities;
 import com.aurawin.core.stored.Stored;
-import com.aurawin.scs.stored.domain.network.Exposure;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import javax.persistence.CascadeType;
@@ -17,7 +16,6 @@ import javax.persistence.Entity;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 @Entity
@@ -178,7 +176,6 @@ public class Roster extends Stored {
                 List.Save(me);
                 ua.Contacts.add(me);
                 ua.setRosterId(me.Id);
-                List.Update(ua,Entities.CascadeOff);
             }
         }
     }

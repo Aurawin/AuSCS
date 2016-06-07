@@ -4,7 +4,7 @@ package com.aurawin.scs.stored.domain;
 import com.aurawin.core.stored.annotations.*;
 import com.aurawin.core.stored.entities.Entities;
 import com.aurawin.core.stored.Stored;
-import com.aurawin.core.lang.Database;
+import com.aurawin.lang.Database;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import org.hibernate.Session;
@@ -12,7 +12,6 @@ import org.hibernate.Transaction;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.SelectBeforeUpdate;
-import org.json.JSONObject;
 
 import javax.persistence.*;
 

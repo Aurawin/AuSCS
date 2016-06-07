@@ -1,8 +1,8 @@
 package com.aurawin.scs.stored.domain;
 
 import com.aurawin.core.VarString;
-import com.aurawin.core.lang.Database;
-import com.aurawin.scs.stored.domain.UserAccount;
+import com.aurawin.core.time.Time;
+import com.aurawin.lang.Database;
 import com.google.gson.Gson;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -25,7 +25,7 @@ public class UserAccountTest {
         Account1.setFirstIP(3);
         Account1.setLastIP(49);
         Account1.setLockcount(10);
-        Account1.setLastLogin(15);
+        Account1.setLastLogin(Time.instantUTC());
         Account1.setConsumption(1000);
         Account1.setQuota(50000);
     }

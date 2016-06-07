@@ -4,7 +4,7 @@ import com.aurawin.core.Memo;
 import com.aurawin.core.array.KeyItem;
 import com.aurawin.core.array.KeyPair;
 import com.aurawin.core.array.VarString;
-import com.aurawin.core.lang.Database;
+import com.aurawin.lang.Database;
 import com.aurawin.core.stored.Stored;
 import com.aurawin.core.stored.annotations.EntityDispatch;
 import com.aurawin.core.stored.annotations.QueryByDomainId;

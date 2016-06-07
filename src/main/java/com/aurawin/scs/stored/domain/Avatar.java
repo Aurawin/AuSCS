@@ -1,6 +1,6 @@
 package com.aurawin.scs.stored.domain;
 
-import com.aurawin.core.lang.Database;
+import com.aurawin.lang.Database;
 import com.aurawin.core.lang.Namespace;
 import com.aurawin.core.stored.annotations.EntityDispatch;
 import com.aurawin.core.stored.entities.Entities;
@@ -9,12 +9,10 @@ import com.aurawin.core.stored.Stored;
 import com.aurawin.scs.stored.domain.network.Network;
 import com.aurawin.core.time.Time;
 import org.hibernate.*;
-import org.hibernate.Query;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.SelectBeforeUpdate;
 
-import javax.annotation.Generated;
 import javax.persistence.*;
 
 

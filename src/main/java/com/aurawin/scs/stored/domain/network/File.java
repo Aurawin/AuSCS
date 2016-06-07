@@ -1,6 +1,6 @@
 package com.aurawin.scs.stored.domain.network;
 
-import com.aurawin.core.lang.Database;
+import com.aurawin.lang.Database;
 import com.aurawin.core.stored.entities.Entities;
 import com.aurawin.core.stored.Stored;
 import com.aurawin.core.stored.annotations.*;

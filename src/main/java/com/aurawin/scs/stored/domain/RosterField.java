@@ -1,11 +1,9 @@
 package com.aurawin.scs.stored.domain;
 
-import com.aurawin.core.lang.*;
 import com.aurawin.core.stored.annotations.EntityDispatch;
 import com.aurawin.core.stored.annotations.QueryByDomainId;
 import com.aurawin.core.stored.entities.Entities;
 import com.aurawin.core.stored.Stored;
-import com.aurawin.scs.stored.domain.network.Exposure;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.annotations.DynamicInsert;
@@ -20,7 +18,7 @@ import java.util.ArrayList;
 @DynamicInsert(value = true)
 @DynamicUpdate(value = true)
 @SelectBeforeUpdate(value = true)
-@Table(name = Database.Table.Domain.UserAccount.Roster.Field)
+@Table(name = com.aurawin.lang.Database.Table.Domain.UserAccount.Roster.Field)
 @EntityDispatch(
         onCreated = false,
         onDeleted = true,
@@ -29,18 +27,18 @@ import java.util.ArrayList;
 @NamedQueries(
         {
                 @NamedQuery(
-                        name = Database.Query.Domain.UserAccount.Roster.RosterField.ByDomainId.name,
-                        query = Database.Query.Domain.UserAccount.Roster.RosterField.ByDomainId.value
+                        name = com.aurawin.lang.Database.Query.Domain.UserAccount.Roster.RosterField.ByDomainId.name,
+                        query = com.aurawin.lang.Database.Query.Domain.UserAccount.Roster.RosterField.ByDomainId.value
                 )
         }
 )
 @QueryByDomainId(
-    Name = Database.Query.Domain.UserAccount.Roster.RosterField.ByDomainId.name
+    Name = com.aurawin.lang.Database.Query.Domain.UserAccount.Roster.RosterField.ByDomainId.name
 )
 public class RosterField extends Stored {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = Database.Field.Domain.RosterField.Id)
+    @Column(name = com.aurawin.lang.Database.Field.Domain.RosterField.Id)
     protected long Id;
     @Override
     public long getId() {
@@ -48,16 +46,16 @@ public class RosterField extends Stored {
     }
 
     @ManyToOne()
-    @JoinColumn(name = Database.Field.Domain.RosterField.OwnerId)
+    @JoinColumn(name = com.aurawin.lang.Database.Field.Domain.RosterField.OwnerId)
     private Roster Owner;
 
-    @Column(name = Database.Field.Domain.RosterField.DomainId)
+    @Column(name = com.aurawin.lang.Database.Field.Domain.RosterField.DomainId)
     private long DomainId;
 
-    @Column(name = Database.Field.Domain.RosterField.Key)
+    @Column(name = com.aurawin.lang.Database.Field.Domain.RosterField.Key)
     private String Key;
 
-    @Column(name = Database.Field.Domain.RosterField.Value)
+    @Column(name = com.aurawin.lang.Database.Field.Domain.RosterField.Value)
     private String Value;
 
     public RosterField() {

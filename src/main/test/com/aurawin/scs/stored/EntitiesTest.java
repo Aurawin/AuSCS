@@ -1,11 +1,10 @@
 package com.aurawin.scs.stored;
 
-import com.aurawin.core.lang.Database;
+import com.aurawin.lang.Database;
 import com.aurawin.core.stored.Dialect;
 import com.aurawin.core.stored.Driver;
 import com.aurawin.core.stored.Manifest;
 import com.aurawin.core.stored.entities.Entities;
-import com.aurawin.scs.stored.DBMS;
 import com.aurawin.scs.stored.cloud.*;
 import com.aurawin.scs.stored.domain.Domain;
 import com.aurawin.scs.stored.domain.Roster;
@@ -14,6 +13,8 @@ import com.aurawin.scs.stored.domain.network.Network;
 import com.aurawin.scs.stored.domain.vendor.Vendor;
 
 import com.aurawin.scs.stored.domain.vendor.hawker.Hawker;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.junit.Test;
 import org.junit.Before; 
 import org.junit.After;
@@ -95,8 +96,15 @@ public class EntitiesTest {
             Domain lD = (Domain) db.Entities.Lookup(Domain.class,1l);
             UserAccount lUA = (UserAccount) db.Entities.Lookup(UserAccount.class,lD.getId(), lD.getRootId());
             db.Entities.Fetch(lUA);
+
+            final GsonBuilder builder = new GsonBuilder();
+            builder.excludeFieldsWithoutExposeAnnotation();
+            final Gson gson = builder.create();
+
+            String jsUA = gson.toJson(lUA);
             Network lCAB = lUA.getCabinet();
             Roster lME = lUA.getMe();
+            if (lME==null) throw new Exception ("UserAccount get Me Failed!");
         } else{
             throw new Exception("Create Domain Failed!");
         }
