@@ -267,8 +267,9 @@ public class UserAccount extends Stored {
             UserAccount ua = null;
             Transaction tx = ssn.beginTransaction();
             try {
-                org.hibernate.Query q = com.aurawin.lang.Database.Query.Domain.UserAccount.ByName.Create(ssn,DomainId,User);
-                ua = (UserAccount) q.uniqueResult();
+                ua = (UserAccount) com.aurawin.lang.Database.Query.Domain.UserAccount.ByName
+                        .Create(ssn,DomainId,User)
+                        .uniqueResult();
                 if (ua == null) {
                     ssn.save(this);
                 } else {
