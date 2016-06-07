@@ -22,7 +22,7 @@
         <repository>
             <id>aurawin</id>
             <name>aurawin</name>
-            <url>http://au2.aurawin.com:8081/repository/aurawin</url>
+            <url>http://au2.aurawin.com:8081/repository/</url>
         </repository>
     </repositories>
     <profiles>
