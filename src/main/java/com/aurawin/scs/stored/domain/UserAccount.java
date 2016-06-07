@@ -246,9 +246,6 @@ public class UserAccount extends Stored {
         this.Modified = this.Created;
     }
 
-    public static UserAccount fromJSON(Gson Parser, String Data){
-        return (UserAccount) Parser.fromJson(Data,UserAccount.class);
-    }
     @Override
     public boolean equals(Object o){
         return (

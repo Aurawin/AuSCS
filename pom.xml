@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.aurawin</groupId>
     <artifactId>scs</artifactId>
-    <version>2016.3.23</version>
+    <version>2016.6.7</version>
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
