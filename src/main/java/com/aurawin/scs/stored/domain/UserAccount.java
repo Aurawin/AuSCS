@@ -229,8 +229,13 @@ public class UserAccount extends Stored {
     public void setAllowLogin(boolean allowLogin) {        AllowLogin = allowLogin;    }
 
     public UserAccount(long domainId, String user) {
+        this.Id=0;
         this.DomainId=domainId;
+        this.AvatarId=0;
+        this.CabinetId=0;
         this.User = user;
+        this.Pass = "";
+        this.Auth = "";
         this.Created = Time.instantUTC();
         this.Modified = this.Created;
     }
@@ -251,18 +256,8 @@ public class UserAccount extends Stored {
         return (
                 (o instanceof UserAccount) &&
                 Id==((UserAccount) o).getId() &&
-                DomainId==((UserAccount) o).DomainId &&
-                CabinetId==((UserAccount) o).CabinetId &&
-                RosterId==((UserAccount) o).RosterId &&
-                User.compareTo(((UserAccount) o).User)==0 &&
-                Pass.compareTo(((UserAccount) o).Pass)==0 &&
-                Auth.compareTo(((UserAccount) o).Auth)==0 &&
-                FirstIP==((UserAccount) o).FirstIP &&
-                LastIP==((UserAccount) o).LastIP &&
-                Lockcount==((UserAccount) o).Lockcount &&
-                LastLogin==((UserAccount) o).LastLogin &&
-                Quota == ((UserAccount) o).Quota&&
-                Consumption == ((UserAccount) o).Consumption
+                DomainId==((UserAccount) o).DomainId
+
         );
 
     }

@@ -1,6 +1,7 @@
 package com.aurawin.scs.stored.domain;
 
 import com.aurawin.core.VarString;
+import com.aurawin.core.json.Builder;
 import com.aurawin.core.time.Time;
 import com.aurawin.lang.Database;
 import com.google.gson.Gson;
@@ -11,23 +12,32 @@ import org.junit.Test;
 import org.junit.Before; 
 import org.junit.After;
 
+import static com.aurawin.core.rsr.def.http.Media.State.Query;
+
 
 public class UserAccountTest {
-    Gson Parser;
+    Builder Parser;
     UserAccount Account1;
     UserAccount Account2;
 
     @Before
     public void before() throws Exception {
-        Parser = new Gson();
+        Parser = new Builder();
         Account1=new UserAccount(1,"test");
         Account1.setAuth("AuthString");
+        Account1.setId(1);
         Account1.setFirstIP(3);
         Account1.setLastIP(49);
         Account1.setLockcount(10);
         Account1.setLastLogin(Time.instantUTC());
         Account1.setConsumption(1000);
         Account1.setQuota(50000);
+
+        Gson gson = Parser.Create();
+        String sCode = gson.toJson(Account1);
+        if (sCode.length()==0) {
+            throw new Exception("Unable to create JSON code for UserAccount.");
+        }
     }
 
     @After
@@ -39,7 +49,9 @@ public class UserAccountTest {
 
     @Test
     public void testFromJSON() throws Exception {
-        Account2 = UserAccount.fromJSON(Parser, VarString.fromResource(Database.Test.Entities.Domain.UserAccount));
+        Gson gson = Parser.Create();
+        String sCode = VarString.fromResource(Database.Test.Entities.Domain.UserAccount);
+        Account2 = gson.fromJson(sCode,UserAccount.class);
         if (Account1.equals(Account2)==false){
             throw new Exception("Account1!=Account2");
         }
