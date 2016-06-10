@@ -203,8 +203,9 @@ public class Domain extends Stored {
             Domain d = null;
             Transaction tx = ssn.beginTransaction();
             try {
-                org.hibernate.Query q = Database.Query.Domain.ByName.Create(ssn,Name);
-                d = (Domain) q.uniqueResult();
+                d = (Domain) ssn.getNamedQuery(Database.Query.Domain.ByName.name)
+                        .setParameter("Name", Name)
+                        .uniqueResult();
                 if (d == null) {
                     ssn.save(this);
                 } else {

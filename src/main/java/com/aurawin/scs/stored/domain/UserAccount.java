@@ -8,7 +8,8 @@ import com.aurawin.core.stored.Stored;
 import com.aurawin.scs.stored.domain.network.Network;
 import com.aurawin.core.time.Time;
 import com.google.gson.annotations.Expose;
-import org.hibernate.*;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.DynamicInsert;
@@ -85,6 +86,7 @@ public class UserAccount extends Stored {
     public long getId() {
         return Id;
     }
+    public void setId(long id){ Id=id;}
 
     @Expose(serialize = false, deserialize = false)
     @OneToMany(mappedBy = "Owner",fetch = FetchType.LAZY)
@@ -267,8 +269,9 @@ public class UserAccount extends Stored {
             UserAccount ua = null;
             Transaction tx = ssn.beginTransaction();
             try {
-                ua = (UserAccount) com.aurawin.lang.Database.Query.Domain.UserAccount.ByName
-                        .Create(ssn,DomainId,User)
+                ua = (UserAccount) ssn.getNamedQuery(com.aurawin.lang.Database.Query.Domain.UserAccount.ByName.name)
+                        .setParameter("DomainId",DomainId)
+                        .setParameter("Name",User)
                         .uniqueResult();
                 if (ua == null) {
                     ssn.save(this);

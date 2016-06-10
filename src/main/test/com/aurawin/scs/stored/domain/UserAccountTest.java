@@ -5,7 +5,6 @@ import com.aurawin.core.json.Builder;
 import com.aurawin.core.time.Time;
 import com.aurawin.lang.Database;
 import com.google.gson.Gson;
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.junit.Test;
@@ -61,8 +60,10 @@ public class UserAccountTest {
     public void saveUserAccount1(Session ssn){
         Transaction tx= ssn.beginTransaction();
         try{
-            Query query = Database.Query.Domain.UserAccount.ById.Create(ssn,Account1.getDomainId(),Account1.getId());
-            UserAccount ua = (UserAccount) query.uniqueResult();
+            UserAccount ua = (UserAccount) ssn.getNamedQuery(Database.Query.Domain.UserAccount.ById.name)
+                    .setParameter("DomainId",Account1.getDomainId())
+                    .setParameter("Id",Account1.getId())
+                    .uniqueResult();
             if ( (ua!=null) && (ua.getId()== Account1.getId() ) )  {
                 ua.Assign(Account1);
                 ssn.update(ua);
@@ -77,8 +78,10 @@ public class UserAccountTest {
 
     }
     public void lookupUserAccount1ByAuth(Session ssn) throws Exception {
-        Query query = Database.Query.Domain.UserAccount.ByAuth.Create(ssn,Account1.getDomainId(),Account1.getAuth());
-        UserAccount ua = (UserAccount) query.uniqueResult();
+        UserAccount ua = (UserAccount) ssn.getNamedQuery(Database.Query.Domain.UserAccount.ByAuth.name)
+                .setParameter("DomainId",Account1.getDomainId())
+                .setParameter("Auth",Account1.getAuth())
+                .uniqueResult();
         if ( (ua==null) || (ua.getId()!= Account1.getId() ) ) throw new Exception("Unable to locate Account1");
 
 

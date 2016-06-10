@@ -134,8 +134,11 @@ public class Network extends Stored {
             Network n = null;
             Transaction tx = ssn.beginTransaction();
             try {
-                org.hibernate.Query q = Database.Query.Domain.Network.ByOwnerAndTitle.Create(ssn,DomainId,Owner.getId(),Title);
-                n = (Network) q.uniqueResult();
+                n = (Network) ssn.getNamedQuery(Database.Query.Domain.Network.ByOwnerAndTitle.name)
+                        .setParameter("DomainId", DomainId)
+                        .setParameter("OwnerId", Owner.getId())
+                        .setParameter("Title",Title)
+                        .uniqueResult();
                 if (n == null) {
                     ssn.save(this);
                 } else {

@@ -3,6 +3,7 @@ package com.aurawin.lang;
 
 import org.hibernate.Session;
 
+
 public class Database extends com.aurawin.core.lang.Database {
     public static class Table extends com.aurawin.core.lang.Database.Table{
         public static class Cloud{
@@ -51,6 +52,7 @@ public class Database extends com.aurawin.core.lang.Database {
                 public static class ById{
                     public static final String name ="QueryCloudGroupById";
                     public static final String value = "from Group where Id=:Id";
+                    @Deprecated
                     public static org.hibernate.Query Create(Session ssn, long Id){
                         return ssn.getNamedQuery(name)
                                 .setLong("Id",Id);
@@ -59,6 +61,7 @@ public class Database extends com.aurawin.core.lang.Database {
                 public static class ByName{
                     public static final String name ="QueryCloudGroupByName";
                     public static final String value = "from Group where Name=:Name";
+                    @Deprecated
                     public static org.hibernate.Query Create(Session ssn, String Name){
                         return ssn.getNamedQuery(name)
                                 .setString("Name",Name);
@@ -69,6 +72,7 @@ public class Database extends com.aurawin.core.lang.Database {
                 public static class ById{
                     public static final String name ="QueryCloudServiceById";
                     public static final String value = "from Service where Id=:Id";
+                    @Deprecated
                     public static org.hibernate.Query Create(Session ssn, long Id){
                         return ssn.getNamedQuery(name)
                                 .setLong("Id",Id);
@@ -77,6 +81,7 @@ public class Database extends com.aurawin.core.lang.Database {
                 public static class ByName{
                     public static final String name ="QueryCloudServiceByName";
                     public static final String value = "from Group where Namespace=:Namespace";
+                    @Deprecated
                     public static org.hibernate.Query Create(Session ssn, String Namespace){
                         return ssn.getNamedQuery(name)
                                 .setString("Namespace",Namespace);
@@ -87,6 +92,7 @@ public class Database extends com.aurawin.core.lang.Database {
                 public static class ById{
                     public static final String name ="QueryCloudLocationById";
                     public static final String value = "from Location where Id=:Id";
+                    @Deprecated
                     public static org.hibernate.Query Create(Session ssn, long Id){
                         return ssn.getNamedQuery(name)
                                 .setLong("Id",Id);
@@ -95,6 +101,7 @@ public class Database extends com.aurawin.core.lang.Database {
                 public static class ByName{
                     public static final String name ="QueryCloudLocationByName";
                     public static final String value = "from Location where Area like :Area or Locality like :Locality or Region like :Region";
+                    @Deprecated
                     public static org.hibernate.Query Create(Session ssn, String Area, String Locality, String Region){
                         return ssn.getNamedQuery(name)
                                 .setString("Area", "%" + Area + "%")
@@ -108,6 +115,7 @@ public class Database extends com.aurawin.core.lang.Database {
                 public static class ById{
                     public static final String name ="QueryCloudNodeById";
                     public static final String value = "from Node where Id=:Id";
+                    @Deprecated
                     public static org.hibernate.Query Create(Session ssn, long Id){
                         return ssn.getNamedQuery(name)
                                 .setLong("Id",Id);
@@ -116,6 +124,7 @@ public class Database extends com.aurawin.core.lang.Database {
                 public static class ByName{
                     public static final String name ="QueryCloudNodeByName";
                     public static final String value = "from Node where Name=:Name";
+                    @Deprecated
                     public static org.hibernate.Query Create(Session ssn, String Name){
                         return ssn.getNamedQuery(name)
                                 .setString("Name",Name);
@@ -126,6 +135,7 @@ public class Database extends com.aurawin.core.lang.Database {
                 public static class ById{
                     public static final String name ="QueryCloudResourceById";
                     public static final String value = "from Resource where Id=:Id";
+                    @Deprecated
                     public static org.hibernate.Query Create(Session ssn, long Id){
                         return ssn.getNamedQuery(name)
                                 .setLong("Id",Id);
@@ -134,6 +144,7 @@ public class Database extends com.aurawin.core.lang.Database {
                 public static class ByName{
                     public static final String name ="QueryCloudResourceByName";
                     public static final String value = "from Resource where Name=:Name";
+                    @Deprecated
                     public static org.hibernate.Query Create(Session ssn, String Name){
                         return ssn.getNamedQuery(name)
                                 .setString("Name", Name);
@@ -144,6 +155,7 @@ public class Database extends com.aurawin.core.lang.Database {
                 public static class ById{
                     public static final String name ="QueryCloudTransactionsById";
                     public static final String value = "from Transactions where Id=:Id";
+                    @Deprecated
                     public static org.hibernate.Query Create(Session ssn, long Id){
                         return ssn.getNamedQuery(name)
                                 .setLong("Id",Id);
@@ -154,6 +166,7 @@ public class Database extends com.aurawin.core.lang.Database {
                 public static class ById{
                     public static final String name ="QueryCloudUptimeById";
                     public static final String value = "from Uptime where Id=:Id";
+                    @Deprecated
                     public static org.hibernate.Query Create(Session ssn, long Id){
                         return ssn.getNamedQuery(name)
                                 .setLong("Id",Id);
@@ -165,6 +178,7 @@ public class Database extends com.aurawin.core.lang.Database {
             public static class ById {
                 public static final String name = "QueryDomainById";
                 public static final String value = "from Domain where Id=:Id";
+                @Deprecated
                 public static org.hibernate.Query Create(Session ssn, long Id){
                     return ssn.getNamedQuery(name)
                             .setLong("Id",Id);
@@ -173,6 +187,7 @@ public class Database extends com.aurawin.core.lang.Database {
             public static class ByName {
                 public static final String name = "QueryDomainByName";
                 public static final String value = "from Domain where Name=:Name";
+                @Deprecated
                 public static org.hibernate.Query Create(Session ssn, String Name){
                     return ssn.getNamedQuery(name)
                             .setString("Name", Name);
@@ -182,6 +197,7 @@ public class Database extends com.aurawin.core.lang.Database {
                 public static class ByNamespace{
                     public static final String name = "QueryDomainVendorByNamespace";
                     public static final String value = "from Vendor where DomainId=:DomainId and Namespace=:Namespace";
+                    @Deprecated
                     public static org.hibernate.Query Create(Session ssn, long DomainId, String Namespace){
                         return ssn.getNamedQuery(name)
                                 .setLong("DomainId", DomainId)
@@ -191,6 +207,7 @@ public class Database extends com.aurawin.core.lang.Database {
                 public static class ById {
                     public static final String name = "QueryDomainVendorById";
                     public static final String value = "from Vendor where DomainId=:DomainId and Id=:Id";
+                    @Deprecated
                     public static org.hibernate.Query Create(Session ssn, long DomainId,long Id){
                         return ssn.getNamedQuery(name)
                                 .setLong("DomainId",DomainId)
@@ -200,6 +217,7 @@ public class Database extends com.aurawin.core.lang.Database {
                 public static class ByDomainId {
                     public static final String name = "QueryDomainVendorByDomainId";
                     public static final String value = "from Vendor where DomainId=:DomainId";
+                    @Deprecated
                     public static org.hibernate.Query Create(Session ssn, long DomainId){
                         return ssn.getNamedQuery(name)
                                 .setLong("DomainId", DomainId);
@@ -209,6 +227,7 @@ public class Database extends com.aurawin.core.lang.Database {
                     public static class ByNamespace{
                         public static final String name = "QueryDomainVendorHawkerByNamespace";
                         public static final String value = "from Hawker where DomainId=:DomainId and VendorId=:VendorId and Namespace=:Namespace";
+                        @Deprecated
                         public static org.hibernate.Query Create(Session ssn, long DomainId, long VendorId, String Namespace){
                             return ssn.getNamedQuery(name)
                                     .setLong("DomainId", DomainId)
@@ -219,6 +238,7 @@ public class Database extends com.aurawin.core.lang.Database {
                     public static class ById{
                         public static final String name = "QueryDomainVendorHawkerById";
                         public static final String value = "from Hawker where DomainId=:DomainId and VendorId=:VendorId and Id=:Id";
+                        @Deprecated
                         public static org.hibernate.Query Create(Session ssn, long DomainId, long VendorId,long Id){
                             return ssn.getNamedQuery(name)
                                     .setLong("DomainId", DomainId)
@@ -229,6 +249,7 @@ public class Database extends com.aurawin.core.lang.Database {
                     public static class ByDomainId{
                         public static final String name = "QueryDomainVendorHawkerByDomainId";
                         public static final String value = "from Hawker where DomainId=:DomainId";
+                        @Deprecated
                         public static org.hibernate.Query Create(Session ssn, long DomainId){
                             return ssn.getNamedQuery(name)
                                     .setLong("DomainId", DomainId);
@@ -238,6 +259,7 @@ public class Database extends com.aurawin.core.lang.Database {
                         public static class ById {
                             public static final String name = "QueryDomainVendorHawkerItemById";
                             public static final String value = "from HawkItem where DomainId=:DomainId and Id=:Id";
+                            @Deprecated
                             public static org.hibernate.Query Create(Session ssn, long DomainId, long Id) {
                                 return ssn.getNamedQuery(name)
                                         .setLong("DomainId", DomainId)
@@ -247,6 +269,7 @@ public class Database extends com.aurawin.core.lang.Database {
                         public static class ByDomainId {
                             public static final String name = "QueryDomainVendorHawkerItemByDomainId";
                             public static final String value = "from HawkItem where DomainId=:DomainId";
+                            @Deprecated
                             public static org.hibernate.Query Create(Session ssn, long DomainId) {
                                 return ssn.getNamedQuery(name)
                                         .setLong("DomainId", DomainId);
@@ -256,6 +279,7 @@ public class Database extends com.aurawin.core.lang.Database {
                             public static class ById{
                                 public static final String name = "QueryDomainVendorHawkerItemFieldById";
                                 public static final String value = "from HawkItemField where DomainId=:DomainId and VendorId=:VendorId and OwnerId=:OwnerId and Id=:Id";
+                                @Deprecated
                                 public static org.hibernate.Query Create(Session ssn, long DomainId, long VendorId, long OwnerId, long Id){
                                     return ssn.getNamedQuery(name)
                                             .setLong("DomainId", DomainId)
@@ -273,6 +297,7 @@ public class Database extends com.aurawin.core.lang.Database {
                 public static class ByName {
                     public static final String name = "QueryDomainUserAccountByName";
                     public static final String value = "from UserAccount where DomainId=:DomainId and User=:Name";
+                    @Deprecated
                     public static org.hibernate.Query Create(Session ssn, long DomainId, String Name){
                         return ssn.getNamedQuery(name)
                                 .setLong("DomainId", DomainId)
@@ -282,6 +307,7 @@ public class Database extends com.aurawin.core.lang.Database {
                 public static class ByAuth {
                     public static final String name = "QueryDomainUserAccountByAuth";
                     public static final String value = "from UserAccount where DomainId=:DomainId and Auth=:Auth";
+                    @Deprecated
                     public static org.hibernate.Query Create(Session ssn, long DomainId,String Auth){
                         return ssn.getNamedQuery(name)
                                 .setLong("DomainId",DomainId)
@@ -291,6 +317,7 @@ public class Database extends com.aurawin.core.lang.Database {
                 public static class ById {
                     public static final String name = "QueryDomainUserAccountById";
                     public static final String value = "from UserAccount where DomainId=:DomainId and Id=:Id";
+                    @Deprecated
                     public static org.hibernate.Query Create(Session ssn, long DomainId,long Id){
                         return ssn.getNamedQuery(name)
                                 .setLong("DomainId",DomainId)
@@ -300,6 +327,7 @@ public class Database extends com.aurawin.core.lang.Database {
                 public static class ByDomainId {
                     public static final String name = "QueryDomainUserAccountByDomainId";
                     public static final String value = "from UserAccount where DomainId=:DomainId";
+                    @Deprecated
                     public static org.hibernate.Query Create(Session ssn, long DomainId){
                         return ssn.getNamedQuery(name)
                                 .setLong("DomainId",DomainId);
@@ -309,6 +337,7 @@ public class Database extends com.aurawin.core.lang.Database {
                     public static class ByDomainId {
                         public static final String name = "QueryDomainUserAccountRosterByDomainId";
                         public static final String value = "from Roster where DomainId=:DomainId";
+                        @Deprecated
                         public static org.hibernate.Query Create(Session ssn, long DomainId){
                             return ssn.getNamedQuery(name)
                                     .setLong("DomainId",DomainId);
@@ -317,7 +346,9 @@ public class Database extends com.aurawin.core.lang.Database {
                     public static class ByDomainIdAndOwnerId {
                         public static final String name = "QueryDomainUserAccountRosterByDomainIdAndOwnerId";
                         public static final String value = "from Roster where DomainId=:DomainId and OwnerId=:OwnerId";
+                        @Deprecated
                         public static org.hibernate.Query Create(Session ssn, long DomainId, long OwnerId){
+
                             return ssn.getNamedQuery(name)
                                     .setLong("DomainId",DomainId)
                                     .setLong("OwnerId",OwnerId);
@@ -327,6 +358,7 @@ public class Database extends com.aurawin.core.lang.Database {
                         public static class ByDomainId {
                             public static final String name = "QueryDomainUserAccountRosterFieldByDomainId";
                             public static final String value = "from RosterField where DomainId=:DomainId";
+                            @Deprecated
                             public static org.hibernate.Query Create(Session ssn, long DomainId){
                                 return ssn.getNamedQuery(name)
                                         .setLong("DomainId",DomainId);
@@ -339,6 +371,7 @@ public class Database extends com.aurawin.core.lang.Database {
                 public static class ByOwner{
                     public static final String name = "QueryDomainNetworkByOwner";
                     public static final String value = "from Network where DomainId=:DomainId and OwnerId=:OwnerId";
+                    @Deprecated
                     public static org.hibernate.Query Create(Session ssn, long DomainId, long OwnerId){
                         return ssn.getNamedQuery(name)
                                 .setLong("DomainId", DomainId)
@@ -348,6 +381,7 @@ public class Database extends com.aurawin.core.lang.Database {
                 public static class ByOwnerAndTitle{
                     public static final String name = "QueryDomainNetworkByOwnerAndTitle";
                     public static final String value = "from Network where DomainId=:DomainId and OwnerId=:OwnerId and Title=:Title";
+                    @Deprecated
                     public static org.hibernate.Query Create(Session ssn, long DomainId, long OwnerId, String Title){
                         return ssn.getNamedQuery(name)
                                 .setLong("DomainId", DomainId)
@@ -358,15 +392,28 @@ public class Database extends com.aurawin.core.lang.Database {
                 public static class ByDomainId {
                     public static final String name = "QueryDomainNetworkByDomainId";
                     public static final String value = "from Network where DomainId=:DomainId";
+                    @Deprecated
                     public static org.hibernate.Query Create(Session ssn, long DomainId) {
                         return ssn.getNamedQuery(name)
                                 .setLong("DomainId", DomainId);
                     }
                 }
                 public static class Folder {
+                    public static class ByLevel{
+                        public static final String name = "QueryDomainNetworkFolderByLevel";
+                        public static final String value = "from Folder where DomainId=:DomainId and NetworkId=:NetworkId and Path Like :Path Order By Path";
+                        @Deprecated
+                        public static org.hibernate.Query Create(Session ssn, long DomainId, long NetworkId, String Path) {
+                            return ssn.getNamedQuery(name)
+                                    .setLong("DomainId", DomainId)
+                                    .setLong("NetworkId", NetworkId)
+                                    .setString("Path", Path+"%");
+                        }
+                    }
                     public static class ByPath {
                         public static final String name = "QueryDomainNetworkFolderByPath";
                         public static final String value = "from Folder where DomainId=:DomainId and NetworkId=:NetworkId and Path=:Path";
+                        @Deprecated
                         public static org.hibernate.Query Create(Session ssn, long DomainId, long NetworkId, String Path) {
                             return ssn.getNamedQuery(name)
                                     .setLong("DomainId", DomainId)
@@ -377,7 +424,7 @@ public class Database extends com.aurawin.core.lang.Database {
                     public static class ById {
                         public static final String name = "QueryDomainNetworkFolderById";
                         public static final String value = "from Folder where DomainId=:DomainId and Id=:Id";
-
+                        @Deprecated
                         public static org.hibernate.Query Create(Session ssn, long DomainId, long Id) {
                             return ssn.getNamedQuery(name)
                                     .setLong("DomainId", DomainId)
@@ -387,9 +434,19 @@ public class Database extends com.aurawin.core.lang.Database {
                     public static class ByDomainId {
                         public static final String name = "QueryDomainNetworkFolderByDomainId";
                         public static final String value = "from Folder where DomainId=:DomainId";
-                        public static org.hibernate.Query Create(Session ssn, long DomainId, long Id) {
+                        @Deprecated
+                        public static org.hibernate.Query Create(Session ssn, long DomainId) {
                             return ssn.getNamedQuery(name)
                                     .setLong("DomainId", DomainId);
+                        }
+                    }
+                    public static class ByNetworkId {
+                        public static final String name = "QueryDomainNetworkFolderByNetworkId";
+                        public static final String value = "from Folder where NetworkId=:NetworkId";
+                        @Deprecated
+                        public static org.hibernate.Query Create(Session ssn, long DomainId, long Id) {
+                            return ssn.getNamedQuery(name)
+                                    .setLong("NetworkId", Id);
                         }
                     }
 
@@ -398,7 +455,7 @@ public class Database extends com.aurawin.core.lang.Database {
                     public static class ByName {
                         public static final String name = "QueryDomainNetworkFileByName";
                         public static final String value = "from File where DomainId=:DomainId and NetworkId=:NetworkId and FolderId=:FolderId and Name=:Name";
-
+                        @Deprecated
                         public static org.hibernate.Query Create(Session ssn, long DomainId, long NetworkId, long FolderId, String Name) {
                             return ssn.getNamedQuery(name)
                                     .setLong("DomainId", DomainId)
@@ -411,6 +468,7 @@ public class Database extends com.aurawin.core.lang.Database {
                     public static class ById {
                         public static final String name = "QueryDomainNetworkFileById";
                         public static final String value = "from File where DomainId=:DomainId and NetworkId=:NetworkId and Id=:Id";
+                        @Deprecated
                         public static org.hibernate.Query Create(Session ssn, long DomainId, long NetworkId, long Id) {
                             return ssn.getNamedQuery(name)
                                     .setLong("DomainId", DomainId)
@@ -421,9 +479,28 @@ public class Database extends com.aurawin.core.lang.Database {
                     public static class ByDomainId {
                         public static final String name = "QueryDomainNetworkFileByDomainId";
                         public static final String value = "from File where DomainId=:DomainId";
+                        @Deprecated
                         public static org.hibernate.Query Create(Session ssn, long DomainId) {
                             return ssn.getNamedQuery(name)
                                     .setLong("DomainId", DomainId);
+                        }
+                    }
+                    public static class ByFolderId {
+                        public static final String name = "QueryDomainNetworkFileByFolderId";
+                        public static final String value = "from File where FolderId=:FolderId";
+                        @Deprecated
+                        public static org.hibernate.Query Create(Session ssn, long Id) {
+                            return ssn.getNamedQuery(name)
+                                    .setLong("FolderId", Id);
+                        }
+                    }
+                    public static class ByNetworkId {
+                        public static final String name = "QueryDomainNetworkFileByNetworkId";
+                        public static final String value = "from File where NetworkId=:NetworkId";
+                        @Deprecated
+                        public static org.hibernate.Query Create(Session ssn, long NetworkId) {
+                            return ssn.getNamedQuery(name)
+                                    .setLong("NetworkId", NetworkId);
                         }
                     }
                 }
@@ -431,6 +508,7 @@ public class Database extends com.aurawin.core.lang.Database {
                     public static class ByDomainId {
                         public static final String name = "QueryDomainNetworkMemberByDomainId";
                         public static final String value = "from Member where DomainId=:DomainId";
+                        @Deprecated
                         public static org.hibernate.Query Create(Session ssn, long DomainId) {
                             return ssn.getNamedQuery(name)
                                     .setLong("DomainId", DomainId);
@@ -442,6 +520,7 @@ public class Database extends com.aurawin.core.lang.Database {
                 public static class ByOwnerAndKind{
                     public static final String name = "QueryDomainAvatarByOwnerAndKind";
                     public static final String value = "from Avatar where DomainId=:DomainId and OwnerId=:OwnerId and Kind=:Kind";
+                    @Deprecated
                     public static org.hibernate.Query Create(Session ssn, long DomainId, long OwnerId, long Kind){
                         return ssn.getNamedQuery(name)
                                 .setLong("DomainId", DomainId)
@@ -452,6 +531,7 @@ public class Database extends com.aurawin.core.lang.Database {
                 public static class ById{
                     public static final String name = "QueryDomainAvatarById";
                     public static final String value = "from Avatar where Id=:Id";
+                    @Deprecated
                     public static org.hibernate.Query Create(Session ssn, long Id){
                         return ssn.getNamedQuery(name).setLong("Id", Id);
                     }
@@ -665,5 +745,11 @@ public class Database extends com.aurawin.core.lang.Database {
             }
         }
     }
-
+    public static class Test extends com.aurawin.core.lang.Database.Test {
+        public static class Entities extends com.aurawin.core.lang.Database.Test.Entities {
+            public static class Domain{
+                public static final String UserAccount = "/test/storage.entities.domain.UserAccount.json";
+            }
+        }
+    }
 }

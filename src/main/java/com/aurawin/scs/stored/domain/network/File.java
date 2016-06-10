@@ -27,6 +27,14 @@ import java.util.ArrayList;
                         query = Database.Query.Domain.Network.File.ByDomainId.value
                 ),
                 @NamedQuery(
+                        name  = Database.Query.Domain.Network.File.ByFolderId.name,
+                        query = Database.Query.Domain.Network.File.ByFolderId.value
+                ),
+                @NamedQuery(
+                        name  = Database.Query.Domain.Network.File.ByNetworkId.name,
+                        query = Database.Query.Domain.Network.File.ByNetworkId.value
+                ),
+                @NamedQuery(
                         name  = Database.Query.Domain.Network.File.ById.name,
                         query = Database.Query.Domain.Network.File.ById.value
                 )
@@ -46,6 +54,8 @@ import java.util.ArrayList;
         }
 )
 @QueryByDomainId(Name=Database.Query.Domain.Network.File.ByDomainId.name)
+@QueryByNetworkId(Name=Database.Query.Domain.Network.File.ByNetworkId.name)
+@QueryByFolderId(Name=Database.Query.Domain.Network.File.ByFolderId.name)
 @Entity
 @DynamicInsert(value=true)
 @DynamicUpdate(value=true)
@@ -119,8 +129,12 @@ public class File extends Stored {
             File f = null;
             Transaction tx = ssn.beginTransaction();
             try {
-                org.hibernate.Query q = Database.Query.Domain.Network.File.ByName.Create(ssn,DomainId,NetworkId,FolderId,Name);
-                f = (File) q.uniqueResult();
+                f = (File) ssn.getNamedQuery(Database.Query.Domain.Network.File.ByName.name)
+                        .setParameter("DomainId", DomainId)
+                        .setParameter("NetworkId", NetworkId)
+                        .setParameter("FolderId", FolderId)
+                        .setParameter("Name",Name)
+                        .uniqueResult();
                 if (f == null) {
                     ssn.save(this);
                 } else {
@@ -146,13 +160,35 @@ public class File extends Stored {
                             File.class.getAnnotation(QueryByDomainId.class),
                             d.getId()
                     );
-                    for (Stored h : lst) {
-                        ssn.delete(h);
+                    for (Stored f : lst) {
+                        ssn.delete(f);
+                        // todo cloud disk too
                     }
                 } finally {
                     tx.commit();
                 }
             } finally {
+                ssn.close();
+            }
+        } else if (Entity instanceof Network){
+            Network n = (Network) Entity;
+            Session ssn = List.Sessions.openSession();
+            try{
+                Transaction tx = ssn.beginTransaction();
+                try   {
+                    ArrayList<Stored> lst = List.Lookup(
+                            File.class.getAnnotation(QueryByNetworkId.class),
+                            n.getId()
+                    );
+                    for ( Stored f : lst){
+                        ssn.delete(f);
+                        // todo cloud disk file too
+
+                    }
+                } finally{
+                    tx.commit();
+                }
+            } finally{
                 ssn.close();
             }
         }
