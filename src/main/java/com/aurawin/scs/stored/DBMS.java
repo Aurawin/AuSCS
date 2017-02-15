@@ -18,7 +18,7 @@ import com.aurawin.scs.stored.domain.vendor.hawker.item.HawkItemField;
 public class DBMS {
     private Manifest Manifest;
     public Entities Entities;
-    public static Manifest createManifest(
+    public Manifest createManifest(
             String username,
             String password,
             String host,

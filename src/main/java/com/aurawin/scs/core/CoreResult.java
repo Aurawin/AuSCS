@@ -52,7 +52,7 @@ public enum CoreResult {
     CoreCommandNetworkReadFailed    (225),
     CoreCommandInvalidJSON          (226);
 
-    private CoreResult(int value){
+    CoreResult(int value){
         this.value = value;
     }
     private final int value;

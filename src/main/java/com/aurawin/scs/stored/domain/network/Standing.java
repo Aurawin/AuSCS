@@ -17,7 +17,7 @@ public enum Standing {
     public byte Level =0;
     public long Permission;
 
-    private Standing(byte level, long permission){
+    Standing(byte level, long permission){
         this.Level=level;
         this.Permission=permission;
     }

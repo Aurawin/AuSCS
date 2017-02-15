@@ -226,16 +226,12 @@ public class Folder extends Stored {
         }
     }
     public void Refresh(Session ssn){
-        ArrayList<Folder> lst = new ArrayList<Folder>(ssn.getNamedQuery(Database.Query.Domain.Network.Folder.ByLevel.name)
+        List<Folder> lst = ssn.getNamedQuery(Database.Query.Domain.Network.Folder.ByLevel.name)
                 .setParameter("DomainId",DomainId)
                 .setParameter("NetworkId",NetworkId)
                 .setParameter("Path",Path)
-                .list()
-        );
-
+                .list();
         Folder Root = getRoot();
-        ArrayList<Folder> Tree = null;
-
         for (Folder f:lst) {
             Root.Force(f);
         }

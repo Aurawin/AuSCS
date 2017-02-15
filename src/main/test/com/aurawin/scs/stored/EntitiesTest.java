@@ -1,5 +1,9 @@
 package com.aurawin.scs.stored;
 
+import com.aurawin.core.Environment;
+import com.aurawin.core.lang.Table;
+import com.aurawin.core.rsr.def.CertSelfSigned;
+import com.aurawin.core.stored.entities.Certificate;
 import com.aurawin.lang.Database;
 import com.aurawin.core.stored.Dialect;
 import com.aurawin.core.stored.Driver;
@@ -34,10 +38,10 @@ public class EntitiesTest {
     @Test
     public void testDomainDelete() throws Exception{
         Manifest mf=db.createManifest(
-                "Test",                                 // username
-                "Test",                                 // password
-                "172.16.1.1",                           // host
-                5432,                                   // port
+                Environment.getString(Table.DBMS.Username), // username
+                Environment.getString(Table.DBMS.Password),  // password
+                Environment.getString(Table.DBMS.Host),     // host
+                Environment.getInteger(Table.DBMS.Port),     // port
                 Database.Config.Automatic.Commit.On,    // autocommit
                 2,                                      // Min Poolsize
                 20,                                     // Max Poolsize
@@ -51,13 +55,13 @@ public class EntitiesTest {
         );
         db.setManifest(mf);
 
-        Domain vD = (Domain) db.Entities.Lookup(Domain.class,"repository.foo.com");
+        Domain vD = db.Entities.Lookup(Domain.class,"chump.aurawin.com");
         if (vD==null) {
-            vD = new Domain("repository.foo.com", "root");
+            vD = new Domain("chump.aurawin.com", "root");
             db.Entities.Save(vD);
         }
 
-        UserAccount vA = (UserAccount) db.Entities.Lookup(UserAccount.class,vD.getId(), vD.getRootId());
+        UserAccount vA = db.Entities.Lookup(UserAccount.class,vD.getId(), vD.getRootId());
         Vendor vV = new Vendor();
         vV.setDomainId(vD.getId());
         vV.setOwnerId(vA.getId());
@@ -74,10 +78,10 @@ public class EntitiesTest {
     @Test
     public void testCheckEntitiesAsCreate() throws Exception {
         Manifest mf=db.createManifest(
-                "Test",                                 // username
-                "Test",                                 // password
-                "172.16.1.1",                           // host
-                5432,                                   // port
+                Environment.getString(Table.DBMS.Username), // username
+                Environment.getString(Table.DBMS.Password),  // password
+                Environment.getString(Table.DBMS.Host),     // host
+                Environment.getInteger(Table.DBMS.Port),     // port
                 Database.Config.Automatic.Commit.On,    // autocommit
                 2,                                      // Min Poolsize
                 20,                                     // Max Poolsize
@@ -91,10 +95,10 @@ public class EntitiesTest {
         );
         db.setManifest(mf);
 
-        Domain crD = new Domain("test.com","root");
+        Domain crD = new Domain("chump.aurawin.com","root");
         if (db.Entities.Save(crD)==true) {
-            Domain lD = (Domain) db.Entities.Lookup(Domain.class,1l);
-            UserAccount lUA = (UserAccount) db.Entities.Lookup(UserAccount.class,lD.getId(), lD.getRootId());
+            Domain lD = db.Entities.Lookup(Domain.class,1l);
+            UserAccount lUA = db.Entities.Lookup(UserAccount.class,lD.getId(), lD.getRootId());
             db.Entities.Fetch(lUA);
 
             final GsonBuilder builder = new GsonBuilder();
@@ -108,11 +112,40 @@ public class EntitiesTest {
         } else{
             throw new Exception("Create Domain Failed!");
         }
+
+        Certificate cert = new Certificate();
+        CertSelfSigned ssc = new CertSelfSigned(
+                "chump.aurawin.com",
+                "NOC",
+                "Aurawin LLC",
+                "19309 Stage Line Trail",
+                "Pflugerville",
+                "TX",
+                "78660",
+                "US",
+                "support@aurawin.com",
+                365
+        );
+        cert.Request=Table.Security.Certificate.Request.SelfSigned;
+        cert.DerKey=ssc.getPrivateKeyAsDER();
+        cert.TextKey=ssc.PrintPrivateKey();
+
+        cert.DerCert1=ssc.getCertificateAsDER();
+        cert.TextCert1 = ssc.PrintCertificate();
+
+        cert.ChainCount=1;
+        cert.Expires=ssc.ToDate.toInstant();
+        cert.DomainId = crD.getId();
+
+        db.Entities.Save(cert);
+        crD.setCertId(cert.Id);
+        db.Entities.Update(crD,Entities.CascadeOff);
+
         Location lc = new Location();
         if (db.Entities.Save(lc)==true) {
             lc.setBuilding("19309");
             lc.setStreet("Stage Line Trail");
-            lc.setRegion("Southwest");
+            lc.setRegion("Central");
             lc.setArea("Austin");
             lc.setLocality("Pflugerville");
             lc.setCountry("USA");
@@ -132,7 +165,8 @@ public class EntitiesTest {
             Resource rc = new Resource();
             rc.setGroup(gp);
             rc.setName("Phoenix");
-            if (db.Entities.Save(rc) ==true ){
+
+            if (db.Entities.Save(rc) ==true ) {
                 Node n = new Node();
                 n.setResource(rc);
                 if (db.Entities.Save(n)==true) {
@@ -145,21 +179,23 @@ public class EntitiesTest {
             } else {
                 throw new Exception("Create Resource failed!");
             }
-            Resource rcDataHouse= new Resource();
-            rcDataHouse.setGroup(gp);
-            rcDataHouse.setName("Datahouse");
-            if (db.Entities.Save(rcDataHouse)==true){
+
+            Resource rcChump= new Resource();
+            rcChump.setGroup(gp);
+            rcChump.setName("Chump");
+
+            if (db.Entities.Save(rcChump)==true){
                 Node n=new Node();
-                n.setResource(rcDataHouse);
-                n.setName("datahouse");
+                n.setResource(rcChump);
+                n.setName("chump");
                 n.setIP("172.16.1.2");
                 if (db.Entities.Save(n)==true){
 
                 } else {
-                    throw new Exception("Create DataHouse Node failed!");
+                    throw new Exception("Create Chump Node failed!");
                 }
             } else {
-                throw new Exception("Create Datahouse Resource failed!");
+                throw new Exception("Create Chump Resource failed!");
             }
 
 
@@ -172,10 +208,10 @@ public class EntitiesTest {
     @Test
     public void testCheckEntitiesAsUpdate() throws Exception {
         Manifest mf = db.createManifest(
-                "Test",                                 // username
-                "Test",                                 // password
-                "172.16.1.1",                           // host
-                5432,                                   // port
+                Environment.getString(Table.DBMS.Username), // username
+                Environment.getString(Table.DBMS.Password),  // password
+                Environment.getString(Table.DBMS.Host),     // host
+                Environment.getInteger(Table.DBMS.Port),     // port
                 Database.Config.Automatic.Commit.On,    // autocommit
                 2,                                      // Min Poolsize
                 20,                                     // Max Poolsize
@@ -189,19 +225,19 @@ public class EntitiesTest {
         );
         db.setManifest(mf);
 
-        Domain crD = (Domain) db.Entities.Lookup(Domain.class,"test.com");
+        Domain crD = db.Entities.Lookup(Domain.class,"test.com");
         if (crD!=null){
             if (db.Entities.Fetch(crD)==true) {
-                UserAccount lUA = (UserAccount) db.Entities.Lookup(UserAccount.class,crD.getId(), crD.getRootId());
+                UserAccount lUA = db.Entities.Lookup(UserAccount.class,crD.getId(), crD.getRootId());
                 db.Entities.Fetch(lUA);
                 Network lCAB = lUA.getCabinet();
                 Roster lME = lUA.getMe();
-            };
+            }
         } else {
             throw new Exception("Load Domain Failed!");
         }
-        Location l = (Location) db.Entities.Lookup(Location.class, "Pflugerville");
-        Resource r = (Resource) db.Entities.Lookup(Resource.class, 1l);
+        Location l = db.Entities.Lookup(Location.class, "Pflugerville");
+        Resource r = db.Entities.Lookup(Resource.class, 1l);
 
     }
 
