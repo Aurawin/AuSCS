@@ -8,7 +8,8 @@ import com.aurawin.core.stored.entities.Entities;
 import com.aurawin.core.stored.Stored;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import javax.persistence.CascadeType;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.*;
 
 import javax.persistence.*;
@@ -50,13 +51,13 @@ public class Roster extends Stored {
     protected UserAccount Owner;
     public long getOwnerId(){ return Owner.getId();}
 
+    @Cascade({CascadeType.PERSIST})
     @OneToMany(
             targetEntity = RosterField.class,
             mappedBy = "Owner",
-            cascade = CascadeType.ALL,
             fetch = FetchType.EAGER
     )
-    protected List<RosterField> Custom = new ArrayList<RosterField>();
+    protected List<RosterField> Custom = new ArrayList<>();
 
     @Column(name = Database.Field.Domain.Roster.DomainId)
     protected long DomainId;
@@ -180,6 +181,12 @@ public class Roster extends Stored {
         }
     }
     public static void entityUpdated(Entities List,Stored Entity, boolean Cascade) throws Exception {}
-    public static void entityDeleted(Entities List,Stored Entity, boolean Cascade) throws Exception {}
+    public static void entityDeleted(Entities List,Stored Entity, boolean Cascade) throws Exception {
+        if (Entity instanceof UserAccount) {
+            UserAccount ua = (UserAccount) Entity;
+            Roster r = ua.getMe();
+            if (r!=null) List.Delete(r,Entities.CascadeOn);
+        }
+    }
 
 }

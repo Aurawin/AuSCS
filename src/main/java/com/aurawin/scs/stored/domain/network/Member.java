@@ -1,6 +1,7 @@
 package com.aurawin.scs.stored.domain.network;
 
 
+import com.aurawin.core.stored.annotations.QueryByNetworkId;
 import com.aurawin.lang.Database;
 import com.aurawin.core.stored.annotations.EntityDispatch;
 import com.aurawin.core.stored.annotations.QueryByDomainId;
@@ -14,6 +15,8 @@ import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.SelectBeforeUpdate;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @DynamicInsert(value = true)
@@ -123,12 +126,11 @@ public class Member extends Stored {
         }
     }
     public static void entityCreated(Entities List,Stored Entity) throws Exception {
-        if (Entity instanceof Member) {
-            Member m = (Member) Entity;
-            m.Owner.Members.add(m);
-        } else if (Entity instanceof Network) {
+        if (Entity instanceof Network) {
             Network n = (Network) Entity;
             Member m = new Member(n);
+            m.setUserId(n.getOwnerId());
+            m.Owner.Members.add(m);
             m.setExposition(Exposure.Private);
             m.setStanding(Standing.Administrator.Level);
             m.setACL(Standing.Administrator.Permission);
@@ -140,26 +142,24 @@ public class Member extends Stored {
     public static void entityDeleted(Entities List,Stored Entity, boolean Cascade) throws Exception{
         if (Entity instanceof Domain) {
             Domain d = (Domain) Entity;
-            Session ssn = List.Sessions.openSession();
-            try {
-                Transaction tx = ssn.beginTransaction();
-                try {
-                    java.util.List<Stored> lst = List.Lookup(
-                            Member.class.getAnnotation(QueryByDomainId.class),
-                            d.getId()
-                    );
-                    for (Stored h : lst) {
-                        ssn.delete(h);
-                    }
-                } finally {
-                    tx.commit();
-                }
-            } finally {
-                ssn.close();
+            ArrayList<Stored> lst = List.Lookup(
+                    Member.class.getAnnotation(QueryByDomainId.class),
+                    d.getId()
+            );
+            for (Stored itm : lst) {
+                List.Delete(itm, Entities.CascadeOn);
             }
-
-
+        } else if (Entity instanceof Network){
+            Network n = (Network) Entity;
+            ArrayList<Stored> lst = List.Lookup(
+                    Member.class.getAnnotation(QueryByNetworkId.class),
+                    n.getId()
+            );
+            for (Stored itm : lst) {
+                List.Delete(itm, Entities.CascadeOn);
+            }
         }
+
     }
 
 

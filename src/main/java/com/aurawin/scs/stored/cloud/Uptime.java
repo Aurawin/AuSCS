@@ -8,9 +8,11 @@ import com.aurawin.core.stored.Stored;
 import com.aurawin.core.time.Time;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.SelectBeforeUpdate;
+import org.hibernate.annotations.CascadeType;
 
 import javax.persistence.*;
 import java.time.Instant;
@@ -47,7 +49,8 @@ public class Uptime extends Stored{
         return Id;
     }
 
-    @ManyToOne(fetch=FetchType.EAGER,targetEntity=Node.class,cascade = CascadeType.ALL)
+    @Cascade({CascadeType.MERGE})
+    @ManyToOne(fetch=FetchType.EAGER,targetEntity=Node.class)
     @JoinColumn(name = Database.Field.Cloud.Uptime.NodeId)
     protected Node Node;
     public Node getNode(){return Node;}
@@ -97,6 +100,11 @@ public class Uptime extends Stored{
             }
         }
     }
-    public static void entityDeleted(Entities List, Stored Entity, boolean Cascade) {}
+    public static void entityDeleted(Entities List, Stored Entity, boolean Cascade) throws Exception{
+        if (Entity instanceof Node){
+            Node n = (Node) Entity;
+            List.Delete(n.Uptime,Entities.CascadeOn);
+        }
+    }
     public static void entityUpdated(Entities List, Stored Entity, boolean Cascade) {}
 }

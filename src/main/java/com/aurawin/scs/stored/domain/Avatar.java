@@ -8,12 +8,14 @@ import com.aurawin.core.stored.Stored;
 
 import com.aurawin.scs.stored.domain.network.Network;
 import com.aurawin.core.time.Time;
+
 import org.hibernate.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.SelectBeforeUpdate;
 
 import javax.persistence.*;
+import java.time.Instant;
 
 
 @Entity
@@ -53,17 +55,14 @@ public class Avatar extends Stored {
     @Column (name= Database.Field.Domain.Avatar.DomainId)
     private long DomainId;
 
-    @Column (name = Database.Field.Domain.Avatar.Kind)
-    private long Kind;
-
     @Column (name = Database.Field.Domain.Avatar.Ext)
     private String Ext;
 
     @Column (name = Database.Field.Domain.Avatar.Created)
-    private long Created;
+    private Instant Created;
 
     @Column (name = Database.Field.Domain.Avatar.Modified)
-    private long Modified;
+    private Instant Modified;
 
     @Column (name = Database.Field.Domain.Avatar.Data, length = 1024*256)
     private String Data;
@@ -71,8 +70,7 @@ public class Avatar extends Stored {
     public Avatar(long domainId, long ownerId, long kind) {
         DomainId = domainId;
         OwnerId = ownerId;
-        Kind = kind;
-        Created = Time.dtUTC();
+        Created = Time.instantUTC();
         Modified= Created;
     }
 
@@ -130,7 +128,23 @@ public class Avatar extends Stored {
             }
         }
     }
-    public static void entityUpdated(Entities List,Stored Entity, boolean Cascade)throws Exception {}
-    public static void entityDeleted(Entities List,Stored Entity, boolean Cascade)throws Exception {}
+    public static void entityUpdated(Entities List,Stored Entity, boolean Cascade)throws Exception {
+
+    }
+    public static void entityDeleted(Entities List,Stored Entity, boolean Cascade)throws Exception {
+        if (Entity instanceof UserAccount){
+            UserAccount ua = (UserAccount) Entity;
+            Avatar a = List.Lookup(Avatar.class,ua.getAvatarId());
+            if (a!=null) List.Delete(a,Entities.CascadeOn);
+        } else if (Entity instanceof Roster){
+            Roster r = (Roster) Entity;
+            Avatar a = List.Lookup(Avatar.class,r.getAvatarId());
+            if (a!=null) List.Delete(a,Entities.CascadeOn);
+        } else if (Entity instanceof Network){
+            Network n = (Network) Entity;
+            Avatar a  = List.Lookup(Avatar.class,n.getAvatarId());
+            if (a!=null) List.Delete(a,Entities.CascadeOn);
+        }
+    }
 
 }

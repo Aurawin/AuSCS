@@ -271,41 +271,21 @@ public class Folder extends Stored {
         }
     }
 
-    public static void entityDeleted(Entities List,Stored Entity, boolean Cascade){
+    public static void entityDeleted(Entities List,Stored Entity, boolean Cascade) throws Exception{
         if (Entity instanceof Folder) {
             Folder f = (Folder) Entity;
-            Session ssn = List.Sessions.openSession();
-            try {
-                try {
-                    for (Folder c : f.Children) {
-                        ssn.delete(c);
-                    }
-                } finally{
-                    ssn.getTransaction().commit();
-                }
-            } finally {
-                ssn.close();
+            for (Folder c : f.Children) {
+                List.Delete(c, Entities.CascadeOn);
             }
         } else if (Entity instanceof Domain) {
             Domain d = (Domain) Entity;
-            Session ssn = List.Sessions.openSession();
-            try {
-                try {
-                    ArrayList<Stored> lst = List.Lookup(
-                            Folder.class.getAnnotation(QueryByDomainId.class),
-                            d.getId()
-                    );
-                    for (Stored h : lst) {
-                        ssn.delete(h);
-                    }
-                } finally {
-                    ssn.getTransaction().commit();
-                }
-            } finally {
-                ssn.close();
+            ArrayList<Stored> lst = List.Lookup(
+                    Folder.class.getAnnotation(QueryByDomainId.class),
+                    d.getId()
+            );
+            for (Stored h : lst) {
+                List.Delete(h, Entities.CascadeOn);
             }
-
-
         }
     }
     public static void entityUpdated(Entities List,Stored Entity, boolean Cascade) throws Exception{

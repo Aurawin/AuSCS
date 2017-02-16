@@ -59,7 +59,7 @@ public class Resource extends Stored{
     public String getName() {    return Name;  }
     public void setName(String name) {      Name = name;   }
 
-    @ManyToOne(fetch=FetchType.EAGER,cascade=CascadeType.ALL,targetEntity=Group.class)
+    @ManyToOne(fetch=FetchType.EAGER,cascade=CascadeType.MERGE,targetEntity=Group.class)
     @JoinColumn(name = com.aurawin.lang.Database.Field.Cloud.Resource.GroupId)
     protected Group Group;
     public Group getGroup() { return Group; }

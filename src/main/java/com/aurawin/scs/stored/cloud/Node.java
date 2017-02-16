@@ -9,11 +9,14 @@ import com.aurawin.core.stored.Stored;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.DynamicUpdate;
-import org.hibernate.annotations.SelectBeforeUpdate;
+import org.hibernate.annotations.*;
+import org.hibernate.annotations.CascadeType;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,7 +70,8 @@ public class Node extends Stored {
     public String getIP(){ return IP;}
     public void setIP(String ip){IP=ip;}
 
-    @ManyToOne(targetEntity = Resource.class,cascade = CascadeType.ALL,fetch = FetchType.EAGER )
+    @Cascade({CascadeType.MERGE})
+    @ManyToOne(targetEntity = Resource.class, fetch = FetchType.EAGER )
     @JoinColumn(name  = Database.Field.Cloud.Node.ResourceId, nullable = false)
     protected Resource Resource;
     public Resource getResource(){return Resource;}
@@ -75,19 +79,23 @@ public class Node extends Stored {
         Resource=resource;
     }
 
-    @ManyToOne(targetEntity = Transactions.class,cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @Cascade({CascadeType.MERGE})
+    @ManyToOne(targetEntity = Transactions.class, fetch = FetchType.EAGER)
     @JoinColumn(name  = Database.Field.Cloud.Node.TransactionsId)
     protected Transactions Transactions;
     public Transactions getTransactions(){return Transactions;}
     public void setTransactions(Transactions transactions){ Transactions = transactions;}
 
-    @ManyToOne(targetEntity = Uptime.class,cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+
+    @Cascade({CascadeType.MERGE})
+    @ManyToOne(targetEntity = Uptime.class, fetch = FetchType.EAGER)
     @JoinColumn(name  = Database.Field.Cloud.Node.UptimeId)
     protected Uptime Uptime;
     public Uptime getUptime(){return Uptime;}
     public void setUptime(Uptime uptime){ Uptime = uptime;}
 
-    @OneToMany(targetEntity = Service.class,cascade = CascadeType.ALL,fetch=FetchType.EAGER,mappedBy="Node")
+    @Cascade({CascadeType.MERGE})
+    @OneToMany(targetEntity = Service.class, fetch=FetchType.EAGER, mappedBy="Node")
     protected List<Service> Services = new ArrayList<Service>();
 
     public Node() {

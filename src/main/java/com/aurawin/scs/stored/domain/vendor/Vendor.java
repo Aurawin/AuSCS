@@ -118,8 +118,8 @@ public class Vendor extends Stored {
     public static void entityDeleted(Entities List, Stored Entity, boolean Cascade)throws Exception {
         if (Entity instanceof Domain) {
             Domain d = (Domain) Entity;
-            Session ssn = List.Sessions.openSession();
-            try {
+            Session ssn = List.acquireSession();
+
                 Transaction tx = ssn.beginTransaction();
                 try {
                     ArrayList<Stored> lst = List.Lookup(
@@ -132,9 +132,7 @@ public class Vendor extends Stored {
                 } finally {
                     tx.commit();
                 }
-            } finally {
-                ssn.close();
-            }
+
         }
     }
     public static void entityUpdated(Entities List, Stored Entity, boolean Cascade) throws Exception{

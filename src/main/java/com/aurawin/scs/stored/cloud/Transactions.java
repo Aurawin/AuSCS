@@ -62,7 +62,7 @@ public class Transactions extends Stored {
     public long getStreams() {        return Streams;    }
     public void setStreams(long streams) {        Streams = streams;    }
 
-    @ManyToOne(targetEntity = Node.class, cascade = CascadeType.ALL,fetch=FetchType.EAGER)
+    @ManyToOne(targetEntity = Node.class, cascade = CascadeType.MERGE,fetch=FetchType.EAGER)
     @JoinColumn(name = Database.Field.Cloud.Transactions.NodeId)
     protected Node Node;
     public Node getNode() { return Node; }

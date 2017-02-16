@@ -97,7 +97,8 @@ public class EntitiesTest {
 
         Domain crD = new Domain("chump.aurawin.com","root");
         if (db.Entities.Save(crD)==true) {
-            Domain lD = db.Entities.Lookup(Domain.class,1l);
+            db.Entities.Update(crD,Entities.CascadeOff);
+            Domain lD = db.Entities.Lookup(Domain.class,crD.getId());
             UserAccount lUA = db.Entities.Lookup(UserAccount.class,lD.getId(), lD.getRootId());
             db.Entities.Fetch(lUA);
 
@@ -162,17 +163,17 @@ public class EntitiesTest {
             db.Entities.Save(gp);
             db.Entities.Update(lc,Entities.CascadeOff);
 
-            Resource rc = new Resource();
-            rc.setGroup(gp);
-            rc.setName("Phoenix");
+            Resource rcPhoenix = new Resource();
+            rcPhoenix.setGroup(gp);
+            rcPhoenix.setName("Phoenix");
 
-            if (db.Entities.Save(rc) ==true ) {
+            if (db.Entities.Save(rcPhoenix) ==true ) {
                 Node n = new Node();
-                n.setResource(rc);
+                n.setResource(rcPhoenix);
+                n.setName("phoenix");
+                n.setIP("172.16.1.1");
                 if (db.Entities.Save(n)==true) {
-                    n.setName("phoenix");
-                    n.setIP("172.16.1.1");
-                    db.Entities.Update(n, Entities.CascadeOff);
+                    //db.Entities.Update(n, Entities.CascadeOff);
                 } else {
                     throw new Exception("Create Node failed!");
                 }
@@ -190,7 +191,7 @@ public class EntitiesTest {
                 n.setName("chump");
                 n.setIP("172.16.1.2");
                 if (db.Entities.Save(n)==true){
-
+                    //db.Entities.Update(n, Entities.CascadeOff);
                 } else {
                     throw new Exception("Create Chump Node failed!");
                 }
@@ -225,7 +226,7 @@ public class EntitiesTest {
         );
         db.setManifest(mf);
 
-        Domain crD = db.Entities.Lookup(Domain.class,"test.com");
+        Domain crD = db.Entities.Lookup(Domain.class,"chump.aurawin.com");
         if (crD!=null){
             if (db.Entities.Fetch(crD)==true) {
                 UserAccount lUA = db.Entities.Lookup(UserAccount.class,crD.getId(), crD.getRootId());

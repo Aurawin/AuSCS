@@ -152,45 +152,25 @@ public class File extends Stored {
     public static void entityDeleted(Entities List,Stored Entity, boolean Cascade) throws Exception{
         if (Entity instanceof Domain){
             Domain d = (Domain) Entity;
-            Session ssn = List.Sessions.openSession();
-            try {
-                Transaction tx = ssn.beginTransaction();
-                try {
-                    ArrayList<Stored> lst = List.Lookup(
-                            File.class.getAnnotation(QueryByDomainId.class),
-                            d.getId()
-                    );
-                    for (Stored f : lst) {
-                        ssn.delete(f);
-                        // todo cloud disk too
-                    }
-                } finally {
-                    tx.commit();
-                }
-            } finally {
-                ssn.close();
+            ArrayList<Stored> lst = List.Lookup(
+                    File.class.getAnnotation(QueryByDomainId.class),
+                    d.getId()
+            );
+            for (Stored f : lst) {
+                List.Delete(f,Entities.CascadeOn);
+                // todo delete cloud disk file
             }
         } else if (Entity instanceof Network){
             Network n = (Network) Entity;
-            Session ssn = List.Sessions.openSession();
-            try{
-                Transaction tx = ssn.beginTransaction();
-                try   {
-                    ArrayList<Stored> lst = List.Lookup(
-                            File.class.getAnnotation(QueryByNetworkId.class),
-                            n.getId()
-                    );
-                    for ( Stored f : lst){
-                        ssn.delete(f);
-                        // todo cloud disk file too
-
-                    }
-                } finally{
-                    tx.commit();
-                }
-            } finally{
-                ssn.close();
+            ArrayList<Stored> lst = List.Lookup(
+                    File.class.getAnnotation(QueryByNetworkId.class),
+                    n.getId()
+            );
+            for (Stored f : lst) {
+                List.Delete(f,Entities.CascadeOn);
+                // todo delete cloud disk file
             }
+
         }
     }
 }

@@ -8,12 +8,17 @@ import com.aurawin.core.stored.entities.Entities;
 import com.aurawin.core.stored.Stored;
 import com.aurawin.core.stored.entities.UniqueId;
 import org.hibernate.Session;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import org.hibernate.Transaction;
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.DynamicUpdate;
-import org.hibernate.annotations.SelectBeforeUpdate;
+import org.hibernate.annotations.*;
 
 import javax.persistence.*;
+
+import javax.persistence.Entity;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 
 @Entity
 @DynamicInsert
@@ -64,15 +69,15 @@ public class Service extends Stored{
     public int getScaleMin(){return ScaleMin;}
     public void setScaleMin(int scaleMin){ ScaleMax=scaleMin;}
 
-
-    @ManyToOne(fetch=FetchType.EAGER,targetEntity = Node.class, cascade=CascadeType.ALL)
+    @Cascade({CascadeType.MERGE})
+    @ManyToOne(fetch=FetchType.EAGER,targetEntity = Node.class)
     @JoinColumn(name = Database.Field.Cloud.Service.NodeId)
     protected Node Node;
     public void setNode(Node node){ Node=node;}
     public Node getNode(){return Node;}
 
-
-    @ManyToOne(fetch=FetchType.EAGER,targetEntity = UniqueId.class, cascade=CascadeType.ALL)
+    @Cascade({CascadeType.MERGE})
+    @ManyToOne(fetch=FetchType.EAGER,targetEntity = UniqueId.class)
     @JoinColumn(name = Database.Field.Cloud.Service.UniqueId)
     protected UniqueId UniqueId;
     public void setUniqueId(UniqueId id){ UniqueId=id;}

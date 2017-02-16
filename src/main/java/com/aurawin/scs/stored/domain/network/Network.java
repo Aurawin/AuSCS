@@ -74,11 +74,11 @@ public class Network extends Stored {
     }
 
 
-    @ManyToOne(fetch=FetchType.EAGER, targetEntity = UserAccount.class, cascade = CascadeType.ALL)
+    @ManyToOne(fetch=FetchType.EAGER, targetEntity = UserAccount.class, cascade = CascadeType.MERGE)
     @JoinColumn(name = Database.Field.Domain.Network.OwnerId)
     protected UserAccount Owner;
 
-    @OneToMany(mappedBy = "Owner", fetch = FetchType.EAGER, targetEntity = Member.class, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "Owner", fetch = FetchType.EAGER, targetEntity = Member.class, cascade = CascadeType.MERGE)
     protected List<Member> Members = new ArrayList<Member>();
 
     @Column(name = Database.Field.Domain.Network.AvatarId)
@@ -196,7 +196,6 @@ public class Network extends Stored {
             if (n.Owner.getCabinet() == null) {
                 n.Owner.setCabinetId(n.getId());
                 n.Owner.Networks.add(n);
-                List.Update(n.Owner,Entities.CascadeOff);
             }
         }
     }
@@ -204,22 +203,12 @@ public class Network extends Stored {
     public static void entityDeleted(Entities List,Stored Entity, boolean Cascade) throws Exception{
         if (Entity instanceof Domain) {
             Domain d = (Domain) Entity;
-            Session ssn = List.Sessions.openSession();
-            try {
-                Transaction tx = ssn.beginTransaction();
-                try {
-                    ArrayList<Stored> lst = List.Lookup(
-                            Network.class.getAnnotation(QueryByDomainId.class),
-                            d.getId()
-                    );
-                    for (Stored h : lst) {
-                        ssn.delete(h);
-                    }
-                } finally {
-                    tx.commit();
-                }
-            } finally {
-                ssn.close();
+            ArrayList<Stored> lst = List.Lookup(
+                    Network.class.getAnnotation(QueryByDomainId.class),
+                    d.getId()
+            );
+            for (Stored h : lst) {
+                List.Delete(h,Entities.CascadeOn);
             }
         }
     }

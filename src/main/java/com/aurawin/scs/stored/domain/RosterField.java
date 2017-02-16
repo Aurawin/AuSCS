@@ -2,6 +2,7 @@ package com.aurawin.scs.stored.domain;
 
 import com.aurawin.core.stored.annotations.EntityDispatch;
 import com.aurawin.core.stored.annotations.QueryByDomainId;
+import com.aurawin.core.stored.annotations.QueryByOwnerId;
 import com.aurawin.core.stored.entities.Entities;
 import com.aurawin.core.stored.Stored;
 import org.hibernate.Session;
@@ -29,11 +30,18 @@ import java.util.ArrayList;
                 @NamedQuery(
                         name = com.aurawin.lang.Database.Query.Domain.UserAccount.Roster.RosterField.ByDomainId.name,
                         query = com.aurawin.lang.Database.Query.Domain.UserAccount.Roster.RosterField.ByDomainId.value
+                ),
+                @NamedQuery(
+                        name = com.aurawin.lang.Database.Query.Domain.UserAccount.Roster.RosterField.ByOwnerId.name,
+                        query = com.aurawin.lang.Database.Query.Domain.UserAccount.Roster.RosterField.ByOwnerId.value
                 )
         }
 )
 @QueryByDomainId(
     Name = com.aurawin.lang.Database.Query.Domain.UserAccount.Roster.RosterField.ByDomainId.name
+)
+@QueryByOwnerId(
+        Name = com.aurawin.lang.Database.Query.Domain.UserAccount.Roster.RosterField.ByOwnerId.name
 )
 public class RosterField extends Stored {
     @Id
@@ -79,22 +87,21 @@ public class RosterField extends Stored {
     public static void entityDeleted(Entities List,Stored Entity, boolean Caascade) throws Exception {
         if (Entity instanceof Domain){
             Domain d = (Domain) Entity;
-            Session ssn = List.Sessions.openSession();
-            try {
-                Transaction tx = ssn.beginTransaction();
-                try {
-                    ArrayList<Stored> lst = List.Lookup(
-                            RosterField.class.getAnnotation(QueryByDomainId.class),
-                            d.getId()
-                    );
-                    for (Stored h : lst) {
-                        ssn.delete(h);
-                    }
-                } finally {
-                    tx.commit();
-                }
-            } finally {
-                ssn.close();
+            ArrayList<Stored> lst =List.Lookup(
+                    RosterField.class.getAnnotation(QueryByDomainId.class),
+                    d.getId()
+            );
+            for (Stored h : lst) {
+                List.Delete(h,Entities.CascadeOff);
+            }
+        } else if (Entity instanceof Roster){
+            Roster r = (Roster) Entity;
+            ArrayList<Stored> lst =List.Lookup(
+                    RosterField.class.getAnnotation(QueryByOwnerId.class),
+                    r.getId()
+            );
+            for (Stored h : lst) {
+                List.Delete(h,Entities.CascadeOff);
             }
         }
 

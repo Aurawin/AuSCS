@@ -362,6 +362,15 @@ public class Database extends com.aurawin.core.lang.Database {
                                         .setParameter("DomainId",DomainId);
                             }
                         }
+                        public static class ByOwnerId {
+                            public static final String name = "QueryDomainUserAccountRosterFieldByOwnerId";
+                            public static final String value = "from RosterField where OwnerId=:OwnerId";
+
+                            public static org.hibernate.query.Query Create(Session ssn, long OwnerId){
+                                return ssn.getNamedQuery(name)
+                                        .setParameter("OwnerId",OwnerId);
+                            }
+                        }
                     }
                 }
             }
