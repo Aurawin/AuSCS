@@ -5,6 +5,7 @@ import com.aurawin.core.stored.annotations.QueryByDomainId;
 import com.aurawin.core.stored.annotations.QueryByOwnerId;
 import com.aurawin.core.stored.entities.Entities;
 import com.aurawin.core.stored.Stored;
+import com.aurawin.lang.Database;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.annotations.DynamicInsert;
@@ -53,7 +54,7 @@ public class RosterField extends Stored {
         return Id;
     }
 
-    @ManyToOne()
+    @ManyToOne(fetch=FetchType.EAGER, targetEntity = Roster.class, cascade = CascadeType.MERGE)
     @JoinColumn(name = com.aurawin.lang.Database.Field.Domain.RosterField.OwnerId)
     private Roster Owner;
 

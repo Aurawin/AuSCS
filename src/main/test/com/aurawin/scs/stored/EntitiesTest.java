@@ -98,9 +98,21 @@ public class EntitiesTest {
         Domain crD = new Domain("chump.aurawin.com","root");
         if (db.Entities.Save(crD)==true) {
             db.Entities.Update(crD,Entities.CascadeOff);
+
             Domain lD = db.Entities.Lookup(Domain.class,crD.getId());
             UserAccount lUA = db.Entities.Lookup(UserAccount.class,lD.getId(), lD.getRootId());
             db.Entities.Fetch(lUA);
+
+            Roster r = new Roster(lUA,"Bestie");
+            r.setAddresses("19309 Stage Line Trl.");
+            r.setFirstName("Jax");
+            r.setCity("Austin");
+            r.setState("TX");
+
+            r.setFamilyName("Brunner");
+            db.Entities.Save(r);
+
+
 
             final GsonBuilder builder = new GsonBuilder();
             builder.excludeFieldsWithoutExposeAnnotation();

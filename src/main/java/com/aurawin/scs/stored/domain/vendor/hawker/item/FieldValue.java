@@ -2,7 +2,7 @@ package com.aurawin.scs.stored.domain.vendor.hawker.item;
 
 import com.aurawin.core.Memo;
 import com.aurawin.core.array.KeyItem;
-import com.aurawin.core.array.KeyPair;
+import com.aurawin.core.array.KeyPairs;
 import com.aurawin.core.array.VarString;
 import com.aurawin.core.lang.Table;
 
@@ -61,9 +61,9 @@ public class FieldValue {
             throw new Exception(Table.Format(Table.Exception.Entities.Vendor.Manifest.Field.ValueIsNotOfType, kind.KeyPair.getValue(), kind.getValue()));
         }
     }
-    public void setValue(KeyPair val) throws Exception{
+    public void setValue(KeyPairs val) throws Exception{
         if (kind == FieldValueKind.KeyPairList) {
-            value = new KeyPair(val) ;
+            value = new KeyPairs(val) ;
         } else {
             throw new Exception(Table.Format(Table.Exception.Entities.Vendor.Manifest.Field.ValueIsNotOfType, kind.KeyPairList.getValue(), kind.getValue()));
         }

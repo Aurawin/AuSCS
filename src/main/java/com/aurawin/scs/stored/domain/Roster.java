@@ -137,6 +137,16 @@ public class Roster extends Stored {
         Country = country;
     }
 
+    @Column(name = Database.Field.Domain.Roster.Phones)
+    protected String Phones;
+    public String getPhones() {        return Phones;    }
+    public void setPhones(String phones) {        Phones = phones;    }
+
+    @Column(name = Database.Field.Domain.Roster.Emails)
+    protected String Emails;
+    public String getEmails() {        return Emails;    }
+    public void setEmails(String emails) {        Emails = emails;    }
+
     @Column(name = Database.Field.Domain.Roster.Websites)
     protected String Websites;
     public String getWebsites() {

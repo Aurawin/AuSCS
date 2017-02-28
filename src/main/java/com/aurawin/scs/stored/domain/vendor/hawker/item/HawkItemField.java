@@ -2,7 +2,7 @@ package com.aurawin.scs.stored.domain.vendor.hawker.item;
 
 import com.aurawin.core.Memo;
 import com.aurawin.core.array.KeyItem;
-import com.aurawin.core.array.KeyPair;
+import com.aurawin.core.array.KeyPairs;
 import com.aurawin.core.array.VarString;
 import com.aurawin.lang.Database;
 import com.aurawin.core.stored.Stored;
@@ -124,7 +124,7 @@ public class HawkItemField extends Stored {
         Value.setValue(value);
         defaultLength=Value.getKind().getLength();
     }
-    public HawkItemField(String name, KeyPair value) throws Exception{
+    public HawkItemField(String name, KeyPairs value) throws Exception{
         Name = name;
         Value = new FieldValue(FieldValueKind.KeyPairList);
         Value.setValue(value);
