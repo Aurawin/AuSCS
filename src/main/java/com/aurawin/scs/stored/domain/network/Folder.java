@@ -225,6 +225,7 @@ public class Folder extends Stored {
             CLcv.Validated=true;
         }
     }
+    @SuppressWarnings("unchecked")
     public void Refresh(Session ssn){
         List<Folder> lst = ssn.getNamedQuery(Database.Query.Domain.Network.Folder.ByLevel.name)
                 .setParameter("DomainId",DomainId)
@@ -232,9 +233,10 @@ public class Folder extends Stored {
                 .setParameter("Path",Path)
                 .list();
         Folder Root = getRoot();
-        for (Folder f:lst) {
+        for (Folder f : lst) {
             Root.Force(f);
         }
+
     }
     @Override
     public void Identify(Session ssn){
