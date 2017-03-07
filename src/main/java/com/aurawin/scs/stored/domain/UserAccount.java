@@ -5,18 +5,20 @@ import com.aurawin.core.stored.annotations.*;
 import com.aurawin.core.stored.entities.Entities;
 import com.aurawin.core.stored.Stored;
 
+import com.aurawin.scs.lang.Database;
+import com.aurawin.scs.stored.cloud.Disk;
 import com.aurawin.scs.stored.domain.network.Network;
 import com.aurawin.core.time.Time;
 import com.google.gson.annotations.Expose;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.*;
 import org.hibernate.annotations.CascadeType;
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.DynamicUpdate;
-import org.hibernate.annotations.SelectBeforeUpdate;
-import com.google.gson.Gson;
+import org.hibernate.annotations.NamedQueries;
+import org.hibernate.annotations.NamedQuery;
+
 import javax.persistence.*;
+import javax.persistence.Entity;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,37 +27,48 @@ import java.util.List;
 @DynamicInsert(value=true)
 @DynamicUpdate(value=true)
 @SelectBeforeUpdate(value=true)
-@javax.persistence.Table(name = com.aurawin.lang.Database.Table.Domain.UserAccount.Items)
+@javax.persistence.Table(name = com.aurawin.scs.lang.Database.Table.Domain.UserAccount.Items)
 @NamedQueries(
         {
                 @NamedQuery(
-                        name  = com.aurawin.lang.Database.Query.Domain.UserAccount.ByName.name,
-                        query = com.aurawin.lang.Database.Query.Domain.UserAccount.ByName.value
+                        name  = com.aurawin.scs.lang.Database.Query.Domain.UserAccount.ByName.name,
+                        query = com.aurawin.scs.lang.Database.Query.Domain.UserAccount.ByName.value
 
                 ),
                 @NamedQuery(
-                        name  = com.aurawin.lang.Database.Query.Domain.UserAccount.ByAuth.name,
-                        query = com.aurawin.lang.Database.Query.Domain.UserAccount.ByAuth.value
+                        name  = com.aurawin.scs.lang.Database.Query.Domain.UserAccount.ByAuth.name,
+                        query = com.aurawin.scs.lang.Database.Query.Domain.UserAccount.ByAuth.value
                 ),
                 @NamedQuery(
-                        name = com.aurawin.lang.Database.Query.Domain.UserAccount.ByDomainId.name,
-                        query= com.aurawin.lang.Database.Query.Domain.UserAccount.ByDomainId.value
+                        name = com.aurawin.scs.lang.Database.Query.Domain.UserAccount.ByDomainId.name,
+                        query= com.aurawin.scs.lang.Database.Query.Domain.UserAccount.ByDomainId.value
                 ),
                 @NamedQuery(
-                        name  = com.aurawin.lang.Database.Query.Domain.UserAccount.ById.name,
-                        query = com.aurawin.lang.Database.Query.Domain.UserAccount.ById.value
+                        name  = com.aurawin.scs.lang.Database.Query.Domain.UserAccount.ById.name,
+                        query = com.aurawin.scs.lang.Database.Query.Domain.UserAccount.ById.value
+                ),
+                @NamedQuery(
+                        name  = com.aurawin.scs.lang.Database.Query.Domain.UserAccount.ByDomainIdAndId.name,
+                        query = com.aurawin.scs.lang.Database.Query.Domain.UserAccount.ByDomainIdAndId.value
+                ),
+                @NamedQuery(
+                        name  = com.aurawin.scs.lang.Database.Query.Domain.UserAccount.ByDomainIdAndName.name,
+                        query = com.aurawin.scs.lang.Database.Query.Domain.UserAccount.ByDomainIdAndName.value
                 )
         }
 )
 @QueryById(
-        Name = com.aurawin.lang.Database.Query.Domain.UserAccount.ById.name,
-        Fields = {
-                "Id",
-                "DomainId"
-        }
+        Name = com.aurawin.scs.lang.Database.Query.Domain.UserAccount.ById.name,
+        Fields = {"Id"}
 )
 @QueryByDomainId(
-        Name = com.aurawin.lang.Database.Query.Domain.UserAccount.ByDomainId.name
+        Name = com.aurawin.scs.lang.Database.Query.Domain.UserAccount.ByDomainId.name
+)
+@QueryByDomainIdAndId(
+        Name = com.aurawin.scs.lang.Database.Query.Domain.UserAccount.ByDomainIdAndId.name
+)
+@QueryByDomainIdAndName(
+        Name = com.aurawin.scs.lang.Database.Query.Domain.UserAccount.ByDomainIdAndName.name
 )
 @EntityDispatch(
         onCreated = true,
@@ -71,17 +84,22 @@ import java.util.List;
                 @FetchField(
                         Class = UserAccount.class,
                         Target = "Contacts"
+                ),
+                @FetchField(
+                        Class = UserAccount.class,
+                        Target = "Cabinet"
+                ),
+                @FetchField(
+                        Class = UserAccount.class,
+                        Target = "Avatar"
                 )
         }
-
-
-
 )
 public class UserAccount extends Stored {
     @Expose(serialize = true, deserialize = true)
-    @javax.persistence.Id
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = com.aurawin.lang.Database.Field.Domain.UserAccount.Id)
+    @Column(name = com.aurawin.scs.lang.Database.Field.Domain.UserAccount.Id)
     protected long Id;
     public long getId() {
         return Id;
@@ -89,50 +107,64 @@ public class UserAccount extends Stored {
     public void setId(long id){ Id=id;}
 
     @Expose(serialize = false, deserialize = false)
-    @OneToMany(mappedBy = "Owner",fetch = FetchType.LAZY)
     @Cascade(CascadeType.MERGE)
+    @Fetch(value=FetchMode.SUBSELECT)
+    @OneToMany(
+            targetEntity = Network.class,
+            mappedBy = "Owner"
+    )
     public List<Network> Networks= new ArrayList<Network>();
 
     @Expose(serialize = false, deserialize = false)
-    @OneToMany(mappedBy = "Owner",fetch = FetchType.LAZY)
-    @Cascade(CascadeType.MERGE)
+    @Cascade(CascadeType.ALL)
+    @Fetch(value=FetchMode.SUBSELECT)
+    @OneToMany(targetEntity = Roster.class, mappedBy = "Owner")
     public List<Roster>Contacts = new ArrayList<Roster>();
 
     @Expose(serialize = true, deserialize = true)
-    @Column(name = com.aurawin.lang.Database.Field.Domain.UserAccount.DomainId)
+    @Column(name = com.aurawin.scs.lang.Database.Field.Domain.UserAccount.DomainId)
     protected long DomainId;
-    public long getDomainId() {   return DomainId; }
-
-    @Expose(serialize = true, deserialize = true)
-    @Column(name = com.aurawin.lang.Database.Field.Domain.UserAccount.CabinetId)
-    protected long CabinetId;
-    protected long getCabinetId(long id){
-        return CabinetId;
+    public long getDomainId() {
+        return DomainId;
     }
-    public void setCabinetId(long id){
-        CabinetId=id;
-    }
+    public void setDomainId(long domainId) {DomainId = domainId;    }
+
+
+    @Cascade({CascadeType.ALL})
+    @ManyToOne(targetEntity = Network.class)
+    @Fetch(value=FetchMode.JOIN)
+    @JoinColumn(nullable=true, name  = com.aurawin.scs.lang.Database.Field.Domain.UserAccount.CabinetId)
+    @Expose(serialize = false, deserialize = false)
+    public Network Cabinet;
+    public void setCabinet(Network cabinet){Cabinet = cabinet; }
+
+
+    @Cascade({CascadeType.ALL})
+    @ManyToOne(targetEntity = Roster.class)
+    @Fetch(value=FetchMode.JOIN)
+    @JoinColumn(nullable=true, name  = com.aurawin.scs.lang.Database.Field.Domain.UserAccount.RosterId)
+    @Expose(serialize = false, deserialize = false)
+    protected Roster Me;
+    public Roster getMe(){return Me;}
+    public void setMe(Roster roster){Me = roster; }
+
+    @Cascade({CascadeType.ALL})
+    @ManyToOne(targetEntity = Avatar.class)
+    @JoinColumn(nullable=true, name  = com.aurawin.scs.lang.Database.Field.Domain.UserAccount.AvatarId)
+    @Fetch(value=FetchMode.JOIN)
+    @Expose(serialize = false, deserialize = false)
+    protected Avatar Avatar;
+    public Avatar getAvatar(){return Avatar;}
+    public void setAvatar(Avatar avatar){ Avatar = avatar;}
 
     @Expose(serialize = true, deserialize = true)
-    @Column(name = com.aurawin.lang.Database.Field.Domain.UserAccount.RosterId)
-    protected long RosterId;
-    public long getRosterId(){return RosterId;}
-    public void setRosterId(long id){RosterId = id; }
+    @Column(name = com.aurawin.scs.lang.Database.Field.Domain.UserAccount.Name)
+    protected String Name;
+    public String getName() { return Name; }
+    public void setName(String user) { this.Name = user;}
 
     @Expose(serialize = true, deserialize = true)
-    @Column(name = com.aurawin.lang.Database.Field.Domain.UserAccount.AvatarId)
-    protected long AvatarId;
-    public long getAvatarId() { return AvatarId; }
-    public void setAvatarId(long id){ AvatarId= id;}
-
-    @Expose(serialize = true, deserialize = true)
-    @Column(name = com.aurawin.lang.Database.Field.Domain.UserAccount.User)
-    protected String User;
-    public String getUser() { return User; }
-    public void setUser(String user) { this.User = user;}
-
-    @Expose(serialize = true, deserialize = true)
-    @Column(name = com.aurawin.lang.Database.Field.Domain.UserAccount.Pass)
+    @Column(name = com.aurawin.scs.lang.Database.Field.Domain.UserAccount.Pass)
     protected String Pass;
     public String getPass() {return Pass; }
     public void setPass(String pass) {
@@ -140,7 +172,7 @@ public class UserAccount extends Stored {
     }
 
     @Expose(serialize = true, deserialize = true)
-    @Column(name = com.aurawin.lang.Database.Field.Domain.UserAccount.Auth, length = 16)
+    @Column(name = com.aurawin.scs.lang.Database.Field.Domain.UserAccount.Auth, length = 16)
     protected String Auth;
     public String getAuth() {
         return Auth;
@@ -151,7 +183,7 @@ public class UserAccount extends Stored {
 
 
     @Expose(serialize = true, deserialize = true)
-    @Column(name = com.aurawin.lang.Database.Field.Domain.UserAccount.FirstIP)
+    @Column(name = com.aurawin.scs.lang.Database.Field.Domain.UserAccount.FirstIP)
     protected long FirstIP;
     public long getFirstIP() {
         return FirstIP;
@@ -161,7 +193,7 @@ public class UserAccount extends Stored {
     }
 
     @Expose(serialize = true, deserialize = true)
-    @Column(name = com.aurawin.lang.Database.Field.Domain.UserAccount.LastIP)
+    @Column(name = com.aurawin.scs.lang.Database.Field.Domain.UserAccount.LastIP)
     protected long LastIP;
     public long getLastIP() {
         return LastIP;
@@ -171,7 +203,7 @@ public class UserAccount extends Stored {
     }
 
     @Expose(serialize = true, deserialize = true)
-    @Column(name = com.aurawin.lang.Database.Field.Domain.UserAccount.LockCount)
+    @Column(name = com.aurawin.scs.lang.Database.Field.Domain.UserAccount.LockCount)
     protected int Lockcount;
     public int getLockcount() {
         return Lockcount;
@@ -181,19 +213,19 @@ public class UserAccount extends Stored {
     }
 
     @Expose(serialize = true, deserialize = true)
-    @Column(name = com.aurawin.lang.Database.Field.Domain.UserAccount.Created)
+    @Column(name = com.aurawin.scs.lang.Database.Field.Domain.UserAccount.Created)
     protected Instant Created;
     public Instant getCreated() {        return Created;    }
     public void setCreated(Instant created) {        Created = created;    }
 
     @Expose(serialize = true, deserialize = true)
-    @Column(name = com.aurawin.lang.Database.Field.Domain.UserAccount.Modified)
+    @Column(name = com.aurawin.scs.lang.Database.Field.Domain.UserAccount.Modified)
     public Instant Modified;
     public Instant getModified() {        return Modified;    }
     public void setModified(Instant modified) {        Modified = modified;    }
 
     @Expose(serialize = true, deserialize = true)
-    @Column(name = com.aurawin.lang.Database.Field.Domain.UserAccount.LastLogin)
+    @Column(name = com.aurawin.scs.lang.Database.Field.Domain.UserAccount.LastLogin)
     protected Instant LastLogin;
     public Instant getLastLogin() {
         return LastLogin;
@@ -203,7 +235,7 @@ public class UserAccount extends Stored {
     }
 
     @Expose(serialize = true, deserialize = true)
-    @Column(name = com.aurawin.lang.Database.Field.Domain.UserAccount.LastConsumptionCalc)
+    @Column(name = com.aurawin.scs.lang.Database.Field.Domain.UserAccount.LastConsumptionCalc)
     protected Instant LastConsumptionCalculation;
     public Instant getLastConsumptionCalculation() {
         return LastConsumptionCalculation;
@@ -213,42 +245,40 @@ public class UserAccount extends Stored {
     }
 
     @Expose(serialize = true, deserialize = true)
-    @Column(name = com.aurawin.lang.Database.Field.Domain.UserAccount.Consumption)
+    @Column(name = com.aurawin.scs.lang.Database.Field.Domain.UserAccount.Consumption)
     protected long Consumption;
     public long getConsumption(){return Consumption;}
     public void setConsumption(long consumption){Consumption = consumption;}
 
     @Expose(serialize = true, deserialize = true)
-    @Column(name = com.aurawin.lang.Database.Field.Domain.UserAccount.Quota)
+    @Column(name = com.aurawin.scs.lang.Database.Field.Domain.UserAccount.Quota)
     protected long Quota;
     public long getQuota(){ return Quota;}
     public void setQuota(long quota){ Quota = quota;}
 
     @Expose(serialize = true, deserialize = true)
-    @Column(name = com.aurawin.lang.Database.Field.Domain.UserAccount.AllowLogin)
+    @Column(name = com.aurawin.scs.lang.Database.Field.Domain.UserAccount.AllowLogin)
     protected boolean AllowLogin;
     public boolean isAllowLogin() {        return AllowLogin;    }
     public void setAllowLogin(boolean allowLogin) {        AllowLogin = allowLogin;    }
 
-    public UserAccount(long domainId, String user) {
+    public UserAccount(Domain domain, String user) {
         this.Id=0;
-        this.DomainId=domainId;
-        this.AvatarId=0;
-        this.CabinetId=0;
-        this.User = user;
+        this.DomainId=domain.Id;
+        this.Name = user;
         this.Pass = "";
         this.Auth = "";
+        this.Lockcount=0;
         this.Created = Time.instantUTC();
         this.Modified = this.Created;
     }
     public UserAccount() {
         this.Id=0;
         this.DomainId=0;
-        this.AvatarId=0;
-        this.CabinetId=0;
-        this.User = "";
+        this.Name = "";
         this.Pass = "";
         this.Auth = "";
+        this.Lockcount=0;
         this.Created = Time.instantUTC();
         this.Modified = this.Created;
     }
@@ -267,11 +297,11 @@ public class UserAccount extends Stored {
     public void Identify(Session ssn){
         if (Id == 0) {
             UserAccount ua = null;
-            Transaction tx = ssn.beginTransaction();
+            Transaction tx = (ssn.isJoinedToTransaction()) ? ssn.getTransaction() : ssn.beginTransaction();
             try {
-                ua = (UserAccount) ssn.getNamedQuery(com.aurawin.lang.Database.Query.Domain.UserAccount.ByName.name)
+                ua = (UserAccount) ssn.getNamedQuery(com.aurawin.scs.lang.Database.Query.Domain.UserAccount.ByName.name)
                         .setParameter("DomainId",DomainId)
-                        .setParameter("Name",User)
+                        .setParameter("Name",Name)
                         .uniqueResult();
                 if (ua == null) {
                     ssn.save(this);
@@ -281,16 +311,15 @@ public class UserAccount extends Stored {
                 tx.commit();
             } catch (Exception e){
                 tx.rollback();
-                throw e;
             }
         }
     }
     public void Assign(UserAccount src){
         Id=src.Id;
         DomainId=src.DomainId;
-        RosterId=src.RosterId;
-        CabinetId=src.CabinetId;
-        User=src.User;
+        Me=src.Me;
+        Cabinet=src.Cabinet;
+        Name=src.Name;
         Pass=src.Pass;
         Auth=src.Auth;
         FirstIP=src.FirstIP;
@@ -300,35 +329,26 @@ public class UserAccount extends Stored {
         Quota=src.Quota;
         Consumption=src.Consumption;
     }
-    public Roster getMe(){
-        if (Contacts.isEmpty()==true) return null;
-        return Contacts.stream().filter( (r) -> r.getId()==RosterId).findFirst().orElse(null);
-    }
-
-    public Network getCabinet(){
-        if (Networks.isEmpty()==true) return null;
-        return Networks.stream().filter((n) -> n.getId()==CabinetId).findFirst().orElse(null);
-    }
-
-    public static void entityCreated(Entities List,Stored Entity) throws Exception{
+    public static void entityCreated(Stored Entity, boolean Cascade) throws Exception{
         if (Entity instanceof Domain){
             Domain d = (Domain) Entity;
-            UserAccount ua = new UserAccount(d.getId(),Table.String(Table.Entities.Domain.Root));
-            List.Save(ua);
-            d.setRootId(ua.getId());
-            List.Update(ua,Entities.CascadeOff);
+            UserAccount ua = new UserAccount(d,Table.String(Table.Entities.Domain.Root));
+            Entities.Save(ua,Cascade);
+            d.setRootId(ua.Id);
+            Entities.Update(ua,Entities.CascadeOff);
+            Entities.Update(d,Entities.CascadeOff);
         }
     }
-    public static void entityUpdated(Entities List, Stored Entity, boolean Cascade){}
-    public static void entityDeleted(Entities List,Stored Entity, boolean Cascade) throws Exception{
+    public static void entityUpdated(Stored Entity, boolean Cascade){}
+    public static void entityDeleted(Stored Entity, boolean Cascade) throws Exception{
         if (Entity instanceof Domain){
             Domain d = (Domain) Entity;
-            ArrayList<Stored> lst =List.Lookup(
+            ArrayList<Stored> lst =Entities.Lookup(
                     UserAccount.class.getAnnotation(QueryByDomainId.class),
                     d.getId()
             );
             for (Stored itm : lst) {
-                List.Delete(itm, Entities.CascadeOn);
+                Entities.Delete(itm, Entities.CascadeOn);
             }
         }
     }

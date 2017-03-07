@@ -1,6 +1,9 @@
 package com.aurawin.scs.stored.cloud;
 
-import com.aurawin.lang.Database;
+import com.aurawin.scs.lang.Database;
+import com.aurawin.scs.stored.domain.Domain;
+import com.google.gson.annotations.Expose;
+
 import com.aurawin.core.stored.annotations.EntityDispatch;
 import com.aurawin.core.stored.annotations.QueryById;
 import com.aurawin.core.stored.annotations.QueryByName;
@@ -54,6 +57,7 @@ public class Node extends Stored {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = Database.Field.Cloud.Node.Id)
+    @Expose(serialize = true, deserialize = true)
     protected long Id;
     @Override
     public long getId() {
@@ -61,18 +65,41 @@ public class Node extends Stored {
     }
 
     @Column(name = Database.Field.Cloud.Node.Name)
+    @Expose(serialize = true, deserialize = true)
     protected String Name;
     public String getName() {  return Name; }
     public void setName(String name) {     Name = name; }
 
     @Column(name = Database.Field.Cloud.Node.IP, length = 45)
+    @Expose(serialize = true, deserialize = true)
     protected String IP;
     public String getIP(){ return IP;}
     public void setIP(String ip){IP=ip;}
 
     @Cascade({CascadeType.MERGE})
+    @ManyToOne(targetEntity = Domain.class, fetch = FetchType.EAGER )
+    @JoinColumn(name  = Database.Field.Cloud.Node.DomainId, nullable = true)
+    @Expose(serialize = false, deserialize = false)
+    protected Domain Domain;
+    public Domain getDomain(){return Domain;}
+    public void setDomain(Domain domain){
+        Domain=domain;
+    }
+
+    @Cascade({CascadeType.MERGE})
+    @ManyToOne(targetEntity = Group.class, fetch = FetchType.EAGER )
+    @JoinColumn(name  = Database.Field.Cloud.Node.GroupId, nullable = false)
+    @Expose(serialize = false, deserialize = false)
+    protected Group Group;
+    public Group getGroup(){return Group;}
+    public void setGroup(Group group){
+        Group=group;
+    }
+
+    @Cascade({CascadeType.MERGE})
     @ManyToOne(targetEntity = Resource.class, fetch = FetchType.EAGER )
     @JoinColumn(name  = Database.Field.Cloud.Node.ResourceId, nullable = false)
+    @Expose(serialize = false, deserialize = false)
     protected Resource Resource;
     public Resource getResource(){return Resource;}
     public void setResource(Resource resource){
@@ -82,6 +109,7 @@ public class Node extends Stored {
     @Cascade({CascadeType.MERGE})
     @ManyToOne(targetEntity = Transactions.class, fetch = FetchType.EAGER)
     @JoinColumn(name  = Database.Field.Cloud.Node.TransactionsId)
+    @Expose(serialize = false, deserialize = false)
     protected Transactions Transactions;
     public Transactions getTransactions(){return Transactions;}
     public void setTransactions(Transactions transactions){ Transactions = transactions;}
@@ -90,33 +118,34 @@ public class Node extends Stored {
     @Cascade({CascadeType.MERGE})
     @ManyToOne(targetEntity = Uptime.class, fetch = FetchType.EAGER)
     @JoinColumn(name  = Database.Field.Cloud.Node.UptimeId)
+    @Expose(serialize = false, deserialize = false)
     protected Uptime Uptime;
     public Uptime getUptime(){return Uptime;}
     public void setUptime(Uptime uptime){ Uptime = uptime;}
 
     @Cascade({CascadeType.MERGE})
     @OneToMany(targetEntity = Service.class, fetch=FetchType.EAGER, mappedBy="Node")
+    @Expose(serialize = false, deserialize = false)
     protected List<Service> Services = new ArrayList<Service>();
 
     public Node() {
+        Reset();
+    }
+    public void Reset(){
         Id = 0;
         Name = "";
-        IP="";
-        Transactions=null;
-        Resource =null;
+        IP = "";
+        Transactions = null;
+        Resource = null;
     }
-
     public Node(long id) {
+        Reset();
         Id = id;
-        Name="";
-        IP="";
-        Transactions=null;
-        Resource=null;
     }
     @Override
     public void Identify(Session ssn){
         if (Id == 0) {
-            Transaction tx = ssn.beginTransaction();
+            Transaction tx = (ssn.isJoinedToTransaction())? ssn.getTransaction() : ssn.beginTransaction();
             try {
                 ssn.save(this);
                 tx.commit();
@@ -126,7 +155,7 @@ public class Node extends Stored {
             }
         }
     }
-    public static void entityCreated(Entities List, Stored Entity){ }
-    public static void entityDeleted(Entities List, Stored Entity, boolean Cascade) {}
-    public static void entityUpdated(Entities List, Stored Entity, boolean Cascade) {}
+    public static void entityCreated(Stored Entity, boolean Cascade){ }
+    public static void entityDeleted(Stored Entity, boolean Cascade) {}
+    public static void entityUpdated(Stored Entity, boolean Cascade) {}
 }

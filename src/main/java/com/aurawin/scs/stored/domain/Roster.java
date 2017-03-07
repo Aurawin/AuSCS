@@ -2,10 +2,13 @@ package com.aurawin.scs.stored.domain;
 
 
 import com.aurawin.core.lang.Table;
-import com.aurawin.lang.Database;
+import com.aurawin.core.stored.annotations.FetchField;
+import com.aurawin.core.stored.annotations.FetchFields;
+import com.aurawin.scs.lang.Database;
 import com.aurawin.core.stored.annotations.EntityDispatch;
 import com.aurawin.core.stored.entities.Entities;
 import com.aurawin.core.stored.Stored;
+import com.google.gson.annotations.Expose;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.annotations.Cascade;
@@ -23,6 +26,14 @@ import java.util.List;
 @DynamicInsert(value = true)
 @DynamicUpdate(value = true)
 @SelectBeforeUpdate( value = true)
+@FetchFields(
+        {
+                @FetchField(
+                        Class = RosterField.class,
+                        Target = "Custom"
+                )
+        }
+)
 @javax.persistence.Table(name = Database.Table.Domain.UserAccount.Roster.Items)
 @NamedQueries(
         {
@@ -38,7 +49,7 @@ import java.util.List;
         onUpdated = true
 )
 public class Roster extends Stored {
-    @javax.persistence.Id
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = Database.Field.Domain.Roster.Id)
     protected long Id;
@@ -46,16 +57,20 @@ public class Roster extends Stored {
         return Id;
     }
 
+    @Expose(serialize = false, deserialize = false)
     @ManyToOne()
     @JoinColumn(name = Database.Field.Domain.Roster.OwnerId)
+    @Fetch(value=FetchMode.JOIN)
     protected UserAccount Owner;
     public long getOwnerId(){ return Owner.getId();}
 
-    @Cascade({CascadeType.PERSIST})
+    @Expose(serialize = true, deserialize = true)
+    @Cascade({CascadeType.ALL})
+    @Fetch(value=FetchMode.SUBSELECT)
     @OneToMany(
             targetEntity = RosterField.class,
-            mappedBy = "Owner",
-            fetch = FetchType.EAGER
+            mappedBy = "Owner"
+
     )
     protected List<RosterField> Custom = new ArrayList<>();
 
@@ -163,39 +178,39 @@ public class Roster extends Stored {
     }
     public Roster(UserAccount owner,String alias){
         Owner = owner;
-        DomainId = owner.getDomainId();
+        DomainId = owner.DomainId;
         Alias=alias;
+        Owner.Contacts.add(this);
     }
     @Override
     public void Identify(Session ssn){
         if (Id == 0) {
-            Transaction tx = ssn.beginTransaction();
+            Transaction tx = (ssn.isJoinedToTransaction()) ? ssn.getTransaction() : ssn.beginTransaction();
             try {
                 ssn.save(this);
                 tx.commit();
             } catch (Exception e){
                 tx.rollback();
-                throw e;
             }
         }
     }
-    public static void entityCreated(Entities List,Stored Entity) throws Exception{
+    public static void entityCreated(Stored Entity, boolean Cascade) throws Exception{
         if (Entity instanceof UserAccount){
             UserAccount ua = (UserAccount) Entity;
             if (ua.getMe()==null) {
                 Roster me = new Roster(ua,Table.String(Table.Entities.Domain.Roster.Me));
-                List.Save(me);
+                Entities.Save(me,Cascade);
                 ua.Contacts.add(me);
-                ua.setRosterId(me.Id);
+                ua.setMe(me);
             }
         }
     }
-    public static void entityUpdated(Entities List,Stored Entity, boolean Cascade) throws Exception {}
-    public static void entityDeleted(Entities List,Stored Entity, boolean Cascade) throws Exception {
+    public static void entityUpdated(Stored Entity, boolean Cascade) throws Exception {}
+    public static void entityDeleted(Stored Entity, boolean Cascade) throws Exception {
         if (Entity instanceof UserAccount) {
             UserAccount ua = (UserAccount) Entity;
             Roster r = ua.getMe();
-            if (r!=null) List.Delete(r,Entities.CascadeOn);
+            if (r!=null) Entities.Delete(r,Entities.CascadeOn);
         }
     }
 

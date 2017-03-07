@@ -18,49 +18,49 @@ import java.util.List;
 @DynamicInsert(value =true)
 @DynamicUpdate(value= true)
 @SelectBeforeUpdate(value =true)
-@Table(name = com.aurawin.lang.Database.Table.Cloud.Resource)
+@Table(name = com.aurawin.scs.lang.Database.Table.Cloud.Resource)
 @EntityDispatch(
         onCreated = false,
         onDeleted = false,
         onUpdated = false
 )
 @QueryById(
-        Name = com.aurawin.lang.Database.Query.Cloud.Resource.ById.name,
+        Name = com.aurawin.scs.lang.Database.Query.Cloud.Resource.ById.name,
         Fields = { "Id" }
 )
 @QueryByName(
-        Name = com.aurawin.lang.Database.Query.Cloud.Resource.ByName.name,
+        Name = com.aurawin.scs.lang.Database.Query.Cloud.Resource.ByName.name,
         Fields = {"Name"}
 )
 @NamedQueries(
         {
                 @NamedQuery(
-                        name  = com.aurawin.lang.Database.Query.Cloud.Resource.ByName.name,
-                        query = com.aurawin.lang.Database.Query.Cloud.Resource.ByName.value
+                        name  = com.aurawin.scs.lang.Database.Query.Cloud.Resource.ByName.name,
+                        query = com.aurawin.scs.lang.Database.Query.Cloud.Resource.ByName.value
                 ),
                 @NamedQuery(
-                        name  = com.aurawin.lang.Database.Query.Cloud.Resource.ById.name,
-                        query = com.aurawin.lang.Database.Query.Cloud.Resource.ById.value
+                        name  = com.aurawin.scs.lang.Database.Query.Cloud.Resource.ById.name,
+                        query = com.aurawin.scs.lang.Database.Query.Cloud.Resource.ById.value
                 )
         }
 )
 public class Resource extends Stored{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = com.aurawin.lang.Database.Field.Cloud.Resource.Id)
+    @Column(name = com.aurawin.scs.lang.Database.Field.Cloud.Resource.Id)
     protected long Id;
     @Override
     public long getId() {
         return Id;
     }
 
-    @Column(name = com.aurawin.lang.Database.Field.Cloud.Resource.Name)
+    @Column(name = com.aurawin.scs.lang.Database.Field.Cloud.Resource.Name)
     protected String Name;
     public String getName() {    return Name;  }
     public void setName(String name) {      Name = name;   }
 
     @ManyToOne(fetch=FetchType.EAGER,cascade=CascadeType.MERGE,targetEntity=Group.class)
-    @JoinColumn(name = com.aurawin.lang.Database.Field.Cloud.Resource.GroupId)
+    @JoinColumn(name = com.aurawin.scs.lang.Database.Field.Cloud.Resource.GroupId)
     protected Group Group;
     public Group getGroup() { return Group; }
     public void setGroup(Group group) {
@@ -91,7 +91,7 @@ public class Resource extends Stored{
     @Override
     public void Identify(Session ssn){
         if (Id == 0) {
-            Transaction tx = ssn.beginTransaction();
+            Transaction tx = (ssn.isJoinedToTransaction())? ssn.getTransaction() : ssn.beginTransaction();
             try {
                 ssn.save(this);
                 tx.commit();
@@ -101,7 +101,7 @@ public class Resource extends Stored{
             }
         }
     }
-    public static void entityCreated(Entities List, Stored Entity) {}
-    public static void entityDeleted(Entities List, Stored Entity, boolean Cascade) {}
-    public static void entityUpdated(Entities List, Stored Entity, boolean Cascade) {}
+    public static void entityCreated(Stored Entity, boolean Cascade) {}
+    public static void entityDeleted(Stored Entity, boolean Cascade) {}
+    public static void entityUpdated(Stored Entity, boolean Cascade) {}
 }

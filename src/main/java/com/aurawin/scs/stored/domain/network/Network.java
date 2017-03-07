@@ -1,10 +1,10 @@
 package com.aurawin.scs.stored.domain.network;
 
-import com.aurawin.lang.Database;
+import com.aurawin.core.stored.annotations.*;
+import com.aurawin.scs.audisk.AuDisk;
+import com.aurawin.scs.lang.Database;
 import com.aurawin.core.lang.Table;
 
-import com.aurawin.core.stored.annotations.EntityDispatch;
-import com.aurawin.core.stored.annotations.QueryByDomainId;
 import com.aurawin.core.stored.entities.Entities;
 import com.aurawin.core.stored.Stored;
 import com.aurawin.scs.stored.domain.Domain;
@@ -12,12 +12,12 @@ import com.aurawin.scs.stored.domain.UserAccount;
 
 import javax.persistence.*;
 import javax.persistence.CascadeType;
-import javax.persistence.Entity;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 
 
 import com.aurawin.core.time.Time;
+import com.google.gson.annotations.Expose;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.annotations.*;
@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-@Entity
+@javax.persistence.Entity
 @DynamicInsert(value=true)
 @DynamicUpdate(value=true)
 @SelectBeforeUpdate(value=true)
@@ -45,9 +45,18 @@ import java.util.List;
                 )
         }
 )
+@FetchFields(
+        {
+                @FetchField(
+                        Class = Folder.class,
+                        Target = "Root"
+                )
+        }
+)
 @QueryByDomainId(
         Name = Database.Query.Domain.Network.ByDomainId.name
 )
+
 public class Network extends Stored {
     public static class Default {
         public static class Flag {
@@ -66,50 +75,67 @@ public class Network extends Stored {
     }
 
     @javax.persistence.Id
+    @Expose(serialize = true, deserialize = true)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = Database.Field.Domain.Network.Id)
     protected long Id;
     public long getId() {
         return Id;
     }
-
-
+    @Expose(serialize = true, deserialize = true)
     @ManyToOne(fetch=FetchType.EAGER, targetEntity = UserAccount.class, cascade = CascadeType.MERGE)
     @JoinColumn(name = Database.Field.Domain.Network.OwnerId)
     protected UserAccount Owner;
 
+    @Expose(serialize = true, deserialize = true)
     @OneToMany(mappedBy = "Owner", fetch = FetchType.EAGER, targetEntity = Member.class, cascade = CascadeType.MERGE)
     protected List<Member> Members = new ArrayList<Member>();
 
+    @Expose(serialize = false, deserialize = false)
+    @ManyToOne(fetch=FetchType.EAGER, targetEntity = Folder.class, cascade = CascadeType.MERGE)
+    @JoinColumn(name = Database.Field.Domain.Network.FolderId)
+    protected Folder Root;
+
+    @Expose(serialize = true, deserialize = true)
     @Column(name = Database.Field.Domain.Network.AvatarId)
     private long AvatarId;
 
+    @Expose(serialize = true, deserialize = true)
+    @Column(name = Database.Field.Domain.Network.DiskId)
+    private long DiskId;
+    public long getDiskId(){return DiskId;}
+
+    @Expose(serialize = true, deserialize = true)
     @Column(name = Database.Field.Domain.Network.DomainId)
     private long DomainId;
 
+    @Expose(serialize = true, deserialize = true)
     @Column(name = Database.Field.Domain.Network.Exposition)
     private byte Exposition;
 
+    @Expose(serialize = true, deserialize = true)
     @Column(name = Database.Field.Domain.Network.Flags)
     private int Flags;
 
+    @Expose(serialize = true, deserialize = true)
     @Column(name = Database.Field.Domain.Network.Created)
     private Instant Created;
 
+    @Expose(serialize = true, deserialize = true)
     @Column(name = Database.Field.Domain.Network.Modified)
     private Instant Modified;
 
+    @Expose(serialize = true, deserialize = true)
     @Column(name = Database.Field.Domain.Network.Title)
     private String Title;
 
+    @Expose(serialize = true, deserialize = true)
     @Column(name = Database.Field.Domain.Network.Description)
     private String Description;
 
+    @Expose(serialize = true, deserialize = true)
     @Column(name = Database.Field.Domain.Network.CustomFolders, length = 1024*512)
     private String CustomFolders;
-
-    @Transient
-    public List<Folder> Folders = new ArrayList<Folder>();
 
     public void Assign(Network Source){
         Id = Source.Id;
@@ -125,29 +151,19 @@ public class Network extends Stored {
         Title = Source.Title;
         Description = Source.Description;
         CustomFolders = Source.CustomFolders;
+        DiskId = Source.DiskId;
         // don't copy over folders
     }
 
     @Override
     public void Identify(Session ssn){
         if (Id == 0) {
-            Network n = null;
-            Transaction tx = ssn.beginTransaction();
-            try {
-                n = (Network) ssn.getNamedQuery(Database.Query.Domain.Network.ByOwnerAndTitle.name)
-                        .setParameter("DomainId", DomainId)
-                        .setParameter("OwnerId", Owner.getId())
-                        .setParameter("Title",Title)
-                        .uniqueResult();
-                if (n == null) {
-                    ssn.save(this);
-                } else {
-                    Assign(n);
-                }
-                tx.commit();
-            } catch (Exception e){
-                tx.rollback();
-                throw e;
+            Query qr = Database.Query.Domain.Network.ByOwnerAndTitle.Create(ssn, DomainId, Owner.getId(), Title);
+            Network n = (Network) qr.getSingleResult();
+            if (n == null) {
+                ssn.save(this);
+            } else {
+                Assign(n);
             }
         }
     }
@@ -155,6 +171,7 @@ public class Network extends Stored {
         Id=0;
         DomainId=0;
         AvatarId=0;
+        DiskId= AuDisk.getNextAvailableDiskId();
         Exposition= Exposure.None;
         Created = Time.instantUTC();
         Modified = Created;
@@ -165,6 +182,7 @@ public class Network extends Stored {
         Id=0;
         DomainId=owner.getDomainId();
         Owner = owner;
+        DiskId= AuDisk.getNextAvailableDiskId();
         Exposition = exposition;
         Created = Time.instantUTC();
         Modified = Created;
@@ -179,36 +197,32 @@ public class Network extends Stored {
     }
     public long getAvatarId() {  return AvatarId; }
     public void setAvatarId(long id){ AvatarId=id; }
-    public static void entityCreated(Entities List,Stored Entity) throws Exception{
+    public static void entityCreated(Stored Entity, boolean Cascade) throws Exception{
         if (Entity instanceof UserAccount) {
             UserAccount ua = (UserAccount) Entity;
-            if (ua.getCabinet() == null) {
+            if (ua.Cabinet == null) {
                 Network cab = new Network(
                         ua,
                         Exposure.Private,
                         Table.String(Table.Entities.Domain.Network.Default.Title),
-                        Table.Format(Table.Entities.Domain.Network.Default.Description, ua.getUser())
+                        Table.Format(Table.Entities.Domain.Network.Default.Description, ua.getName())
                 );
-                List.Save(cab);
-            }
-        } else if (Entity instanceof Network) {
-            Network n = (Network) Entity;
-            if (n.Owner.getCabinet() == null) {
-                n.Owner.setCabinetId(n.getId());
-                n.Owner.Networks.add(n);
+                ua.setCabinet(cab);
+                ua.Networks.add(cab);
+                Entities.Save(cab,Cascade);
             }
         }
     }
-    public static void entityUpdated(Entities List,Stored Entity, boolean Cascade) { }
-    public static void entityDeleted(Entities List,Stored Entity, boolean Cascade) throws Exception{
+    public static void entityUpdated(Stored Entity, boolean Cascade) { }
+    public static void entityDeleted(Stored Entity, boolean Cascade) throws Exception{
         if (Entity instanceof Domain) {
             Domain d = (Domain) Entity;
-            ArrayList<Stored> lst = List.Lookup(
+            ArrayList<Stored> lst = Entities.Lookup(
                     Network.class.getAnnotation(QueryByDomainId.class),
                     d.getId()
             );
             for (Stored h : lst) {
-                List.Delete(h,Entities.CascadeOn);
+                Entities.Delete(h,Entities.CascadeOn);
             }
         }
     }

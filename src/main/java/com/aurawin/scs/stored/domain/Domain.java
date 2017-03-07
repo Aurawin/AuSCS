@@ -4,9 +4,10 @@ package com.aurawin.scs.stored.domain;
 import com.aurawin.core.stored.annotations.*;
 import com.aurawin.core.stored.entities.Entities;
 import com.aurawin.core.stored.Stored;
-import com.aurawin.lang.Database;
+import com.aurawin.scs.lang.Database;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
+import com.google.gson.annotations.Expose;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.annotations.DynamicInsert;
@@ -15,7 +16,7 @@ import org.hibernate.annotations.SelectBeforeUpdate;
 
 import javax.persistence.*;
 
-@Entity
+@javax.persistence.Entity
 @DynamicInsert(value=true)
 @DynamicUpdate(value=true)
 @SelectBeforeUpdate(value=true)
@@ -45,6 +46,7 @@ import javax.persistence.*;
         Name = Database.Query.Domain.ByName.name,
         Fields = {"Name"}
 )
+
 @FetchFields(
         {
                 @FetchField(
@@ -56,6 +58,7 @@ import javax.persistence.*;
 )
 public class Domain extends Stored {
     @javax.persistence.Id
+    @Expose(serialize = true, deserialize = true)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = Database.Field.Domain.Id)
     protected long Id;
@@ -63,27 +66,35 @@ public class Domain extends Stored {
         return Id;
     }
 
+    @Expose(serialize = true, deserialize = true)
     @Column(name = Database.Field.Domain.RootId)
     private long RootId;
 
+    @Expose(serialize = true, deserialize = true)
     @Column(name = Database.Field.Domain.CertId)
     private long CertId;
 
+    @Expose(serialize = true, deserialize = true)
     @Column(name = Database.Field.Domain.Name, nullable = false, unique = true)
     private String Name;
 
+    @Expose(serialize = true, deserialize = true)
     @Column(name = Database.Field.Domain.Root, nullable = false)
     private String Root;
 
+    @Expose(serialize = true, deserialize = true)
     @Column(name = Database.Field.Domain.FriendlyName)
     private String FriendlyName;
 
+    @Expose(serialize = true, deserialize = true)
     @Column(name = Database.Field.Domain.DefaultOptionCatchAll)
     private boolean DefaultOptionCatchAll;
 
+    @Expose(serialize = true, deserialize = true)
     @Column(name = Database.Field.Domain.DefaultOptionFiltering)
     private boolean DefaultOptionFiltering;
 
+    @Expose(serialize = true, deserialize = true)
     @Column(name = Database.Field.Domain.DefaultOptionQuota)
     private long DefaultOptionQuota;
 
@@ -200,27 +211,13 @@ public class Domain extends Stored {
     @Override
     public void Identify(Session ssn){
         if (Id == 0) {
-            Domain d = null;
-            Transaction tx = ssn.beginTransaction();
-            try {
-                d = (Domain) ssn.getNamedQuery(Database.Query.Domain.ByName.name)
-                        .setParameter("Name", Name)
-                        .uniqueResult();
-                if (d == null) {
-                    ssn.save(this);
-                } else {
-                    Assign(d);
-                }
-                tx.commit();
-            } catch (Exception e){
-                tx.rollback();
-                throw e;
-            }
+            Domain d = Entities.Lookup(Domain.class,Name);
+            if (d == null) ssn.save(this);
         }
     }
-    public static void entityCreated(Entities List,Stored Entity) {}
-    public static void entityUpdated(Entities List,Stored Entity, boolean Cascade) {}
-    public static void entityDeleted(Entities List,Stored Entity, boolean Cascade) {}
+    public static void entityCreated(Stored Entity, boolean Cascade) {}
+    public static void entityUpdated(Stored Entity, boolean Cascade) {}
+    public static void entityDeleted(Stored Entity, boolean Cascade) {}
 
 
 }

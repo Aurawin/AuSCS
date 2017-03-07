@@ -1,6 +1,6 @@
 package com.aurawin.scs.stored.domain.vendor.hawker.item;
 
-import com.aurawin.lang.Database;
+import com.aurawin.scs.lang.Database;
 import com.aurawin.core.stored.Stored;
 import com.aurawin.core.stored.annotations.EntityDispatch;
 import com.aurawin.core.stored.annotations.QueryByDomainId;
@@ -95,26 +95,26 @@ public class HawkItem extends Stored {
             }
         }
     }
-    public static void entityCreated(Entities List, Stored Entity){}
-    public static void entityDeleted(Entities List, Stored Entity, boolean Cascade)throws Exception{
+    public static void entityCreated(Stored Entity, boolean Cascade){}
+    public static void entityDeleted(Stored Entity, boolean Cascade)throws Exception {
         if (Entity instanceof Domain) {
             Domain d = (Domain) Entity;
-            Session ssn = List.acquireSession();
-
-                Transaction tx = ssn.beginTransaction();
-                try {
-                    ArrayList<Stored> lst = List.Lookup(
-                            HawkItem.class.getAnnotation(QueryByDomainId.class),
-                            d.getId()
-                    );
-                    for (Stored h : lst) {
-                        ssn.delete(h);
-                    }
-                } finally {
-                    tx.commit();
+            Session ssn = Entities.openSession();
+            Transaction tx = (ssn.isJoinedToTransaction()) ? ssn.getTransaction() : ssn.beginTransaction();
+            try {
+                ArrayList<Stored> lst = Entities.Lookup(
+                        HawkItem.class.getAnnotation(QueryByDomainId.class),
+                        d.getId()
+                );
+                for (Stored h : lst) {
+                    ssn.delete(h);
                 }
+                tx.commit();
+            } catch (Exception e) {
+                tx.rollback();
+            }
 
         }
     }
-    public static void entityUpdated(Entities List, Stored Entity, boolean Cascade){}
+    public static void entityUpdated(Stored Entity, boolean Cascade){}
 }

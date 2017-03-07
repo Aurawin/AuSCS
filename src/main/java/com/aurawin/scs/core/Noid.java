@@ -6,20 +6,18 @@ import com.aurawin.core.plugin.PluginState;
 import com.aurawin.core.rsr.Item;
 import com.aurawin.core.rsr.def.http.Field;
 import org.hibernate.Session;
-import com.aurawin.scs.servers.protocol.HTTP_1_1;
+import com.aurawin.scs.rsr.protocol.transport.HTTP_1_1;
 
 
 @com.aurawin.core.plugin.annotations.Plugin(
+        Package = "com.aurawin.scs.core",
         Name = "Noid",
         Namespace = "/core/noid",
         Title = "Empty Plug",
-        Prompt = "Cannot count of this plugin.",
+        Prompt = "Cannot count on this plugin.",
         Description = "Plug does nothing",
         Vendor = "Aurawin LLC",
-        ClassName = "Noid",
-        Transport = HTTP_1_1.class,
-        Domain = "com.aurawin",
-        Version = 1
+        Transport = HTTP_1_1.class
 )
 
 public class Noid extends Plug {
@@ -44,6 +42,7 @@ public class Noid extends Plug {
         HTTP_1_1 h = (HTTP_1_1) Transport;
         h.Response.Headers.Update(Field.ContentType,"text/plain");
         h.Response.Payload.Write("Plug output - something was done.");
+        h.Response.Headers.Update(Field.Code,CoreResult.Ok);
         return PluginState.PluginSuccess;
     }
     @com.aurawin.core.plugin.annotations.Command(
@@ -59,6 +58,7 @@ public class Noid extends Plug {
         HTTP_1_1 h = (HTTP_1_1) Transport;
         h.Response.Headers.Update(Field.ContentType,"text/plain");
         h.Response.Payload.Write("Plug output - another something was done.");
+        h.Response.Headers.Update(Field.Code,CoreResult.Ok);
 
         return PluginState.PluginSuccess;
     }

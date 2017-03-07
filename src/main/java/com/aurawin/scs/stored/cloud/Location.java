@@ -1,7 +1,7 @@
 package com.aurawin.scs.stored.cloud;
 
 
-import com.aurawin.lang.Database;
+import com.aurawin.scs.lang.Database;
 import com.aurawin.core.stored.annotations.EntityDispatch;
 import com.aurawin.core.stored.annotations.QueryById;
 import com.aurawin.core.stored.annotations.QueryByName;
@@ -138,7 +138,7 @@ public class Location extends Stored {
     @Override
     public void Identify(Session ssn){
         if (Id == 0) {
-            Transaction tx = ssn.beginTransaction();
+            Transaction tx = (ssn.isJoinedToTransaction())? ssn.getTransaction() : ssn.beginTransaction();
             try {
                 ssn.save(this);
                 tx.commit();
@@ -148,7 +148,7 @@ public class Location extends Stored {
             }
         }
     }
-    public static void entityCreated(Entities List, Stored Entity) {}
-    public static void entityDeleted(Entities List, Stored Entity, boolean Cascade) {}
-    public static void entityUpdated(Entities List, Stored Entity, boolean Cascade) {}
+    public static void entityCreated(Stored Entity, boolean Cascade) {}
+    public static void entityDeleted(Stored Entity, boolean Cascade) {}
+    public static void entityUpdated(Stored Entity, boolean Cascade) {}
 }

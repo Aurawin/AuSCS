@@ -1,6 +1,6 @@
 package com.aurawin.scs.stored.cloud;
 
-import com.aurawin.lang.Database;
+import com.aurawin.scs.lang.Database;
 import com.aurawin.core.stored.annotations.EntityDispatch;
 import com.aurawin.core.stored.annotations.QueryById;
 import com.aurawin.core.stored.entities.Entities;
@@ -79,7 +79,7 @@ public class Uptime extends Stored{
     @Override
     public void Identify(Session ssn){
         if (Id == 0) {
-            Transaction tx = ssn.beginTransaction();
+            Transaction tx = (ssn.isJoinedToTransaction())? ssn.getTransaction() : ssn.beginTransaction();
             try {
                 ssn.save(this);
                 tx.commit();
@@ -89,22 +89,22 @@ public class Uptime extends Stored{
             }
         }
     }
-    public static void entityCreated(Entities List, Stored Entity) throws Exception {
+    public static void entityCreated(Stored Entity, boolean Cascade) throws Exception {
         if (Entity instanceof Node){
             Node n = (Node) Entity;
             if (n.Uptime==null){
                 n.Uptime=new Uptime();
                 n.Uptime.Node=n;
-                List.Save(n.Uptime);
-                List.Update(n,Entities.CascadeOff);
+                Entities.Save(n.Uptime,Cascade);
+                Entities.Update(n,Cascade);
             }
         }
     }
-    public static void entityDeleted(Entities List, Stored Entity, boolean Cascade) throws Exception{
+    public static void entityDeleted(Stored Entity, boolean Cascade) throws Exception{
         if (Entity instanceof Node){
             Node n = (Node) Entity;
-            List.Delete(n.Uptime,Entities.CascadeOn);
+            Entities.Delete(n.Uptime,Entities.CascadeOn);
         }
     }
-    public static void entityUpdated(Entities List, Stored Entity, boolean Cascade) {}
+    public static void entityUpdated(Stored Entity, boolean Cascade) {}
 }

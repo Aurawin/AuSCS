@@ -1,6 +1,6 @@
 package com.aurawin.scs.stored.domain.network;
 
-import com.aurawin.lang.Database;
+import com.aurawin.scs.lang.Database;
 import com.aurawin.core.stored.entities.Entities;
 import com.aurawin.core.stored.Stored;
 import com.aurawin.core.stored.annotations.*;
@@ -15,7 +15,7 @@ import org.hibernate.annotations.SelectBeforeUpdate;
 import javax.persistence.*;
 import java.time.Instant;
 import java.util.ArrayList;
-
+@javax.persistence.Entity
 @NamedQueries(
         {
                 @NamedQuery(
@@ -56,7 +56,7 @@ import java.util.ArrayList;
 @QueryByDomainId(Name=Database.Query.Domain.Network.File.ByDomainId.name)
 @QueryByNetworkId(Name=Database.Query.Domain.Network.File.ByNetworkId.name)
 @QueryByFolderId(Name=Database.Query.Domain.Network.File.ByFolderId.name)
-@Entity
+
 @DynamicInsert(value=true)
 @DynamicUpdate(value=true)
 @SelectBeforeUpdate(value=true)
@@ -67,6 +67,11 @@ public class File extends Stored {
     @Column(name = Database.Field.Domain.Network.Files.Id)
     protected long Id;
     public long getId(){return Id;}
+
+    @Column(name = Database.Field.Domain.Network.Files.DiskId)
+    protected long DiskId;
+    public long getDiskId() {      return DiskId;   }
+    public void setDiskIdId(long value) {        DiskId = value;    }
 
     @Column(name = Database.Field.Domain.Network.Files.DomainId)
     protected long DomainId;
@@ -113,9 +118,11 @@ public class File extends Stored {
 
     public void Assign(File Source){
         Id = Source.Id;
+        DiskId = Source.DiskId;
         DomainId = Source.DomainId;
         NetworkId = Source.NetworkId;
         FolderId = Source.FolderId;
+
         Name = Source.Name;
         Digest = Source.Digest;
         Created = Source.Created;
@@ -127,7 +134,7 @@ public class File extends Stored {
     public void Identify(Session ssn){
         if (Id == 0) {
             File f = null;
-            Transaction tx = ssn.beginTransaction();
+            Transaction tx = (ssn.isJoinedToTransaction())? ssn.getTransaction() : ssn.beginTransaction();
             try {
                 f = (File) ssn.getNamedQuery(Database.Query.Domain.Network.File.ByName.name)
                         .setParameter("DomainId", DomainId)
@@ -147,27 +154,27 @@ public class File extends Stored {
             }
         }
     }
-    public static void entityCreated(Entities List,Stored Entity) { }
-    public static void entityUpdated(Entities List,Stored Entity, boolean Cascade) {}
-    public static void entityDeleted(Entities List,Stored Entity, boolean Cascade) throws Exception{
+    public static void entityCreated(Stored Entity, boolean Cascade) { }
+    public static void entityUpdated(Stored Entity, boolean Cascade) {}
+    public static void entityDeleted(Stored Entity, boolean Cascade) throws Exception{
         if (Entity instanceof Domain){
             Domain d = (Domain) Entity;
-            ArrayList<Stored> lst = List.Lookup(
+            ArrayList<Stored> lst = Entities.Lookup(
                     File.class.getAnnotation(QueryByDomainId.class),
                     d.getId()
             );
             for (Stored f : lst) {
-                List.Delete(f,Entities.CascadeOn);
+                Entities.Delete(f,Entities.CascadeOn);
                 // todo delete cloud disk file
             }
         } else if (Entity instanceof Network){
             Network n = (Network) Entity;
-            ArrayList<Stored> lst = List.Lookup(
+            ArrayList<Stored> lst = Entities.Lookup(
                     File.class.getAnnotation(QueryByNetworkId.class),
                     n.getId()
             );
             for (Stored f : lst) {
-                List.Delete(f,Entities.CascadeOn);
+                Entities.Delete(f,Entities.CascadeOn);
                 // todo delete cloud disk file
             }
 

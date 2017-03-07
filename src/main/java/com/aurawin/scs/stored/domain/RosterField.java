@@ -5,22 +5,26 @@ import com.aurawin.core.stored.annotations.QueryByDomainId;
 import com.aurawin.core.stored.annotations.QueryByOwnerId;
 import com.aurawin.core.stored.entities.Entities;
 import com.aurawin.core.stored.Stored;
-import com.aurawin.lang.Database;
+import com.aurawin.scs.lang.Database;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.DynamicUpdate;
-import org.hibernate.annotations.SelectBeforeUpdate;
+import org.hibernate.annotations.*;
 
 import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import java.util.ArrayList;
 
-@Entity
+import static org.hibernate.annotations.CascadeType.ALL;
+
+@javax.persistence.Entity
 @DynamicInsert(value = true)
 @DynamicUpdate(value = true)
 @SelectBeforeUpdate(value = true)
-@Table(name = com.aurawin.lang.Database.Table.Domain.UserAccount.Roster.Field)
+@Table(name = com.aurawin.scs.lang.Database.Table.Domain.UserAccount.Roster.Field)
 @EntityDispatch(
         onCreated = false,
         onDeleted = true,
@@ -29,42 +33,44 @@ import java.util.ArrayList;
 @NamedQueries(
         {
                 @NamedQuery(
-                        name = com.aurawin.lang.Database.Query.Domain.UserAccount.Roster.RosterField.ByDomainId.name,
-                        query = com.aurawin.lang.Database.Query.Domain.UserAccount.Roster.RosterField.ByDomainId.value
+                        name = com.aurawin.scs.lang.Database.Query.Domain.UserAccount.Roster.RosterField.ByDomainId.name,
+                        query = com.aurawin.scs.lang.Database.Query.Domain.UserAccount.Roster.RosterField.ByDomainId.value
                 ),
                 @NamedQuery(
-                        name = com.aurawin.lang.Database.Query.Domain.UserAccount.Roster.RosterField.ByOwnerId.name,
-                        query = com.aurawin.lang.Database.Query.Domain.UserAccount.Roster.RosterField.ByOwnerId.value
+                        name = com.aurawin.scs.lang.Database.Query.Domain.UserAccount.Roster.RosterField.ByOwnerId.name,
+                        query = com.aurawin.scs.lang.Database.Query.Domain.UserAccount.Roster.RosterField.ByOwnerId.value
                 )
         }
 )
 @QueryByDomainId(
-    Name = com.aurawin.lang.Database.Query.Domain.UserAccount.Roster.RosterField.ByDomainId.name
+    Name = com.aurawin.scs.lang.Database.Query.Domain.UserAccount.Roster.RosterField.ByDomainId.name
 )
 @QueryByOwnerId(
-        Name = com.aurawin.lang.Database.Query.Domain.UserAccount.Roster.RosterField.ByOwnerId.name
+        Name = com.aurawin.scs.lang.Database.Query.Domain.UserAccount.Roster.RosterField.ByOwnerId.name
 )
 public class RosterField extends Stored {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = com.aurawin.lang.Database.Field.Domain.RosterField.Id)
+    @Column(name = com.aurawin.scs.lang.Database.Field.Domain.RosterField.Id)
     protected long Id;
     @Override
     public long getId() {
         return Id;
     }
 
-    @ManyToOne(fetch=FetchType.EAGER, targetEntity = Roster.class, cascade = CascadeType.MERGE)
-    @JoinColumn(name = com.aurawin.lang.Database.Field.Domain.RosterField.OwnerId)
+    @ManyToOne()
+    @Cascade(ALL)
+    @JoinColumn(name = Database.Field.Domain.RosterField.OwnerId)
+    @Fetch(value=FetchMode.JOIN)
     private Roster Owner;
 
-    @Column(name = com.aurawin.lang.Database.Field.Domain.RosterField.DomainId)
+    @Column(name = com.aurawin.scs.lang.Database.Field.Domain.RosterField.DomainId)
     private long DomainId;
 
-    @Column(name = com.aurawin.lang.Database.Field.Domain.RosterField.Key)
+    @Column(name = com.aurawin.scs.lang.Database.Field.Domain.RosterField.Key)
     private String Key;
 
-    @Column(name = com.aurawin.lang.Database.Field.Domain.RosterField.Value)
+    @Column(name = com.aurawin.scs.lang.Database.Field.Domain.RosterField.Value)
     private String Value;
 
     public RosterField() {
@@ -73,36 +79,35 @@ public class RosterField extends Stored {
     @Override
     public void Identify(Session ssn){
         if (Id == 0) {
-            Transaction tx = ssn.beginTransaction();
+            Transaction tx = (ssn.isJoinedToTransaction()) ? ssn.getTransaction() : ssn.beginTransaction();
             try {
                 ssn.save(this);
                 tx.commit();
             } catch (Exception e){
                 tx.rollback();
-                throw e;
             }
         }
     }
-    public static void entityCreated(Entities List,Stored Entity) {}
-    public static void entityUpdated(Entities List,Stored Entity, boolean Caascade) {}
-    public static void entityDeleted(Entities List,Stored Entity, boolean Caascade) throws Exception {
+    public static void entityCreated(Stored Entity, boolean Cascade) {}
+    public static void entityUpdated(Stored Entity, boolean Caascade) {}
+    public static void entityDeleted(Stored Entity, boolean Caascade) throws Exception {
         if (Entity instanceof Domain){
             Domain d = (Domain) Entity;
-            ArrayList<Stored> lst =List.Lookup(
+            ArrayList<Stored> lst =Entities.Lookup(
                     RosterField.class.getAnnotation(QueryByDomainId.class),
                     d.getId()
             );
             for (Stored h : lst) {
-                List.Delete(h,Entities.CascadeOff);
+                Entities.Delete(h,Entities.CascadeOff);
             }
         } else if (Entity instanceof Roster){
             Roster r = (Roster) Entity;
-            ArrayList<Stored> lst =List.Lookup(
+            ArrayList<Stored> lst =Entities.Lookup(
                     RosterField.class.getAnnotation(QueryByOwnerId.class),
                     r.getId()
             );
             for (Stored h : lst) {
-                List.Delete(h,Entities.CascadeOff);
+                Entities.Delete(h,Entities.CascadeOff);
             }
         }
 

@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.aurawin</groupId>
     <artifactId>scs</artifactId>
-    <version>2017.2.21.0</version>
+    <version>2017.2.28.0</version>
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
@@ -15,12 +15,7 @@
         <dependency>
             <groupId>com.aurawin</groupId>
             <artifactId>core</artifactId>
-            <version>2017.2.27.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-core</artifactId>
-            <version>5.2.7.Final</version>
+            <version>2017.3.7.0</version>
         </dependency>
     </dependencies>
     <repositories>
