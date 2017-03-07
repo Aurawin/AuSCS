@@ -8,20 +8,23 @@ import com.aurawin.scs.rsr.protocol.transport.AUDISK;
 import com.aurawin.scs.stored.cloud.Disk;
 import com.aurawin.scs.stored.cloud.Node;
 import com.aurawin.core.stored.Manifest;
+import com.aurawin.scs.stored.cloud.Service;
+
 import java.io.IOException;
 import java.util.ArrayList;
 
 public class Server extends com.aurawin.core.rsr.server.Server {
-    protected Node Node;
+    public Service Service;
+
     protected ArrayList<Stored> Disks;
     protected ArrayList<Stored> AllDisks;
-    public Server(Manifest manifest, long nodeId) throws IOException, NoSuchMethodException,
+    public Server(Manifest manifest, Service service) throws IOException, NoSuchMethodException,
             Exception, InstantiationException,IllegalAccessException
     {
         super(AUDISK.class, false);
 
-        Node = Entities.Lookup(Node.class,nodeId);
-        Disks = Entities.Lookup(Disk.class.getAnnotation(QueryByOwnerId.class),nodeId);
+        Service = service;
+        Disks = Entities.Lookup(Disk.class.getAnnotation(QueryByOwnerId.class),service.getNode().getId());
     }
 
     public Disk getDisk(long id){
@@ -32,7 +35,4 @@ public class Server extends com.aurawin.core.rsr.server.Server {
                 .orElse(null);
     }
 
-    public Node getNode(){
-        return Node;
-    }
 }

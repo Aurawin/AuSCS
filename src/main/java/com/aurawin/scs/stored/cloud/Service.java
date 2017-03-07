@@ -7,6 +7,7 @@ import com.aurawin.core.stored.annotations.QueryByName;
 import com.aurawin.core.stored.entities.Entities;
 import com.aurawin.core.stored.Stored;
 import com.aurawin.core.stored.entities.UniqueId;
+import com.aurawin.scs.stored.domain.Domain;
 import org.hibernate.Session;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
@@ -53,7 +54,23 @@ public class Service extends Stored{
     protected long Id;
     public long getId(){return Id;}
 
+    @Column(name = Database.Field.Cloud.Service.Port)
+    protected int Port;
+    public int getPort(){return Port;}
+    public void setPort(int port){ Port=port;}
 
+    @Transient
+    public String getIP(){
+        return (Node!=null) ? Node.IP : "";
+    }
+    @Transient
+    public String getHostname(){
+        return ( (Node!=null) && (Node.Domain!=null) ) ? Node.Domain.getName() : "";
+    }
+    @Transient
+    public Domain getDomain(){
+        return ( Node!=null) ? Node.Domain : null;
+    }
     @Column(name = Database.Field.Cloud.Service.ScaleStart)
     protected int ScaleStart;
     public int getScaleStart(){return ScaleStart;}
@@ -79,9 +96,10 @@ public class Service extends Stored{
     @Cascade({CascadeType.MERGE})
     @ManyToOne(fetch=FetchType.EAGER,targetEntity = UniqueId.class)
     @JoinColumn(name = Database.Field.Cloud.Service.UniqueId)
-    protected UniqueId UniqueId;
-    public void setUniqueId(UniqueId id){ UniqueId=id;}
-    public UniqueId getUniqueId(){return UniqueId;}
+    protected UniqueId Namespace;
+    public void setNamespace(UniqueId ns){ Namespace=ns;}
+    public UniqueId getNamespace(){return Namespace;}
+
 
     public Service() {
         Id=0;
@@ -89,7 +107,7 @@ public class Service extends Stored{
         ScaleMin=1;
         ScaleMax=10;
         Node=null;
-        UniqueId=null;
+        Namespace=null;
     }
 
     public Service(long id) {
@@ -98,7 +116,7 @@ public class Service extends Stored{
         ScaleMin=1;
         ScaleMax=10;
         Node=null;
-        UniqueId=null;
+        Namespace=null;
     }
     @Override
     public void Identify(Session ssn){

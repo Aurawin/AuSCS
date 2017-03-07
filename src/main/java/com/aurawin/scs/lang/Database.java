@@ -620,6 +620,7 @@ public class Database extends com.aurawin.core.lang.Database {
                 public static final String Id = "itmid";
                 public static final String NodeId = "itnid";
                 public static final String UniqueId = "ituid";
+                public static final String Port="itmp";
                 public static final String ScaleStart = "itss";
                 public static final String ScaleMin = "itsm";
                 public static final String ScaleMax = "itsx";

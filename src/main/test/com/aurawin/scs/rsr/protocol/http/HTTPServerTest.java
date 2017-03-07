@@ -1,8 +1,9 @@
 package com.aurawin.scs.rsr.protocol.http;
 
 import com.aurawin.core.Environment;
+import com.aurawin.core.lang.Database;
 import com.aurawin.core.stored.entities.Entities;
-import com.aurawin.core.stored.entities.FetchKind;
+import com.aurawin.scs.audisk.AuDisk;
 import com.aurawin.scs.lang.Namespace;
 import com.aurawin.core.lang.Table;
 
@@ -14,14 +15,13 @@ import com.aurawin.core.stored.Manifest;
 import com.aurawin.scs.core.Login;
 import com.aurawin.scs.core.Noid;
 import com.aurawin.scs.stored.bootstrap.Bootstrap;
-import com.aurawin.scs.stored.bootstrap.Stored;
-import com.aurawin.scs.stored.domain.*;
+import com.aurawin.scs.stored.bootstrap.BootstrapTest;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import java.net.InetSocketAddress;
 
 public class HTTPServerTest {
+
     com.aurawin.scs.rsr.protocol.http.Server Server;
     @Before
     public void before() throws Exception{
@@ -44,7 +44,7 @@ public class HTTPServerTest {
                 1,                                                 // Pool Acquire Increment
                 50,                                               // Max statements
                 10,                                                     // timeout
-                com.aurawin.core.lang.Database.Config.Automatic.Update,         //
+                Database.Config.Automatic.Create,                               //
                 "HTTPServerTest",                                      // database
                 Dialect.Postgresql.getValue(),                                  // Dialect
                 Driver.Postgresql.getValue(),                                   // Driver
@@ -52,22 +52,13 @@ public class HTTPServerTest {
         );
         Namespace.Merge(mf.Namespaces);
         Entities.Initialize(mf);
+        BootstrapTest.createTestData();
+        AuDisk.Initialize(BootstrapTest.nChump);
 
-        Server = new Server(
-                new InetSocketAddress("172.16.1.2", 1080),
-                "chump.aurawin.com"
-        );
-
-
-
-
-        Server.Domain = Entities.Lookup(Domain.class,1l);
-        Server.Root = Entities.Lookup(UserAccount.class,Server.Domain.getRootId());
-        Entities.Fetch(Server.Root, FetchKind.Infinite);
+        Server = new Server(mf,BootstrapTest.svcHTTP);
 
         // Testing without https
         // Server.loadSecurity(1l);
-
         Server.installPlugin(new Noid());
         Server.installPlugin(new Login());
         Server.Configure();

@@ -10,6 +10,7 @@ import com.aurawin.core.rsr.transport.annotations.Protocol;
 import com.aurawin.core.rsr.transport.methods.Result;
 import com.aurawin.core.rsr.transport.methods.http.dav.*;
 import com.aurawin.core.solution.Settings;
+import com.aurawin.core.stored.entities.Entities;
 import com.aurawin.core.time.Time;
 import com.aurawin.scs.rsr.protocol.http.Server;
 import com.aurawin.scs.stored.domain.Domain;
@@ -53,8 +54,8 @@ public class HTTP_1_1 extends protocol_http_1_1 {
     public HTTP_1_1 newInstance(Items aOwner, SocketChannel aChannel)throws InstantiationException, IllegalAccessException{
         HTTP_1_1 itm = new HTTP_1_1(aOwner, ItemKind.Server);
         Server s = (Server) aOwner.Engine;
-        Domain = s.Domain;
-        Root = s.Root;
+        Domain = s.Service.getDomain();
+        Root = Entities.Lookup(UserAccount.class,Domain.getRootId());
         itm.SocketHandler.Channel=aChannel;
         return itm;
     }

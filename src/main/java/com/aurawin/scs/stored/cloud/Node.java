@@ -92,9 +92,6 @@ public class Node extends Stored {
     @Expose(serialize = false, deserialize = false)
     protected Group Group;
     public Group getGroup(){return Group;}
-    public void setGroup(Group group){
-        Group=group;
-    }
 
     @Cascade({CascadeType.MERGE})
     @ManyToOne(targetEntity = Resource.class, fetch = FetchType.EAGER )
@@ -103,6 +100,7 @@ public class Node extends Stored {
     protected Resource Resource;
     public Resource getResource(){return Resource;}
     public void setResource(Resource resource){
+        Group = (resource!=null) ? resource.Group : null;
         Resource=resource;
     }
 
@@ -137,6 +135,7 @@ public class Node extends Stored {
         IP = "";
         Transactions = null;
         Resource = null;
+        Group = null;
     }
     public Node(long id) {
         Reset();

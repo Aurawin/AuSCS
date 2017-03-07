@@ -31,13 +31,12 @@ import static java.lang.Math.random;
 public class AuDisk {
     protected static Random randomInt;
     protected static Node Node;
-    protected static Manifest Manifest;
+
     protected static volatile ArrayList<? extends Stored> Disks;
-    public static void Initialize(Manifest manifest, long nodeId) throws Exception{
+    public static void Initialize(Node node) throws Exception{
         randomInt = new Random();
-        Manifest = manifest;
-        Node = Entities.Lookup(Node.class,nodeId);
-        Disks = Entities.Lookup(Disk.class.getAnnotation(QueryByOwnerId.class),nodeId);
+        Node = node;
+        Disks = Entities.Lookup(Disk.class.getAnnotation(QueryByOwnerId.class),node.getId());
     }
     public static Disk isDiskLocal(long Id){
         return (Disk) Disks.stream().filter(d-> d.getId()==Id)

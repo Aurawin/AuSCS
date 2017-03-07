@@ -15,7 +15,11 @@ public class Namespace extends com.aurawin.core.lang.Namespace {
             public static final UniqueId Node = new UniqueId("com.aurawin.scs.stored.cloud.node");
             public static final UniqueId Disk = new UniqueId("com.aurawin.scs.stored.cloud.disk");
             public static final UniqueId Resource = new UniqueId("com.aurawin.scs.stored.cloud.resource");
-            public static final UniqueId Service = new UniqueId("com.aurawin.scs.stored.cloud.service");
+            public static class Service{
+                public static final UniqueId HTTP = new UniqueId("com.aurawin.scs.stored.cloud.service.http");
+                public static final UniqueId AUDISK = new UniqueId("com.aurawin.scs.stored.cloud.service.audisk");
+            }
+
             public static final UniqueId Transactions = new UniqueId("com.aurawin.scs.stored.cloud.transactions");
             public static final UniqueId Uptime = new UniqueId("com.aurawin.scs.stored.cloud.uptime");
         }
@@ -46,7 +50,7 @@ public class Namespace extends com.aurawin.core.lang.Namespace {
         l.add(Stored.Cloud.Location);
         l.add(Stored.Cloud.Node);
         l.add(Stored.Cloud.Resource);
-        l.add(Stored.Cloud.Service);
+        l.add(Stored.Cloud.Service.HTTP);
         l.add(Stored.Cloud.Transactions);
         l.add(Stored.Cloud.Uptime);
 
