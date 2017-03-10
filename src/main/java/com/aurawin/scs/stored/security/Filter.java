@@ -24,8 +24,8 @@ import java.time.Instant;
 @org.hibernate.annotations.NamedQueries(
         {
                 @org.hibernate.annotations.NamedQuery(
-                        name  = Database.Query.Security.Intrusion.ById.name,
-                        query = Database.Query.Security.Intrusion.ById.value
+                        name  = Database.Query.Security.Filter.ById.name,
+                        query = Database.Query.Security.Filter.ById.value
                 )
         }
 )
@@ -65,9 +65,9 @@ public class Filter extends Stored {
     @Expose(serialize = true, deserialize = true)
     public String Data;
 
-    @Expose(serialize = false, deserialize = false)
     @ManyToOne()
     @JoinColumn(name = Database.Field.Security.Filter.NamespaceId)
+    @Expose(serialize = true, deserialize = true)
     @Fetch(value= FetchMode.JOIN)
     public UniqueId Namespace;
 

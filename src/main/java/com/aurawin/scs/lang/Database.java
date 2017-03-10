@@ -56,9 +56,15 @@ public class Database extends com.aurawin.core.lang.Database {
     }
     public static class Query extends com.aurawin.core.lang.Database.Query{
         public static class Security{
+            public static class Filter{
+                public static class ById{
+                    public static final String name ="QuerySecurityFilterById";
+                    public static final String value = "select from Filter where Id=:Id";
+                }
+            }
             public static class IpLog{
                 public static class ById{
-                    public static final String name ="QuerySecurityIpLogById";
+                    public static final String name ="QuerySecurityIpLogCountById";
                     public static final String value = "select count(*) from IpLog where Id=:Id";
                 }
                 public static class CountLastEntriesByIpAndTime{
