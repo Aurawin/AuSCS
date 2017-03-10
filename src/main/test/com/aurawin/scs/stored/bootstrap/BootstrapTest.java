@@ -1,8 +1,10 @@
 package com.aurawin.scs.stored.bootstrap;
 
+import com.aurawin.scs.audisk.AuDisk;
 import com.aurawin.scs.lang.Namespace;
 import com.aurawin.scs.stored.cloud.*;
 import com.aurawin.scs.stored.domain.Domain;
+import com.aurawin.scs.stored.domain.user.Account;
 
 /**
  * Created by atbrunner on 3/7/17.
@@ -15,6 +17,7 @@ public class BootstrapTest {
     public static Resource rcChump;
     public static Node nPhoenix;
     public static Node nChump;
+    public static Account account;
     public static Service svcHTTP;
     public static Service svcAUDISK;
     public static Disk auDisk;
@@ -43,13 +46,11 @@ public class BootstrapTest {
         rcChump = Bootstrap.Cloud.addResource(gp,"Chump");
         nPhoenix = Bootstrap.Cloud.addNode(rcPhoenix,"phoenix","172.16.1.1");
         nChump = Bootstrap.Cloud.addNode(rcChump,"chump","172.16.1.2");
-        domain = Bootstrap.addDomain(DomainName);
-        nChump.setDomain(domain);
-        auDisk = Bootstrap.Cloud.addDisk(nChump,Mount);
+        AuDisk.Initialize(nChump);
         svcAUDISK = Bootstrap.Cloud.addService(
                 nChump,
                 Namespace.Stored.Cloud.Service.AUDISK,
-                8081,
+                1081,
                 1,
                 10,
                 1
@@ -57,11 +58,17 @@ public class BootstrapTest {
         svcHTTP = Bootstrap.Cloud.addService(
                 nChump,
                 Namespace.Stored.Cloud.Service.HTTP,
-                8082,
+                1080,
                 1,
                 10,
                 1
         );
+        auDisk = Bootstrap.Cloud.addDisk(nChump,svcAUDISK,Mount);
+
+        domain = Bootstrap.addDomain(DomainName);
+        account=Bootstrap.addUser(domain,"test","1Bl4H4uotT");
+        nChump.setDomain(domain);
+
 
     }
 }

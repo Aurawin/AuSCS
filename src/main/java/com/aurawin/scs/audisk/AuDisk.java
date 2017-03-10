@@ -7,6 +7,7 @@ import com.aurawin.core.stored.annotations.QueryAll;
 import com.aurawin.core.stored.annotations.QueryByOwnerId;
 import com.aurawin.core.stored.entities.Entities;
 import com.aurawin.core.stream.MemoryStream;
+import com.aurawin.scs.audisk.router.Router;
 import com.aurawin.scs.solution.Settings;
 import com.aurawin.scs.stored.cloud.Disk;
 import com.aurawin.scs.stored.cloud.Group;
@@ -21,6 +22,8 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import static com.aurawin.core.rsr.transport.methods.Result.Failure;
 import static java.lang.Math.random;
@@ -29,6 +32,7 @@ import static java.lang.Math.random;
  * Created by atbrunner on 3/2/17.
  */
 public class AuDisk {
+    protected static ExecutorService Service = Executors.newCachedThreadPool();
     protected static Random randomInt;
     protected static Node Node;
 
@@ -74,13 +78,42 @@ public class AuDisk {
                 }
             }
         } else {
-            Dispatch.makeDirectory(DiskId, NamespaceId, DomainId, OwnerId, FolderId);
+            Router.makeDirectory(DiskId, NamespaceId, DomainId, OwnerId, FolderId);
         }
     }
-    public static void listFiles(Folder folder){
+    public static ArrayList<String> listFiles(long DiskId, long NamespaceId, long DomainId, long OwnerId, long FolderId){
+        Disk d = isDiskLocal(DiskId);
+        ArrayList<String> r = new ArrayList<>();
+        if (d!=null) {
+            Path Mount = Settings.Stored.Domain.Network.File.buildMount(d.getMount());
+            Path Path = Settings.Stored.Domain.Network.File.buildPath(
+                    d.getMount(),
+                    NamespaceId,
+                    DomainId,
+                    OwnerId,
+                    FolderId
+            );
+            java.io.File dPath = Path.toFile();
+            if (dPath.isDirectory()) {
+                try {
+                    java.io.File[] lst = dPath.listFiles();
+                    for (java.io.File f:lst ) {
+                        if (f.isFile()){
+                            r.add(f.getName());
+                        }
+                    }
+                } catch (Exception e){
+                    Syslog.Append(AuDisk.class.getCanonicalName(),"onProcess.listFiles", com.aurawin.core.lang.Table.Format(com.aurawin.core.lang.Table.Error.RSR.MethodFailure,e.getMessage()));
+                }
+            } else {
 
+            }
+        } else {
+            r = Router.listFiles(DiskId, NamespaceId, DomainId, OwnerId, FolderId);
+        }
+        return r;
     }
-    public static void deleteDirectory(Folder folder){
+    public static void deleteDirectory(Folder folder) {
 
     }
     public static void deleteFile(File file){

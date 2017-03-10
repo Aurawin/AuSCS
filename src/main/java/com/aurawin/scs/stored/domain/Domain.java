@@ -78,9 +78,15 @@ public class Domain extends Stored {
     @Column(name = Database.Field.Domain.Name, nullable = false, unique = true)
     private String Name;
 
+
     @Expose(serialize = true, deserialize = true)
     @Column(name = Database.Field.Domain.Root, nullable = false)
     private String Root;
+
+    @Expose(serialize = true, deserialize = true)
+    @Column(name = Database.Field.Domain.Organization, nullable = false)
+    private String Organization;
+
 
     @Expose(serialize = true, deserialize = true)
     @Column(name = Database.Field.Domain.FriendlyName)
@@ -177,6 +183,9 @@ public class Domain extends Stored {
     public void setName(String name) {
         Name = name;
     }
+
+    public void setOrganization(String organization){ Organization=organization;}
+    public String getOrganization(){return Organization;}
 
     public String getFriendlyName() {
         return FriendlyName;

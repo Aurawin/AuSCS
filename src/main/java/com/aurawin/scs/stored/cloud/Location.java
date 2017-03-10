@@ -7,6 +7,7 @@ import com.aurawin.core.stored.annotations.QueryById;
 import com.aurawin.core.stored.annotations.QueryByName;
 import com.aurawin.core.stored.entities.Entities;
 import com.aurawin.core.stored.Stored;
+import com.google.gson.annotations.Expose;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.annotations.DynamicInsert;
@@ -53,51 +54,61 @@ public class Location extends Stored {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = Database.Field.Cloud.Location.Id)
+    @Expose(serialize = true, deserialize = true)
     protected long Id;
     public long getId(){ return Id;}
 
     @Column(name = Database.Field.Cloud.Location.Area)
+    @Expose(serialize = true, deserialize = true)
     protected String Area;
     public String getArea() {  return Area; }
-
     public void setArea(String area) { Area = area;}
+
     @Column(name=Database.Field.Cloud.Location.Street)
+    @Expose(serialize = true, deserialize = true)
     protected String Street;
     public String getStreet() {  return Street;  }
-
     public void setStreet(String street) { Street = street; }
+
     @Column(name = Database.Field.Cloud.Location.Building)
+    @Expose(serialize = true, deserialize = true)
     protected String Building;
     public String getBuilding() {return Building;}
     public void setBuilding(String building) {Building = building;}
 
     @Column(name=Database.Field.Cloud.Location.Country)
+    @Expose(serialize = true, deserialize = true)
     protected String Country;
     public String getCountry() {    return Country;   }
     public void setCountry(String country) { Country = country;   }
 
     @Column(name=Database.Field.Cloud.Location.Floor)
+    @Expose(serialize = true, deserialize = true)
     protected String Floor;
     public String getFloor() {      return Floor;   }
     public void setFloor(String floor) {        Floor = floor;    }
 
     @Column(name=Database.Field.Cloud.Location.Locality)
+    @Expose(serialize = true, deserialize = true)
     protected String Locality;
     public String getLocality() {       return Locality;   }
     public void setLocality(String locality) {     Locality = locality;  }
 
     @Column(name=Database.Field.Cloud.Location.Region)
+    @Expose(serialize = true, deserialize = true)
     protected String Region;
     public String getRegion() {return Region;}
     public void setRegion(String region) {Region = region;}
 
 
     @Column(name=Database.Field.Cloud.Location.Room)
+    @Expose(serialize = true, deserialize = true)
     protected String Room;
     public String getRoom() {       return Room; }
     public void setRoom(String room) {        Room = room;   }
 
     @Column(name=Database.Field.Cloud.Location.Zip)
+    @Expose(serialize = true, deserialize = true)
     protected String Zip;
     public String getZip() {      return Zip;  }
     public void setZip(String zip) {        Zip = zip;    }
@@ -108,6 +119,7 @@ public class Location extends Stored {
             cascade = CascadeType.ALL,
             targetEntity=Group.class
     )
+    @Expose(serialize = false, deserialize = false)
     protected List<Group> Groups = new ArrayList<Group>();
 
     public Location(long id) {

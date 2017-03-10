@@ -1,18 +1,17 @@
-package com.aurawin.scs.stored.domain;
+package com.aurawin.scs.stored.domain.user;
 
 import com.aurawin.core.stored.annotations.EntityDispatch;
-import com.aurawin.core.stored.annotations.QueryByDomainId;
 import com.aurawin.core.stored.annotations.QueryByOwnerId;
-import com.aurawin.core.stored.entities.Entities;
+import com.aurawin.scs.stored.annotations.QueryByDomainId;
 import com.aurawin.core.stored.Stored;
+import com.aurawin.scs.stored.Entities;
 import com.aurawin.scs.lang.Database;
+import com.aurawin.scs.stored.domain.Domain;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.annotations.*;
 
 import javax.persistence.*;
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -24,7 +23,7 @@ import static org.hibernate.annotations.CascadeType.ALL;
 @DynamicInsert(value = true)
 @DynamicUpdate(value = true)
 @SelectBeforeUpdate(value = true)
-@Table(name = com.aurawin.scs.lang.Database.Table.Domain.UserAccount.Roster.Field)
+@Table(name = com.aurawin.scs.lang.Database.Table.Domain.User.Account.Roster.Field)
 @EntityDispatch(
         onCreated = false,
         onDeleted = true,
@@ -33,25 +32,25 @@ import static org.hibernate.annotations.CascadeType.ALL;
 @NamedQueries(
         {
                 @NamedQuery(
-                        name = com.aurawin.scs.lang.Database.Query.Domain.UserAccount.Roster.RosterField.ByDomainId.name,
-                        query = com.aurawin.scs.lang.Database.Query.Domain.UserAccount.Roster.RosterField.ByDomainId.value
+                        name = com.aurawin.scs.lang.Database.Query.Domain.User.Roster.RosterField.ByDomainId.name,
+                        query = com.aurawin.scs.lang.Database.Query.Domain.User.Roster.RosterField.ByDomainId.value
                 ),
                 @NamedQuery(
-                        name = com.aurawin.scs.lang.Database.Query.Domain.UserAccount.Roster.RosterField.ByOwnerId.name,
-                        query = com.aurawin.scs.lang.Database.Query.Domain.UserAccount.Roster.RosterField.ByOwnerId.value
+                        name = com.aurawin.scs.lang.Database.Query.Domain.User.Roster.RosterField.ByOwnerId.name,
+                        query = com.aurawin.scs.lang.Database.Query.Domain.User.Roster.RosterField.ByOwnerId.value
                 )
         }
 )
 @QueryByDomainId(
-    Name = com.aurawin.scs.lang.Database.Query.Domain.UserAccount.Roster.RosterField.ByDomainId.name
+    Name = com.aurawin.scs.lang.Database.Query.Domain.User.Roster.RosterField.ByDomainId.name
 )
 @QueryByOwnerId(
-        Name = com.aurawin.scs.lang.Database.Query.Domain.UserAccount.Roster.RosterField.ByOwnerId.name
+        Name = com.aurawin.scs.lang.Database.Query.Domain.User.Roster.RosterField.ByOwnerId.name
 )
 public class RosterField extends Stored {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = com.aurawin.scs.lang.Database.Field.Domain.RosterField.Id)
+    @Column(name = com.aurawin.scs.lang.Database.Field.Domain.User.RosterField.Id)
     protected long Id;
     @Override
     public long getId() {
@@ -60,17 +59,17 @@ public class RosterField extends Stored {
 
     @ManyToOne()
     @Cascade(ALL)
-    @JoinColumn(name = Database.Field.Domain.RosterField.OwnerId)
+    @JoinColumn(name = Database.Field.Domain.User.RosterField.OwnerId)
     @Fetch(value=FetchMode.JOIN)
     private Roster Owner;
 
-    @Column(name = com.aurawin.scs.lang.Database.Field.Domain.RosterField.DomainId)
+    @Column(name = com.aurawin.scs.lang.Database.Field.Domain.User.RosterField.DomainId)
     private long DomainId;
 
-    @Column(name = com.aurawin.scs.lang.Database.Field.Domain.RosterField.Key)
+    @Column(name = com.aurawin.scs.lang.Database.Field.Domain.User.RosterField.Key)
     private String Key;
 
-    @Column(name = com.aurawin.scs.lang.Database.Field.Domain.RosterField.Value)
+    @Column(name = com.aurawin.scs.lang.Database.Field.Domain.User.RosterField.Value)
     private String Value;
 
     public RosterField() {

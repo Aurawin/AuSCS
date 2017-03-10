@@ -6,6 +6,7 @@ import com.aurawin.core.stored.annotations.QueryById;
 import com.aurawin.core.stored.annotations.QueryByName;
 import com.aurawin.core.stored.entities.Entities;
 import com.aurawin.core.stored.Stored;
+import com.google.gson.annotations.Expose;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.annotations.DynamicInsert;
@@ -50,6 +51,7 @@ public class Group extends Stored {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = Database.Field.Cloud.Group.Id)
+    @Expose(serialize = true, deserialize = true)
     protected long Id;
     @Override
     public long getId() {
@@ -59,6 +61,7 @@ public class Group extends Stored {
 
     @ManyToOne(fetch = FetchType.EAGER, cascade=CascadeType.ALL, targetEntity=Location.class)
     @JoinColumn(name = Database.Field.Cloud.Group.LocationId)
+    @Expose(serialize = true, deserialize = true)
     protected Location Location;
     public Location getLocation() { return Location; }
     public void setLocation(Location location){
@@ -80,15 +83,18 @@ public class Group extends Stored {
             }
         }
     }
+
     @OneToMany(
             targetEntity = Resource.class,
             cascade = CascadeType.ALL,
             fetch = FetchType.EAGER,
             mappedBy = "Group"
     )
+    @Expose(serialize = false, deserialize = false)
     protected List<Resource> Resources = new ArrayList<Resource>();
 
     @Column(name = Database.Field.Cloud.Group.Name)
+    @Expose(serialize = true, deserialize = true)
     protected String Name;
     public String getName() {
         return Name;
@@ -98,6 +104,7 @@ public class Group extends Stored {
     }
 
     @Column(name = Database.Field.Cloud.Group.Rack)
+    @Expose(serialize = true, deserialize = true)
     protected String Rack;
     public String getRack() {
         return Rack;
@@ -108,6 +115,7 @@ public class Group extends Stored {
 
 
     @Column(name = Database.Field.Cloud.Group.Row)
+    @Expose(serialize = true, deserialize = true)
     protected String Row;
     public String getRow() { return Row; }
     public void setRow(String row) {

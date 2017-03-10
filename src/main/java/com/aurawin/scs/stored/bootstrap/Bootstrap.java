@@ -10,6 +10,7 @@ import com.aurawin.scs.lang.Namespace;
 import com.aurawin.scs.lang.Table;
 import com.aurawin.scs.stored.cloud.*;
 import com.aurawin.scs.stored.domain.Domain;
+import com.aurawin.scs.stored.domain.user.Account;
 
 import java.util.ArrayList;
 
@@ -32,6 +33,12 @@ public class Bootstrap {
         Entities.Save(d, Entities.CascadeOn);
 
         return d;
+    }
+    public static Account addUser(Domain domain, String user, String password) throws Exception{
+        Account a = new Account(domain,user);
+        a.setPass(password);
+        Entities.Save(a,Entities.CascadeOff);
+        return a;
     }
     public static Certificate addSelfSignedCertificate(
             Domain domain,
@@ -140,9 +147,10 @@ public class Bootstrap {
             Entities.Save(n,Entities.CascadeOn);
             return n;
         }
-        public static Disk addDisk(Node node, String mount) throws Exception{
+        public static Disk addDisk(Node node, Service svc, String mount) throws Exception{
             Disk d = new Disk();
             d.setOwnerId(node.getId());
+            d.setServiceId(svc.getId());
             d.setMount(mount);
             Entities.Save(d,Entities.CascadeOn);
             return d;

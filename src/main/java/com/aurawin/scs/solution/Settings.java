@@ -8,7 +8,11 @@ import java.nio.file.attribute.PosixFilePermissions;
 import java.util.Set;
 
 public class Settings extends com.aurawin.core.solution.Settings {
-
+    public static class Security extends com.aurawin.core.solution.Settings.Security{
+        public static class IpLog{
+            public static long RecentItemsTimeWindowInSeconds=60*2; // 2 minutes
+        }
+    }
     public static class Stored{
         public static class Cloud{
             public static class Disk{

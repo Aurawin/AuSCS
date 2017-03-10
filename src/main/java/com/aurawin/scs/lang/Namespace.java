@@ -26,11 +26,11 @@ public class Namespace extends com.aurawin.core.lang.Namespace {
         public static class Domain {
             public static final UniqueId Avatar = new UniqueId("com.aurawin.scs.stored.domain.avatar");
             public static final UniqueId Item = new UniqueId("com.aurawin.scs.stored.domain");
-            public static final UniqueId Roster = new UniqueId("com.aurawin.scs.stored.domain.roster");
-            public static final UniqueId RosterField = new UniqueId("com.aurawin.scs.stored.domain.rosterfield");
-            public static class UserAccount {
-                public static final UniqueId Item = new UniqueId("com.aurawin.scs.stored.domain.useraccount");
-                public static final UniqueId Avatar = new UniqueId("com.aurawin.scs.stored.domain.useraccount.avatar");
+            public static class User {
+                public static final UniqueId Account = new UniqueId("com.aurawin.scs.stored.domain.user.account");
+                public static final UniqueId Avatar = new UniqueId("com.aurawin.scs.stored.domain.user.avatar");
+                public static final UniqueId Roster = new UniqueId("com.aurawin.scs.stored.domain.roster");
+                public static final UniqueId RosterField = new UniqueId("com.aurawin.scs.stored.domain.rosterfield");
             }
             public static class Network{
                 public static final UniqueId Avatar = new UniqueId("com.aurawin.scs.stored.domain.network.avatar");
@@ -56,10 +56,12 @@ public class Namespace extends com.aurawin.core.lang.Namespace {
 
         l.add(Stored.Domain.Avatar);
         l.add(Stored.Domain.Item);
-        l.add(Stored.Domain.Roster);
-        l.add(Stored.Domain.RosterField);
-        l.add(Stored.Domain.UserAccount.Item);
-        l.add(Stored.Domain.UserAccount.Avatar);
+
+        l.add(Stored.Domain.User.Account);
+        l.add(Stored.Domain.User.Avatar);
+        l.add(Stored.Domain.User.Roster);
+        l.add(Stored.Domain.User.RosterField);
+
         l.add(Stored.Domain.Network.Avatar);
         l.add(Stored.Domain.Network.Exposure);
         l.add(Stored.Domain.Network.File);

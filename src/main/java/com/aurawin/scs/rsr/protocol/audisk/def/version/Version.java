@@ -2,17 +2,17 @@ package com.aurawin.scs.rsr.protocol.audisk.def.version;
 
 
 import com.aurawin.core.array.VarString;
-import com.aurawin.core.rsr.def.Version;
+import com.aurawin.scs.lang.Table;
 
 
 import java.util.regex.Pattern;
 
-public class AUDISK extends Version {
-    public AUDISK(){
-        super (1,0,"AUDISK","%s:%d.%d");
+public class Version extends com.aurawin.core.rsr.def.Version {
+    public Version(){
+        super (1,0, Table.AuDisk.Protocol,"%s:%d.%d");
     }
-    public AUDISK(int major, int minor) {
-        super(major, minor, "AUDISK","%s:%d.%d");
+    public Version(int major, int minor) {
+        super(major, minor, Table.AuDisk.Protocol,"%s:%d.%d");
     }
 
     @Override

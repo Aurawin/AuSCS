@@ -68,6 +68,12 @@ public class Disk extends Stored {
     public long getOwnerId(){return OwnerId;}
     public void setOwnerId(long ownerId){ OwnerId = ownerId;}
 
+    @Column(name = Database.Field.Cloud.Disk.ServiceId)
+    @Expose(serialize = true, deserialize = true)
+    protected long ServiceId;
+    public long getServiceId(){return ServiceId;}
+    public void setServiceId(long serviceId){ ServiceId = serviceId;}
+
     @Column(name = Database.Field.Cloud.Disk.spaceTotal)
     @Expose(serialize = true, deserialize = true)
     protected long spaceTotal;

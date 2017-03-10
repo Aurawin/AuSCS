@@ -2,38 +2,26 @@ package com.aurawin.scs.stored;
 
 import com.aurawin.core.Environment;
 import com.aurawin.core.lang.Table;
-import com.aurawin.core.rsr.def.CertSelfSigned;
-import com.aurawin.core.stored.annotations.AnnotatedList;
-import com.aurawin.core.stored.entities.Certificate;
 import com.aurawin.core.stored.entities.FetchKind;
-import com.aurawin.core.stored.entities.UniqueId;
 import com.aurawin.scs.audisk.AuDisk;
 import com.aurawin.scs.lang.Database;
 import com.aurawin.core.stored.Dialect;
 import com.aurawin.core.stored.Driver;
 import com.aurawin.core.stored.Manifest;
-import com.aurawin.core.stored.entities.Entities;
 import com.aurawin.scs.lang.Namespace;
 import com.aurawin.scs.stored.bootstrap.Bootstrap;
 import com.aurawin.scs.stored.bootstrap.BootstrapTest;
-import com.aurawin.scs.stored.bootstrap.Stored;
-import com.aurawin.scs.stored.cloud.*;
 import com.aurawin.scs.stored.domain.Domain;
-import com.aurawin.scs.stored.domain.Roster;
-import com.aurawin.scs.stored.domain.UserAccount;
+import com.aurawin.scs.stored.domain.user.Roster;
+import com.aurawin.scs.stored.domain.user.Account;
 import com.aurawin.scs.stored.domain.network.Network;
-import com.aurawin.scs.stored.domain.vendor.Vendor;
 
-import com.aurawin.scs.stored.domain.vendor.hawker.Hawker;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.junit.Test;
 import org.junit.Before; 
 import org.junit.After;
 
-import java.util.ArrayList;
-
-import static com.aurawin.core.stored.entities.Entities.CascadeOff;
 import static com.aurawin.core.stored.entities.Entities.CascadeOn;
 
 public class EntitiesTest {
@@ -71,7 +59,6 @@ public class EntitiesTest {
     @Test
     public void testDomainDelete() throws Exception{
         Domain vD = Entities.Lookup(Domain.class,DomainName);
-
     }
     @Test
     public void testCheckEntitiesAsCreate() throws Exception {
@@ -79,7 +66,7 @@ public class EntitiesTest {
         AuDisk.Initialize(BootstrapTest.nChump);
 
         Domain lD = Entities.Lookup(Domain.class,BootstrapTest.domain.getId());
-        UserAccount lUA = Entities.Lookup(UserAccount.class,lD.getId(), lD.getRootId());
+        Account lUA = Entities.Lookup(Account.class,lD.getId(), lD.getRootId());
         Entities.Fetch(lUA, FetchKind.Infinite);
 
         Roster r = new Roster(lUA,"Bestie");
@@ -100,7 +87,7 @@ public class EntitiesTest {
         String jsD = gson.toJson(lD);
 
         Network lCAB = lUA.Cabinet;
-        Roster lME = lUA.getMe();
+        Roster lME = lUA.Me;
 
     }
 

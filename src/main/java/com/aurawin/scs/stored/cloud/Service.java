@@ -1,13 +1,12 @@
 package com.aurawin.scs.stored.cloud;
 
+import com.aurawin.core.stored.annotations.QueryByOwnerId;
 import com.aurawin.scs.lang.Database;
 import com.aurawin.core.stored.annotations.EntityDispatch;
 import com.aurawin.core.stored.annotations.QueryById;
 import com.aurawin.core.stored.annotations.QueryByName;
-import com.aurawin.core.stored.entities.Entities;
 import com.aurawin.core.stored.Stored;
 import com.aurawin.core.stored.entities.UniqueId;
-import com.aurawin.scs.stored.domain.Domain;
 import org.hibernate.Session;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
@@ -34,6 +33,9 @@ import javax.persistence.Table;
 @QueryById(
         Name = Database.Query.Cloud.Service.ById.name,
         Fields = ("Id")
+)
+@QueryByOwnerId(
+        Name = Database.Query.Cloud.Service.ByOwnerId.name
 )
 @QueryByName(
         Name = Database.Query.Cloud.Service.ByName.name,
@@ -67,10 +69,8 @@ public class Service extends Stored{
     public String getHostname(){
         return ( (Node!=null) && (Node.Domain!=null) ) ? Node.Domain.getName() : "";
     }
-    @Transient
-    public Domain getDomain(){
-        return ( Node!=null) ? Node.Domain : null;
-    }
+
+
     @Column(name = Database.Field.Cloud.Service.ScaleStart)
     protected int ScaleStart;
     public int getScaleStart(){return ScaleStart;}
@@ -88,7 +88,7 @@ public class Service extends Stored{
 
     @Cascade({CascadeType.MERGE})
     @ManyToOne(fetch=FetchType.EAGER,targetEntity = Node.class)
-    @JoinColumn(name = Database.Field.Cloud.Service.NodeId)
+    @JoinColumn(name = Database.Field.Cloud.Service.OwnerId)
     protected Node Node;
     public void setNode(Node node){ Node=node;}
     public Node getNode(){return Node;}

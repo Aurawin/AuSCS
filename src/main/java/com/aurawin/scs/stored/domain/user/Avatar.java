@@ -1,4 +1,4 @@
-package com.aurawin.scs.stored.domain;
+package com.aurawin.scs.stored.domain.user;
 
 import com.aurawin.scs.lang.Database;
 import com.aurawin.scs.lang.Namespace;
@@ -9,6 +9,7 @@ import com.aurawin.core.stored.Stored;
 import com.aurawin.scs.stored.domain.network.Network;
 import com.aurawin.core.time.Time;
 
+import com.google.gson.annotations.Expose;
 import org.hibernate.*;
 import org.hibernate.annotations.*;
 import org.hibernate.annotations.NamedQueries;
@@ -28,12 +29,12 @@ import java.time.Instant;
 @NamedQueries(
         {
                 @NamedQuery(
-                        name  = Database.Query.Domain.Avatar.ByOwnerAndKind.name,
-                        query = Database.Query.Domain.Avatar.ByOwnerAndKind.value
+                        name  = Database.Query.Domain.User.Avatar.ByOwnerAndKind.name,
+                        query = Database.Query.Domain.User.Avatar.ByOwnerAndKind.value
                 ),
                 @NamedQuery(
-                        name  = Database.Query.Domain.Avatar.ById.name,
-                        query = Database.Query.Domain.Avatar.ById.value
+                        name  = Database.Query.Domain.User.Avatar.ById.name,
+                        query = Database.Query.Domain.User.Avatar.ById.value
                 )
         }
 )
@@ -45,28 +46,35 @@ import java.time.Instant;
 public class Avatar extends Stored {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = Database.Field.Domain.Avatar.Id)
+    @Column(name = Database.Field.Domain.User.Avatar.Id)
+    @Expose(serialize = true, deserialize = true)
     protected long Id;
     public long getId() {
         return Id;
     }
 
-    @Column(name = Database.Field.Domain.Avatar.OwnerId)
+    @Column(name = Database.Field.Domain.User.Avatar.OwnerId)
+    @Expose(serialize = true, deserialize = true)
     protected long OwnerId;
 
-    @Column (name= Database.Field.Domain.Avatar.DomainId)
+    @Column (name= Database.Field.Domain.User.Avatar.DomainId)
+    @Expose(serialize = true, deserialize = true)
     private long DomainId;
 
-    @Column (name = Database.Field.Domain.Avatar.Ext)
+    @Column (name = Database.Field.Domain.User.Avatar.Ext)
+    @Expose(serialize = true, deserialize = true)
     private String Ext;
 
-    @Column (name = Database.Field.Domain.Avatar.Created)
+    @Column (name = Database.Field.Domain.User.Avatar.Created)
+    @Expose(serialize = true, deserialize = true)
     private Instant Created;
 
-    @Column (name = Database.Field.Domain.Avatar.Modified)
+    @Column (name = Database.Field.Domain.User.Avatar.Modified)
+    @Expose(serialize = true, deserialize = true)
     private Instant Modified;
 
-    @Column (name = Database.Field.Domain.Avatar.Data, length = 1024*256)
+    @Column (name = Database.Field.Domain.User.Avatar.Data, length = 1024*256)
+    @Expose(serialize = true, deserialize = true)
     private String Data;
 
     public Avatar(long domainId, long ownerId, long kind) {
@@ -102,18 +110,17 @@ public class Avatar extends Stored {
     }
 
     public static void entityCreated(Stored Entity, boolean Cascade)throws Exception {
-        if (Entity instanceof UserAccount) {
-            UserAccount ua = (UserAccount) Entity;
-            if (ua.getAvatar() == null) {
-                Avatar a = new Avatar(ua.getDomainId(),ua.Id,Namespace.Stored.Domain.Avatar.getId());
-                Entities.Save(a,Cascade);
-                ua.setAvatar(a);
+        if (Entity instanceof Account) {
+            Account ua = (Account) Entity;
+            if (ua.Avatar == null) {
+                ua.Avatar = new Avatar(ua.getDomainId(),ua.getId(),Namespace.Stored.Domain.User.Avatar.getId());
+                Entities.Save(ua.Avatar,Cascade);
                 Entities.Update(ua,Entities.CascadeOff);
             }
         } else if (Entity instanceof Roster){
             Roster r = (Roster) Entity;
             if (r.getAvatarId()==0) {
-                Avatar a = new Avatar(r.getDomainId(),r.getOwnerId(),Namespace.Stored.Domain.UserAccount.Avatar.getId());
+                Avatar a = new Avatar(r.getDomainId(),r.getOwnerId(),Namespace.Stored.Domain.User.Avatar.getId());
                 Entities.Save(a,Cascade);
                 r.setAvatarId(a.getId());
                 Entities.Update(r,Entities.CascadeOff);
@@ -133,8 +140,8 @@ public class Avatar extends Stored {
 
     }
     public static void entityDeleted(Stored Entity, boolean Cascade)throws Exception {
-        if (Entity instanceof UserAccount){
-            UserAccount ua = (UserAccount) Entity;
+        if (Entity instanceof Account){
+            Account ua = (Account) Entity;
             if (ua.Avatar!=null) Entities.Delete(ua.Avatar,Entities.CascadeOn);
         } else if (Entity instanceof Roster){
             Roster r = (Roster) Entity;

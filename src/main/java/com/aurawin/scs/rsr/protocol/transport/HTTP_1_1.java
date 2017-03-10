@@ -10,11 +10,9 @@ import com.aurawin.core.rsr.transport.annotations.Protocol;
 import com.aurawin.core.rsr.transport.methods.Result;
 import com.aurawin.core.rsr.transport.methods.http.dav.*;
 import com.aurawin.core.solution.Settings;
-import com.aurawin.core.stored.entities.Entities;
 import com.aurawin.core.time.Time;
 import com.aurawin.scs.rsr.protocol.http.Server;
-import com.aurawin.scs.stored.domain.Domain;
-import com.aurawin.scs.stored.domain.UserAccount;
+import com.aurawin.scs.stored.domain.user.Account;
 import org.hibernate.Session;
 
 import javax.xml.bind.JAXBContext;
@@ -36,8 +34,7 @@ import static java.time.Instant.now;
 )
 public class HTTP_1_1 extends protocol_http_1_1 {
     public static boolean dummyFile = false;
-    public Domain Domain;
-    public UserAccount Root;
+    public Account User;
 
     public HTTP_1_1() throws InstantiationException,IllegalAccessException{
         super();
@@ -54,14 +51,26 @@ public class HTTP_1_1 extends protocol_http_1_1 {
     public HTTP_1_1 newInstance(Items aOwner, SocketChannel aChannel)throws InstantiationException, IllegalAccessException{
         HTTP_1_1 itm = new HTTP_1_1(aOwner, ItemKind.Server);
         Server s = (Server) aOwner.Engine;
-        Domain = s.Service.getDomain();
-        Root = Entities.Lookup(UserAccount.class,Domain.getRootId());
+
+
         itm.SocketHandler.Channel=aChannel;
         return itm;
     }
     @Override
     public CredentialResult validateCredentials(Session ssn){
-        return CredentialResult.Passed;
+        Server s = (Server) Owner.Engine;
+        if (User==null) {
+            User = (Account)
+                    ssn.getNamedQuery(com.aurawin.scs.lang.Database.Query.Domain.User.Account.ByAuth.name)
+                            .setParameter("DomainId", s.Domain.getId())
+                            .setParameter("Name", Request.Cookies.ValueAsString(Field.User))
+                            .setParameter("Auth", Request.Cookies.ValueAsString(Field.Auth))
+
+                            .uniqueResult();
+        }
+
+        return (User==null) ? CredentialResult.Failed: CredentialResult.Passed;
+
     }
     @Override
     public Result resourceRequested(Session ssn){

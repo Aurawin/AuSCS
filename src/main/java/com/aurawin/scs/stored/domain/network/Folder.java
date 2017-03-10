@@ -1,20 +1,20 @@
 package com.aurawin.scs.stored.domain.network;
 
 
-import com.aurawin.core.solution.Settings;
 import com.aurawin.core.stored.annotations.*;
 import com.aurawin.scs.audisk.AuDisk;
 import com.aurawin.scs.lang.Database;
-import com.aurawin.core.lang.Table;
-import com.aurawin.core.stored.entities.Entities;
+import com.aurawin.scs.lang.Table;
+import com.aurawin.scs.stored.Entities;
 import com.aurawin.core.stored.Stored;
 
 import com.aurawin.scs.lang.Namespace;
+import com.aurawin.scs.stored.annotations.QueryByDomainId;
+import com.aurawin.scs.stored.annotations.QueryByDomainIdAndName;
 import com.aurawin.scs.stored.annotations.QueryByDomainIdAndParentIdAndName;
-import com.aurawin.scs.stored.cloud.Disk;
+import com.aurawin.scs.stored.annotations.QueryByNetworkId;
 import com.aurawin.scs.stored.domain.Domain;
-import com.aurawin.scs.stored.domain.Roster;
-import com.aurawin.scs.stored.domain.UserAccount;
+import com.aurawin.scs.stored.domain.user.Account;
 import com.aurawin.core.time.Time;
 
 import com.google.gson.annotations.Expose;
@@ -24,7 +24,6 @@ import org.hibernate.annotations.*;
 import org.hibernate.annotations.CascadeType;
 
 import javax.persistence.*;
-import javax.persistence.Entity;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 
@@ -272,9 +271,9 @@ public class Folder extends Stored {
                 );
             }
 
-        } else if (Entity instanceof UserAccount) {
+        } else if (Entity instanceof Account) {
             // new user account is created
-            UserAccount a = (UserAccount) Entity;
+            Account a = (Account) Entity;
             Network n = a.Cabinet;
             if (n.Root==null) {
                 n.Root = new Folder(a.getDomainId(), a.getId(), n.Id, "");

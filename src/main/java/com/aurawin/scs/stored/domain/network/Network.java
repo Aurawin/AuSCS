@@ -3,12 +3,13 @@ package com.aurawin.scs.stored.domain.network;
 import com.aurawin.core.stored.annotations.*;
 import com.aurawin.scs.audisk.AuDisk;
 import com.aurawin.scs.lang.Database;
-import com.aurawin.core.lang.Table;
+import com.aurawin.scs.lang.Table;
 
-import com.aurawin.core.stored.entities.Entities;
+import com.aurawin.scs.stored.Entities;
 import com.aurawin.core.stored.Stored;
+import com.aurawin.scs.stored.annotations.QueryByDomainId;
 import com.aurawin.scs.stored.domain.Domain;
-import com.aurawin.scs.stored.domain.UserAccount;
+import com.aurawin.scs.stored.domain.user.Account;
 
 import javax.persistence.*;
 import javax.persistence.CascadeType;
@@ -19,7 +20,6 @@ import javax.persistence.NamedQuery;
 import com.aurawin.core.time.Time;
 import com.google.gson.annotations.Expose;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
 import org.hibernate.annotations.*;
 
 import java.time.Instant;
@@ -83,9 +83,9 @@ public class Network extends Stored {
         return Id;
     }
     @Expose(serialize = true, deserialize = true)
-    @ManyToOne(fetch=FetchType.EAGER, targetEntity = UserAccount.class, cascade = CascadeType.MERGE)
+    @ManyToOne(fetch=FetchType.EAGER, targetEntity = Account.class, cascade = CascadeType.MERGE)
     @JoinColumn(name = Database.Field.Domain.Network.OwnerId)
-    protected UserAccount Owner;
+    protected Account Owner;
 
     @Expose(serialize = true, deserialize = true)
     @OneToMany(mappedBy = "Owner", fetch = FetchType.EAGER, targetEntity = Member.class, cascade = CascadeType.MERGE)
@@ -158,8 +158,11 @@ public class Network extends Stored {
     @Override
     public void Identify(Session ssn){
         if (Id == 0) {
-            Query qr = Database.Query.Domain.Network.ByOwnerAndTitle.Create(ssn, DomainId, Owner.getId(), Title);
-            Network n = (Network) qr.getSingleResult();
+            Network n = (Network) ssn.getNamedQuery(Database.Query.Domain.Network.ByOwnerAndTitle.name)
+                    .setParameter("DomainId",DomainId)
+                    .setParameter("OwnerId", Owner.getId())
+                    .setParameter("Title",Title)
+                    .getSingleResult();
             if (n == null) {
                 ssn.save(this);
             } else {
@@ -178,7 +181,7 @@ public class Network extends Stored {
         Title = "";
         Description = "";
     }
-    public Network(UserAccount owner, byte exposition, String title, String description){
+    public Network(Account owner, byte exposition, String title, String description){
         Id=0;
         DomainId=owner.getDomainId();
         Owner = owner;
@@ -198,18 +201,22 @@ public class Network extends Stored {
     public long getAvatarId() {  return AvatarId; }
     public void setAvatarId(long id){ AvatarId=id; }
     public static void entityCreated(Stored Entity, boolean Cascade) throws Exception{
-        if (Entity instanceof UserAccount) {
-            UserAccount ua = (UserAccount) Entity;
+        if (Entity instanceof Account) {
+            Account ua = (Account) Entity;
             if (ua.Cabinet == null) {
-                Network cab = new Network(
+                ua.Cabinet = new Network(
                         ua,
                         Exposure.Private,
-                        Table.String(Table.Entities.Domain.Network.Default.Title),
-                        Table.Format(Table.Entities.Domain.Network.Default.Description, ua.getName())
+                        Table.String(Table.Entities.Domain.User.Network.Default.Title),
+                        Table.Format(Table.Entities.Domain.User.Network.Default.Description, ua.getName())
                 );
-                ua.setCabinet(cab);
-                ua.Networks.add(cab);
-                Entities.Save(cab,Cascade);
+                ua.Networks.add(ua.Cabinet);
+                Entities.Save(ua.Cabinet,Cascade);
+            }
+        } else if (Entity instanceof Network){
+            Network n = (Network) Entity;
+            if (n.getDiskId()==0){
+                n.DiskId = AuDisk.getNextAvailableDiskId();
             }
         }
     }

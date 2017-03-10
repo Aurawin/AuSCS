@@ -14,6 +14,7 @@ import com.aurawin.core.rsr.transport.annotations.Protocol;
 import com.aurawin.core.rsr.transport.methods.Result;
 import com.aurawin.core.solution.Settings;
 import com.aurawin.scs.rsr.protocol.audisk.def.Response;
+import com.aurawin.scs.rsr.protocol.audisk.def.version.Version;
 import com.aurawin.scs.rsr.protocol.audisk.method.MoveFile;
 import com.aurawin.scs.rsr.protocol.audisk.server.Server;
 import com.aurawin.scs.stored.cloud.Resource;
@@ -33,7 +34,7 @@ import static com.aurawin.scs.rsr.protocol.audisk.def.Status.Ok;
 import static com.aurawin.scs.rsr.protocol.audisk.def.Status.Fail;
 
 @Protocol(
-        Version = com.aurawin.scs.rsr.protocol.audisk.def.version.AUDISK.class
+        Version = Version.class
 )
 public class AUDISK extends Item implements Transport,ResourceUploadHandler,ResourceDeleteHandler,
         ResourceCopyHandler,ResourceMoveHandler, ResourceRequestedHandler, ResourceTransformHandler

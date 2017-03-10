@@ -3,6 +3,7 @@ package com.aurawin.scs.stored.cloud;
 import com.aurawin.core.stored.annotations.*;
 import com.aurawin.core.stored.entities.Entities;
 import com.aurawin.core.stored.Stored;
+import com.google.gson.annotations.Expose;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.annotations.DynamicInsert;
@@ -48,6 +49,7 @@ public class Resource extends Stored{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = com.aurawin.scs.lang.Database.Field.Cloud.Resource.Id)
+    @Expose(serialize = true, deserialize = true)
     protected long Id;
     @Override
     public long getId() {
@@ -55,12 +57,14 @@ public class Resource extends Stored{
     }
 
     @Column(name = com.aurawin.scs.lang.Database.Field.Cloud.Resource.Name)
+    @Expose(serialize = true, deserialize = true)
     protected String Name;
     public String getName() {    return Name;  }
     public void setName(String name) {      Name = name;   }
 
     @ManyToOne(fetch=FetchType.EAGER,cascade=CascadeType.MERGE,targetEntity=Group.class)
     @JoinColumn(name = com.aurawin.scs.lang.Database.Field.Cloud.Resource.GroupId)
+    @Expose(serialize = true, deserialize = true)
     protected Group Group;
     public Group getGroup() { return Group; }
     public void setGroup(Group group) {
@@ -69,6 +73,7 @@ public class Resource extends Stored{
             group.Resources.add(this);
     }
     @OneToMany(mappedBy = "Resource", targetEntity=Node.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @Expose(serialize = false, deserialize = false)
     protected List<Node> Nodes = new ArrayList<Node>();
 
     public Resource(long id) {

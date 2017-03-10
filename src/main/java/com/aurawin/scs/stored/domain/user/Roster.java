@@ -1,7 +1,7 @@
-package com.aurawin.scs.stored.domain;
+package com.aurawin.scs.stored.domain.user;
 
 
-import com.aurawin.core.lang.Table;
+import com.aurawin.scs.lang.Table;
 import com.aurawin.core.stored.annotations.FetchField;
 import com.aurawin.core.stored.annotations.FetchFields;
 import com.aurawin.scs.lang.Database;
@@ -34,12 +34,12 @@ import java.util.List;
                 )
         }
 )
-@javax.persistence.Table(name = Database.Table.Domain.UserAccount.Roster.Items)
+@javax.persistence.Table(name = Database.Table.Domain.User.Account.Roster.Items)
 @NamedQueries(
         {
                 @NamedQuery(
-                        name = Database.Query.Domain.UserAccount.Roster.ByDomainId.name,
-                        query = Database.Query.Domain.UserAccount.Roster.ByDomainId.value
+                        name = Database.Query.Domain.User.Roster.ByDomainId.name,
+                        query = Database.Query.Domain.User.Roster.ByDomainId.value
                 )
         }
 )
@@ -51,7 +51,7 @@ import java.util.List;
 public class Roster extends Stored {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = Database.Field.Domain.Roster.Id)
+    @Column(name = Database.Field.Domain.User.Roster.Id)
     protected long Id;
     public long getId() {
         return Id;
@@ -59,9 +59,9 @@ public class Roster extends Stored {
 
     @Expose(serialize = false, deserialize = false)
     @ManyToOne()
-    @JoinColumn(name = Database.Field.Domain.Roster.OwnerId)
+    @JoinColumn(name = Database.Field.Domain.User.Roster.OwnerId)
     @Fetch(value=FetchMode.JOIN)
-    protected UserAccount Owner;
+    protected Account Owner;
     public long getOwnerId(){ return Owner.getId();}
 
     @Expose(serialize = true, deserialize = true)
@@ -74,16 +74,16 @@ public class Roster extends Stored {
     )
     protected List<RosterField> Custom = new ArrayList<>();
 
-    @Column(name = Database.Field.Domain.Roster.DomainId)
+    @Column(name = Database.Field.Domain.User.Roster.DomainId)
     protected long DomainId;
     public long getDomainId(){ return DomainId;}
 
-    @Column(name = Database.Field.Domain.Roster.AvatarId)
+    @Column(name = Database.Field.Domain.User.Roster.AvatarId)
     protected long AvatarId;
     public long getAvatarId(){ return AvatarId;}
     public void setAvatarId(long id){ AvatarId=id;}
 
-    @Column(name = Database.Field.Domain.Roster.FirstName)
+    @Column(name = Database.Field.Domain.User.Roster.FirstName)
     protected String FirstName;
     public String getFirstName() {
         return FirstName;
@@ -92,7 +92,7 @@ public class Roster extends Stored {
         FirstName = firstName;
     }
 
-    @Column(name = Database.Field.Domain.Roster.MiddleName)
+    @Column(name = Database.Field.Domain.User.Roster.MiddleName)
     protected String MiddleName;
     public String getMiddleName() {
         return MiddleName;
@@ -101,22 +101,22 @@ public class Roster extends Stored {
         MiddleName = middleName;
     }
 
-    @Column(name = Database.Field.Domain.Roster.FamilyName)
+    @Column(name = Database.Field.Domain.User.Roster.FamilyName)
     protected String FamilyName;
     public String getFamilyName() {        return FamilyName;    }
     public void setFamilyName(String familyName) {        FamilyName = familyName;    }
 
-    @Column(name = Database.Field.Domain.Roster.Alias)
+    @Column(name = Database.Field.Domain.User.Roster.Alias)
     protected String Alias;
     public String getAlias() {        return Alias;    }
     public void setAlias(String alias) {        Alias = alias;    }
 
-    @Column(name = Database.Field.Domain.Roster.Addresses)
+    @Column(name = Database.Field.Domain.User.Roster.Addresses)
     protected String Addresses;
     public String getAddresses() {        return Addresses;    }
     public void setAddresses(String addresses) {        Addresses = addresses;    }
 
-    @Column(name = Database.Field.Domain.Roster.City)
+    @Column(name = Database.Field.Domain.User.Roster.City)
     protected String City;
     public String getCity() {
         return City;
@@ -125,7 +125,7 @@ public class Roster extends Stored {
         City = city;
     }
 
-    @Column(name = Database.Field.Domain.Roster.State)
+    @Column(name = Database.Field.Domain.User.Roster.State)
     protected String State;
     public String getState() {
         return State;
@@ -134,7 +134,7 @@ public class Roster extends Stored {
         State = state;
     }
 
-    @Column(name = Database.Field.Domain.Roster.Postal)
+    @Column(name = Database.Field.Domain.User.Roster.Postal)
     protected String Postal;
     public String getPostal() {
         return Postal;
@@ -143,7 +143,7 @@ public class Roster extends Stored {
         Postal = postal;
     }
 
-    @Column(name = Database.Field.Domain.Roster.Country)
+    @Column(name = Database.Field.Domain.User.Roster.Country)
     protected String Country;
     public String getCountry() {
         return Country;
@@ -152,17 +152,17 @@ public class Roster extends Stored {
         Country = country;
     }
 
-    @Column(name = Database.Field.Domain.Roster.Phones)
+    @Column(name = Database.Field.Domain.User.Roster.Phones)
     protected String Phones;
     public String getPhones() {        return Phones;    }
     public void setPhones(String phones) {        Phones = phones;    }
 
-    @Column(name = Database.Field.Domain.Roster.Emails)
+    @Column(name = Database.Field.Domain.User.Roster.Emails)
     protected String Emails;
     public String getEmails() {        return Emails;    }
     public void setEmails(String emails) {        Emails = emails;    }
 
-    @Column(name = Database.Field.Domain.Roster.Websites)
+    @Column(name = Database.Field.Domain.User.Roster.Websites)
     protected String Websites;
     public String getWebsites() {
         return Websites;
@@ -176,9 +176,9 @@ public class Roster extends Stored {
         DomainId=0;
         Alias="";
     }
-    public Roster(UserAccount owner,String alias){
+    public Roster(Account owner, String alias){
         Owner = owner;
-        DomainId = owner.DomainId;
+        DomainId = owner.getDomainId();
         Alias=alias;
         Owner.Contacts.add(this);
     }
@@ -195,21 +195,21 @@ public class Roster extends Stored {
         }
     }
     public static void entityCreated(Stored Entity, boolean Cascade) throws Exception{
-        if (Entity instanceof UserAccount){
-            UserAccount ua = (UserAccount) Entity;
-            if (ua.getMe()==null) {
-                Roster me = new Roster(ua,Table.String(Table.Entities.Domain.Roster.Me));
-                Entities.Save(me,Cascade);
-                ua.Contacts.add(me);
-                ua.setMe(me);
+        if (Entity instanceof Account){
+            Account ua = (Account) Entity;
+            if (ua.Me==null) {
+                ua.Me = new Roster(ua,Table.String(Table.Entities.Domain.User.Roster.Me));
+                Entities.Save(ua.Me,Cascade);
+                ua.Contacts.add(ua.Me);
+                Entities.Update(ua,Entities.CascadeOff);
             }
         }
     }
     public static void entityUpdated(Stored Entity, boolean Cascade) throws Exception {}
     public static void entityDeleted(Stored Entity, boolean Cascade) throws Exception {
-        if (Entity instanceof UserAccount) {
-            UserAccount ua = (UserAccount) Entity;
-            Roster r = ua.getMe();
+        if (Entity instanceof Account) {
+            Account ua = (Account) Entity;
+            Roster r = ua.Me;
             if (r!=null) Entities.Delete(r,Entities.CascadeOn);
         }
     }

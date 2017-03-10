@@ -2,11 +2,16 @@ package com.aurawin.scs.stored.bootstrap;
 
 
 import com.aurawin.core.stored.annotations.AnnotatedList;
+import com.aurawin.scs.stored.domain.user.Avatar;
+import com.aurawin.scs.stored.domain.user.RosterField;
 
 public class Stored {
 
     public static AnnotatedList buildAnnotations() {
         AnnotatedList aL = new AnnotatedList();
+        aL.add(com.aurawin.scs.stored.security.Filter.class);
+        aL.add(com.aurawin.scs.stored.security.IpLog.class);
+        aL.add(com.aurawin.scs.stored.security.Intrusion.class);
         aL.add(com.aurawin.scs.stored.cloud.Group.class);
         aL.add(com.aurawin.scs.stored.cloud.Location.class);
         aL.add(com.aurawin.scs.stored.cloud.Node.class);
@@ -16,11 +21,11 @@ public class Stored {
         aL.add(com.aurawin.scs.stored.cloud.Transactions.class);
         aL.add(com.aurawin.scs.stored.cloud.Uptime.class);
         aL.add(com.aurawin.scs.stored.cloud.Uptime.class);
-        aL.add(com.aurawin.scs.stored.domain.UserAccount.class);
-        aL.add(com.aurawin.scs.stored.domain.Avatar.class);
         aL.add(com.aurawin.scs.stored.domain.Domain.class);
-        aL.add(com.aurawin.scs.stored.domain.Roster.class);
-        aL.add(com.aurawin.scs.stored.domain.RosterField.class);
+        aL.add(com.aurawin.scs.stored.domain.user.Account.class);
+        aL.add(com.aurawin.scs.stored.domain.user.Avatar.class);
+        aL.add(com.aurawin.scs.stored.domain.user.Roster.class);
+        aL.add(com.aurawin.scs.stored.domain.user.RosterField.class);
         aL.add(com.aurawin.scs.stored.domain.network.Network.class);
         aL.add(com.aurawin.scs.stored.domain.network.File.class);
         aL.add(com.aurawin.scs.stored.domain.network.Folder.class);

@@ -2,12 +2,12 @@ package com.aurawin.scs.stored.domain;
 
 import com.aurawin.core.VarString;
 import com.aurawin.core.json.Builder;
-import com.aurawin.core.lang.Table;
+import com.aurawin.scs.lang.Table;
 import com.aurawin.core.time.Time;
 import com.aurawin.scs.lang.Database;
+import com.aurawin.scs.stored.domain.user.Account;
 import com.google.gson.Gson;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
 import org.junit.Test;
 import org.junit.Before; 
 import org.junit.After;
@@ -15,15 +15,15 @@ import org.junit.After;
 
 public class UserAccountTest {
     Builder Parser;
-    UserAccount Account1;
-    UserAccount Account2;
+    Account Account1;
+    Account Account2;
     Domain Domain;
 
     @Before
     public void before() throws Exception {
         Parser = new Builder();
         Domain = new Domain("chump.aurawin.com", Table.String(Table.Entities.Domain.Root));
-        Account1=new UserAccount(Domain,"test");
+        Account1=new Account(Domain,"test");
         Account1.setAuth("AuthString");
         Account1.setId(1);
         Account1.setFirstIP(3);
@@ -36,7 +36,7 @@ public class UserAccountTest {
         Gson gson = Parser.Create();
         String sCode = gson.toJson(Account1);
         if (sCode.length()==0) {
-            throw new Exception("Unable to create JSON code for UserAccount.");
+            throw new Exception("Unable to create JSON code for Account.");
         }
     }
 
@@ -51,15 +51,15 @@ public class UserAccountTest {
     public void testFromJSON() throws Exception {
         Gson gson = Parser.Create();
         String sCode = VarString.fromResource(Database.Test.Entities.Domain.UserAccount);
-        Account2 = gson.fromJson(sCode,UserAccount.class);
+        Account2 = gson.fromJson(sCode,Account.class);
         if (Account1.equals(Account2)==false){
             throw new Exception("Account1!=Account2");
         }
 
     }
     public void lookupUserAccount1ByAuth(Session ssn) throws Exception {
-        UserAccount ua = (UserAccount) ssn.getNamedQuery(Database.Query.Domain.UserAccount.ByAuth.name)
-                .setParameter("DomainId",Account1.DomainId)
+        Account ua = (Account) ssn.getNamedQuery(Database.Query.Domain.User.Account.ByAuth.name)
+                .setParameter("DomainId",Account1.getDomainId())
                 .setParameter("Auth",Account1.getAuth())
                 .uniqueResult();
         if ( (ua==null) || (ua.getId()!= Account1.getId() ) ) throw new Exception("Unable to locate Account1");
