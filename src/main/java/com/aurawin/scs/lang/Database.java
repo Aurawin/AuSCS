@@ -6,6 +6,7 @@ import org.hibernate.Session;
 public class Database extends com.aurawin.core.lang.Database {
     public static class Table extends com.aurawin.core.lang.Database.Table{
         public static class Security{
+            public static final String ACL = "tbl_sec_a";
             public static final String Intrusion = "tbl_sec_n";
             public static final String IpLog = "tbl_sec_i";
             public static final String Filter = "tbl_sec_f";
@@ -22,7 +23,7 @@ public class Database extends com.aurawin.core.lang.Database {
         }
         public static class Domain{
             public static final String Items = "tbl_d_itm";
-            public static final String Avatar = "tbl_d_avr";
+
             public static class Network{
                 public static final String List = "tbl_d_ntk";
                 public static final String Member = "tbl_d_ntk_m";
@@ -30,9 +31,11 @@ public class Database extends com.aurawin.core.lang.Database {
                 public static final String File= "tbl_d_fls";
             }
             public static class User {
+                public static final String Avatar = "tbl_d_avr";
+                public static final String Role = "tbl_d_rle";
+                public static final String RoleMap = "tbl_d_rmp";
                 public static class Account {
                     public static final String Items = "tbl_d_uas";
-
                     public static class Roster {
                         public static final String Items = "tbl_d_uas_rtr";
                         public static final String Field = "tbl_d_uas_rtf";
@@ -56,10 +59,24 @@ public class Database extends com.aurawin.core.lang.Database {
     }
     public static class Query extends com.aurawin.core.lang.Database.Query{
         public static class Security{
+            public static class ACL{
+                public static class ById{
+                    public static final String name ="QuerySecurityACLById";
+                    public static final String value = "from ACL where Id=:Id";
+                }
+                public static class ByNamespaceIdAndOwnerId{
+                    public static final String name ="QuerySecurityACLByNamespaceIdAndOwnerId";
+                    public static final String value = "from ACL where NamespaceId=:NamespaceId and OwnerId=:OwnerId";
+                }
+                public static class ListAllByOwnerId{
+                    public static final String name ="QuerySecurityACLListAllByOwnerId";
+                    public static final String value = "from ACL where OwnerId=:OwnerId";
+                }
+            }
             public static class Filter{
                 public static class ById{
                     public static final String name ="QuerySecurityFilterById";
-                    public static final String value = "select from Filter where Id=:Id";
+                    public static final String value = "from Filter where Id=:Id";
                 }
             }
             public static class IpLog{
@@ -246,7 +263,6 @@ public class Database extends com.aurawin.core.lang.Database {
                         public static final String name = "QueryDomainUserAccountAll";
                         public static final String value = "from Account";
                     }
-
                     public static class ByDomainIdAndId {
                         public static final String name = "QueryDomainUserAccountByDomainIdAndId";
                         public static final String value = "from Account where DomainId=:DomainId and Id=:Id";
@@ -259,33 +275,53 @@ public class Database extends com.aurawin.core.lang.Database {
                 }
                 public static class Avatar{
                     public static class ByOwnerAndKind{
-                        public static final String name = "QueryDomainAvatarByOwnerAndKind";
+                        public static final String name = "QueryDomainUserAvatarByOwnerAndKind";
                         public static final String value = "from Avatar where DomainId=:DomainId and OwnerId=:OwnerId and Kind=:Kind";
                     }
                     public static class ById{
-                        public static final String name = "QueryDomainAvatarById";
+                        public static final String name = "QueryDomainUserAvatarById";
                         public static final String value = "from Avatar where Id=:Id";
+                    }
+                }
+                public static class Role{
+                    public static class ByOwnerId{
+                        public static final String name = "QueryDomainUserRoleByOwnerId";
+                        public static final String value = "from Role where OwnerId=:OwnerId";
+                    }
+                    public static class ById{
+                        public static final String name = "QueryDomainUserRoleById";
+                        public static final String value = "from Role where Id=:Id";
+                    }
+                }
+                public static class RoleMap{
+                    public static class ByOwnerId{
+                        public static final String name = "QueryDomainUserRoleMapByOwnerId";
+                        public static final String value = "from RoleMap where OwnerId=:OwnerId";
+                    }
+                    public static class ById{
+                        public static final String name = "QueryDomainUserRoleMapById";
+                        public static final String value = "from RoleMap where Id=:Id";
                     }
                 }
                 public static class Roster {
                     public static class ByDomainId {
-                        public static final String name = "QueryDomainUserAccountRosterByDomainId";
+                        public static final String name = "QueryDomainUserRosterByDomainId";
                         public static final String value = "from Roster where DomainId=:DomainId";
                     }
 
                     public static class ByDomainIdAndOwnerId {
-                        public static final String name = "QueryDomainUserAccountRosterByDomainIdAndOwnerId";
+                        public static final String name = "QueryDomainUserRosterByDomainIdAndOwnerId";
                         public static final String value = "from Roster where DomainId=:DomainId and OwnerId=:OwnerId";
                     }
 
                     public static class RosterField {
                         public static class ByDomainId {
-                            public static final String name = "QueryDomainUserAccountRosterFieldByDomainId";
+                            public static final String name = "QueryDomainUserRosterFieldByDomainId";
                             public static final String value = "from RosterField where DomainId=:DomainId";
                         }
 
                         public static class ByOwnerId {
-                            public static final String name = "QueryDomainUserAccountRosterFieldByOwnerId";
+                            public static final String name = "QueryDomainUserRosterFieldByOwnerId";
                             public static final String value = "from RosterField where OwnerId=:OwnerId";
                         }
                     }
@@ -349,6 +385,11 @@ public class Database extends com.aurawin.core.lang.Database {
                         public static final String name = "QueryDomainNetworkFileByNetworkId";
                         public static final String value = "from File where NetworkId=:NetworkId";
                     }
+                    public static class ConsumptionByOwnerId{
+                        public static final String name = "QueryDomainNetworkFileConsumptionByOwnerId";
+                        public static final String value = "select count(*) from File where OwnerId=:OwnerId";
+                    }
+
                 }
                 public static class Member{
                     public static class ByDomainId {
@@ -362,6 +403,11 @@ public class Database extends com.aurawin.core.lang.Database {
     }
     public static class Field extends com.aurawin.core.lang.Database.Field{
         public static class Security{
+            public static class ACL{
+                public static final String Id = "itmid";
+                public static final String OwnerId = "ioid";
+                public static final String NamespaceId = "nsid";
+            }
             public static class Filter {
                 public static final String Id = "itmid";
                 public static final String Counter = "ictr";
@@ -371,6 +417,7 @@ public class Database extends com.aurawin.core.lang.Database {
                 public static final String Value = "itvl";
                 public static final String Data = "idat";
             }
+
             public static class IpLog{
                 public static final String Id = "itmid";
                 public static final String Ip = "itmip";
@@ -464,6 +511,15 @@ public class Database extends com.aurawin.core.lang.Database {
             public static final String DefaultOptionQuota="itmdqo";
             public static final String DefaultOptionFiltering="itmdfl";
             public static class User {
+                public static class Role{
+                    public static final String Id = "itmid";
+                    public static final String Title = "itle";
+                }
+                public static class RoleMap{
+                    public static final String Id = "itmid";
+                    public static final String OwnerId = "ioid";
+                    public static final String NamespaceId = "nsid";
+                }
                 public static class Account {
                     public static final String Id = "itmid";
                     public static final String DomainId = "itmdi";
@@ -566,6 +622,7 @@ public class Database extends com.aurawin.core.lang.Database {
                     public static final String DiskId = "itdsk";
                     public static final String DomainId = "itmdi";
                     public static final String NetworkId = "itmni";
+                    public static final String OwnerId = "itoid";
                     public static final String FolderId = "itmfi";
                     public static final String Name = "itmnm";
                     public static final String Digest = "itmde";

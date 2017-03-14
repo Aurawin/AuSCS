@@ -40,6 +40,10 @@ import java.util.ArrayList;
                 @NamedQuery(
                         name  = Database.Query.Domain.Network.File.ById.name,
                         query = Database.Query.Domain.Network.File.ById.value
+                ),
+                @NamedQuery(
+                        name  = Database.Query.Domain.Network.File.ConsumptionByOwnerId.name,
+                        query = Database.Query.Domain.Network.File.ConsumptionByOwnerId.value
                 )
         }
 )
@@ -86,6 +90,12 @@ public class File extends Stored {
     public long getNetworkId(){return NetworkId;}
     public void setNetworkId(long networkId){ NetworkId = networkId;}
 
+    @Column(name = Database.Field.Domain.Network.Files.OwnerId)
+    protected long OwnerId;
+    public long getOwnerId(){return OwnerId;}
+    public void setOwnerId(long ownerId){ OwnerId = ownerId;}
+
+
     @Column(name = Database.Field.Domain.Network.Files.FolderId)
     protected long FolderId;
     public long getFolderId() {      return FolderId;   }
@@ -123,6 +133,7 @@ public class File extends Stored {
         Id = Source.Id;
         DiskId = Source.DiskId;
         DomainId = Source.DomainId;
+        OwnerId = Source.OwnerId;
         NetworkId = Source.NetworkId;
         FolderId = Source.FolderId;
 

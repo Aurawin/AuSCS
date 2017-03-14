@@ -15,6 +15,9 @@ import com.aurawin.scs.stored.domain.user.Account;
 import com.google.gson.Gson;
 import org.hibernate.Session;
 
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+
 import static com.aurawin.core.stored.entities.Entities.CascadeOff;
 
 
@@ -26,6 +29,7 @@ import static com.aurawin.core.stored.entities.Entities.CascadeOff;
         Prompt = "Enable authentication",
         Description = "Facilitates authentication for users and administrators.",
         Vendor = "Aurawin LLC",
+        Roles = {"Administrator", "Power User", "User"},
         Transport = HTTP_1_1.class
 )
 
@@ -54,6 +58,7 @@ public class Login extends Plug {
             Title = "Authenicate",
             Prompt = "Enable this feature to validate prior authentication.",
             Description = "Allows for quick verification of existing login using cookies",
+            Roles = {"Administrator", "Power User", "User"},
             Format = FormatIO.None
     )
     public PluginState Auth(Session ssn, Item Transport){
@@ -81,6 +86,7 @@ public class Login extends Plug {
             Title = "Login",
             Prompt = "Enable this feature to enable users to login.",
             Description = "Allows users to login to domain.",
+            Roles = {"Administrator", "Power User", "User"},
             Format = FormatIO.None
     )
     public PluginState Login(Session ssn, Item Transport){
@@ -93,7 +99,15 @@ public class Login extends Plug {
                         .setParameter("Auth",h.Request.Cookies.ValueAsString(Field.Auth))
                         .uniqueResult();
         if (a!=null) {
+            h.User=a;
+            h.Credentials.Digest=a.getAuth();
+            h.Credentials.Id=a.getId();
+            h.Credentials.Password=a.getPass();
+            h.Credentials.ACLUIds=a.ACL.stream().map(acl -> acl.NamespaceId).collect(Collectors.toList());
+            h.Credentials.Username=a.getName();
+            h.Response.Headers.Update(Field.Auth,h.Credentials.Digest);
             h.Response.Headers.Update(Field.Code, CoreResult.Ok);
+
         } else {
             h.Response.Headers.Update(Field.Code,CoreResult.Authenticate);
         }
@@ -107,6 +121,7 @@ public class Login extends Plug {
             Title = "Change",
             Prompt = "Enable this feature to change passwords.",
             Description = "Allows users to change their password.",
+            Roles = {"Administrator", "Power User", "User"},
             Format = FormatIO.JSON
     )
     public PluginState Change(Session ssn, Item Transport){

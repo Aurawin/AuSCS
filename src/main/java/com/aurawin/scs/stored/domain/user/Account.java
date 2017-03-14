@@ -12,6 +12,7 @@ import com.aurawin.scs.stored.annotations.QueryByDomainIdAndName;
 import com.aurawin.scs.stored.domain.Domain;
 import com.aurawin.scs.stored.domain.network.Network;
 import com.aurawin.core.time.Time;
+import com.aurawin.scs.stored.security.ACL;
 import com.google.gson.annotations.Expose;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -136,6 +137,19 @@ public class Account extends Stored {
     @Fetch(value=FetchMode.SUBSELECT)
     @OneToMany(targetEntity = Roster.class, mappedBy = "Owner")
     public List<Roster>Contacts = new ArrayList<Roster>();
+
+    @Expose(serialize = false, deserialize = false)
+    @Cascade(CascadeType.ALL)
+    @Fetch(value=FetchMode.SUBSELECT)
+    @OneToMany(targetEntity = ACL.class, mappedBy = "Owner")
+    public List<ACL>ACL = new ArrayList<ACL>();
+    public boolean isGranted(long namespaceId){
+        for (ACL acl:ACL){
+            if (acl.NamespaceId==namespaceId)
+                return true;
+        }
+        return false;
+    }
 
     @Expose(serialize = true, deserialize = true)
     @Column(name = com.aurawin.scs.lang.Database.Field.Domain.User.Account.DomainId)

@@ -15,7 +15,7 @@
         <dependency>
             <groupId>com.aurawin</groupId>
             <artifactId>core</artifactId>
-            <version>2017.3.10.2</version>
+            <version>2017.3.14.2</version>
         </dependency>
     </dependencies>
     <repositories>

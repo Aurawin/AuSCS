@@ -26,6 +26,7 @@ import static com.aurawin.core.stored.entities.Entities.CascadeOn;
         Title = "Cloud Plugin",
         Prompt = "Enable cloud computing.",
         Description = "Facilitates bootstrapping system administration.",
+        Roles = {"Administrator"},
         Vendor = "Aurawin LLC",
         Transport = HTTP_1_1.class
 )
@@ -52,6 +53,7 @@ public class Cloud extends Plug {
             Title = "Add Location",
             Prompt = "Enable to provide access to adding location",
             Description = "Allows for administrators to add cloud locations",
+            Roles = {"Administrator"},
             Format = FormatIO.JSON
     )
     public PluginState AddLocation(Session ssn, Item Transport) {
@@ -80,6 +82,7 @@ public class Cloud extends Plug {
             Title = "Add Group",
             Prompt = "Enable to provide access to adding groups.",
             Description = "Allows for administrators to add cloud groups for clustering.",
+            Roles = {"Administrator"},
             Format = FormatIO.JSON
     )
     public PluginState AddGroup(Session ssn, Item Transport) {
@@ -108,6 +111,7 @@ public class Cloud extends Plug {
             Title = "Add Resource",
             Prompt = "Enable to provide access to adding resources.",
             Description = "Allows for administrators to add cloud resources for clustering.",
+            Roles = {"Administrator"},
             Format = FormatIO.JSON
     )
     public PluginState AddResource(Session ssn, Item Transport) {
@@ -136,6 +140,7 @@ public class Cloud extends Plug {
             Title = "Add Node",
             Prompt = "Enable to provide access to adding nodes.",
             Description = "Allows for administrators to add cloud nodes for clustering.",
+            Roles = {"Administrator"},
             Format = FormatIO.JSON
     )
     public PluginState AddNode(Session ssn, Item Transport) {
@@ -164,6 +169,7 @@ public class Cloud extends Plug {
             Title = "Add Service",
             Prompt = "Enable to provide access to adding services.",
             Description = "Allows for administrators to add cloud services for clustering.",
+            Roles = {"Administrator"},
             Format = FormatIO.JSON
     )
     public PluginState AddService(Session ssn, Item Transport) {
@@ -192,6 +198,7 @@ public class Cloud extends Plug {
             Title = "Add Disk",
             Prompt = "Enable to provide access to adding disks.",
             Description = "Allows for administrators to add cloud disks for clustering.",
+            Roles = {"Administrator"},
             Format = FormatIO.JSON
     )
     public PluginState AddDisk(Session ssn, Item Transport) {
@@ -220,6 +227,7 @@ public class Cloud extends Plug {
             Title = "Add Self Signed Certificate",
             Prompt = "Enable to provide access to add self signed certificates.",
             Description = "Allows for administrators to add self signed certificates.",
+            Roles = {"Administrator"},
             Format = FormatIO.JSON
     )
     public PluginState AddSelfSignedCertificate(Session ssn, Item Transport) {

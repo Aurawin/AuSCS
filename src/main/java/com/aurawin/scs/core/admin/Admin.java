@@ -27,6 +27,7 @@ import static com.aurawin.core.stored.entities.Entities.CascadeOn;
         Prompt = "Enable administration",
         Description = "Facilitates system administration.",
         Vendor = "Aurawin LLC",
+        Roles = {"Administrator"},
         Transport = HTTP_1_1.class
 )
 public class Admin extends Plug {
@@ -53,6 +54,7 @@ public class Admin extends Plug {
             Title = "Add User",
             Prompt = "Enable to provide access to adding users.",
             Description = "Allows for administrators to add new users.",
+            Roles = {"Administrator"},
             Format = FormatIO.JSON
     )
     public PluginState AddUser(Session ssn, Item Transport){
@@ -86,6 +88,7 @@ public class Admin extends Plug {
             Title = "Delete User",
             Prompt = "Enable to provide access to deleting users.",
             Description = "Allows for administrators to delete users.",
+            Roles = {"Administrator"},
             Format = FormatIO.JSON
     )
     public PluginState DeleteUser(Session ssn, Item Transport){
@@ -119,6 +122,7 @@ public class Admin extends Plug {
             Title = "Write User",
             Prompt = "Enable to provide access to updating users.",
             Description = "Allows for administrators to update users.",
+            Roles = {"Administrator"},
             Format = FormatIO.JSON
     )
     public PluginState WriteUser(Session ssn, Item Transport){
@@ -151,6 +155,7 @@ public class Admin extends Plug {
             Title = "Add Domain",
             Prompt = "Enable to provide access to adding domains.",
             Description = "Allows for administrators to add new domains.",
+            Roles = {"Administrator"},
             Format = FormatIO.JSON
     )
     public PluginState AddDomain(Session ssn, Item Transport){
@@ -184,6 +189,7 @@ public class Admin extends Plug {
             Title = "Delete Domain",
             Prompt = "Enable to provide access to delete domains.",
             Description = "Allows for administrators to delete domains.",
+            Roles = {"Administrator"},
             Format = FormatIO.JSON
     )
     public PluginState DeleteDomain(Session ssn, Item Transport){
@@ -216,6 +222,7 @@ public class Admin extends Plug {
             Title = "Write Domain",
             Prompt = "Enable to provide access to updating domain.",
             Description = "Allows for administrators to update domains.",
+            Roles = {"Administrator"},
             Format = FormatIO.JSON
     )
     public PluginState WriteDomain(Session ssn, Item Transport){

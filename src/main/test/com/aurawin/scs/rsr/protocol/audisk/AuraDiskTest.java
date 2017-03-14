@@ -50,6 +50,7 @@ public class AuraDiskTest {
         );
         Namespace.Merge(mf.Namespaces);
         Entities.Initialize(mf);
+        Bootstrap.Initialize();
         BootstrapTest.createTestData();
         AuDisk.Initialize(BootstrapTest.nChump);
 

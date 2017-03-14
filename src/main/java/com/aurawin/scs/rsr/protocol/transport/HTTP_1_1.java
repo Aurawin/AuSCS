@@ -21,6 +21,7 @@ import javax.xml.bind.Marshaller;
 import java.io.ByteArrayOutputStream;
 import java.nio.channels.SocketChannel;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 import static com.aurawin.core.rsr.def.http.Status.s200;
 import static com.aurawin.core.rsr.def.http.Status.s207;
@@ -67,9 +68,18 @@ public class HTTP_1_1 extends protocol_http_1_1 {
                             .setParameter("Auth", Request.Cookies.ValueAsString(Field.Auth))
 
                             .uniqueResult();
+            if (User!=null){
+                Credentials.Id = User.getId();
+                Credentials.Username=User.getName();
+                Credentials.Password=User.getPass();
+                Credentials.Digest=User.getAuth();
+                Credentials.ACLUIds=User.ACL.stream().map(acl -> acl.NamespaceId).collect(Collectors.toList());
+                Response.Headers.Update(Field.Auth,Credentials.Digest);
+                return CredentialResult.Passed;
+            }
         }
 
-        return (User==null) ? CredentialResult.Failed: CredentialResult.Passed;
+        return CredentialResult.Failed;
 
     }
     @Override

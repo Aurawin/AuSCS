@@ -3,14 +3,27 @@ package com.aurawin.scs.stored.bootstrap;
 
 import com.aurawin.core.rsr.def.CertSelfSigned;
 import com.aurawin.core.stored.annotations.AnnotatedList;
+import com.aurawin.core.stored.annotations.QueryByOwnerId;
 import com.aurawin.core.stored.entities.Certificate;
 import com.aurawin.core.stored.entities.Entities;
+import com.aurawin.core.stored.Stored;
+import com.aurawin.core.stored.entities.FetchKind;
 import com.aurawin.core.stored.entities.UniqueId;
+import com.aurawin.scs.lang.Database;
 import com.aurawin.scs.lang.Namespace;
 import com.aurawin.scs.lang.Table;
+import com.aurawin.scs.stored.bootstrap.roles.Administrator;
+import com.aurawin.scs.stored.bootstrap.roles.PowerUser;
+import com.aurawin.scs.stored.bootstrap.roles.User;
 import com.aurawin.scs.stored.cloud.*;
 import com.aurawin.scs.stored.domain.Domain;
 import com.aurawin.scs.stored.domain.user.Account;
+import com.aurawin.scs.stored.domain.user.Role;
+import com.aurawin.scs.stored.domain.user.RoleMap;
+import com.aurawin.scs.stored.security.ACL;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 import java.util.ArrayList;
 
@@ -19,7 +32,7 @@ public class Bootstrap {
     public static AnnotatedList buildAnnotations(){
         AnnotatedList al = new AnnotatedList();
         al.addAll(Plugins.buildAnnotations());
-        al.addAll(Stored.buildAnnotations());
+        al.addAll(com.aurawin.scs.stored.bootstrap.Stored.buildAnnotations());
         return al;
     }
     public static ArrayList<UniqueId> buildNamespaces(){
@@ -156,4 +169,60 @@ public class Bootstrap {
             return d;
         }
     }
+    public static void applyRole(Role role, Account user) throws Exception{
+        Entities.Fetch(role, FetchKind.Infinite);
+        ACL acl = null;
+
+        Session ssn = Entities.openSession();
+        try {
+            Transaction tx = ssn.beginTransaction();
+
+            Query q = ssn.getNamedQuery(Database.Query.Security.ACL.ByNamespaceIdAndOwnerId.name);
+            if (q!=null) {
+                for (RoleMap rm : role.Map) {
+                    q.setParameter("NamespaceId",rm.NamespaceId);
+                    q.setParameter("OwnerId",user.getId());
+
+                    acl = (ACL) q.uniqueResult();
+
+                    if (acl==null){
+                        acl = new ACL();
+                        acl.NamespaceId=rm.NamespaceId;
+                        acl.Owner=user;
+                        ssn.save(acl);
+                    }
+                }
+            }
+            tx.commit();
+        } finally {
+            ssn.close();
+        }
+
+    }
+
+    public static Role addRole(String Title, ArrayList<UniqueId> Targets) throws Exception{
+        Role r = null;
+        r = Entities.Lookup(Role.class,Title);
+        if (r==null) {
+            r = new Role();
+            r.Title = Title;
+            Entities.Save(r, Entities.CascadeOn);
+            for (UniqueId ns : Targets) {
+                RoleMap rm = new RoleMap(r, ns.getId());
+                Entities.Save(rm, Entities.CascadeOn);
+            }
+        } else {
+            Entities.Fetch(r,FetchKind.Infinite);
+        }
+        return r;
+    }
+
+    public static void Initialize(){
+        com.aurawin.scs.stored.bootstrap.Plugins.Initialize();
+
+        com.aurawin.scs.stored.bootstrap.roles.Administrator.Initialize();
+        com.aurawin.scs.stored.bootstrap.roles.PowerUser.Initialize();
+        com.aurawin.scs.stored.bootstrap.roles.User.Initialize();
+    }
+
 }

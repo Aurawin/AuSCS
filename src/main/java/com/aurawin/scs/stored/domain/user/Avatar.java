@@ -25,7 +25,7 @@ import java.time.Instant;
 @DynamicInsert(value = true)
 @DynamicUpdate(value = true)
 @SelectBeforeUpdate(value=true)
-@Table( name = Database.Table.Domain.Avatar)
+@Table( name = Database.Table.Domain.User.Avatar)
 @NamedQueries(
         {
                 @NamedQuery(
@@ -87,7 +87,15 @@ public class Avatar extends Stored {
     public Avatar() {
 
     }
-
+    public void Assign(Avatar src){
+        Id = src.Id;
+        OwnerId = src.OwnerId;
+        DomainId = src.DomainId;
+        Ext = src.Ext;
+        Created = src.Created;
+        Modified = src.Modified;
+        Data = src.Data;
+    }
     public String getExt() {
         return Ext;
     }

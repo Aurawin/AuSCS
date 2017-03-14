@@ -25,6 +25,7 @@ public class BootstrapTest {
     public static final String DomainName = "chump.aurawin.com";
 
     public static void createTestData() throws Exception {
+        Bootstrap.Initialize();
         lc = Bootstrap.Cloud.addLocation(
                 "Falcon Pointe",
                 "19309",
@@ -47,6 +48,7 @@ public class BootstrapTest {
         nPhoenix = Bootstrap.Cloud.addNode(rcPhoenix,"phoenix","172.16.1.1");
         nChump = Bootstrap.Cloud.addNode(rcChump,"chump","172.16.1.2");
         AuDisk.Initialize(nChump);
+
         svcAUDISK = Bootstrap.Cloud.addService(
                 nChump,
                 Namespace.Stored.Cloud.Service.AUDISK,
