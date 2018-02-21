@@ -232,16 +232,6 @@ public class Account extends Stored {
     }
 
     @Expose(serialize = true, deserialize = true)
-    @Column(name = com.aurawin.scs.lang.Database.Field.Domain.User.Account.LockCount)
-    protected int Lockcount;
-    public int getLockcount() {
-        return Lockcount;
-    }
-    public void setLockcount(int lockcount) {
-        Lockcount = lockcount;
-    }
-
-    @Expose(serialize = true, deserialize = true)
     @Column(name = com.aurawin.scs.lang.Database.Field.Domain.User.Account.Created)
     protected Instant Created;
     public Instant getCreated() {        return Created;    }
@@ -297,7 +287,6 @@ public class Account extends Stored {
         this.Name = user;
         this.Pass = "";
         this.Auth = "";
-        this.Lockcount=0;
         this.Created = Time.instantUTC();
         this.Modified = this.Created;
     }
@@ -307,7 +296,6 @@ public class Account extends Stored {
         this.Name = "";
         this.Pass = "";
         this.Auth = "";
-        this.Lockcount=0;
         this.Created = Time.instantUTC();
         this.Modified = this.Created;
     }
@@ -353,7 +341,6 @@ public class Account extends Stored {
         Auth=src.Auth;
         FirstIP=src.FirstIP;
         LastIP=src.LastIP;
-        Lockcount=src.Lockcount;
         LastLogin=src.LastLogin;
         Quota=src.Quota;
         Consumption=src.Consumption;

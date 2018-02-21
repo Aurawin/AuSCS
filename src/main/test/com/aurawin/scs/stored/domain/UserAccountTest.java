@@ -28,7 +28,6 @@ public class UserAccountTest {
         Account1.setId(1);
         Account1.setFirstIP(3);
         Account1.setLastIP(49);
-        Account1.setLockcount(10);
         Account1.setLastLogin(Time.instantUTC());
         Account1.setConsumption(1000);
         Account1.setQuota(50000);

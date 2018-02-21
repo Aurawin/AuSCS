@@ -29,16 +29,20 @@ public class MoveFileTest {
 
     @Test
     public void getJSON(){
-        cMoveFile cmd = new cMoveFile();
-        cmd.DiskId=1;
-        cmd.DomainId=1;
-        cmd.FileId=1;
-        cmd.OwnerId=1;
-        cmd.NamespaceId=Kind.getId();
-        cmd.NewFolderId=2;
-        cmd.OldFolderId=1;
-        String sJSON = gson.toJson(cmd);
+        String sJSON = "";
+
+        cMoveFile mf = new cMoveFile();
+
+        mf.DiskId=1;
+        mf.DomainId=1;
+        mf.FileId=1;
+        mf.OwnerId=1;
+        mf.NamespaceId=Kind.getId();
+        mf.NewFolderId=2;
+        mf.OldFolderId=1;
+        sJSON = gson.toJson(mf);
         System.out.println(sJSON);
+
     }
 
 }

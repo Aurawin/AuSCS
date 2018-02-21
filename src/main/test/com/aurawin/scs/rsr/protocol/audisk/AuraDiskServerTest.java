@@ -11,6 +11,7 @@ import com.aurawin.core.stored.Manifest;
 import com.aurawin.core.stored.entities.Entities;
 import com.aurawin.scs.audisk.AuDisk;
 import com.aurawin.scs.lang.Namespace;
+
 import com.aurawin.scs.rsr.protocol.audisk.server.Server;
 import com.aurawin.scs.stored.bootstrap.Bootstrap;
 import com.aurawin.scs.stored.bootstrap.BootstrapTest;
@@ -19,7 +20,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class AuraDiskTest {
+public class AuraDiskServerTest {
     Server Server;
     @Before
     public void before() throws Exception{
@@ -27,9 +28,9 @@ public class AuraDiskTest {
                 "AuProcess",
                 "Aurawin Social Computing Server",
                 "Universal",
-                "2017",
+                "2018",
                 "2",
-                "28"
+                "20"
         );
         Manifest mf = new Manifest (
                 Environment.getString(Table.DBMS.Username),                     // username
@@ -50,22 +51,27 @@ public class AuraDiskTest {
         );
         Namespace.Merge(mf.Namespaces);
         Entities.Initialize(mf);
-        Bootstrap.Initialize();
+
         BootstrapTest.createTestData();
-        AuDisk.Initialize(BootstrapTest.nChump);
+
+        AuDisk.Initialize(BootstrapTest.nPhoenix);
 
         Server = new Server(mf,BootstrapTest.svcAUDISK);
+        Server.loadSecurity(1l);
         Server.Configure();
     }
 
     @Test
     public void testAuDiskServer() throws Exception
     {
-        System.out.println("AuraDiskTest.testRun()");
-        System.out.println("AuraDiskTest.Server.Start()");
+
+        System.out.println("AuraDiskServerTest.testRun()");
+        System.out.println("AuraDiskServerTest.Server.Start()");
         Server.Start();
         System.out.println("AuDisk is running");
+
         while (Server.State != EngineState.esFinalize) {
+
             Thread.sleep(100);
         }
     }

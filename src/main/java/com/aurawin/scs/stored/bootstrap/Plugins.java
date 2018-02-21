@@ -21,7 +21,7 @@ public class Plugins {
         return al;
     }
 
-    private static Plug initializePlugin(Class<? extends Plug> COfP, Session ssn){
+    public static Plug initializePlugin(Class<? extends Plug> COfP, Session ssn){
 
         try {
             Plug p = COfP.newInstance();
@@ -45,23 +45,6 @@ public class Plugins {
         }
     }
     public static void Initialize() {
-        Session ssn = Entities.openSession();
-        try{
-            initializePlugin(com.aurawin.scs.core.admin.cms.CMS.class,ssn);
-            initializePlugin(com.aurawin.scs.core.admin.cms.Domain.class,ssn);
-            initializePlugin(com.aurawin.scs.core.admin.cms.Template.class,ssn);
-            initializePlugin(com.aurawin.scs.core.admin.ACL.class,ssn);
-            initializePlugin(com.aurawin.scs.core.admin.Admin.class,ssn);
-            initializePlugin(com.aurawin.scs.core.admin.Cloud.class,ssn);
 
-            initializePlugin(com.aurawin.scs.core.Account.class,ssn);
-            initializePlugin(com.aurawin.scs.core.ACL.class,ssn);
-            initializePlugin(com.aurawin.scs.core.Avatar.class,ssn);
-            initializePlugin(com.aurawin.scs.core.Login.class,ssn);
-            initializePlugin(com.aurawin.scs.core.Noid.class,ssn);
-
-        } finally{
-            ssn.close();
-        }
     }
 }

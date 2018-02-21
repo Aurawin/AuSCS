@@ -6,16 +6,23 @@ import com.aurawin.core.rsr.Item;
 import com.aurawin.core.rsr.Items;
 import com.aurawin.core.rsr.def.CredentialResult;
 import com.aurawin.core.rsr.def.ItemKind;
+
+import static com.aurawin.core.rsr.def.ItemKind.Server;
+import static com.aurawin.core.rsr.def.ItemKind.Client;
+
 import com.aurawin.core.rsr.def.handlers.*;
 
+import com.aurawin.core.rsr.def.http.SecurityMechanismBasic;
 import com.aurawin.core.rsr.def.rsrResult;
+import com.aurawin.core.rsr.security.Security;
 import com.aurawin.core.rsr.transport.Transport;
 import com.aurawin.core.rsr.transport.annotations.Protocol;
 import com.aurawin.core.rsr.transport.methods.Result;
 import com.aurawin.core.solution.Settings;
 import com.aurawin.scs.rsr.protocol.audisk.def.Response;
+import com.aurawin.scs.rsr.protocol.audisk.def.SecurityMechanismExclusive;
 import com.aurawin.scs.rsr.protocol.audisk.def.version.Version;
-import com.aurawin.scs.rsr.protocol.audisk.method.MoveFile;
+import com.aurawin.scs.rsr.protocol.audisk.method.command.*;
 import com.aurawin.scs.rsr.protocol.audisk.server.Server;
 import com.aurawin.scs.stored.cloud.Resource;
 import com.aurawin.scs.stored.cloud.Group;
@@ -25,27 +32,28 @@ import org.hibernate.Session;
 import com.aurawin.scs.rsr.protocol.audisk.def.Request;
 
 import java.nio.channels.SocketChannel;
+import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 import static com.aurawin.core.rsr.def.CredentialResult.None;
 import static com.aurawin.core.rsr.def.rsrResult.rFailure;
 import static com.aurawin.core.rsr.def.rsrResult.rPostpone;
 import static com.aurawin.core.rsr.def.rsrResult.rSuccess;
+import static com.aurawin.core.rsr.transport.methods.Result.Failure;
 import static com.aurawin.scs.rsr.protocol.audisk.def.Status.Ok;
 import static com.aurawin.scs.rsr.protocol.audisk.def.Status.Fail;
 
 @Protocol(
         Version = Version.class
 )
-public class AUDISK extends Item implements Transport,ResourceUploadHandler,ResourceDeleteHandler,
-        ResourceCopyHandler,ResourceMoveHandler, ResourceRequestedHandler, ResourceTransformHandler
+public class AUDISK extends Item implements Transport
 {
     protected Builder bldr = new Builder();
     public Gson gson = bldr.Create();
     public Request Request;
     public Response Response;
-    public Group Cluster;
-    public Resource Resource;
-    public Node Node;
+    public Queue<Response>Responses = new ConcurrentLinkedQueue<Response>();
+    public Queue<Request> Requests = new ConcurrentLinkedQueue<Request>();
 
     public AUDISK() throws InstantiationException, IllegalAccessException{
         super(null,ItemKind.None);
@@ -54,19 +62,30 @@ public class AUDISK extends Item implements Transport,ResourceUploadHandler,Reso
     public AUDISK(Items aOwner, ItemKind aKind) throws InstantiationException, IllegalAccessException {
         super(aOwner,aKind);
         Response = new Response();
-        Methods.registerMethod(new MoveFile(null));
+        Request = new Request();
+
+        Methods.registerMethod(new cDeleteFile());
+        Methods.registerMethod(new cDeleteFolder());
+        Methods.registerMethod(new cListAllFiles());
+        Methods.registerMethod(new cMakeFolder());
+        Methods.registerMethod(new cMoveFile());
+        Methods.registerMethod(new cReadFile());
+        Methods.registerMethod(new cWriteFile());
     }
     @Override
     public AUDISK newInstance(Items aOwner) throws InstantiationException, IllegalAccessException{
         return new AUDISK(aOwner,ItemKind.Client);
     }
     @Override
-    public AUDISK newInstance(Items aOwner, SocketChannel aChannel)throws InstantiationException, IllegalAccessException{
-        AUDISK itm = new AUDISK(aOwner, ItemKind.Server);
-        Server s = (Server) aOwner.Engine;
+    public AUDISK newInstance(Items aOwner, SocketChannel aChannel, ItemKind aKind)throws InstantiationException, IllegalAccessException{
+        AUDISK itm = new AUDISK(aOwner, aKind);
         itm.SocketHandler.Channel=aChannel;
         return itm;
     }
+
+    @Override public void registerSecurityMechanisms(){
+        Security.registerMechanism(new SecurityMechanismExclusive());
+    };
     @Override
     public void Initialized(){
 
@@ -89,7 +108,8 @@ public class AUDISK extends Item implements Transport,ResourceUploadHandler,Reso
     }
     @Override
     public void Reset(){
-
+        Request.Reset();
+        Response.Reset();
     }
     @Override
     public rsrResult onPeek(){
@@ -115,7 +135,15 @@ public class AUDISK extends Item implements Transport,ResourceUploadHandler,Reso
         long iLoc=Buffers.Recv.Find(Settings.RSR.Items.Header.Separator);
         if (iLoc>0) {
             if (Read(Buffers.Recv.Read(0,iLoc+Settings.RSR.Items.Header.SeparatorLength,false ))==rSuccess){
-                Buffers.Recv.Move(Request.Payload, Request.Size);
+                switch (Kind) {
+                    case Server:
+                        Buffers.Recv.Move(Request.Payload, Request.Size);
+                        break;
+                    case Client:
+                        Buffers.Recv.Move(Response.Payload, Response.Size);
+                        break;
+                }
+
                 return rSuccess;
             } else {
                 return rPostpone;
@@ -142,7 +170,14 @@ public class AUDISK extends Item implements Transport,ResourceUploadHandler,Reso
             System.arraycopy(input, iOffset, aLine, 0, iChunk);
             sLine = Bytes.toString(aLine);
             try {
-                Request = gson.fromJson(sLine, com.aurawin.scs.rsr.protocol.audisk.def.Request.class);
+                switch (Kind) {
+                    case Server:
+                        Request = gson.fromJson(sLine, com.aurawin.scs.rsr.protocol.audisk.def.Request.class);
+                        break;
+                    case Client:
+                        Response = gson.fromJson(sLine, com.aurawin.scs.rsr.protocol.audisk.def.Response.class);
+                        break;
+                }
                 return rSuccess;
             } catch (Exception e) {
                 return rFailure;
@@ -153,33 +188,41 @@ public class AUDISK extends Item implements Transport,ResourceUploadHandler,Reso
     }
     @Override
     public rsrResult onProcess(Session ssn) {
-        rsrResult r = rSuccess;
-        if (Read()==rSuccess) {
-            r = rSuccess;
-            // check method
-            Result mr = Methods.Process(Request.Method,ssn,this);
-            switch (mr){
-                case Ok:
-                    Respond();
-                    break;
-                default :
-                    Response.Code=Fail;
-                    Respond();
-                    break;
+        rsrResult r = Read();
+        Result mr =Failure;
+        if (r==rSuccess) {
+            switch (Kind) {
+                case Server:
+                    mr = Methods.Process(Request.Method,ssn,this);
+                    switch (mr){
+                        case Ok:
+                            Response.Code=Ok;
+                            break;
+                        default :
+                            Response.Code=Fail;
+                            break;
 
+                    }
+                    Respond();
+                    break;
+                case Client:
+                    Methods.Process(Response.Method,ssn,this);
+                    break;
             }
-
-            Response.Code=Ok;
-            Respond();
         } else {
-            r = rFailure;
-            Response.Code= Fail;
-            Respond();
+            switch (Kind) {
+                case Server:
+                    Response.Code = Fail;
+                    Respond();
+                    break;
+                case Client:
+                    break;
+            }
         }
         return r;
     }
 
-    private void Respond() {
+    public void Respond() {
         String sHeader=gson.toJson(Response);
         Buffers.Send.position(Buffers.Send.size());
         Buffers.Send.Write(sHeader);
@@ -189,35 +232,20 @@ public class AUDISK extends Item implements Transport,ResourceUploadHandler,Reso
         }
         queueSend();
     }
+    public void Query(){
+        String sHeader=gson.toJson(Request);
+        Buffers.Send.position(Buffers.Send.size());
+        Buffers.Send.Write(sHeader);
+        Buffers.Send.Write(Settings.RSR.Items.Header.Separator);
+        if (Request.Payload.size()>0) {
+            Request.Payload.Move(Buffers.Send);
+        }
 
-    @Override
-    public Result resourceRequested(Session ssn){
-
-        return Result.Ok;
+        queueSend();
     }
     @Override
     public CredentialResult validateCredentials(Session ssn){
         return None;
-    }
-    @Override
-    public Result resourceUploaded(Session ssn){
-        return Result.Ok;
-    }
-    @Override
-    public Result resourceDeleted(Session ssn){
-        return Result.Ok;
-    }
-    @Override
-    public Result resourceCopied(Session ssn){
-        return Result.Ok;
-    }
-    @Override
-    public Result resourceMoved(Session ssn){
-        return Result.Ok;
-    }
-    @Override
-    public Result resourceTransform(Session ssn){
-        return Result.Ok;
     }
 
 }

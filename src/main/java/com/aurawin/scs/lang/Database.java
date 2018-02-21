@@ -250,8 +250,8 @@ public class Database extends com.aurawin.core.lang.Database {
                     }
 
                     public static class ByIdAndPass {
-                        public static final String name = "QueryDomainUserAccountByIdAndPass";
-                        public static final String value = "from Account where Id=:Id and Pass=:Pass";
+                        public static final String name = "QueryDomainUserAccountByDomainIdAndIdAndPass";
+                        public static final String value = "from Account where DomainId=:DomainId Id=:Id and Pass=:Pass";
                     }
 
                     public static class ByDomainId {
@@ -271,6 +271,14 @@ public class Database extends com.aurawin.core.lang.Database {
                     public static class ByDomainIdAndName {
                         public static final String name = "QueryDomainUserAccountByDomainIdAndName";
                         public static final String value = "from Account where DomainId=:DomainId and Name=:Name";
+                    }
+                    public static class ByDomainIdAndNameAndPass {
+                        public static final String name = "QueryDomainUserAccountByDomainIdAndNameAndPass";
+                        public static final String value = "from Account where DomainId=:DomainId and Name=:Name and Password=:Password";
+                    }
+                    public static class ByDomainIdAndNameAndAuth {
+                        public static final String name = "QueryDomainUserAccountByDomainIdAndNameAndDigest";
+                        public static final String value = "from Account where DomainId=:DomainId and Name=:Name and Auth=:Auth";
                     }
                 }
                 public static class Avatar{
@@ -535,7 +543,6 @@ public class Database extends com.aurawin.core.lang.Database {
                     public static final String Created = "itmctd";
                     public static final String Modified = "itmmtd";
                     public static final String LastLogin = "itmlln";
-                    public static final String LockCount = "itmlct";
                     public static final String LastConsumptionCalc = "itmlcc";
                     public static final String Consumption = "itmcspn";
                     public static final String Quota = "itmquo";

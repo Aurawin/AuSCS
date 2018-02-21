@@ -4,14 +4,16 @@ import com.aurawin.core.rsr.Items;
 import com.aurawin.core.rsr.def.CredentialResult;
 import com.aurawin.core.rsr.def.ItemKind;
 import com.aurawin.core.rsr.def.http.Field;
-import com.aurawin.core.rsr.def.http.Version_HTTP;
-import com.aurawin.core.rsr.protocol.http.protocol_http_1_1;
+import com.aurawin.core.rsr.def.http.Version_1_1;
+import com.aurawin.core.rsr.protocol.http.Protocol_HTTP_1_1;
 import com.aurawin.core.rsr.transport.annotations.Protocol;
 import com.aurawin.core.rsr.transport.methods.Result;
 import com.aurawin.core.rsr.transport.methods.http.dav.*;
 import com.aurawin.core.solution.Settings;
 import com.aurawin.core.time.Time;
 import com.aurawin.scs.rsr.protocol.http.Server;
+import com.aurawin.scs.stored.Entities;
+import com.aurawin.scs.stored.domain.Domain;
 import com.aurawin.scs.stored.domain.user.Account;
 import org.hibernate.Session;
 
@@ -31,9 +33,9 @@ import static java.time.Instant.now;
 
 
 @Protocol(
-        Version = Version_HTTP.class
+        Version = Version_1_1.class
 )
-public class HTTP_1_1 extends protocol_http_1_1 {
+public class HTTP_1_1 extends Protocol_HTTP_1_1 {
     public static boolean dummyFile = false;
     public Account User;
 
@@ -49,11 +51,8 @@ public class HTTP_1_1 extends protocol_http_1_1 {
         return new HTTP_1_1(aOwner,ItemKind.Client);
     }
     @Override
-    public HTTP_1_1 newInstance(Items aOwner, SocketChannel aChannel)throws InstantiationException, IllegalAccessException{
-        HTTP_1_1 itm = new HTTP_1_1(aOwner, ItemKind.Server);
-        Server s = (Server) aOwner.Engine;
-
-
+    public HTTP_1_1 newInstance(Items aOwner, SocketChannel aChannel, ItemKind aKind)throws InstantiationException, IllegalAccessException{
+        HTTP_1_1 itm = new HTTP_1_1(aOwner, aKind);
         itm.SocketHandler.Channel=aChannel;
         return itm;
     }
@@ -69,12 +68,14 @@ public class HTTP_1_1 extends protocol_http_1_1 {
 
                             .uniqueResult();
             if (User!=null){
-                Credentials.Id = User.getId();
-                Credentials.Username=User.getName();
-                Credentials.Password=User.getPass();
-                Credentials.Digest=User.getAuth();
+                Credentials.User=User;
+                Credentials.Domain= Entities.Lookup(Domain.class,User.getDomainId());
+                Credentials.Passport.Username=User.getName();
+                Credentials.Passport.Password=User.getPass();
+                Credentials.Passport.Digest=User.getAuth();
+
                 Credentials.ACLUIds=User.ACL.stream().map(acl -> acl.NamespaceId).collect(Collectors.toList());
-                Response.Headers.Update(Field.Auth,Credentials.Digest);
+                Response.Headers.Update(Field.Auth,Credentials.Passport.Digest);
                 return CredentialResult.Passed;
             }
         }
@@ -95,32 +96,26 @@ public class HTTP_1_1 extends protocol_http_1_1 {
     @Override
     public Result resourceDeleted(Session ssn){
         return Ok;
-
     }
     @Override
     public Result resourceCopied(Session ssn){
         return Ok;
-
     }
     @Override
     public Result resourceMoved(Session ssn){
         return Ok;
-
     }
     @Override
     public Result resourceLocked(Session ssn){
         return Ok;
-
     }
     @Override
     public Result resourceUnlocked(Session ssn){
         return Ok;
-
     }
     @Override
     public Result resourceMakeCollection(Session ssn){
         return Ok;
-
     }
     @Override
     public Result resourceFindProperties(Session ssn){

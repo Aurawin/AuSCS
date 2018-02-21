@@ -82,8 +82,8 @@ public class AuDisk {
         }
     }
     public static ArrayList<String> listFiles(long DiskId, long NamespaceId, long DomainId, long OwnerId, long FolderId){
+        ArrayList<String> r = null;
         Disk d = isDiskLocal(DiskId);
-        ArrayList<String> r = new ArrayList<>();
         if (d!=null) {
             Path Mount = Settings.Stored.Domain.Network.File.buildMount(d.getMount());
             Path Path = Settings.Stored.Domain.Network.File.buildPath(
@@ -95,6 +95,7 @@ public class AuDisk {
             );
             java.io.File dPath = Path.toFile();
             if (dPath.isDirectory()) {
+                r = new ArrayList<>();
                 try {
                     java.io.File[] lst = dPath.listFiles();
                     for (java.io.File f:lst ) {

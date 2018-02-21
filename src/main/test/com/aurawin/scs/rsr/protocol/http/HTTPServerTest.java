@@ -51,18 +51,19 @@ public class HTTPServerTest {
                 Driver.Postgresql.getValue(),                                   // Driver
                 Bootstrap.buildAnnotations()
         );
-        Namespace.Merge(mf.Namespaces);
+
 
         Entities.Initialize(mf);
 
-        Bootstrap.Initialize();
+        com.aurawin.scs.rsr.protocol.http.Server.Bootstrap();
+
         BootstrapTest.createTestData();
         AuDisk.Initialize(BootstrapTest.nChump);
 
         Server = new Server(mf,BootstrapTest.svcHTTP);
 
         // Testing without https
-        // Server.loadSecurity(1l);
+        Server.loadSecurity(1l);
         Server.installPlugin(new Noid());
         Server.installPlugin(new Login());
         Server.Configure();

@@ -6,11 +6,27 @@ public class Table extends com.aurawin.core.lang.Table {
         public static final String Protocol = "Version";
         public static class Method{
             public static class Command{
-                public static final String MoveFile = "CMFE";
-                public static final String MakeFolder = "CMFR";
+                public static final String Move = "MVE";
+                public static final String ListAll = "LA";
+                public static final String Make = "MKE";
+                public static final String Delete = "DEL";
+                public static final String Read = "REA";
+                public static final String Write = "WRI";
             }
-            public static final String MoveFile = "MMFE";
-            public static final String MakeFolder = "MMFR";
+            public static final String File = "FLE";
+            public static final String Folder = "FLDR";
+        }
+    }
+    public static class Security extends com.aurawin.core.lang.Table.Security{
+        public static class Mechanism extends com.aurawin.core.lang.Table.Security.Mechanism{
+            public static class AURADISK{
+                public static final String Exclusive = "AURADISK.EXCLUSIVE";
+            }
+        }
+        public static class Method extends com.aurawin.core.lang.Table.Security.Mechanism{
+            public static class AURADISK{
+                public static final String Exclusive = "EXCLUSIVE";
+            }
         }
     }
     public static class Entities extends com.aurawin.core.lang.Table.Entities{

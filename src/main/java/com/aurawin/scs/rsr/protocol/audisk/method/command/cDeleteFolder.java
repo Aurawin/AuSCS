@@ -1,5 +1,6 @@
 package com.aurawin.scs.rsr.protocol.audisk.method.command;
 
+
 import com.aurawin.core.log.Syslog;
 import com.aurawin.core.rsr.transport.Transport;
 import com.aurawin.core.rsr.transport.methods.Item;
@@ -24,7 +25,7 @@ import static com.aurawin.core.rsr.transport.methods.Result.Failure;
 import static com.aurawin.core.rsr.transport.methods.Result.None;
 import static com.aurawin.core.rsr.transport.methods.Result.Ok;
 
-public class cMakeFolder extends Item {
+public class cDeleteFolder extends Item {
     @Expose(serialize = true, deserialize = true)
     @SerializedName("DSK")
     public long DiskId;
@@ -41,45 +42,44 @@ public class cMakeFolder extends Item {
     @SerializedName("FID")
     public long FolderId;
 
-
-    public cMakeFolder() {
-        super(Table.AuDisk.Method.Folder+"."+Table.AuDisk.Method.Command.Make);
+    public cDeleteFolder() {
+        super(Table.AuDisk.Method.Folder+"."+Table.AuDisk.Method.Command.Delete);
     }
 
     @Override
     public Result onProcess(Session ssn, Transport transport){
-        cMakeFolder cmd= null;
         Result r = None;
+        cDeleteFolder cmd = null;
         AUDISK t = (AUDISK) transport;
 
         switch (t.Kind){
             case Server:
                 Server s = (Server) t.Owner.Engine;
-                cmd = t.gson.fromJson(t.Request.Command,cMakeFolder.class);
+                cmd = t.gson.fromJson(t.Request.Command,cDeleteFolder.class);
                 Disk disk = s.getDisk(cmd.DiskId);
                 if (disk!=null) {
-                    Path Mount = Settings.Stored.Domain.Network.File.buildMount(disk.getMount());
-                    Path newPath = Settings.Stored.Domain.Network.File.buildPath(
+                    Path dPath = Settings.Stored.Domain.Network.File.buildPath(
                             disk.getMount(),
                             cmd.NamespaceId,
                             cmd.DomainId,
                             cmd.OwnerId,
                             cmd.FolderId
                     );
-                    File dNewPath = newPath.toFile();
-                    if (!dNewPath.isDirectory()) {
+                    File fPath = dPath.toFile();
+                    if (fPath.isDirectory()) {
                         try {
-                            Files.createDirectories(newPath, Settings.Stored.Cloud.Disk.Attributes);
+                            Files.delete(dPath);
                             r = Ok;
                         } catch (Exception e){
-                            Syslog.Append(getClass().getCanonicalName(),"Execute.Files.createDirectories", com.aurawin.core.lang.Table.Format(com.aurawin.core.lang.Table.Error.RSR.MethodFailure,e.getMessage()));
-                            r = Failure;
+                            Syslog.Append(getClass().getCanonicalName(),"Execute.Files.delete", com.aurawin.core.lang.Table.Format(com.aurawin.core.lang.Table.Error.RSR.MethodFailure,e.getMessage()));
+                            r= Failure;
                         }
                     } else {
-                        r = Ok;
+                        r = Failure;
                     }
+
                 } else {
-                    r=Failure;
+                    r = Failure;
                 }
                 break;
             case Client:
@@ -98,9 +98,9 @@ public class cMakeFolder extends Item {
                 } else {
                     r = Failure;
                 }
-
                 break;
         }
         return r;
     }
+
 }

@@ -15,6 +15,19 @@ public class Settings extends com.aurawin.core.solution.Settings {
     }
     public static class Stored{
         public static class Cloud{
+            public static class Service{
+                public static class Port{
+                  public static final int AuDisk = 1079;
+                  public static final int HTTP = 80;
+                  public static final int HTTPS = 443;
+                  public static final int POP3 = 110;
+                  public static final int POP3S = 995;
+                  public static final int SMTP = 25;
+                  public static final int SMTPS = 465;
+                  public static final int IMAP = 143;
+                  public static final int IMAPS = 993;
+                }
+            }
             public static class Disk{
                 public static final String Root = "AuraDisk";
                 public static final Set<PosixFilePermission> Permissions = PosixFilePermissions.fromString("rwxrwx---");

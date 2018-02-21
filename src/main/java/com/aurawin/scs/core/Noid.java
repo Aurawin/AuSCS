@@ -36,7 +36,7 @@ public class Noid extends Plug {
             Namespace = "/ds",
             Title = "Something",
             Prompt = "Enable this feature to do something.",
-            Description = "The command \"Something\" does something!",
+            Description = "The future \"Something\" does something!",
             Roles = {"Administrator", "Power User", "User"},
             Format = FormatIO.JSON
     )
@@ -53,7 +53,7 @@ public class Noid extends Plug {
             Namespace = "/da",
             Title = "Another",
             Prompt = "Enable this feature to do another.",
-            Description = "The command \"Another\" does another!",
+            Description = "The future \"Another\" does another!",
             Roles = {"Administrator", "Power User", "User"},
             Format = FormatIO.JSON
     )

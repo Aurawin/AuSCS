@@ -351,7 +351,7 @@ public class Folder extends Stored {
             if (Cascade == true) {
                 // note, just Update all children re-entrant will handle their children
                 for (Folder c : f.Children) {
-                    //todo Entities.Domain.Folder.
+                    //todo Entities.Domain.mFolder.
                 }
             }
         }

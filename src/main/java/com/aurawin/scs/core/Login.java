@@ -5,8 +5,11 @@ import com.aurawin.core.plugin.FormatIO;
 import com.aurawin.core.plugin.Plug;
 import com.aurawin.core.plugin.PluginState;
 import com.aurawin.core.rsr.Item;
+import com.aurawin.core.rsr.def.CredentialResult;
 import com.aurawin.core.rsr.def.http.Field;
+import com.aurawin.core.rsr.security.Security;
 import com.aurawin.scs.core.def.login.CredentialChange;
+import com.aurawin.scs.lang.Table;
 import com.aurawin.scs.rsr.protocol.http.Server;
 import com.aurawin.scs.rsr.protocol.transport.HTTP_1_1;
 import com.aurawin.core.plugin.annotations.Command;
@@ -92,22 +95,37 @@ public class Login extends Plug {
     public PluginState Login(Session ssn, Item Transport){
         HTTP_1_1 h = (HTTP_1_1) Transport;
         Server s = (Server) h.Owner.Engine;
-        Account a = (Account)
-                ssn.getNamedQuery(com.aurawin.scs.lang.Database.Query.Domain.User.Account.ByAuth.name)
-                        .setParameter("DomainId",s.Domain.getId())
-                        .setParameter("Name",h.Request.Cookies.ValueAsString(Field.User))
-                        .setParameter("Auth",h.Request.Cookies.ValueAsString(Field.Auth))
-                        .uniqueResult();
-        if (a!=null) {
-            h.User=a;
-            h.Credentials.Digest=a.getAuth();
-            h.Credentials.Id=a.getId();
-            h.Credentials.Password=a.getPass();
-            h.Credentials.ACLUIds=a.ACL.stream().map(acl -> acl.NamespaceId).collect(Collectors.toList());
-            h.Credentials.Username=a.getName();
-            h.Response.Headers.Update(Field.Auth,h.Credentials.Digest);
-            h.Response.Headers.Update(Field.Code, CoreResult.Ok);
+        CredentialResult res = CredentialResult.None;
+        try {
+            res = Security.Authenticate(
+                    Table.Security.Mechanism.AURADISK.Exclusive,
+                    h.getRemoteIp(),
+                    s.Domain.getId(),
+                    h.Request.Cookies.ValueAsString(Field.User),
+                    h.Request.Cookies.ValueAsString(Field.Auth)
+            );
+        } catch (Exception  ex){
 
+        }
+        if (res==CredentialResult.Passed){
+
+            Account a = (Account)
+                    ssn.getNamedQuery(com.aurawin.scs.lang.Database.Query.Domain.User.Account.ByAuth.name)
+                            .setParameter("DomainId",s.Domain.getId())
+                            .setParameter("Name",h.Request.Cookies.ValueAsString(Field.User))
+                            .setParameter("Auth",h.Request.Cookies.ValueAsString(Field.Auth))
+                            .uniqueResult();
+            if (a!=null) {
+//                h.User = a;
+//                h.Credentials.Digest = a.getAuth();
+//                h.Credentials.Id = a.getId();
+//                h.Credentials.Password = a.getPass();
+//                h.Credentials.ACLUIds = a.ACL.stream().map(acl -> acl.NamespaceId).collect(Collectors.toList());
+//                h.Credentials.Username = a.getName();
+                h.Response.Headers.Update(Field.User,h.Credentials.Passport.Username);
+                h.Response.Headers.Update(Field.Auth, h.Credentials.Passport.Digest);
+                h.Response.Headers.Update(Field.Code, CoreResult.Ok);
+            }
         } else {
             h.Response.Headers.Update(Field.Code,CoreResult.Authenticate);
         }

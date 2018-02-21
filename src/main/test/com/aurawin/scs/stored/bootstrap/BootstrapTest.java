@@ -1,10 +1,16 @@
 package com.aurawin.scs.stored.bootstrap;
 
+import com.aurawin.core.lang.Table;
+import com.aurawin.core.rsr.def.CertSelfSigned;
+import com.aurawin.core.stored.entities.Certificate;
 import com.aurawin.scs.audisk.AuDisk;
 import com.aurawin.scs.lang.Namespace;
+import com.aurawin.scs.solution.Settings;
+import com.aurawin.scs.stored.Entities;
 import com.aurawin.scs.stored.cloud.*;
 import com.aurawin.scs.stored.domain.Domain;
 import com.aurawin.scs.stored.domain.user.Account;
+import static com.aurawin.core.stored.entities.Entities.CascadeOff;
 
 /**
  * Created by atbrunner on 3/7/17.
@@ -17,6 +23,9 @@ public class BootstrapTest {
     public static Resource rcChump;
     public static Node nPhoenix;
     public static Node nChump;
+    public static Node nAu1;
+    public static Node nAu2;
+
     public static Account account;
     public static Service svcHTTP;
     public static Service svcAUDISK;
@@ -25,7 +34,7 @@ public class BootstrapTest {
     public static final String DomainName = "chump.aurawin.com";
 
     public static void createTestData() throws Exception {
-        Bootstrap.Initialize();
+
         lc = Bootstrap.Cloud.addLocation(
                 "Falcon Pointe",
                 "19309",
@@ -47,18 +56,20 @@ public class BootstrapTest {
         rcChump = Bootstrap.Cloud.addResource(gp,"Chump");
         nPhoenix = Bootstrap.Cloud.addNode(rcPhoenix,"phoenix","172.16.1.1");
         nChump = Bootstrap.Cloud.addNode(rcChump,"chump","172.16.1.2");
+        nAu1 = Bootstrap.Cloud.addNode(rcPhoenix,"au1","107.218.165.193");
+        nAu2 = Bootstrap.Cloud.addNode(rcChump,"au2","107.218.165.194");
         AuDisk.Initialize(nChump);
 
         svcAUDISK = Bootstrap.Cloud.addService(
-                nChump,
+                nPhoenix,
                 Namespace.Stored.Cloud.Service.AUDISK,
-                1081,
+                Settings.Stored.Cloud.Service.Port.AuDisk,
                 1,
                 10,
                 1
         );
         svcHTTP = Bootstrap.Cloud.addService(
-                nChump,
+                nPhoenix,
                 Namespace.Stored.Cloud.Service.HTTP,
                 1080,
                 1,
@@ -69,8 +80,38 @@ public class BootstrapTest {
 
         domain = Bootstrap.addDomain(DomainName);
         account=Bootstrap.addUser(domain,"test","1Bl4H4uotT");
+
+        nPhoenix.setDomain(domain);
         nChump.setDomain(domain);
+        nAu1.setDomain(domain);
+        nAu2.setDomain(domain);
 
 
+        Certificate cert = new Certificate();
+        CertSelfSigned ssc = new CertSelfSigned(
+                "phoenix.aurawin.com",
+                "NOC",
+                "Aurawin LLC",
+                "19309 Stage Line Trail",
+                "Pflugerville",
+                "TX",
+                "78660",
+                "US",
+                "support@aurawin.com",
+                365
+        );
+        cert.Request= Table.Security.Certificate.Request.SelfSigned;
+        cert.DerKey=ssc.getPrivateKeyAsDER();
+        cert.TextKey=ssc.PrintPrivateKey();
+
+        cert.DerCert1=ssc.getCertificateAsDER();
+        cert.TextCert1 = ssc.PrintCertificate();
+
+        cert.ChainCount=1;
+        cert.Expires=ssc.ToDate.toInstant();
+
+        cert.DomainId=domain.getId();
+
+        Entities.Save(cert, CascadeOff);
     }
 }

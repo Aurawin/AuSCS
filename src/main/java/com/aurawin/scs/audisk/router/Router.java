@@ -18,10 +18,10 @@ import com.google.gson.Gson;
 
 import java.net.InetSocketAddress;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class Router {
+
     public static Node Node;
     public static Version Version = new Version();
     public static ConcurrentHashMap<Long,Route> Routes = new ConcurrentHashMap<Long, Route>();
@@ -42,17 +42,18 @@ public class Router {
                     r.Node=Entities.Lookup(Node.class,d.getOwnerId());
                     r.Service=Entities.Lookup(Service.class,d.getServiceId());
                     r.Valid=true;
+                    Routes.put(d.getId(), r);
+                }
+                if (r.Connector==null){
                     InetSocketAddress bind=new InetSocketAddress(r.Service.getIP(),r.Service.getPort());
                     InetSocketAddress remote=new InetSocketAddress(r.Service.getIP(),r.Service.getPort());
                     try {
                         r.Connector = new Client(bind, remote);
                     } catch (Exception ex){
-
+                        // log exception
                     }
-                    Routes.put(d.getId(), r);
                 }
             }
-
         }
     }
     public static void invalidateRoutes(){
@@ -73,6 +74,7 @@ public class Router {
         Builder bldr = new Builder();
         Gson gson = bldr.Create();
 
+
         cMakeFolder cmd = new cMakeFolder();
         cmd.DiskId=DiskId;
         cmd.NamespaceId=NamespaceId;
@@ -82,7 +84,7 @@ public class Router {
 
         Request rq = new Request();
         rq.Command=gson.toJson(cmd);
-        rq.Method=Table.AuDisk.Method.MakeFolder;
+        rq.Method=Table.AuDisk.Method.Folder;
         rq.Protocol=Version.toString();
 
 

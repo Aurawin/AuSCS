@@ -5,12 +5,14 @@ import com.aurawin.core.stored.annotations.QueryAll;
 import com.aurawin.core.stored.annotations.QueryByOwnerId;
 import com.aurawin.core.stored.entities.Entities;
 import com.aurawin.scs.rsr.protocol.transport.AUDISK;
+
 import com.aurawin.scs.stored.cloud.Disk;
 import com.aurawin.scs.stored.cloud.Node;
 import com.aurawin.core.stored.Manifest;
 import com.aurawin.scs.stored.cloud.Service;
 
 import java.io.IOException;
+import java.net.InetSocketAddress;
 import java.util.ArrayList;
 
 public class Server extends com.aurawin.core.rsr.server.Server {
@@ -21,7 +23,7 @@ public class Server extends com.aurawin.core.rsr.server.Server {
     public Server(Manifest manifest, Service service) throws IOException, NoSuchMethodException,
             Exception, InstantiationException,IllegalAccessException
     {
-        super(AUDISK.class, false);
+        super(new InetSocketAddress(service.getIP(),service.getPort()), AUDISK.class, true, service.getHostname());
 
         Service = service;
         Disks = Entities.Lookup(Disk.class.getAnnotation(QueryByOwnerId.class),service.getNode().getId());

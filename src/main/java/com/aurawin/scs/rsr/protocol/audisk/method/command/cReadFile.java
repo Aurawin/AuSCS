@@ -16,15 +16,13 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import org.hibernate.Session;
 
-import java.io.File;
-import java.nio.file.Files;
 import java.nio.file.Path;
 
 import static com.aurawin.core.rsr.transport.methods.Result.Failure;
 import static com.aurawin.core.rsr.transport.methods.Result.None;
 import static com.aurawin.core.rsr.transport.methods.Result.Ok;
 
-public class cMakeFolder extends Item {
+public class cReadFile extends Item{
     @Expose(serialize = true, deserialize = true)
     @SerializedName("DSK")
     public long DiskId;
@@ -39,68 +37,64 @@ public class cMakeFolder extends Item {
     public long OwnerId;
     @Expose(serialize = true, deserialize = true)
     @SerializedName("FID")
+    public long FileId;
+    @Expose(serialize = true, deserialize = true)
+    @SerializedName("FLD")
     public long FolderId;
 
-
-    public cMakeFolder() {
-        super(Table.AuDisk.Method.Folder+"."+Table.AuDisk.Method.Command.Make);
+    public cReadFile() {
+        super(Table.AuDisk.Method.File+"."+Table.AuDisk.Method.Command.Read);
     }
 
     @Override
     public Result onProcess(Session ssn, Transport transport){
-        cMakeFolder cmd= null;
         Result r = None;
         AUDISK t = (AUDISK) transport;
-
-        switch (t.Kind){
+        switch (t.Kind) {
             case Server:
                 Server s = (Server) t.Owner.Engine;
-                cmd = t.gson.fromJson(t.Request.Command,cMakeFolder.class);
+                cReadFile cmd = t.gson.fromJson(t.Request.Command, cReadFile.class);
                 Disk disk = s.getDisk(cmd.DiskId);
-                if (disk!=null) {
-                    Path Mount = Settings.Stored.Domain.Network.File.buildMount(disk.getMount());
-                    Path newPath = Settings.Stored.Domain.Network.File.buildPath(
+                if (disk != null) {
+                    Path dPath = Settings.Stored.Domain.Network.File.buildPath(
                             disk.getMount(),
                             cmd.NamespaceId,
                             cmd.DomainId,
                             cmd.OwnerId,
                             cmd.FolderId
                     );
-                    File dNewPath = newPath.toFile();
-                    if (!dNewPath.isDirectory()) {
-                        try {
-                            Files.createDirectories(newPath, Settings.Stored.Cloud.Disk.Attributes);
-                            r = Ok;
-                        } catch (Exception e){
-                            Syslog.Append(getClass().getCanonicalName(),"Execute.Files.createDirectories", com.aurawin.core.lang.Table.Format(com.aurawin.core.lang.Table.Error.RSR.MethodFailure,e.getMessage()));
-                            r = Failure;
-                        }
-                    } else {
+                    try {
+                        t.Response.Payload.LoadFromFile(dPath.toFile());
                         r = Ok;
+                    } catch (Exception e) {
+                        Syslog.Append(getClass().getCanonicalName(), "Execute.Request.Payload.LoadFromFile", com.aurawin.core.lang.Table.Format(com.aurawin.core.lang.Table.Error.RSR.MethodFailure, e.getMessage()));
+                        r = Failure;
                     }
+
                 } else {
-                    r=Failure;
+                    r = Failure;
                 }
                 break;
             case Client:
                 Client c = (Client) t.Owner.Engine;
-                if (t.Response.Code == Status.Ok){
+                if (t.Response.Code == Status.Ok) {
 
                 }
                 Request q = t.Requests.parallelStream()
-                        .filter(rq -> rq.Id==t.Response.Id)
+                        .filter(rq -> rq.Id == t.Response.Id)
                         .findFirst()
                         .orElse(null);
-                if (q!=null) {
+                if (q != null) {
                     t.Requests.remove(q);
                     // todo notify completion
-                    r=Ok;
+                    r = Ok;
                 } else {
                     r = Failure;
                 }
-
                 break;
+
         }
+
         return r;
     }
 }

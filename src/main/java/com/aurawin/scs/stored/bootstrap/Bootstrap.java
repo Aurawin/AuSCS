@@ -217,12 +217,4 @@ public class Bootstrap {
         return r;
     }
 
-    public static void Initialize(){
-        com.aurawin.scs.stored.bootstrap.Plugins.Initialize();
-
-        com.aurawin.scs.stored.bootstrap.roles.Administrator.Initialize();
-        com.aurawin.scs.stored.bootstrap.roles.PowerUser.Initialize();
-        com.aurawin.scs.stored.bootstrap.roles.User.Initialize();
-    }
-
 }

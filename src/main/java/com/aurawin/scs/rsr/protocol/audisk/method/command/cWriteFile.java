@@ -16,15 +16,13 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import org.hibernate.Session;
 
-import java.io.File;
-import java.nio.file.Files;
 import java.nio.file.Path;
 
 import static com.aurawin.core.rsr.transport.methods.Result.Failure;
 import static com.aurawin.core.rsr.transport.methods.Result.None;
 import static com.aurawin.core.rsr.transport.methods.Result.Ok;
 
-public class cMakeFolder extends Item {
+public class cWriteFile extends Item{
     @Expose(serialize = true, deserialize = true)
     @SerializedName("DSK")
     public long DiskId;
@@ -39,50 +37,44 @@ public class cMakeFolder extends Item {
     public long OwnerId;
     @Expose(serialize = true, deserialize = true)
     @SerializedName("FID")
+    public long FileId;
+    @Expose(serialize = true, deserialize = true)
+    @SerializedName("FLD")
     public long FolderId;
 
-
-    public cMakeFolder() {
-        super(Table.AuDisk.Method.Folder+"."+Table.AuDisk.Method.Command.Make);
+    public cWriteFile() {
+        super(Table.AuDisk.Method.File+"."+Table.AuDisk.Method.Command.Write);
     }
 
     @Override
     public Result onProcess(Session ssn, Transport transport){
-        cMakeFolder cmd= null;
         Result r = None;
         AUDISK t = (AUDISK) transport;
-
         switch (t.Kind){
-            case Server:
+            case Server :
                 Server s = (Server) t.Owner.Engine;
-                cmd = t.gson.fromJson(t.Request.Command,cMakeFolder.class);
+                cWriteFile cmd = t.gson.fromJson(t.Request.Command,cWriteFile.class);
                 Disk disk = s.getDisk(cmd.DiskId);
                 if (disk!=null) {
-                    Path Mount = Settings.Stored.Domain.Network.File.buildMount(disk.getMount());
-                    Path newPath = Settings.Stored.Domain.Network.File.buildPath(
+                    Path dPath = Settings.Stored.Domain.Network.File.buildPath(
                             disk.getMount(),
                             cmd.NamespaceId,
                             cmd.DomainId,
                             cmd.OwnerId,
                             cmd.FolderId
                     );
-                    File dNewPath = newPath.toFile();
-                    if (!dNewPath.isDirectory()) {
-                        try {
-                            Files.createDirectories(newPath, Settings.Stored.Cloud.Disk.Attributes);
-                            r = Ok;
-                        } catch (Exception e){
-                            Syslog.Append(getClass().getCanonicalName(),"Execute.Files.createDirectories", com.aurawin.core.lang.Table.Format(com.aurawin.core.lang.Table.Error.RSR.MethodFailure,e.getMessage()));
-                            r = Failure;
-                        }
-                    } else {
-                        r = Ok;
+                    try {
+                        t.Request.Payload.SaveToFile(dPath.toFile());
+                        r=Ok;
+                    } catch (Exception e){
+                        Syslog.Append(getClass().getCanonicalName(),"Execute.Request.Payload.SaveToFile", com.aurawin.core.lang.Table.Format(com.aurawin.core.lang.Table.Error.RSR.MethodFailure,e.getMessage()));
+                        r = Failure;
                     }
                 } else {
                     r=Failure;
                 }
                 break;
-            case Client:
+            case Client :
                 Client c = (Client) t.Owner.Engine;
                 if (t.Response.Code == Status.Ok){
 
@@ -99,7 +91,7 @@ public class cMakeFolder extends Item {
                     r = Failure;
                 }
 
-                break;
+               break;
         }
         return r;
     }

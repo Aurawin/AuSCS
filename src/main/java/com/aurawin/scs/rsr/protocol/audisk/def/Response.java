@@ -10,12 +10,19 @@ public class Response {
     @Expose(serialize = true, deserialize = true)
     @SerializedName("P")
     public String Protocol;
+
     @Expose(serialize = true, deserialize = true)
     @SerializedName("M")
     public String Method;
+
     @Expose(serialize = true, deserialize = true)
     @SerializedName("S")
     public long Size;
+
+    @Expose(serialize = true, deserialize = true)
+    @SerializedName("I")
+    public long Id;
+
     @Expose(serialize = true, deserialize = true)
     @SerializedName("C")
     public Status Code;
@@ -31,6 +38,7 @@ public class Response {
         Protocol = "";
         Method = "";
         Size = 0;
+        Id = 0;
         Code = None;
         Payload.Clear();
     }
