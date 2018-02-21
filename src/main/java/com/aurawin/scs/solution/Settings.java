@@ -17,7 +17,7 @@ public class Settings extends com.aurawin.core.solution.Settings {
         public static class Cloud{
             public static class Service{
                 public static class Port{
-                  public static final int AuDisk = 1079;
+                  public static final int AuDisk = 7979;
                   public static final int HTTP = 80;
                   public static final int HTTPS = 443;
                   public static final int POP3 = 110;

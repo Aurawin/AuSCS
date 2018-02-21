@@ -2,8 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a5f23b2a-0c02-4a72-885e-dee946f9b629" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_aurawin_core_2018_2_21_4.xml" afterPath="" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/aurawin/scs/rsr/protocol/transport/AUDISK.java" afterPath="$PROJECT_DIR$/src/main/java/com/aurawin/scs/rsr/protocol/transport/AUDISK.java" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/aurawin/scs/lang/Database.java" afterPath="$PROJECT_DIR$/src/main/java/com/aurawin/scs/lang/Database.java" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/aurawin/scs/solution/Settings.java" afterPath="$PROJECT_DIR$/src/main/java/com/aurawin/scs/solution/Settings.java" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/aurawin/scs/stored/domain/user/Account.java" afterPath="$PROJECT_DIR$/src/main/java/com/aurawin/scs/stored/domain/user/Account.java" />
+      <change beforePath="$PROJECT_DIR$/src/main/test/com/aurawin/scs/stored/bootstrap/BootstrapTest.java" afterPath="$PROJECT_DIR$/src/main/test/com/aurawin/scs/stored/bootstrap/BootstrapTest.java" />
     </list>
     <ignored path="AuSCS.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -29,15 +33,45 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="AUDISK.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Account.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/aurawin/scs/stored/domain/user/Account.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="228">
+              <caret line="52" column="30" lean-forward="false" selection-start-line="52" selection-start-column="30" selection-end-line="52" selection-end-column="30" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AUDISK.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/aurawin/scs/rsr/protocol/transport/AUDISK.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="222">
-              <caret line="112" column="31" lean-forward="true" selection-start-line="112" selection-start-column="31" selection-end-line="112" selection-end-column="31" />
+            <state relative-caret-position="1170">
+              <caret line="128" column="0" lean-forward="false" selection-start-line="128" selection-start-column="0" selection-end-line="129" selection-end-column="0" />
               <folding>
                 <element signature="e#8782#8783#0" expanded="true" />
                 <element signature="e#8809#8810#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AuraDiskServerTest.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/test/com/aurawin/scs/rsr/protocol/audisk/AuraDiskServerTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="534">
+              <caret line="58" column="0" lean-forward="false" selection-start-line="58" selection-start-column="0" selection-end-line="58" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="BootstrapTest.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/test/com/aurawin/scs/stored/bootstrap/BootstrapTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="298">
+              <caret line="33" column="45" lean-forward="false" selection-start-line="33" selection-start-column="45" selection-end-line="33" selection-end-column="45" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -57,32 +91,12 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Node.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/aurawin/scs/stored/cloud/Node.java">
+      <file leaf-file-name="Database.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/aurawin/scs/lang/Database.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="450">
-              <caret line="55" column="62" lean-forward="false" selection-start-line="55" selection-start-column="62" selection-end-line="55" selection-end-column="62" />
+            <state relative-caret-position="184">
+              <caret line="255" column="47" lean-forward="false" selection-start-line="255" selection-start-column="47" selection-end-line="255" selection-end-column="47" />
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Server.class" pinned="false" current-in-tab="false">
-        <entry file="jar://$MAVEN_REPOSITORY$/com/aurawin/core/2018.2.21.3/core-2018.2.21.3.jar!/com/aurawin/core/rsr/server/Server.class">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="108">
-              <caret line="19" column="13" lean-forward="false" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="13" />
-              <folding>
-                <marker date="1519225974000" expanded="false" signature="0:104" ph="/.../" />
-                <marker date="1519225974000" expanded="false" signature="151:571" ph="..." />
-                <marker date="1519225974000" expanded="true" signature="855:997" ph="{...}" />
-                <marker date="1519225974000" expanded="true" signature="1188:1260" ph="{...}" />
-                <marker date="1519225974000" expanded="true" signature="1284:5087" ph="{...}" />
-                <marker date="1519225974000" expanded="true" signature="5130:5275" ph="{...}" />
-                <marker date="1519225974000" expanded="true" signature="5314:5455" ph="{...}" />
-                <marker date="1519225974000" expanded="true" signature="5493:5608" ph="{...}" />
-                <marker date="1519225974000" expanded="true" signature="5657:5664" ph="{}" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -91,18 +105,52 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/com/aurawin/scs/rsr/protocol/audisk/server/Server.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="72">
-              <caret line="17" column="13" lean-forward="false" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
+              <caret line="17" column="60" lean-forward="false" selection-start-line="17" selection-start-column="60" selection-end-line="17" selection-end-column="60" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="pom.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/pom.xml">
+      <file leaf-file-name="Server.class" pinned="false" current-in-tab="false">
+        <entry file="jar://$MAVEN_REPOSITORY$/com/aurawin/core/2018.2.21.6/core-2018.2.21.6.jar!/com/aurawin/core/rsr/server/Server.class">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-788">
+              <caret line="39" column="0" lean-forward="false" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
+              <folding>
+                <marker date="1519238237000" expanded="false" signature="0:104" ph="/.../" />
+                <marker date="1519238237000" expanded="false" signature="151:571" ph="..." />
+                <marker date="1519238237000" expanded="true" signature="855:997" ph="{...}" />
+                <marker date="1519238237000" expanded="true" signature="1188:1260" ph="{...}" />
+                <marker date="1519238237000" expanded="true" signature="1284:5087" ph="{...}" />
+                <marker date="1519238237000" expanded="true" signature="5130:5275" ph="{...}" />
+                <marker date="1519238237000" expanded="true" signature="5314:5455" ph="{...}" />
+                <marker date="1519238237000" expanded="true" signature="5493:5608" ph="{...}" />
+                <marker date="1519238237000" expanded="true" signature="5657:5664" ph="{}" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Settings.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/aurawin/scs/solution/Settings.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="252">
-              <caret line="17" column="32" lean-forward="false" selection-start-line="17" selection-start-column="32" selection-end-line="17" selection-end-column="32" />
+              <caret line="19" column="53" lean-forward="false" selection-start-line="19" selection-start-column="53" selection-end-line="19" selection-end-column="53" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Service.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/aurawin/scs/stored/cloud/Service.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="306">
+              <caret line="69" column="0" lean-forward="false" selection-start-line="69" selection-start-column="0" selection-end-line="69" selection-end-column="0" />
+              <folding>
+                <element signature="e#1874#1875#0" expanded="true" />
+                <element signature="e#1924#1925#0" expanded="true" />
+                <element signature="e#2063#2064#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -123,7 +171,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>disk</find>
       <find>FetchFields</find>
       <find>parentId</find>
       <find>Path</find>
@@ -153,6 +200,7 @@
       <find>Dispatch</find>
       <find>lang</find>
       <find>security</find>
+      <find>QueryDomainUserAccountByDomainIdAndIdAndPass</find>
     </findStrings>
     <replaceStrings>
       <replace>.User.Account.</replace>
@@ -201,7 +249,6 @@
         <option value="$PROJECT_DIR$/src/main/java/com/aurawin/scs/stored/bootstrap/Plugins.java" />
         <option value="$PROJECT_DIR$/src/main/test/com/aurawin/scs/rsr/protocol/audisk/method/package-info.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/aurawin/scs/rsr/protocol/http/Server.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/aurawin/scs/solution/Settings.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/aurawin/scs/rsr/protocol/audisk/server/Server.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/aurawin/scs/rsr/protocol/audisk/def/Response.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/aurawin/scs/rsr/protocol/audisk/def/Request.java" />
@@ -213,9 +260,7 @@
         <option value="$PROJECT_DIR$/src/main/java/com/aurawin/scs/rsr/protocol/audisk/method/command/cMoveFile.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/aurawin/scs/rsr/protocol/audisk/method/command/cReadFile.java" />
         <option value="/usr/lib/jvm/default-java/jre/lib/rt.jar!/javax/net/ssl/SSLContext.class" />
-        <option value="$PROJECT_DIR$/src/main/test/com/aurawin/scs/stored/bootstrap/BootstrapTest.java" />
         <option value="$PROJECT_DIR$/src/main/test/com/aurawin/scs/rsr/protocol/http/HTTPServerTest.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/aurawin/scs/stored/domain/user/Account.java" />
         <option value="$PROJECT_DIR$/src/main/test/com/aurawin/scs/stored/domain/UserAccountTest.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/aurawin/scs/rsr/protocol/transport/HTTP_1_1.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/aurawin/scs/rsr/protocol/audisk/def/SecurityExclusive.java" />
@@ -223,11 +268,14 @@
         <option value="$PROJECT_DIR$/src/main/java/com/aurawin/scs/core/Login.java" />
         <option value="$PROJECT_DIR$/src/main/test/com/aurawin/scs/rsr/protocol/audisk/client/AuraDiskClientTest.java" />
         <option value="$PROJECT_DIR$/src/main/test/com/aurawin/scs/rsr/protocol/audisk/AuraDiskServerTest.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/aurawin/scs/lang/Database.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/aurawin/scs/stored/cloud/Node.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/aurawin/scs/rsr/protocol/audisk/def/SecurityMechanismExclusive.java" />
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/src/main/java/com/aurawin/scs/rsr/protocol/transport/AUDISK.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/aurawin/scs/lang/Database.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/aurawin/scs/stored/domain/user/Account.java" />
+        <option value="$PROJECT_DIR$/src/main/test/com/aurawin/scs/stored/bootstrap/BootstrapTest.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/aurawin/scs/solution/Settings.java" />
       </list>
     </option>
   </component>
@@ -354,65 +402,6 @@
               <item name="com" type="462c0819:PsiDirectoryNode" />
               <item name="aurawin" type="462c0819:PsiDirectoryNode" />
               <item name="scs" type="462c0819:PsiDirectoryNode" />
-              <item name="audisk" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="AuSCS" type="b2602c69:ProjectViewProjectNode" />
-              <item name="AuSCS" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="com" type="462c0819:PsiDirectoryNode" />
-              <item name="aurawin" type="462c0819:PsiDirectoryNode" />
-              <item name="scs" type="462c0819:PsiDirectoryNode" />
-              <item name="audisk" type="462c0819:PsiDirectoryNode" />
-              <item name="router" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="AuSCS" type="b2602c69:ProjectViewProjectNode" />
-              <item name="AuSCS" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="com" type="462c0819:PsiDirectoryNode" />
-              <item name="aurawin" type="462c0819:PsiDirectoryNode" />
-              <item name="scs" type="462c0819:PsiDirectoryNode" />
-              <item name="audisk" type="462c0819:PsiDirectoryNode" />
-              <item name="router" type="462c0819:PsiDirectoryNode" />
-              <item name="future" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="AuSCS" type="b2602c69:ProjectViewProjectNode" />
-              <item name="AuSCS" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="com" type="462c0819:PsiDirectoryNode" />
-              <item name="aurawin" type="462c0819:PsiDirectoryNode" />
-              <item name="scs" type="462c0819:PsiDirectoryNode" />
-              <item name="core" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="AuSCS" type="b2602c69:ProjectViewProjectNode" />
-              <item name="AuSCS" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="com" type="462c0819:PsiDirectoryNode" />
-              <item name="aurawin" type="462c0819:PsiDirectoryNode" />
-              <item name="scs" type="462c0819:PsiDirectoryNode" />
-              <item name="core" type="462c0819:PsiDirectoryNode" />
-              <item name="def" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="AuSCS" type="b2602c69:ProjectViewProjectNode" />
-              <item name="AuSCS" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="com" type="462c0819:PsiDirectoryNode" />
-              <item name="aurawin" type="462c0819:PsiDirectoryNode" />
-              <item name="scs" type="462c0819:PsiDirectoryNode" />
               <item name="rsr" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -426,46 +415,6 @@
               <item name="scs" type="462c0819:PsiDirectoryNode" />
               <item name="rsr" type="462c0819:PsiDirectoryNode" />
               <item name="protocol" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="AuSCS" type="b2602c69:ProjectViewProjectNode" />
-              <item name="AuSCS" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="com" type="462c0819:PsiDirectoryNode" />
-              <item name="aurawin" type="462c0819:PsiDirectoryNode" />
-              <item name="scs" type="462c0819:PsiDirectoryNode" />
-              <item name="rsr" type="462c0819:PsiDirectoryNode" />
-              <item name="protocol" type="462c0819:PsiDirectoryNode" />
-              <item name="audisk" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="AuSCS" type="b2602c69:ProjectViewProjectNode" />
-              <item name="AuSCS" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="com" type="462c0819:PsiDirectoryNode" />
-              <item name="aurawin" type="462c0819:PsiDirectoryNode" />
-              <item name="scs" type="462c0819:PsiDirectoryNode" />
-              <item name="rsr" type="462c0819:PsiDirectoryNode" />
-              <item name="protocol" type="462c0819:PsiDirectoryNode" />
-              <item name="audisk" type="462c0819:PsiDirectoryNode" />
-              <item name="def" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="AuSCS" type="b2602c69:ProjectViewProjectNode" />
-              <item name="AuSCS" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="com" type="462c0819:PsiDirectoryNode" />
-              <item name="aurawin" type="462c0819:PsiDirectoryNode" />
-              <item name="scs" type="462c0819:PsiDirectoryNode" />
-              <item name="rsr" type="462c0819:PsiDirectoryNode" />
-              <item name="protocol" type="462c0819:PsiDirectoryNode" />
-              <item name="http" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="AuSCS" type="b2602c69:ProjectViewProjectNode" />
@@ -489,6 +438,17 @@
               <item name="com" type="462c0819:PsiDirectoryNode" />
               <item name="aurawin" type="462c0819:PsiDirectoryNode" />
               <item name="scs" type="462c0819:PsiDirectoryNode" />
+              <item name="solution" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="AuSCS" type="b2602c69:ProjectViewProjectNode" />
+              <item name="AuSCS" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+              <item name="aurawin" type="462c0819:PsiDirectoryNode" />
+              <item name="scs" type="462c0819:PsiDirectoryNode" />
               <item name="stored" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -502,6 +462,115 @@
               <item name="scs" type="462c0819:PsiDirectoryNode" />
               <item name="stored" type="462c0819:PsiDirectoryNode" />
               <item name="cloud" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="AuSCS" type="b2602c69:ProjectViewProjectNode" />
+              <item name="AuSCS" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+              <item name="aurawin" type="462c0819:PsiDirectoryNode" />
+              <item name="scs" type="462c0819:PsiDirectoryNode" />
+              <item name="stored" type="462c0819:PsiDirectoryNode" />
+              <item name="domain" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="AuSCS" type="b2602c69:ProjectViewProjectNode" />
+              <item name="AuSCS" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+              <item name="aurawin" type="462c0819:PsiDirectoryNode" />
+              <item name="scs" type="462c0819:PsiDirectoryNode" />
+              <item name="stored" type="462c0819:PsiDirectoryNode" />
+              <item name="domain" type="462c0819:PsiDirectoryNode" />
+              <item name="user" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="AuSCS" type="b2602c69:ProjectViewProjectNode" />
+              <item name="AuSCS" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="AuSCS" type="b2602c69:ProjectViewProjectNode" />
+              <item name="AuSCS" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="AuSCS" type="b2602c69:ProjectViewProjectNode" />
+              <item name="AuSCS" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+              <item name="aurawin" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="AuSCS" type="b2602c69:ProjectViewProjectNode" />
+              <item name="AuSCS" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+              <item name="aurawin" type="462c0819:PsiDirectoryNode" />
+              <item name="scs" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="AuSCS" type="b2602c69:ProjectViewProjectNode" />
+              <item name="AuSCS" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+              <item name="aurawin" type="462c0819:PsiDirectoryNode" />
+              <item name="scs" type="462c0819:PsiDirectoryNode" />
+              <item name="rsr" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="AuSCS" type="b2602c69:ProjectViewProjectNode" />
+              <item name="AuSCS" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+              <item name="aurawin" type="462c0819:PsiDirectoryNode" />
+              <item name="scs" type="462c0819:PsiDirectoryNode" />
+              <item name="rsr" type="462c0819:PsiDirectoryNode" />
+              <item name="protocol" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="AuSCS" type="b2602c69:ProjectViewProjectNode" />
+              <item name="AuSCS" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+              <item name="aurawin" type="462c0819:PsiDirectoryNode" />
+              <item name="scs" type="462c0819:PsiDirectoryNode" />
+              <item name="rsr" type="462c0819:PsiDirectoryNode" />
+              <item name="protocol" type="462c0819:PsiDirectoryNode" />
+              <item name="audisk" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="AuSCS" type="b2602c69:ProjectViewProjectNode" />
+              <item name="AuSCS" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+              <item name="aurawin" type="462c0819:PsiDirectoryNode" />
+              <item name="scs" type="462c0819:PsiDirectoryNode" />
+              <item name="rsr" type="462c0819:PsiDirectoryNode" />
+              <item name="protocol" type="462c0819:PsiDirectoryNode" />
+              <item name="audisk" type="462c0819:PsiDirectoryNode" />
+              <item name="client" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -566,7 +635,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.AuraDiskClientTest">
+  <component name="RunManager" selected="JUnit.AuraDiskServerTest">
     <configuration default="true" type="Applet" factoryName="Applet">
       <option name="WIDTH" value="400" />
       <option name="HEIGHT" value="300" />
@@ -881,8 +950,8 @@
     </list>
     <recent_temporary>
       <list size="3">
-        <item index="0" class="java.lang.String" itemvalue="JUnit.AuraDiskClientTest" />
-        <item index="1" class="java.lang.String" itemvalue="JUnit.AuraDiskServerTest" />
+        <item index="0" class="java.lang.String" itemvalue="JUnit.AuraDiskServerTest" />
+        <item index="1" class="java.lang.String" itemvalue="JUnit.AuraDiskClientTest" />
         <item index="2" class="java.lang.String" itemvalue="JUnit.HTTPServerTest" />
       </list>
     </recent_temporary>
@@ -1102,38 +1171,45 @@
       <option name="project" value="LOCAL" />
       <updated>1519238583919</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="Testing AuDisk">
+      <created>1519238618924</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1519238618924</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="AuraDiskClientTest - 2017.06.23 at 14h 23m 53s.xml">
+    <history-entry file="AuraDiskClientTest - 2018.02.21 at 12h 48m 22s.xml">
       <configuration name="AuraDiskClientTest" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="AuraDiskClientTest - 2017.06.23 at 14h 28m 32s.xml">
-      <configuration name="AuraDiskClientTest" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="AuraDiskClientTest - 2017.06.23 at 14h 30m 17s.xml">
-      <configuration name="AuraDiskClientTest" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="AuraDiskClientTest - 2017.06.23 at 14h 30m 36s.xml">
-      <configuration name="AuraDiskClientTest" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="AuraDiskClientTest - 2017.06.23 at 14h 31m 05s.xml">
-      <configuration name="AuraDiskClientTest" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="AuraDiskClientTest - 2017.06.23 at 14h 36m 46s.xml">
-      <configuration name="AuraDiskClientTest" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="AuraDiskClientTest - 2017.06.23 at 14h 37m 32s.xml">
-      <configuration name="AuraDiskClientTest" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="AuraDiskServerTest - 2017.06.23 at 14h 28m 31s.xml">
-      <configuration name="AuraDiskServerTest" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="AuraDiskServerTest - 2017.06.23 at 14h 36m 48s.xml">
-      <configuration name="AuraDiskServerTest" configurationId="JUnit" />
     </history-entry>
     <history-entry file="AuraDiskServerTest - 2017.06.23 at 14h 39m 06s.xml">
+      <configuration name="AuraDiskServerTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="AuraDiskServerTest - 2018.02.21 at 12h 48m 34s.xml">
+      <configuration name="AuraDiskServerTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="AuraDiskServerTest - 2018.02.21 at 12h 55m 16s.xml">
+      <configuration name="AuraDiskServerTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="AuraDiskServerTest - 2018.02.21 at 12h 57m 15s.xml">
+      <configuration name="AuraDiskServerTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="AuraDiskServerTest - 2018.02.21 at 12h 59m 22s.xml">
+      <configuration name="AuraDiskServerTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="AuraDiskServerTest - 2018.02.21 at 13h 00m 40s.xml">
+      <configuration name="AuraDiskServerTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="AuraDiskServerTest - 2018.02.21 at 13h 02m 17s.xml">
+      <configuration name="AuraDiskServerTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="AuraDiskServerTest - 2018.02.21 at 13h 23m 43s.xml">
+      <configuration name="AuraDiskServerTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="AuraDiskServerTest - 2018.02.21 at 13h 24m 09s.xml">
       <configuration name="AuraDiskServerTest" configurationId="JUnit" />
     </history-entry>
   </component>
@@ -1155,11 +1231,12 @@
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24479167" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3261481" sideWeight="0.4278607" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.31593663" sideWeight="0.7236042" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3158388" sideWeight="0.7236042" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -1171,7 +1248,6 @@
       <window_info id="Inspection Results" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32925585" sideWeight="0.49811321" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32991913" sideWeight="0.5" order="9" side_tool="true" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3261481" sideWeight="0.4278607" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -1240,11 +1316,71 @@
           <properties />
           <option name="timeStamp" value="471" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/aurawin/scs/rsr/protocol/transport/AUDISK.java</url>
+          <line>105</line>
+          <properties />
+          <option name="timeStamp" value="472" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/test/com/aurawin/scs/rsr/protocol/audisk/AuraDiskServerTest.java</url>
+          <line>58</line>
+          <properties />
+          <option name="timeStamp" value="473" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/test/com/aurawin/scs/rsr/protocol/audisk/AuraDiskServerTest.java</url>
+          <line>56</line>
+          <properties />
+          <option name="timeStamp" value="475" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/aurawin/scs/rsr/protocol/transport/AUDISK.java</url>
+          <line>77</line>
+          <properties />
+          <option name="timeStamp" value="476" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/aurawin/scs/rsr/protocol/transport/AUDISK.java</url>
+          <line>81</line>
+          <properties />
+          <option name="timeStamp" value="477" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/aurawin/scs/rsr/protocol/transport/AUDISK.java</url>
+          <line>64</line>
+          <properties />
+          <option name="timeStamp" value="478" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/aurawin/scs/rsr/protocol/transport/AUDISK.java</url>
+          <line>203</line>
+          <properties />
+          <option name="timeStamp" value="479" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/aurawin/scs/rsr/protocol/transport/AUDISK.java</url>
+          <line>169</line>
+          <properties />
+          <option name="timeStamp" value="480" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/aurawin/scs/rsr/protocol/transport/AUDISK.java</url>
+          <line>128</line>
+          <properties />
+          <option name="timeStamp" value="481" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>jar://$MAVEN_REPOSITORY$/com/aurawin/core/2018.2.21.6/core-2018.2.21.6.jar!/com/aurawin/core/rsr/server/Server.class</url>
+          <line>41</line>
+          <properties />
+          <option name="timeStamp" value="484" />
+        </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="472" />
+      <option name="time" value="486" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -1253,34 +1389,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar://$MAVEN_REPOSITORY$/com/aurawin/core/2017.6.23.12/core-2017.6.23.12-sources.jar!/com/aurawin/core/rsr/Items.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="209" column="0" lean-forward="false" selection-start-line="209" selection-start-column="0" selection-end-line="209" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/com/aurawin/core/2017.6.23.12/core-2017.6.23.12-sources.jar!/com/aurawin/core/rsr/def/handlers/SocketSendReceiveCallback.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="80">
-          <caret line="4" column="24" lean-forward="false" selection-start-line="4" selection-start-column="24" selection-end-line="4" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/com/aurawin/core/2017.6.23.12/core-2017.6.23.12-sources.jar!/com/aurawin/core/rsr/def/handlers/SocketHandlerSecure.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6700">
-          <caret line="351" column="18" lean-forward="false" selection-start-line="351" selection-start-column="18" selection-end-line="351" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/com/aurawin/core/2017.6.23.13/core-2017.6.23.13-sources.jar!/com/aurawin/core/rsr/def/handlers/SocketHandlerSecure.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="375">
-          <caret line="117" column="0" lean-forward="false" selection-start-line="117" selection-start-column="0" selection-end-line="117" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$MAVEN_REPOSITORY$/com/aurawin/core/2017.6.23.13/core-2017.6.23.13-sources.jar!/com/aurawin/core/rsr/Item.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1380">
@@ -1536,14 +1644,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/aurawin/scs/stored/domain/user/Account.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1174">
-          <caret line="114" column="13" lean-forward="false" selection-start-line="114" selection-start-column="13" selection-end-line="114" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/test/com/aurawin/scs/rsr/protocol/audisk/client/AuraDiskClientTest.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="241">
@@ -1582,22 +1682,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="601">
           <caret line="94" column="22" lean-forward="false" selection-start-line="94" selection-start-column="22" selection-end-line="94" selection-end-column="22" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/test/com/aurawin/scs/rsr/protocol/audisk/AuraDiskServerTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="684">
-          <caret line="56" column="48" lean-forward="false" selection-start-line="56" selection-start-column="40" selection-end-line="56" selection-end-column="48" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/aurawin/scs/rsr/protocol/audisk/server/Server.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="17" column="13" lean-forward="false" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
           <folding />
         </state>
       </provider>
@@ -1652,11 +1736,31 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/aurawin/scs/lang/Database.java">
+    <entry file="file://$PROJECT_DIR$/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="258">
-          <caret line="158" column="78" lean-forward="false" selection-start-line="158" selection-start-column="78" selection-end-line="158" selection-end-column="78" />
+        <state relative-caret-position="252">
+          <caret line="17" column="32" lean-forward="false" selection-start-line="17" selection-start-column="32" selection-end-line="17" selection-end-column="32" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/aurawin/scs/stored/domain/user/Account.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="228">
+          <caret line="52" column="30" lean-forward="false" selection-start-line="52" selection-start-column="30" selection-end-line="52" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/aurawin/scs/stored/cloud/Service.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="69" column="0" lean-forward="false" selection-start-line="69" selection-start-column="0" selection-end-line="69" selection-end-column="0" />
+          <folding>
+            <element signature="e#1874#1875#0" expanded="true" />
+            <element signature="e#1924#1925#0" expanded="true" />
+            <element signature="e#2063#2064#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1673,22 +1777,72 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pom.xml">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/aurawin/scs/lang/Database.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="17" column="32" lean-forward="false" selection-start-line="17" selection-start-column="32" selection-end-line="17" selection-end-column="32" />
+        <state relative-caret-position="184">
+          <caret line="255" column="47" lean-forward="false" selection-start-line="255" selection-start-column="47" selection-end-line="255" selection-end-column="47" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/aurawin/scs/rsr/protocol/transport/AUDISK.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="222">
-          <caret line="112" column="31" lean-forward="true" selection-start-line="112" selection-start-column="31" selection-end-line="112" selection-end-column="31" />
+        <state relative-caret-position="1170">
+          <caret line="128" column="0" lean-forward="false" selection-start-line="128" selection-start-column="0" selection-end-line="129" selection-end-column="0" />
           <folding>
             <element signature="e#8782#8783#0" expanded="true" />
             <element signature="e#8809#8810#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/aurawin/scs/rsr/protocol/audisk/server/Server.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="72">
+          <caret line="17" column="60" lean-forward="false" selection-start-line="17" selection-start-column="60" selection-end-line="17" selection-end-column="60" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/test/com/aurawin/scs/stored/bootstrap/BootstrapTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="298">
+          <caret line="33" column="45" lean-forward="false" selection-start-line="33" selection-start-column="45" selection-end-line="33" selection-end-column="45" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/test/com/aurawin/scs/rsr/protocol/audisk/AuraDiskServerTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="534">
+          <caret line="58" column="0" lean-forward="false" selection-start-line="58" selection-start-column="0" selection-end-line="58" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/com/aurawin/core/2018.2.21.6/core-2018.2.21.6.jar!/com/aurawin/core/rsr/server/Server.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-788">
+          <caret line="39" column="0" lean-forward="false" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
+          <folding>
+            <marker date="1519238237000" expanded="false" signature="0:104" ph="/.../" />
+            <marker date="1519238237000" expanded="false" signature="151:571" ph="..." />
+            <marker date="1519238237000" expanded="true" signature="855:997" ph="{...}" />
+            <marker date="1519238237000" expanded="true" signature="1188:1260" ph="{...}" />
+            <marker date="1519238237000" expanded="true" signature="1284:5087" ph="{...}" />
+            <marker date="1519238237000" expanded="true" signature="5130:5275" ph="{...}" />
+            <marker date="1519238237000" expanded="true" signature="5314:5455" ph="{...}" />
+            <marker date="1519238237000" expanded="true" signature="5493:5608" ph="{...}" />
+            <marker date="1519238237000" expanded="true" signature="5657:5664" ph="{}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/aurawin/scs/solution/Settings.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="19" column="53" lean-forward="false" selection-start-line="19" selection-start-column="53" selection-end-line="19" selection-end-column="53" />
+          <folding />
         </state>
       </provider>
     </entry>

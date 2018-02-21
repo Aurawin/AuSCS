@@ -57,11 +57,6 @@ import java.util.List;
                         query = com.aurawin.scs.lang.Database.Query.Domain.User.Account.ById.value
                 ),
                 @NamedQuery(
-                        name  = com.aurawin.scs.lang.Database.Query.Domain.User.Account.ByIdAndPass.name,
-                        query = com.aurawin.scs.lang.Database.Query.Domain.User.Account.ByIdAndPass.value
-
-                ),
-                @NamedQuery(
                         name  = com.aurawin.scs.lang.Database.Query.Domain.User.Account.ByDomainIdAndId.name,
                         query = com.aurawin.scs.lang.Database.Query.Domain.User.Account.ByDomainIdAndId.value
                 ),
