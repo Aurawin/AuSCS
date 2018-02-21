@@ -110,7 +110,7 @@ public class AUDISK extends Item implements Transport
                 // todo log intruder
                 this.Error();
             }
-        } catch{
+        } catch (Exception ex){
             this.Error();
         }
 
