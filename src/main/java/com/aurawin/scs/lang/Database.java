@@ -252,12 +252,6 @@ public class Database extends com.aurawin.core.lang.Database {
                         public static final String name = "QueryDomainUserAccountById";
                         public static final String value = "from Account where Id=:Id";
                     }
-
-                    public static class ByIdAndPass {
-                        public static final String name = "QueryDomainUserAccountByDomainIdAndIdAndPass";
-                        public static final String value = "from Account where DomainId=:DomainId Id=:Id and Pass=:Pass";
-                    }
-
                     public static class ByDomainId {
                         public static final String name = "QueryDomainUserAccountByDomainId";
                         public static final String value = "from Account where DomainId=:DomainId";

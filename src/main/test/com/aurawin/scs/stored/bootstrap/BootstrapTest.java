@@ -31,7 +31,7 @@ public class BootstrapTest {
     public static Service svcAUDISK;
     public static Disk auDisk;
     public static final String Mount = "/media/raid";
-    public static final String DomainName = "chump.aurawin.com";
+    public static final String DomainName = "aurawin.com";
 
     public static void createTestData() throws Exception {
 
@@ -76,7 +76,7 @@ public class BootstrapTest {
                 10,
                 1
         );
-        auDisk = Bootstrap.Cloud.addDisk(nChump,svcAUDISK,Mount);
+        auDisk = Bootstrap.Cloud.addDisk(nPhoenix,svcAUDISK,Mount);
 
         domain = Bootstrap.addDomain(DomainName);
         account=Bootstrap.addUser(domain,"test","1Bl4H4uotT");

@@ -39,7 +39,7 @@ public class AuraDiskClientTest {
     boolean issued = false;
     Client Connector;
     InetSocketAddress saServer  = new InetSocketAddress("172.16.1.1",Settings.Stored.Cloud.Service.Port.AuDisk);
-    InetSocketAddress saClient  = new InetSocketAddress("172.16.1.1",0);
+    InetSocketAddress saClient  = new InetSocketAddress("172.16.1.2",0);
     @Before
     public void before() throws Exception{
         Settings.Initialize(
