@@ -9,6 +9,7 @@ import com.aurawin.core.rsr.def.rsrResult;
 import com.aurawin.core.rsr.security.Security;
 import com.aurawin.core.rsr.security.fetch.Mechanism;
 import com.aurawin.scs.stored.Entities;
+import com.aurawin.scs.stored.cloud.Node;
 import com.aurawin.scs.stored.domain.user.Account;
 import org.hibernate.Session;
 
@@ -95,7 +96,24 @@ public class SecurityMechanismExclusive extends Mechanism {
                 ssn.close();
             }
     }
-
+    @Override
+    public CredentialResult DoPeer(long Ip){
+        CredentialResult res = CredentialResult.None;
+        Session ssn = Entities.acquireSession();
+        try{
+            Node n = (Node)
+                    ssn.getNamedQuery(Database.Query.Cloud.Node.ByIP.name)
+                            .setParameter("IP",Ip)
+                            .uniqueResult();
+            if (n!=null){
+                return CredentialResult.Passed;
+            } else {
+                return CredentialResult.Failed;
+            }
+        } finally {
+            ssn.close();
+        }
+    }
     public void Reset(){
         Method = Table.Security.Method.AURADISK.Exclusive;
     }

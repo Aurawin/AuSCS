@@ -19,6 +19,7 @@ import com.aurawin.core.rsr.transport.Transport;
 import com.aurawin.core.rsr.transport.annotations.Protocol;
 import com.aurawin.core.rsr.transport.methods.Result;
 import com.aurawin.core.solution.Settings;
+import com.aurawin.scs.lang.Table;
 import com.aurawin.scs.rsr.protocol.audisk.def.Response;
 import com.aurawin.scs.rsr.protocol.audisk.def.SecurityMechanismExclusive;
 import com.aurawin.scs.rsr.protocol.audisk.def.version.Version;
@@ -100,6 +101,18 @@ public class AUDISK extends Item implements Transport
     }
     @Override
     public void Connected(){
+        // Connection Esablished... Authenticate
+        try {
+            CredentialResult cr = Security.Peer(Table.Security.Mechanism.AURADISK.Exclusive, getRemoteIp());
+            if (cr == CredentialResult.Passed) {
+
+            } else {
+                // todo log intruder
+                this.Error();
+            }
+        } catch{
+            this.Error();
+        }
 
     }
     @Override

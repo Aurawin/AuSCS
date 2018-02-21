@@ -50,6 +50,10 @@ import java.util.List;
                 @NamedQuery(
                         name  = Database.Query.Cloud.Node.ById.name,
                         query = Database.Query.Cloud.Node.ById.value
+                ),
+                @NamedQuery(
+                        name  = Database.Query.Cloud.Node.ByIP.name,
+                        query = Database.Query.Cloud.Node.ByIP.value
                 )
         }
 )
