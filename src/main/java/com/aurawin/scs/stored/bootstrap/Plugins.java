@@ -24,7 +24,7 @@ public class Plugins {
     public static Plug initializePlugin(Class<? extends Plug> COfP, Session ssn){
 
         try {
-            Plug p = COfP.newInstance();
+            Plug p = COfP.getConstructor().newInstance();
             p.Setup(ssn);
             Manifest.add(p);
             return p;

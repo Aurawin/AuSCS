@@ -42,14 +42,14 @@ public class FieldValue {
 
     public void setValue(int val) throws Exception{
         if (kind == FieldValueKind.Integer) {
-            value = new Integer(val);
+            value =val;
         } else {
             throw new Exception(Table.Format(Table.Exception.Entities.Vendor.Manifest.Field.ValueIsNotOfType, kind.Integer.getValue(), kind.getValue()));
         }
     }
     public void setValue(long val) throws Exception{
         if (kind == FieldValueKind.Int64) {
-            value = new Long(val);
+            value = val;
         } else {
             throw new Exception(Table.Format(Table.Exception.Entities.Vendor.Manifest.Field.ValueIsNotOfType, kind.Int64.getValue(), kind.getValue()));
         }
@@ -70,14 +70,14 @@ public class FieldValue {
     }
     public void setValue(double val) throws Exception{
         if (kind == FieldValueKind.Double) {
-            value = new Double(val) ;
+            value = val ;
         } else {
             throw new Exception(Table.Format(Table.Exception.Entities.Vendor.Manifest.Field.ValueIsNotOfType, kind.Double.getValue(), kind.getValue()));
         }
     }
     public void setValue(boolean val) throws Exception{
         if (kind == FieldValueKind.Boolean) {
-            value = new Boolean(val) ;
+            value =val ;
         } else {
             throw new Exception(Table.Format(Table.Exception.Entities.Vendor.Manifest.Field.ValueIsNotOfType, kind.Boolean.getValue(), kind.getValue()));
         }
