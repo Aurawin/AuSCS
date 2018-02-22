@@ -9,8 +9,8 @@
         <module name="AuSCS" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel target="9">
-      <module name="AuSCS" target="1.9" />
+    <bytecodeTargetLevel target="1.8">
+      <module name="AuSCS" target="1.8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
