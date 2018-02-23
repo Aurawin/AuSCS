@@ -1,8 +1,6 @@
 package com.aurawin.scs.lang;
 
 
-import org.hibernate.Session;
-
 public class Database extends com.aurawin.core.lang.Database {
     public static class Table extends com.aurawin.core.lang.Database.Table{
         public static class Security{
@@ -680,7 +678,7 @@ public class Database extends com.aurawin.core.lang.Database {
     public static class Test extends com.aurawin.core.lang.Database.Test {
         public static class Entities extends com.aurawin.core.lang.Database.Test.Entities {
             public static class Domain{
-                public static final String UserAccount = "/test/storage.entities.domain.UserAccount.json";
+                public static final String UserAccount = "/resources/storage.entities.domain.UserAccount.json";
             }
         }
     }
