@@ -103,7 +103,7 @@ public class AUDISK extends Item implements Transport
     public void Connected(){
         // Connection Esablished... Authenticate
         try {
-            CredentialResult cr = Security.Peer(Table.Security.Mechanism.AURADISK.Exclusive, getRemoteIp());
+            CredentialResult cr = Security.Peer(Table.Security.Mechanism.AURADISK.Exclusive, getRemoteIp(), Owner.Engine.Root, Owner.Engine.rootDigest);
             if (cr == CredentialResult.Passed) {
 
             } else {
