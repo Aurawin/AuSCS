@@ -15,7 +15,7 @@
         <dependency>
             <groupId>com.aurawin</groupId>
             <artifactId>core</artifactId>
-            <version>2018.2.23.7</version>
+            <version>2018.2.23.8</version>
         </dependency>
         <dependency>
             <groupId>javax.xml.bind</groupId>
