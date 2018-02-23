@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.aurawin</groupId>
     <artifactId>scs</artifactId>
-    <version>2018.2.22.0</version>
+    <version>2018.2.23.0</version>
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
@@ -15,7 +15,7 @@
         <dependency>
             <groupId>com.aurawin</groupId>
             <artifactId>core</artifactId>
-            <version>2018.2.21.6</version>
+            <version>2018.2.23.0</version>
         </dependency>
         <dependency>
             <groupId>javax.xml.bind</groupId>
