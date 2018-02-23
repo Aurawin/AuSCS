@@ -48,7 +48,7 @@ public class SecurityMechanismExclusive extends Mechanism {
     }
     @Override
     public String buildAuthorization(String User, String Pass){
-        return Table.Security.Method.HTTP.Basic+ " " +
+        return Table.Security.Method.AURADISK.Exclusive+ " " +
                 Base64.Encode(User+":"+Pass);
     }
     @Override
@@ -58,43 +58,11 @@ public class SecurityMechanismExclusive extends Mechanism {
 
     @Override
     public CredentialResult DoLogin(long DomainId, long Ip, String Username, String Password) {
-        CredentialResult res = CredentialResult.None;
-        Session ssn = Entities.acquireSession();
-        try {
-            Account a = (Account)
-                    ssn.getNamedQuery(Database.Query.Domain.User.Account.ByDomainIdAndNameAndPass.name)
-                            .setParameter("DomainId", DomainId)
-                            .setParameter("Name", Username)
-                            .setParameter("Password", Password)
-                            .uniqueResult();
-            if (a != null) {
-                return CredentialResult.Passed;
-            } else {
-                return CredentialResult.Failed;
-            }
-        } finally {
-            ssn.close();
-        }
+        return CredentialResult.NotImplemented;
     }
     @Override
     public CredentialResult DoAuthenticate(long DomainId, long Ip, String User, String Digest) {
-            CredentialResult res = CredentialResult.None;
-            Session ssn = Entities.acquireSession();
-            try {
-                Account a = (Account)
-                        ssn.getNamedQuery(Database.Query.Domain.User.Account.ByDomainIdAndNameAndAuth.name)
-                                .setParameter("DomainId",DomainId)
-                                .setParameter("Name",User)
-                                .setParameter("Auth",Digest)
-                                .uniqueResult();
-                if (a!=null){
-                    return CredentialResult.Passed;
-                } else {
-                    return CredentialResult.Failed;
-                }
-            } finally{
-                ssn.close();
-            }
+        return CredentialResult.NotImplemented;
     }
     @Override
     public CredentialResult DoPeer(long Ip){

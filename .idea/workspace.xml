@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="438e0411-6508-44d5-93bc-d8ccefc84502" name="Default" comment="">
+    <list default="true" id="438e0411-6508-44d5-93bc-d8ccefc84502" name="Default" comment="Workspace">
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_aurawin_core_2018_2_23_4.xml" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$/AuSCS.iml" afterPath="$PROJECT_DIR$/AuSCS.iml" />
       <change beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/aurawin/scs/rsr/protocol/audisk/def/SecurityMechanismExclusive.java" afterPath="$PROJECT_DIR$/src/main/java/com/aurawin/scs/rsr/protocol/audisk/def/SecurityMechanismExclusive.java" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -15,141 +18,100 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="pom.xml" pinned="false" current-in-tab="true">
+      <file leaf-file-name="pom.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pom.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="144">
+            <state relative-caret-position="306">
               <caret line="17" column="32" lean-forward="false" selection-start-line="17" selection-start-column="32" selection-end-line="17" selection-end-column="32" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AuraDiskClientTest.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/com/aurawin/scs/rsr/protocol/audisk/client/AuraDiskClientTest.java">
+      <file leaf-file-name="AUDISK.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/aurawin/scs/rsr/protocol/transport/AUDISK.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="172">
-              <caret line="90" column="0" lean-forward="false" selection-start-line="90" selection-start-column="0" selection-end-line="90" selection-end-column="0" />
+            <state relative-caret-position="1085">
+              <caret line="105" column="42" lean-forward="false" selection-start-line="105" selection-start-column="42" selection-end-line="105" selection-end-column="42" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Client.class" pinned="false" current-in-tab="false">
-        <entry file="jar://$MAVEN_REPOSITORY$/com/aurawin/core/2018.2.21.6/core-2018.2.21.6.jar!/com/aurawin/core/rsr/client/Client.class">
+      <file leaf-file-name="Login.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/aurawin/scs/core/Login.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="218">
-              <caret line="93" column="5" lean-forward="false" selection-start-line="93" selection-start-column="5" selection-end-line="93" selection-end-column="5" />
+            <state relative-caret-position="221">
+              <caret line="99" column="34" lean-forward="false" selection-start-line="99" selection-start-column="34" selection-end-line="99" selection-end-column="34" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Security.class" pinned="false" current-in-tab="false">
+        <entry file="jar://$MAVEN_REPOSITORY$/com/aurawin/core/2018.2.23.2/core-2018.2.23.2.jar!/com/aurawin/core/rsr/security/Security.class">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="230">
+              <caret line="153" column="11" lean-forward="false" selection-start-line="153" selection-start-column="11" selection-end-line="153" selection-end-column="11" />
               <folding>
-                <marker date="1519238248987" expanded="false" signature="0:104" ph="/.../" />
-                <marker date="1519238248987" expanded="false" signature="151:539" ph="..." />
-                <marker date="1519238248987" expanded="true" signature="806:922" ph="{...}" />
-                <marker date="1519238248987" expanded="true" signature="946:2589" ph="{...}" />
-                <marker date="1519238248987" expanded="true" signature="2632:2777" ph="{...}" />
-                <marker date="1519238248987" expanded="true" signature="2816:2957" ph="{...}" />
-                <marker date="1519238248987" expanded="true" signature="2995:3110" ph="{...}" />
-                <marker date="1519238248987" expanded="true" signature="3159:3166" ph="{}" />
-                <marker date="1519238248987" expanded="true" signature="3263:3317" ph="{...}" />
+                <marker date="1519400700000" expanded="false" signature="0:104" ph="/.../" />
+                <marker date="1519400700000" expanded="false" signature="153:1617" ph="..." />
+                <marker date="1519400700000" expanded="true" signature="2103:3416" ph="{...}" />
+                <marker date="1519400700000" expanded="true" signature="3000:3075" ph="{...}" />
+                <marker date="1519400700000" expanded="true" signature="3475:3719" ph="{...}" />
+                <marker date="1519400700000" expanded="true" signature="3544:3608" ph="{...}" />
+                <marker date="1519400700000" expanded="true" signature="3787:4021" ph="{...}" />
+                <marker date="1519400700000" expanded="true" signature="3856:3915" ph="{...}" />
+                <marker date="1519400700000" expanded="true" signature="4074:4312" ph="{...}" />
+                <marker date="1519400700000" expanded="true" signature="4183:4242" ph="{...}" />
+                <marker date="1519400700000" expanded="true" signature="4367:4566" ph="{...}" />
+                <marker date="1519400700000" expanded="true" signature="4466:4525" ph="{...}" />
+                <marker date="1519400700000" expanded="true" signature="4756:5848" ph="{...}" />
+                <marker date="1519400700000" expanded="true" signature="4882:4947" ph="{...}" />
+                <marker date="1519400700000" expanded="true" signature="6040:7179" ph="{...}" />
+                <marker date="1519400700000" expanded="true" signature="6166:6231" ph="{...}" />
+                <marker date="1519400700000" expanded="true" signature="7203:8200" ph="{...}" />
+                <marker date="1519400700000" expanded="true" signature="8228:8459" ph="{...}" />
+                <marker date="1519400700000" expanded="true" signature="8652:8746" ph="{...}" />
+                <marker date="1519400700000" expanded="true" signature="8952:9774" ph="{...}" />
+                <marker date="1519400700000" expanded="true" signature="9974:10090" ph="{...}" />
+                <marker date="1519400700000" expanded="true" signature="10163:10726" ph="{...}" />
+                <marker date="1519400700000" expanded="true" signature="10799:11294" ph="{...}" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Managers.class" pinned="false" current-in-tab="false">
-        <entry file="jar://$MAVEN_REPOSITORY$/com/aurawin/core/2018.2.21.6/core-2018.2.21.6.jar!/com/aurawin/core/rsr/Managers.class">
+      <file leaf-file-name="RosterField.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/aurawin/scs/stored/domain/user/RosterField.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="234">
-              <caret line="87" column="0" lean-forward="false" selection-start-line="87" selection-start-column="0" selection-end-line="87" selection-end-column="0" />
+            <state relative-caret-position="0">
+              <caret line="0" column="43" lean-forward="true" selection-start-line="0" selection-start-column="43" selection-end-line="0" selection-end-column="43" />
               <folding>
-                <marker date="1519238248987" expanded="false" signature="0:104" ph="/.../" />
-                <marker date="1519238248987" expanded="false" signature="144:639" ph="..." />
-                <marker date="1519238248987" expanded="true" signature="975:1223" ph="{...}" />
-                <marker date="1519238248987" expanded="false" signature="1264:1275" ph=" { " />
-                <marker date="1519238248987" expanded="false" signature="1296:1302" ph=" }" />
-                <marker date="1519238248987" expanded="true" signature="1342:1578" ph="{...}" />
-                <marker date="1519238248987" expanded="true" signature="1641:1967" ph="{...}" />
-                <marker date="1519238248987" expanded="true" signature="2000:2444" ph="{...}" />
-                <marker date="1519238248987" expanded="true" signature="2615:4069" ph="{...}" />
-                <marker date="1519238248987" expanded="true" signature="4222:5099" ph="{...}" />
-                <marker date="1519238248987" expanded="true" signature="5138:6019" ph="{...}" />
-                <marker date="1519238248987" expanded="true" signature="6045:6224" ph="{...}" />
+                <element signature="imports" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Items.class" pinned="false" current-in-tab="false">
-        <entry file="jar://$MAVEN_REPOSITORY$/com/aurawin/core/2018.2.21.6/core-2018.2.21.6.jar!/com/aurawin/core/rsr/Items.class">
+      <file leaf-file-name="SecurityMechanismExclusive.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/aurawin/scs/rsr/protocol/audisk/def/SecurityMechanismExclusive.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="162">
-              <caret line="130" column="0" lean-forward="false" selection-start-line="130" selection-start-column="0" selection-end-line="130" selection-end-column="0" />
+            <state relative-caret-position="198">
+              <caret line="64" column="47" lean-forward="true" selection-start-line="64" selection-start-column="47" selection-end-line="64" selection-end-column="47" />
               <folding>
-                <marker date="1519238248987" expanded="false" signature="0:104" ph="/.../" />
-                <marker date="1519238248987" expanded="false" signature="144:1291" ph="..." />
-                <marker date="1519238248987" expanded="true" signature="2281:2805" ph="{...}" />
-                <marker date="1519238248987" expanded="true" signature="2829:4448" ph="{...}" />
-                <marker date="1519238248987" expanded="true" signature="4551:4733" ph="{...}" />
-                <marker date="1519238248987" expanded="true" signature="4786:12053" ph="{...}" />
-                <marker date="1519238248987" expanded="true" signature="12114:12478" ph="{...}" />
-                <marker date="1519238248987" expanded="true" signature="12540:12907" ph="{...}" />
-                <marker date="1519238248987" expanded="false" signature="12956:12967" ph=" { " />
-                <marker date="1519238248987" expanded="false" signature="12997:13003" ph=" }" />
-                <marker date="1519238248987" expanded="false" signature="13047:13058" ph=" { " />
-                <marker date="1519238248987" expanded="false" signature="13086:13092" ph=" }" />
-                <marker date="1519238248987" expanded="true" signature="13120:14376" ph="{...}" />
+                <element signature="imports" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SocketHandlerSecure.class" pinned="false" current-in-tab="false">
-        <entry file="jar://$MAVEN_REPOSITORY$/com/aurawin/core/2018.2.21.6/core-2018.2.21.6.jar!/com/aurawin/core/rsr/def/handlers/SocketHandlerSecure.class">
+      <file leaf-file-name="Router.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/aurawin/scs/audisk/router/Router.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="252">
-              <caret line="101" column="14" lean-forward="false" selection-start-line="101" selection-start-column="14" selection-end-line="101" selection-end-column="14" />
-              <folding>
-                <marker date="1519238248987" expanded="false" signature="0:104" ph="/.../" />
-                <marker date="1519238248987" expanded="false" signature="157:734" ph="..." />
-                <marker date="1519238248987" expanded="true" signature="1218:1583" ph="{...}" />
-                <marker date="1519238248987" expanded="true" signature="1611:1977" ph="{...}" />
-                <marker date="1519238248987" expanded="true" signature="2006:2561" ph="{...}" />
-                <marker date="1519238248987" expanded="true" signature="2587:3857" ph="{...}" />
-                <marker date="1519238248987" expanded="true" signature="3897:5969" ph="{...}" />
-                <marker date="1519238248987" expanded="true" signature="6009:7487" ph="{...}" />
-                <marker date="1519238248987" expanded="true" signature="7548:7962" ph="{...}" />
-                <marker date="1519238248987" expanded="true" signature="8016:8551" ph="{...}" />
-                <marker date="1519238248987" expanded="true" signature="8588:8805" ph="{...}" />
-                <marker date="1519238248987" expanded="true" signature="8863:9286" ph="{...}" />
-                <marker date="1519238248987" expanded="true" signature="9340:9886" ph="{...}" />
-                <marker date="1519238248987" expanded="true" signature="9942:10282" ph="{...}" />
-                <marker date="1519238248987" expanded="true" signature="10336:10927" ph="{...}" />
-                <marker date="1519238248987" expanded="true" signature="10983:11114" ph="{...}" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Item.class" pinned="false" current-in-tab="false">
-        <entry file="jar://$MAVEN_REPOSITORY$/com/aurawin/core/2018.2.21.6/core-2018.2.21.6.jar!/com/aurawin/core/rsr/Item.class">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="96">
-              <caret line="89" column="0" lean-forward="false" selection-start-line="89" selection-start-column="0" selection-end-line="89" selection-end-column="0" />
-              <folding>
-                <marker date="1519238248987" expanded="false" signature="0:104" ph="/.../" />
-                <marker date="1519238248987" expanded="false" signature="144:926" ph="..." />
-                <marker date="1519238248987" expanded="true" signature="1462:2128" ph="{...}" />
-                <marker date="1519238248987" expanded="false" signature="2472:2483" ph=" { " />
-                <marker date="1519238248987" expanded="false" signature="2503:2509" ph=" }" />
-                <marker date="1519238248987" expanded="true" signature="2554:2729" ph="{...}" />
-                <marker date="1519238248987" expanded="true" signature="2758:2874" ph="{...}" />
-                <marker date="1519238248987" expanded="true" signature="2906:3018" ph="{...}" />
-                <marker date="1519238248987" expanded="true" signature="3044:3142" ph="{...}" />
-                <marker date="1519238248987" expanded="true" signature="3171:3392" ph="{...}" />
-                <marker date="1519238248987" expanded="false" signature="3421:3432" ph=" { " />
-                <marker date="1519238248987" expanded="false" signature="3465:3471" ph=" }" />
-                <marker date="1519238248987" expanded="false" signature="3501:3512" ph=" { " />
-                <marker date="1519238248987" expanded="false" signature="3546:3552" ph=" }" />
-              </folding>
+            <state relative-caret-position="72">
+              <caret line="22" column="13" lean-forward="false" selection-start-line="22" selection-start-column="13" selection-end-line="22" selection-end-column="13" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -171,6 +133,7 @@
         <option value="$PROJECT_DIR$/src/main/java/com/aurawin/scs/stored/bootstrap/Plugins.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/aurawin/scs/stored/domain/vendor/hawker/item/FieldValue.java" />
         <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/src/main/java/com/aurawin/scs/rsr/protocol/audisk/def/SecurityMechanismExclusive.java" />
       </list>
     </option>
   </component>
@@ -218,10 +181,9 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
-      <pane id="AndroidView" />
       <pane id="Scratches" />
+      <pane id="AndroidView" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -239,6 +201,233 @@
               <item name="AuSCS" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="AuSCS" type="b2602c69:ProjectViewProjectNode" />
+              <item name="AuSCS" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="AuSCS" type="b2602c69:ProjectViewProjectNode" />
+              <item name="AuSCS" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="AuSCS" type="b2602c69:ProjectViewProjectNode" />
+              <item name="AuSCS" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+              <item name="aurawin" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="AuSCS" type="b2602c69:ProjectViewProjectNode" />
+              <item name="AuSCS" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+              <item name="aurawin" type="462c0819:PsiDirectoryNode" />
+              <item name="scs" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="AuSCS" type="b2602c69:ProjectViewProjectNode" />
+              <item name="AuSCS" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+              <item name="aurawin" type="462c0819:PsiDirectoryNode" />
+              <item name="scs" type="462c0819:PsiDirectoryNode" />
+              <item name="audisk" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="AuSCS" type="b2602c69:ProjectViewProjectNode" />
+              <item name="AuSCS" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+              <item name="aurawin" type="462c0819:PsiDirectoryNode" />
+              <item name="scs" type="462c0819:PsiDirectoryNode" />
+              <item name="audisk" type="462c0819:PsiDirectoryNode" />
+              <item name="router" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="AuSCS" type="b2602c69:ProjectViewProjectNode" />
+              <item name="AuSCS" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+              <item name="aurawin" type="462c0819:PsiDirectoryNode" />
+              <item name="scs" type="462c0819:PsiDirectoryNode" />
+              <item name="audisk" type="462c0819:PsiDirectoryNode" />
+              <item name="router" type="462c0819:PsiDirectoryNode" />
+              <item name="future" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="AuSCS" type="b2602c69:ProjectViewProjectNode" />
+              <item name="AuSCS" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+              <item name="aurawin" type="462c0819:PsiDirectoryNode" />
+              <item name="scs" type="462c0819:PsiDirectoryNode" />
+              <item name="core" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="AuSCS" type="b2602c69:ProjectViewProjectNode" />
+              <item name="AuSCS" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+              <item name="aurawin" type="462c0819:PsiDirectoryNode" />
+              <item name="scs" type="462c0819:PsiDirectoryNode" />
+              <item name="core" type="462c0819:PsiDirectoryNode" />
+              <item name="def" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="AuSCS" type="b2602c69:ProjectViewProjectNode" />
+              <item name="AuSCS" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+              <item name="aurawin" type="462c0819:PsiDirectoryNode" />
+              <item name="scs" type="462c0819:PsiDirectoryNode" />
+              <item name="core" type="462c0819:PsiDirectoryNode" />
+              <item name="transformation" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="AuSCS" type="b2602c69:ProjectViewProjectNode" />
+              <item name="AuSCS" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+              <item name="aurawin" type="462c0819:PsiDirectoryNode" />
+              <item name="scs" type="462c0819:PsiDirectoryNode" />
+              <item name="rsr" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="AuSCS" type="b2602c69:ProjectViewProjectNode" />
+              <item name="AuSCS" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+              <item name="aurawin" type="462c0819:PsiDirectoryNode" />
+              <item name="scs" type="462c0819:PsiDirectoryNode" />
+              <item name="rsr" type="462c0819:PsiDirectoryNode" />
+              <item name="protocol" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="AuSCS" type="b2602c69:ProjectViewProjectNode" />
+              <item name="AuSCS" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+              <item name="aurawin" type="462c0819:PsiDirectoryNode" />
+              <item name="scs" type="462c0819:PsiDirectoryNode" />
+              <item name="rsr" type="462c0819:PsiDirectoryNode" />
+              <item name="protocol" type="462c0819:PsiDirectoryNode" />
+              <item name="audisk" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="AuSCS" type="b2602c69:ProjectViewProjectNode" />
+              <item name="AuSCS" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+              <item name="aurawin" type="462c0819:PsiDirectoryNode" />
+              <item name="scs" type="462c0819:PsiDirectoryNode" />
+              <item name="rsr" type="462c0819:PsiDirectoryNode" />
+              <item name="protocol" type="462c0819:PsiDirectoryNode" />
+              <item name="audisk" type="462c0819:PsiDirectoryNode" />
+              <item name="client" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="AuSCS" type="b2602c69:ProjectViewProjectNode" />
+              <item name="AuSCS" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+              <item name="aurawin" type="462c0819:PsiDirectoryNode" />
+              <item name="scs" type="462c0819:PsiDirectoryNode" />
+              <item name="rsr" type="462c0819:PsiDirectoryNode" />
+              <item name="protocol" type="462c0819:PsiDirectoryNode" />
+              <item name="audisk" type="462c0819:PsiDirectoryNode" />
+              <item name="def" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="AuSCS" type="b2602c69:ProjectViewProjectNode" />
+              <item name="AuSCS" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+              <item name="aurawin" type="462c0819:PsiDirectoryNode" />
+              <item name="scs" type="462c0819:PsiDirectoryNode" />
+              <item name="rsr" type="462c0819:PsiDirectoryNode" />
+              <item name="protocol" type="462c0819:PsiDirectoryNode" />
+              <item name="audisk" type="462c0819:PsiDirectoryNode" />
+              <item name="def" type="462c0819:PsiDirectoryNode" />
+              <item name="version" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="AuSCS" type="b2602c69:ProjectViewProjectNode" />
+              <item name="AuSCS" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+              <item name="aurawin" type="462c0819:PsiDirectoryNode" />
+              <item name="scs" type="462c0819:PsiDirectoryNode" />
+              <item name="rsr" type="462c0819:PsiDirectoryNode" />
+              <item name="protocol" type="462c0819:PsiDirectoryNode" />
+              <item name="audisk" type="462c0819:PsiDirectoryNode" />
+              <item name="method" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="AuSCS" type="b2602c69:ProjectViewProjectNode" />
+              <item name="AuSCS" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+              <item name="aurawin" type="462c0819:PsiDirectoryNode" />
+              <item name="scs" type="462c0819:PsiDirectoryNode" />
+              <item name="rsr" type="462c0819:PsiDirectoryNode" />
+              <item name="protocol" type="462c0819:PsiDirectoryNode" />
+              <item name="audisk" type="462c0819:PsiDirectoryNode" />
+              <item name="method" type="462c0819:PsiDirectoryNode" />
+              <item name="command" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="AuSCS" type="b2602c69:ProjectViewProjectNode" />
+              <item name="AuSCS" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+              <item name="aurawin" type="462c0819:PsiDirectoryNode" />
+              <item name="scs" type="462c0819:PsiDirectoryNode" />
+              <item name="rsr" type="462c0819:PsiDirectoryNode" />
+              <item name="protocol" type="462c0819:PsiDirectoryNode" />
+              <item name="audisk" type="462c0819:PsiDirectoryNode" />
+              <item name="server" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="AuSCS" type="b2602c69:ProjectViewProjectNode" />
@@ -318,12 +507,50 @@
             </path>
             <path>
               <item name="AuSCS" type="b2602c69:ProjectViewProjectNode" />
+              <item name="AuSCS" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+              <item name="aurawin" type="462c0819:PsiDirectoryNode" />
+              <item name="scs" type="462c0819:PsiDirectoryNode" />
+              <item name="rsr" type="462c0819:PsiDirectoryNode" />
+              <item name="protocol" type="462c0819:PsiDirectoryNode" />
+              <item name="audisk" type="462c0819:PsiDirectoryNode" />
+              <item name="method" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="AuSCS" type="b2602c69:ProjectViewProjectNode" />
+              <item name="AuSCS" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+              <item name="aurawin" type="462c0819:PsiDirectoryNode" />
+              <item name="scs" type="462c0819:PsiDirectoryNode" />
+              <item name="rsr" type="462c0819:PsiDirectoryNode" />
+              <item name="protocol" type="462c0819:PsiDirectoryNode" />
+              <item name="audisk" type="462c0819:PsiDirectoryNode" />
+              <item name="method" type="462c0819:PsiDirectoryNode" />
+              <item name="command" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="AuSCS" type="b2602c69:ProjectViewProjectNode" />
+              <item name="AuSCS" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+              <item name="aurawin" type="462c0819:PsiDirectoryNode" />
+              <item name="scs" type="462c0819:PsiDirectoryNode" />
+              <item name="stored" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="AuSCS" type="b2602c69:ProjectViewProjectNode" />
               <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -340,6 +567,119 @@
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src" />
     </key>
+  </component>
+  <component name="RestoreUpdateTree" date="Moments ago" ActionInfo="_Update">
+    <UpdatedFiles>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Updated from server" />
+        <option name="myStatusName" value="Changed on server" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="CHANGED_ON_SERVER" />
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Updated" />
+          <option name="myStatusName" value="Changed" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="UPDATED" />
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/.idea/workspace.xml</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/AuSCS.iml</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/pom.xml</PATH>
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Created" />
+          <option name="myStatusName" value="Created" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="CREATED" />
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Deleted" />
+          <option name="myStatusName" value="Deleted" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="true" />
+          <option name="myId" value="REMOVED_FROM_REPOSITORY" />
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/.idea/libraries/Maven__com_aurawin_core_2018_2_21_6.xml</PATH>
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Restored" />
+          <option name="myStatusName" value="Will be restored" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="RESTORED" />
+        </FILE-GROUP>
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Modified" />
+        <option name="myStatusName" value="Modified" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="MODIFIED" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Skipped" />
+        <option name="myStatusName" value="Skipped" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="SKIPPED" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Merged with conflicts" />
+        <option name="myStatusName" value="Will be merged with conflicts" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="MERGED_WITH_CONFLICTS" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Merged with tree conflicts" />
+        <option name="myStatusName" value="Merged with tree conflicts" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="MERGED_WITH_TREE_CONFLICT" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Merged with property conflicts" />
+        <option name="myStatusName" value="Will be merged with property conflicts" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="MERGED_WITH_PROPERTY_CONFLICT" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Merged" />
+        <option name="myStatusName" value="Will be merged" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="MERGED" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Not in repository" />
+        <option name="myStatusName" value="Not in repository" />
+        <option name="mySupportsDeletion" value="true" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="UNKNOWN" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Locally added" />
+        <option name="myStatusName" value="Locally added" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="LOCALLY_ADDED" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Locally removed" />
+        <option name="myStatusName" value="Locally removed" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="LOCALLY_REMOVED" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Switched" />
+        <option name="myStatusName" value="Switched" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="SWITCHED" />
+      </FILE-GROUP>
+    </UpdatedFiles>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -557,6 +897,9 @@
     <history-entry file="AuraDiskClientTest - 2018.02.23 at 09h 30m 52s.xml">
       <configuration name="AuraDiskClientTest" configurationId="JUnit" />
     </history-entry>
+    <history-entry file="AuraDiskServerTest - 2018.02.23 at 09h 37m 05s.xml">
+      <configuration name="AuraDiskServerTest" configurationId="JUnit" />
+    </history-entry>
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -568,34 +911,54 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="67" y="25" width="1853" height="1055" extended-state="6" />
+    <frame x="0" y="25" width="1920" height="1175" extended-state="6" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32900432" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32802248" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.088541664" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32900432" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3289597" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32900432" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25989583" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24986508" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39925024" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.089044794" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24986508" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39915523" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32900432" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3284055" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.089044794" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3284055" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3284055" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32900432" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.26011872" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24986508" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39915523" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="true" content_ui="tabs" />
-      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="true" content_ui="tabs" />
     </layout>
   </component>
   <component name="VcsContentAnnotationSettings">
@@ -710,111 +1073,30 @@
           <properties />
           <option name="timeStamp" value="26" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/aurawin/scs/rsr/protocol/audisk/def/SecurityMechanismExclusive.java</url>
+          <line>60</line>
+          <properties />
+          <option name="timeStamp" value="27" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/aurawin/scs/rsr/protocol/audisk/def/SecurityMechanismExclusive.java</url>
+          <line>64</line>
+          <properties />
+          <option name="timeStamp" value="28" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/aurawin/scs/rsr/protocol/audisk/def/SecurityMechanismExclusive.java</url>
+          <line>68</line>
+          <properties />
+          <option name="timeStamp" value="29" />
+        </line-breakpoint>
       </breakpoints>
-      <option name="time" value="27" />
+      <option name="time" value="30" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/aurawin/scs/rsr/protocol/transport/HTTP_1_1.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3006">
-          <caret line="167" column="17" lean-forward="false" selection-start-line="167" selection-start-column="17" selection-end-line="167" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/aurawin/scs/stored/domain/vendor/hawker/item/FieldValue.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1278">
-          <caret line="79" column="22" lean-forward="false" selection-start-line="79" selection-start-column="22" selection-end-line="79" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/aurawin/scs/stored/bootstrap/Plugins.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="26" column="42" lean-forward="false" selection-start-line="26" selection-start-column="42" selection-end-line="26" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/com/aurawin/scs/rsr/protocol/audisk/client/AuraDiskClientTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="37" column="13" lean-forward="false" selection-start-line="37" selection-start-column="13" selection-end-line="37" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/aurawin/scs/core/Account.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="414">
-          <caret line="37" column="32" lean-forward="false" selection-start-line="37" selection-start-column="32" selection-end-line="37" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/com/aurawin/scs/stored/domain/UserAccountTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="15" column="13" lean-forward="false" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/aurawin/scs/lang/Database.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
-          <caret line="16" column="27" lean-forward="false" selection-start-line="16" selection-start-column="27" selection-end-line="16" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///usr/local/share/idea/bin/idea64.vmoptions">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="12" column="0" lean-forward="false" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/aurawin/scs/rsr/protocol/transport/HTTP_1_1.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3006">
-          <caret line="167" column="17" lean-forward="false" selection-start-line="167" selection-start-column="17" selection-end-line="167" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/aurawin/scs/stored/domain/vendor/hawker/item/FieldValue.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1278">
-          <caret line="79" column="22" lean-forward="false" selection-start-line="79" selection-start-column="22" selection-end-line="79" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/aurawin/scs/stored/bootstrap/Plugins.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="26" column="42" lean-forward="false" selection-start-line="26" selection-start-column="42" selection-end-line="26" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/com/aurawin/scs/rsr/protocol/audisk/client/AuraDiskClientTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="37" column="13" lean-forward="false" selection-start-line="37" selection-start-column="13" selection-end-line="37" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/aurawin/scs/core/Account.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="414">
-          <caret line="37" column="32" lean-forward="false" selection-start-line="37" selection-start-column="32" selection-end-line="37" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/test/com/aurawin/scs/stored/domain/UserAccountTest.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="90">
@@ -1014,18 +1296,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file:///usr/local/share/idea/bin/idea64.vmoptions">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="12" column="0" lean-forward="false" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file:///usr/local/share/idea/bin/idea64.vmoptions" />
     <entry file="jar://$MAVEN_REPOSITORY$/com/aurawin/core/2018.2.21.6/core-2018.2.21.6.jar!/com/aurawin/core/rsr/def/ItemState.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="90">
           <caret line="8" column="10" lean-forward="false" selection-start-line="8" selection-start-column="4" selection-end-line="8" selection-end-column="10" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1033,22 +1308,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="96">
           <caret line="89" column="0" lean-forward="false" selection-start-line="89" selection-start-column="0" selection-end-line="89" selection-end-column="0" />
-          <folding>
-            <marker date="1519238248987" expanded="false" signature="0:104" ph="/.../" />
-            <marker date="1519238248987" expanded="false" signature="144:926" ph="..." />
-            <marker date="1519238248987" expanded="true" signature="1462:2128" ph="{...}" />
-            <marker date="1519238248987" expanded="false" signature="2472:2483" ph=" { " />
-            <marker date="1519238248987" expanded="false" signature="2503:2509" ph=" }" />
-            <marker date="1519238248987" expanded="true" signature="2554:2729" ph="{...}" />
-            <marker date="1519238248987" expanded="true" signature="2758:2874" ph="{...}" />
-            <marker date="1519238248987" expanded="true" signature="2906:3018" ph="{...}" />
-            <marker date="1519238248987" expanded="true" signature="3044:3142" ph="{...}" />
-            <marker date="1519238248987" expanded="true" signature="3171:3392" ph="{...}" />
-            <marker date="1519238248987" expanded="false" signature="3421:3432" ph=" { " />
-            <marker date="1519238248987" expanded="false" signature="3465:3471" ph=" }" />
-            <marker date="1519238248987" expanded="false" signature="3501:3512" ph=" { " />
-            <marker date="1519238248987" expanded="false" signature="3546:3552" ph=" }" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1064,17 +1324,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="218">
           <caret line="93" column="5" lean-forward="false" selection-start-line="93" selection-start-column="5" selection-end-line="93" selection-end-column="5" />
-          <folding>
-            <marker date="1519238248987" expanded="false" signature="0:104" ph="/.../" />
-            <marker date="1519238248987" expanded="false" signature="151:539" ph="..." />
-            <marker date="1519238248987" expanded="true" signature="806:922" ph="{...}" />
-            <marker date="1519238248987" expanded="true" signature="946:2589" ph="{...}" />
-            <marker date="1519238248987" expanded="true" signature="2632:2777" ph="{...}" />
-            <marker date="1519238248987" expanded="true" signature="2816:2957" ph="{...}" />
-            <marker date="1519238248987" expanded="true" signature="2995:3110" ph="{...}" />
-            <marker date="1519238248987" expanded="true" signature="3159:3166" ph="{}" />
-            <marker date="1519238248987" expanded="true" signature="3263:3317" ph="{...}" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1082,20 +1332,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="234">
           <caret line="87" column="0" lean-forward="false" selection-start-line="87" selection-start-column="0" selection-end-line="87" selection-end-column="0" />
-          <folding>
-            <marker date="1519238248987" expanded="false" signature="0:104" ph="/.../" />
-            <marker date="1519238248987" expanded="false" signature="144:639" ph="..." />
-            <marker date="1519238248987" expanded="true" signature="975:1223" ph="{...}" />
-            <marker date="1519238248987" expanded="false" signature="1264:1275" ph=" { " />
-            <marker date="1519238248987" expanded="false" signature="1296:1302" ph=" }" />
-            <marker date="1519238248987" expanded="true" signature="1342:1578" ph="{...}" />
-            <marker date="1519238248987" expanded="true" signature="1641:1967" ph="{...}" />
-            <marker date="1519238248987" expanded="true" signature="2000:2444" ph="{...}" />
-            <marker date="1519238248987" expanded="true" signature="2615:4069" ph="{...}" />
-            <marker date="1519238248987" expanded="true" signature="4222:5099" ph="{...}" />
-            <marker date="1519238248987" expanded="true" signature="5138:6019" ph="{...}" />
-            <marker date="1519238248987" expanded="true" signature="6045:6224" ph="{...}" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1103,21 +1340,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="162">
           <caret line="130" column="0" lean-forward="false" selection-start-line="130" selection-start-column="0" selection-end-line="130" selection-end-column="0" />
-          <folding>
-            <marker date="1519238248987" expanded="false" signature="0:104" ph="/.../" />
-            <marker date="1519238248987" expanded="false" signature="144:1291" ph="..." />
-            <marker date="1519238248987" expanded="true" signature="2281:2805" ph="{...}" />
-            <marker date="1519238248987" expanded="true" signature="2829:4448" ph="{...}" />
-            <marker date="1519238248987" expanded="true" signature="4551:4733" ph="{...}" />
-            <marker date="1519238248987" expanded="true" signature="4786:12053" ph="{...}" />
-            <marker date="1519238248987" expanded="true" signature="12114:12478" ph="{...}" />
-            <marker date="1519238248987" expanded="true" signature="12540:12907" ph="{...}" />
-            <marker date="1519238248987" expanded="false" signature="12956:12967" ph=" { " />
-            <marker date="1519238248987" expanded="false" signature="12997:13003" ph=" }" />
-            <marker date="1519238248987" expanded="false" signature="13047:13058" ph=" { " />
-            <marker date="1519238248987" expanded="false" signature="13086:13092" ph=" }" />
-            <marker date="1519238248987" expanded="true" signature="13120:14376" ph="{...}" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1125,32 +1348,188 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="252">
           <caret line="101" column="14" lean-forward="false" selection-start-line="101" selection-start-column="14" selection-end-line="101" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/aurawin/scs/rsr/protocol/audisk/server/Server.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="72">
+          <caret line="17" column="58" lean-forward="false" selection-start-line="17" selection-start-column="58" selection-end-line="17" selection-end-column="58" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/aurawin/scs/rsr/protocol/audisk/method/command/cReadFile.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-306">
+          <caret line="24" column="13" lean-forward="false" selection-start-line="24" selection-start-column="13" selection-end-line="24" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/com/aurawin/core/2018.2.21.6/core-2018.2.21.6.jar!/com/aurawin/core/rsr/server/Server.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="186">
+          <caret line="41" column="0" lean-forward="false" selection-start-line="41" selection-start-column="0" selection-end-line="41" selection-end-column="0" />
           <folding>
-            <marker date="1519238248987" expanded="false" signature="0:104" ph="/.../" />
-            <marker date="1519238248987" expanded="false" signature="157:734" ph="..." />
-            <marker date="1519238248987" expanded="true" signature="1218:1583" ph="{...}" />
-            <marker date="1519238248987" expanded="true" signature="1611:1977" ph="{...}" />
-            <marker date="1519238248987" expanded="true" signature="2006:2561" ph="{...}" />
-            <marker date="1519238248987" expanded="true" signature="2587:3857" ph="{...}" />
-            <marker date="1519238248987" expanded="true" signature="3897:5969" ph="{...}" />
-            <marker date="1519238248987" expanded="true" signature="6009:7487" ph="{...}" />
-            <marker date="1519238248987" expanded="true" signature="7548:7962" ph="{...}" />
-            <marker date="1519238248987" expanded="true" signature="8016:8551" ph="{...}" />
-            <marker date="1519238248987" expanded="true" signature="8588:8805" ph="{...}" />
-            <marker date="1519238248987" expanded="true" signature="8863:9286" ph="{...}" />
-            <marker date="1519238248987" expanded="true" signature="9340:9886" ph="{...}" />
-            <marker date="1519238248987" expanded="true" signature="9942:10282" ph="{...}" />
-            <marker date="1519238248987" expanded="true" signature="10336:10927" ph="{...}" />
-            <marker date="1519238248987" expanded="true" signature="10983:11114" ph="{...}" />
+            <marker date="1519238237000" expanded="false" signature="0:104" ph="/.../" />
+            <marker date="1519238237000" expanded="false" signature="151:571" ph="..." />
+            <marker date="1519238237000" expanded="true" signature="855:997" ph="{...}" />
+            <marker date="1519238237000" expanded="true" signature="1188:1260" ph="{...}" />
+            <marker date="1519238237000" expanded="true" signature="1284:5087" ph="{...}" />
+            <marker date="1519238237000" expanded="true" signature="5130:5275" ph="{...}" />
+            <marker date="1519238237000" expanded="true" signature="5314:5455" ph="{...}" />
+            <marker date="1519238237000" expanded="true" signature="5493:5608" ph="{...}" />
+            <marker date="1519238237000" expanded="true" signature="5657:5664" ph="{}" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/com/aurawin/core/2018.2.23.1/core-2018.2.23.1.jar!/com/aurawin/core/rsr/security/Security.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="230">
+          <caret line="153" column="40" lean-forward="false" selection-start-line="153" selection-start-column="28" selection-end-line="153" selection-end-column="40" />
+          <folding>
+            <marker date="1519400464000" expanded="false" signature="0:104" ph="/.../" />
+            <marker date="1519400464000" expanded="false" signature="153:1617" ph="..." />
+            <marker date="1519400464000" expanded="true" signature="2103:3416" ph="{...}" />
+            <marker date="1519400464000" expanded="true" signature="3000:3075" ph="{...}" />
+            <marker date="1519400464000" expanded="true" signature="3475:3719" ph="{...}" />
+            <marker date="1519400464000" expanded="true" signature="3544:3608" ph="{...}" />
+            <marker date="1519400464000" expanded="true" signature="3787:4021" ph="{...}" />
+            <marker date="1519400464000" expanded="true" signature="3856:3915" ph="{...}" />
+            <marker date="1519400464000" expanded="true" signature="4074:4312" ph="{...}" />
+            <marker date="1519400464000" expanded="true" signature="4183:4242" ph="{...}" />
+            <marker date="1519400464000" expanded="true" signature="4367:4566" ph="{...}" />
+            <marker date="1519400464000" expanded="true" signature="4466:4525" ph="{...}" />
+            <marker date="1519400464000" expanded="true" signature="4756:5848" ph="{...}" />
+            <marker date="1519400464000" expanded="true" signature="4882:4947" ph="{...}" />
+            <marker date="1519400464000" expanded="true" signature="6020:6694" ph="{...}" />
+            <marker date="1519400464000" expanded="true" signature="6718:7715" ph="{...}" />
+            <marker date="1519400464000" expanded="true" signature="7743:7974" ph="{...}" />
+            <marker date="1519400464000" expanded="true" signature="8167:8261" ph="{...}" />
+            <marker date="1519400464000" expanded="true" signature="8467:9289" ph="{...}" />
+            <marker date="1519400464000" expanded="true" signature="9489:9605" ph="{...}" />
+            <marker date="1519400464000" expanded="true" signature="9678:10241" ph="{...}" />
+            <marker date="1519400464000" expanded="true" signature="10314:10809" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/aurawin/scs/core/Login.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="99" column="34" lean-forward="false" selection-start-line="99" selection-start-column="34" selection-end-line="99" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/aurawin/scs/rsr/protocol/audisk/def/Request.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="72">
+          <caret line="6" column="13" lean-forward="false" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/aurawin/scs/rsr/protocol/audisk/def/Status.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="36">
+          <caret line="2" column="12" lean-forward="false" selection-start-line="2" selection-start-column="12" selection-end-line="2" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/aurawin/scs/audisk/AuDisk.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1530">
+          <caret line="129" column="0" lean-forward="false" selection-start-line="129" selection-start-column="0" selection-end-line="130" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/com/aurawin/core/2018.2.23.3/core-2018.2.23.3.jar!/com/aurawin/core/rsr/def/CredentialResult.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="13" column="11" lean-forward="true" selection-start-line="13" selection-start-column="11" selection-end-line="13" selection-end-column="11" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
+        <state relative-caret-position="306">
           <caret line="17" column="32" lean-forward="false" selection-start-line="17" selection-start-column="32" selection-end-line="17" selection-end-column="32" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/com/aurawin/core/2018.2.23.2/core-2018.2.23.2.jar!/com/aurawin/core/rsr/security/Security.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="230">
+          <caret line="153" column="11" lean-forward="false" selection-start-line="153" selection-start-column="11" selection-end-line="153" selection-end-column="11" />
+          <folding>
+            <marker date="1519400700000" expanded="false" signature="0:104" ph="/.../" />
+            <marker date="1519400700000" expanded="false" signature="153:1617" ph="..." />
+            <marker date="1519400700000" expanded="true" signature="2103:3416" ph="{...}" />
+            <marker date="1519400700000" expanded="true" signature="3000:3075" ph="{...}" />
+            <marker date="1519400700000" expanded="true" signature="3475:3719" ph="{...}" />
+            <marker date="1519400700000" expanded="true" signature="3544:3608" ph="{...}" />
+            <marker date="1519400700000" expanded="true" signature="3787:4021" ph="{...}" />
+            <marker date="1519400700000" expanded="true" signature="3856:3915" ph="{...}" />
+            <marker date="1519400700000" expanded="true" signature="4074:4312" ph="{...}" />
+            <marker date="1519400700000" expanded="true" signature="4183:4242" ph="{...}" />
+            <marker date="1519400700000" expanded="true" signature="4367:4566" ph="{...}" />
+            <marker date="1519400700000" expanded="true" signature="4466:4525" ph="{...}" />
+            <marker date="1519400700000" expanded="true" signature="4756:5848" ph="{...}" />
+            <marker date="1519400700000" expanded="true" signature="4882:4947" ph="{...}" />
+            <marker date="1519400700000" expanded="true" signature="6040:7179" ph="{...}" />
+            <marker date="1519400700000" expanded="true" signature="6166:6231" ph="{...}" />
+            <marker date="1519400700000" expanded="true" signature="7203:8200" ph="{...}" />
+            <marker date="1519400700000" expanded="true" signature="8228:8459" ph="{...}" />
+            <marker date="1519400700000" expanded="true" signature="8652:8746" ph="{...}" />
+            <marker date="1519400700000" expanded="true" signature="8952:9774" ph="{...}" />
+            <marker date="1519400700000" expanded="true" signature="9974:10090" ph="{...}" />
+            <marker date="1519400700000" expanded="true" signature="10163:10726" ph="{...}" />
+            <marker date="1519400700000" expanded="true" signature="10799:11294" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/aurawin/scs/rsr/protocol/transport/AUDISK.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1085">
+          <caret line="105" column="42" lean-forward="false" selection-start-line="105" selection-start-column="42" selection-end-line="105" selection-end-column="42" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/com/aurawin/scs/rsr/protocol/audisk/AuraDiskServerTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="486">
+          <caret line="45" column="43" lean-forward="false" selection-start-line="45" selection-start-column="43" selection-end-line="45" selection-end-column="43" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/aurawin/scs/stored/domain/user/RosterField.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="43" lean-forward="true" selection-start-line="0" selection-start-column="43" selection-end-line="0" selection-end-column="43" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/aurawin/scs/rsr/protocol/audisk/def/SecurityMechanismExclusive.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="198">
+          <caret line="64" column="47" lean-forward="true" selection-start-line="64" selection-start-column="47" selection-end-line="64" selection-end-column="47" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
