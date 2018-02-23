@@ -1,12 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="Encoding" defaultCharsetForPropertiesFiles="UTF-8">
-    <file url="file://$PROJECT_DIR$" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/main/java/com/aurawin/scs/core/CoreResult.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/main/java/com/aurawin/scs/stored/domain/Domain.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/main/java/com/aurawin/scs/stored/domain/network/Folder.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/main/java/com/aurawin/scs/stored/domain/user/Account.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/main/java/com/aurawin/scs/stored/domain/user/Avatar.java" charset="UTF-8" />
+  <component name="Encoding">
     <file url="PROJECT" charset="UTF-8" />
   </component>
 </project>
