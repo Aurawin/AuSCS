@@ -13,10 +13,7 @@ import com.aurawin.scs.rsr.protocol.audisk.method.command.cReadFile;
 import com.aurawin.scs.rsr.protocol.audisk.method.command.cWriteFile;
 import com.aurawin.scs.rsr.protocol.transport.AUDISK;
 import com.aurawin.scs.solution.Settings;
-import com.aurawin.core.stored.Dialect;
-import com.aurawin.core.stored.Driver;
-import com.aurawin.core.stored.Manifest;
-import com.aurawin.core.stored.entities.Entities;
+
 
 import com.aurawin.scs.lang.Namespace;
 import com.aurawin.scs.rsr.protocol.audisk.server.Server;
