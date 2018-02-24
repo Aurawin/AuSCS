@@ -8,10 +8,10 @@ import java.net.InetSocketAddress;
 
 import static org.junit.Assert.*;
 
-public class ClientTest extends com.aurawin.core.rsr.client.Client {
+public class AuraDiskClientTestClient extends com.aurawin.core.rsr.client.Client {
     protected InetSocketAddress RemoteIp;
 
-    public ClientTest(InetSocketAddress bindIp, InetSocketAddress remoteIp) throws IOException, NoSuchMethodException,
+    public AuraDiskClientTestClient(InetSocketAddress bindIp, InetSocketAddress remoteIp) throws IOException, NoSuchMethodException,
             InstantiationException,IllegalAccessException
     {
         super(bindIp, AUDISKTest.class, true);
