@@ -5,6 +5,7 @@ import com.aurawin.core.rsr.def.CertSelfSigned;
 import com.aurawin.core.rsr.def.EngineState;
 import com.aurawin.core.stored.entities.Certificate;
 import com.aurawin.scs.solution.Settings;
+import com.aurawin.scs.rsr.protocol.audisk.client.AuraDiskClientTestClient;
 
 
 import org.junit.Before;
