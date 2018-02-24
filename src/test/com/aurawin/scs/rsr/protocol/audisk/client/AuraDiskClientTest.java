@@ -17,7 +17,7 @@ import com.aurawin.core.stored.Dialect;
 import com.aurawin.core.stored.Driver;
 import com.aurawin.core.stored.Manifest;
 import com.aurawin.core.stored.entities.Entities;
-import com.aurawin.scs.audisk.AuDisk;
+
 import com.aurawin.scs.lang.Namespace;
 import com.aurawin.scs.rsr.protocol.audisk.server.Server;
 import com.aurawin.scs.stored.bootstrap.Bootstrap;
@@ -37,7 +37,7 @@ import static org.junit.Assert.*;
 
 public class AuraDiskClientTest {
     boolean issued = false;
-    Client Connector;
+    ClientTest Engine;
     InetSocketAddress saServer  = new InetSocketAddress("172.16.1.1",Settings.Stored.Cloud.Service.Port.AuDisk);
     InetSocketAddress saClient  = new InetSocketAddress("172.16.1.2",0);
     @Before
@@ -51,7 +51,7 @@ public class AuraDiskClientTest {
                 "28"
         );
 
-        Connector = new Client(saClient,saServer);
+        Engine = new ClientTest(saClient,saServer);
         Certificate cert = new Certificate();
         CertSelfSigned ssc = new CertSelfSigned(
                 "phoenix.aurawin.com",
@@ -75,9 +75,9 @@ public class AuraDiskClientTest {
         cert.ChainCount=1;
         cert.Expires=ssc.ToDate.toInstant();
 
-        Connector.SSL.Load(cert);
-        Connector.SSL.Enabled=true;
-        Connector.Configure();
+        Engine.SSL.Load(cert);
+        Engine.SSL.Enabled=true;
+        Engine.Configure();
     }
 
     @Test
@@ -85,35 +85,14 @@ public class AuraDiskClientTest {
 
         System.out.println("AuraDiskClientTest.testRun()");
         System.out.println("AuraDiskClientTest.Server.Start()");
-        Connector.Start();
+        Engine.Start();
         System.out.println("AuDisk Client is running");
 
-        AUDISK rsr = Connector.Connect(saServer);
+        Engine.Connect(saServer);
 
-        while (Connector.State != EngineState.esFinalize) {
-            if (rsr.State== isEstablished) {
-                if (!issued) {
-                    issued = true;
-                    cReadFile cmd = new cReadFile();
+        while (Engine.State != EngineState.esFinalize) {
 
-                    cmd.DiskId = 1;
-                    cmd.DomainId = 1;
-                    cmd.FileId = 1221312;
-                    cmd.FolderId = 13342300;
-                    cmd.NamespaceId = 1;
-                    cmd.OwnerId = 1234;
-
-                    rsr.Request.Protocol = rsr.Version.toString();
-                    rsr.Request.Method = cmd.Keys.get(0);
-                    rsr.Request.Command = rsr.gson.toJson(cmd);
-
-
-                    rsr.Query();
-                } else {
-
-                }
-                Thread.sleep(100);
-            }
+            Thread.sleep(100);
         }
     }
 }
