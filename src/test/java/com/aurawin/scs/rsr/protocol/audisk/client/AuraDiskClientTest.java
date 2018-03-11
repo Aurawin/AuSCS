@@ -2,6 +2,7 @@ package com.aurawin.scs.rsr.protocol.audisk.client;
 
 import com.aurawin.core.lang.Table;
 import com.aurawin.core.rsr.def.EngineState;
+import com.aurawin.core.rsr.def.TransportConnect;
 import com.aurawin.core.solution.Version;
 import com.aurawin.core.stored.entities.security.Certificate;
 import com.aurawin.scs.solution.Settings;
@@ -15,6 +16,7 @@ import java.net.InetSocketAddress;
 
 
 public class AuraDiskClientTest {
+    TransportConnect tcData;
     AuraDiskClientTestClient Engine;
     InetSocketAddress saServer  = new InetSocketAddress("172.16.1.1",Settings.Stored.Cloud.Service.Port.AuDisk);
     InetSocketAddress saClient  = new InetSocketAddress("172.16.1.2",0);
@@ -52,7 +54,7 @@ public class AuraDiskClientTest {
         Engine.Start();
         System.out.println("AuDisk Client is running");
 
-        Engine.Connect(saServer);
+        tcData=Engine.Connect(saServer);
 
         while (Engine.State != EngineState.esFinalize) {
 
