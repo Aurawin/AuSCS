@@ -11,6 +11,22 @@
         <maven.compiler.target>1.9</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+    <scm>
+        <connection>scm:svn:http://127.0.0.1/dummy</connection>
+        <developerConnection>scm:svn:https://127.0.0.1/dummy</developerConnection>
+        <tag>HEAD</tag>
+        <url>http://127.0.0.1/dummy</url>
+    </scm>
+    <packaging>jar</packaging>
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+        <finalName>${project.groupId}.${project.artifactId}-${project.version}</finalName>
+    </build>
     <dependencies>
         <dependency>
             <groupId>com.aurawin</groupId>
@@ -42,7 +58,7 @@
     </repositories>
     <profiles>
         <profile>
-            <id>Build</id>
+            <id>build</id>
             <build>
                 <finalName>${project.groupId}.${project.artifactId}-${project.version}</finalName>
                 <resources>
@@ -52,7 +68,25 @@
                     </resource>
                 </resources>
                 <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-jar-plugin</artifactId>
+                        <version>2.4</version>
+                        <configuration>
+                            <finalName>${project.groupId}.${project.artifactId}-${project.version}.${project.packaging}</finalName>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <version>2.20.1</version>
+                        <configuration>
+                            <skipTests>true</skipTests>
+                            <includes>
 
+                            </includes>
+                        </configuration>
+                    </plugin>
                     <plugin>
                         <groupId>org.codehaus.mojo</groupId>
                         <artifactId>buildnumber-maven-plugin</artifactId>
@@ -77,19 +111,6 @@
                             <addOutputDirectoryToResources>true</addOutputDirectoryToResources>
                         </configuration>
                     </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-compiler-plugin</artifactId>
-                        <version>3.5.1</version>
-                        <configuration>
-                            <source>1.9</source>
-                            <target>1.9</target>
-                            <showDeprecation>true</showDeprecation>
-                            <showWarnings>true</showWarnings>
-                            <fork>true</fork>
-                        </configuration>
-                    </plugin>
-
                     <plugin>
                         <groupId>org.codehaus.mojo</groupId>
                         <artifactId>build-helper-maven-plugin</artifactId>
