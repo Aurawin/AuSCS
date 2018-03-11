@@ -1,8 +1,7 @@
 package com.aurawin.scs.stored.bootstrap;
 
 import com.aurawin.core.lang.Table;
-import com.aurawin.core.rsr.def.CertSelfSigned;
-import com.aurawin.core.stored.entities.Certificate;
+import com.aurawin.core.stored.entities.security.Certificate;
 import com.aurawin.scs.audisk.AuDisk;
 import com.aurawin.scs.lang.Namespace;
 import com.aurawin.scs.solution.Settings;
@@ -87,8 +86,7 @@ public class BootstrapTest {
         nAu2.setDomain(domain);
 
 
-        Certificate cert = new Certificate();
-        CertSelfSigned ssc = new CertSelfSigned(
+        Certificate  cert = Certificate.createSelfSigned(
                 "phoenix.aurawin.com",
                 "NOC",
                 "Aurawin LLC",
@@ -100,17 +98,6 @@ public class BootstrapTest {
                 "support@aurawin.com",
                 365
         );
-        cert.Request= Table.Security.Certificate.Request.SelfSigned;
-        cert.DerKey=ssc.getPrivateKeyAsDER();
-        cert.TextKey=ssc.PrintPrivateKey();
-
-        cert.DerCert1=ssc.getCertificateAsDER();
-        cert.TextCert1 = ssc.PrintCertificate();
-
-        cert.ChainCount=1;
-        cert.Expires=ssc.ToDate.toInstant();
-
-        cert.DomainId=domain.getId();
 
         Entities.Save(cert, CascadeOff);
     }

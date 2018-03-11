@@ -1,10 +1,9 @@
 package com.aurawin.scs.stored.bootstrap;
 
 
-import com.aurawin.core.rsr.def.CertSelfSigned;
 import com.aurawin.core.stored.annotations.AnnotatedList;
 import com.aurawin.core.stored.annotations.QueryByOwnerId;
-import com.aurawin.core.stored.entities.Certificate;
+import com.aurawin.core.stored.entities.security.Certificate;
 import com.aurawin.core.stored.entities.Entities;
 import com.aurawin.core.stored.Stored;
 import com.aurawin.core.stored.entities.FetchKind;
@@ -66,7 +65,7 @@ public class Bootstrap {
             String email,
             int days
     ) throws Exception{
-        CertSelfSigned ssc = new CertSelfSigned(
+        Certificate c = Certificate.createSelfSigned(
                 commonName,
                 organizationName,
                 organizationUnit,
@@ -78,18 +77,6 @@ public class Bootstrap {
                 email,
                 days
         );
-
-        Certificate c = new Certificate();
-        c.Request= com.aurawin.core.lang.Table.Security.Certificate.Request.SelfSigned;
-        c.DerKey=ssc.getPrivateKeyAsDER();
-        c.TextKey=ssc.PrintPrivateKey();
-
-        c.DerCert1=ssc.getCertificateAsDER();
-        c.TextCert1 = ssc.PrintCertificate();
-
-        c.ChainCount=1;
-        c.Expires=ssc.ToDate.toInstant();
-        c.DomainId = domain.getId();
 
         Entities.Save(c,Entities.CascadeOn);
         domain.setCertId(c.Id);

@@ -29,10 +29,7 @@ public class HTTPServerTest {
         Settings.Initialize(
                 "AuProcess",
                 "Aurawin Social Computing Server",
-                "Universal",
-                "2017",
-                "2",
-                "28"
+                "Universal"
         );
         Manifest mf = new Manifest(
                 Environment.getString(Table.DBMS.Username),                     // username

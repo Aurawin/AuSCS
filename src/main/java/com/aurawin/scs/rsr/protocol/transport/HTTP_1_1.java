@@ -5,7 +5,6 @@ import com.aurawin.core.rsr.def.CredentialResult;
 import com.aurawin.core.rsr.def.ItemKind;
 import com.aurawin.core.rsr.def.http.Field;
 import com.aurawin.core.rsr.def.http.Version_1_1;
-import com.aurawin.core.rsr.protocol.http.Protocol_HTTP_1_1;
 import com.aurawin.core.rsr.transport.annotations.Protocol;
 import com.aurawin.core.rsr.transport.methods.Result;
 import com.aurawin.core.rsr.transport.methods.http.dav.*;
@@ -21,6 +20,7 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import java.io.ByteArrayOutputStream;
+import java.lang.reflect.InvocationTargetException;
 import java.nio.channels.SocketChannel;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
@@ -35,23 +35,23 @@ import static java.time.Instant.now;
 @Protocol(
         Version = Version_1_1.class
 )
-public class HTTP_1_1 extends Protocol_HTTP_1_1 {
+public class HTTP_1_1 extends com.aurawin.core.rsr.server.protocol.http.HTTP_1_1 {
     public static boolean dummyFile = false;
     public Account User;
 
-    public HTTP_1_1() throws InstantiationException,IllegalAccessException{
+    public HTTP_1_1() throws NoSuchMethodException,InvocationTargetException,InstantiationException,IllegalAccessException{
         super();
     }
-    public HTTP_1_1(Items aOwner, ItemKind aKind) throws InstantiationException, IllegalAccessException {
+    public HTTP_1_1(Items aOwner, ItemKind aKind) throws InvocationTargetException,NoSuchMethodException,InstantiationException, IllegalAccessException {
         super(aOwner,aKind);
     }
 
     @Override
-    public HTTP_1_1 newInstance(Items aOwner) throws InstantiationException, IllegalAccessException{
+    public HTTP_1_1 newInstance(Items aOwner) throws NoSuchMethodException,InvocationTargetException,InstantiationException, IllegalAccessException{
         return new HTTP_1_1(aOwner,ItemKind.Client);
     }
     @Override
-    public HTTP_1_1 newInstance(Items aOwner, SocketChannel aChannel, ItemKind aKind)throws InstantiationException, IllegalAccessException{
+    public HTTP_1_1 newInstance(Items aOwner, SocketChannel aChannel, ItemKind aKind)throws NoSuchMethodException,InvocationTargetException,InstantiationException, IllegalAccessException{
         HTTP_1_1 itm = new HTTP_1_1(aOwner, aKind);
         itm.SocketHandler.Channel=aChannel;
         return itm;

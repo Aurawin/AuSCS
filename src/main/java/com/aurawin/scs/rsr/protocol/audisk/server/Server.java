@@ -23,7 +23,7 @@ public class Server extends com.aurawin.core.rsr.server.Server {
     public Server(Manifest manifest, Service service) throws IOException, NoSuchMethodException,
             Exception, InstantiationException,IllegalAccessException
     {
-        super(new InetSocketAddress(service.getIP(),service.getPort()), AUDISK.class, true, service.getHostname());
+        super(new InetSocketAddress(service.getIP(),service.getPort()), AUDISK.class, true, true,service.getHostname());
 
         Service = service;
         Disks = Entities.Lookup(Disk.class.getAnnotation(QueryByOwnerId.class),service.getNode().getId());

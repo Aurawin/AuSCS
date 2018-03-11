@@ -3,15 +3,16 @@ package com.aurawin.scs.rsr.protocol.audisk.client;
 
 import com.aurawin.scs.rsr.protocol.transport.AUDISK;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.net.InetSocketAddress;
 
-public class Client extends com.aurawin.core.rsr.client.Client{
+public class Client extends com.aurawin.core.rsr.client.Client {
     protected InetSocketAddress RemoteIp;
 
-    public Client(InetSocketAddress bindIp, InetSocketAddress remoteIp) throws IOException, NoSuchMethodException,
+    public Client(InetSocketAddress bindIp, InetSocketAddress remoteIp) throws InvocationTargetException,IOException, NoSuchMethodException,
             InstantiationException,IllegalAccessException
     {
-        super(bindIp, AUDISK.class, true);
+        super(bindIp, AUDISK.class, true,true);
         RemoteIp= remoteIp;
     }
 

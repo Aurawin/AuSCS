@@ -32,6 +32,7 @@ import com.google.gson.Gson;
 import org.hibernate.Session;
 import com.aurawin.scs.rsr.protocol.audisk.def.Request;
 
+import java.lang.reflect.InvocationTargetException;
 import java.nio.channels.SocketChannel;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -56,11 +57,11 @@ public class AUDISK extends Item implements Transport
     public Queue<Response>Responses = new ConcurrentLinkedQueue<Response>();
     public Queue<Request> Requests = new ConcurrentLinkedQueue<Request>();
 
-    public AUDISK() throws InstantiationException, IllegalAccessException{
+    public AUDISK() throws NoSuchMethodException,InvocationTargetException,InstantiationException, IllegalAccessException{
         super(null,ItemKind.None);
     }
 
-    public AUDISK(Items aOwner, ItemKind aKind) throws InstantiationException, IllegalAccessException {
+    public AUDISK(Items aOwner, ItemKind aKind) throws NoSuchMethodException,InvocationTargetException,InstantiationException, IllegalAccessException {
         super(aOwner,aKind);
         Response = new Response();
         Request = new Request();
@@ -74,11 +75,11 @@ public class AUDISK extends Item implements Transport
         Methods.registerMethod(new cWriteFile());
     }
     @Override
-    public AUDISK newInstance(Items aOwner) throws InstantiationException, IllegalAccessException{
+    public AUDISK newInstance(Items aOwner) throws InvocationTargetException,NoSuchMethodException,InstantiationException, IllegalAccessException{
         return new AUDISK(aOwner,ItemKind.Client);
     }
     @Override
-    public AUDISK newInstance(Items aOwner, SocketChannel aChannel, ItemKind aKind)throws InstantiationException, IllegalAccessException{
+    public AUDISK newInstance(Items aOwner, SocketChannel aChannel, ItemKind aKind)throws InvocationTargetException,NoSuchMethodException,InstantiationException, IllegalAccessException{
         AUDISK itm = new AUDISK(aOwner, aKind);
         itm.SocketHandler.Channel=aChannel;
         return itm;

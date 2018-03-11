@@ -11,6 +11,7 @@ import com.aurawin.scs.stored.domain.user.Account;
 import org.hibernate.Session;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.net.InetSocketAddress;
 
 import static com.aurawin.scs.stored.bootstrap.Plugins.initializePlugin;
@@ -46,10 +47,10 @@ public class Server extends com.aurawin.core.rsr.server.Server{
         com.aurawin.scs.stored.bootstrap.roles.User.Initialize();
     }
 
-    public Server(Manifest manifest, Service service) throws IOException, NoSuchMethodException,
+    public Server(Manifest manifest, Service service) throws NoSuchMethodException,InvocationTargetException,IOException, NoSuchMethodException,
             InstantiationException,IllegalAccessException
     {
-        super(new InetSocketAddress(service.getIP(),service.getPort()), HTTP_1_1.class, false, service.getHostname());
+        super(new InetSocketAddress(service.getIP(),service.getPort()), HTTP_1_1.class, false, false,service.getHostname());
 
         Service = service;
         Node = service.getNode();

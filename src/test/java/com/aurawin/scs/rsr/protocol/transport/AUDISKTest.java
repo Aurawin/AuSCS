@@ -3,12 +3,14 @@ package com.aurawin.scs.rsr.protocol.transport;
 import com.aurawin.core.rsr.def.ItemKind;
 import com.aurawin.scs.rsr.protocol.audisk.method.command.cReadFile;
 
+import java.lang.reflect.InvocationTargetException;
+
 import static com.aurawin.core.rsr.def.ItemState.isEstablished;
 import static org.junit.Assert.*;
 
 public class AUDISKTest extends AUDISK {
     public static boolean issued = false;
-    public AUDISKTest() throws InstantiationException, IllegalAccessException{
+    public AUDISKTest() throws InvocationTargetException,InstantiationException, NoSuchMethodException,IllegalAccessException{
         super(null,ItemKind.None);
     }
 

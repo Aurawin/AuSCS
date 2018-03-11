@@ -1,9 +1,9 @@
 package com.aurawin.scs.rsr.protocol.audisk.client;
 
 import com.aurawin.core.lang.Table;
-import com.aurawin.core.rsr.def.CertSelfSigned;
 import com.aurawin.core.rsr.def.EngineState;
-import com.aurawin.core.stored.entities.Certificate;
+import com.aurawin.core.solution.Version;
+import com.aurawin.core.stored.entities.security.Certificate;
 import com.aurawin.scs.solution.Settings;
 import com.aurawin.scs.rsr.protocol.audisk.client.AuraDiskClientTestClient;
 
@@ -23,15 +23,11 @@ public class AuraDiskClientTest {
         Settings.Initialize(
                 "AuProcess",
                 "Aurawin Social Computing Server",
-                "Universal",
-                "2017",
-                "2",
-                "28"
+                "Universal"
         );
 
         Engine = new AuraDiskClientTestClient(saClient,saServer);
-        Certificate cert = new Certificate();
-        CertSelfSigned ssc = new CertSelfSigned(
+        Certificate cert = Certificate.createSelfSigned(
                 "phoenix.aurawin.com",
                 "NOC",
                 "Aurawin LLC",
@@ -43,16 +39,6 @@ public class AuraDiskClientTest {
                 "support@aurawin.com",
                 365
         );
-        cert.Request=Table.Security.Certificate.Request.SelfSigned;
-        cert.DerKey=ssc.getPrivateKeyAsDER();
-        cert.TextKey=ssc.PrintPrivateKey();
-
-        cert.DerCert1=ssc.getCertificateAsDER();
-        cert.TextCert1 = ssc.PrintCertificate();
-
-        cert.ChainCount=1;
-        cert.Expires=ssc.ToDate.toInstant();
-
         Engine.SSL.Load(cert);
         Engine.SSL.Enabled=true;
         Engine.Configure();

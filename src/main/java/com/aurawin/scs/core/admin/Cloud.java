@@ -241,7 +241,7 @@ public class Cloud extends Plug {
                     Domain d = Entities.Lookup(Domain.class,c.DomainId);
                     Location l = Entities.Lookup(Location.class,c.LocationId);
                     if ( (d!=null) && (l!=null)){
-                        com.aurawin.core.stored.entities.Certificate cert = com.aurawin.scs.stored.bootstrap.Bootstrap.addSelfSignedCertificate(
+                        com.aurawin.core.stored.entities.security.Certificate cert = com.aurawin.scs.stored.bootstrap.Bootstrap.addSelfSignedCertificate(
                                 d,
                                 d.getName(),
                                 l.getRoom(),

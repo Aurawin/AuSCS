@@ -11,7 +11,7 @@ import com.aurawin.core.stored.Manifest;
 import com.aurawin.core.stored.entities.Entities;
 import com.aurawin.scs.audisk.AuDisk;
 import com.aurawin.scs.lang.Namespace;
-
+import com.aurawin.core.solution.Version;
 import com.aurawin.scs.rsr.protocol.audisk.server.Server;
 import com.aurawin.scs.stored.bootstrap.Bootstrap;
 import com.aurawin.scs.stored.bootstrap.BootstrapTest;
@@ -27,10 +27,7 @@ public class AuraDiskServerTest {
         Settings.Initialize(
                 "AuProcess",
                 "Aurawin Social Computing Server",
-                "Universal",
-                "2018",
-                "2",
-                "20"
+                "Universal"
         );
         Manifest mf = new Manifest (
                 Environment.getString(Table.DBMS.Username),                     // username
