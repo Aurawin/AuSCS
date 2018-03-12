@@ -13,6 +13,21 @@ public class Settings extends com.aurawin.core.solution.Settings {
             public static long RecentItemsTimeWindowInSeconds=60*2; // 2 minutes
         }
     }
+    public static class AuDisk{
+        public static final String Protocol = "Version";
+        public static class Method{
+            public static class Command{
+                public static final String Move = "MVE";
+                public static final String ListAll = "LA";
+                public static final String Make = "MKE";
+                public static final String Delete = "DEL";
+                public static final String Read = "REA";
+                public static final String Write = "WRI";
+            }
+            public static final String File = "FLE";
+            public static final String Folder = "FLDR";
+        }
+    }
     public static class Stored{
         public static class Cloud{
             public static class Service{

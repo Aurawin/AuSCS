@@ -3,6 +3,8 @@ package com.aurawin.scs.rsr.protocol.audisk.method.command;
 import com.aurawin.core.json.Builder;
 import com.aurawin.core.stored.entities.UniqueId;
 import com.aurawin.scs.lang.Namespace;
+import com.aurawin.scs.rsr.protocol.audisk.def.Request;
+import com.aurawin.scs.rsr.protocol.audisk.def.Response;
 import com.google.gson.Gson;
 import org.junit.After;
 import org.junit.Before;
@@ -15,8 +17,10 @@ public class MoveFileTest {
     Builder bldr;
     Gson gson;
     UniqueId Kind;
+
     @Before
     public void setUp() throws Exception {
+
         bldr = new Builder();
         gson = bldr.Create();
         Kind=Namespace.Stored.Domain.Network.File;

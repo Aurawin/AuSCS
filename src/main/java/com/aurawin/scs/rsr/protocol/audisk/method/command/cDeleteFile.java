@@ -46,7 +46,7 @@ public class cDeleteFile extends Item{
     public long FolderId;
 
     public cDeleteFile() {
-        super(Table.AuDisk.Method.File+"."+Table.AuDisk.Method.Command.Delete);
+        super(Settings.AuDisk.Method.File+"."+Settings.AuDisk.Method.Command.Delete);
     }
 
     @Override
