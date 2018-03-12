@@ -42,7 +42,7 @@ public class cListAllFiles extends Item {
 
 
     public cListAllFiles() {
-        super(Table.AuDisk.Method.File+"."+Table.AuDisk.Method.Command.ListAll);
+        super(Settings.AuDisk.Method.File+"."+Settings.AuDisk.Method.Command.ListAll);
     }
 
     @Override

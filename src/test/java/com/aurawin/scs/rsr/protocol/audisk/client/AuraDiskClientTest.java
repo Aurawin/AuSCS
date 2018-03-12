@@ -12,6 +12,7 @@ import com.aurawin.core.stored.Driver;
 import com.aurawin.core.stored.Manifest;
 import com.aurawin.core.stored.entities.UniqueId;
 import com.aurawin.core.stored.entities.security.Certificate;
+import com.aurawin.scs.audisk.router.Router;
 import com.aurawin.scs.lang.Namespace;
 import com.aurawin.scs.rsr.protocol.audisk.method.command.cMoveFile;
 import com.aurawin.scs.rsr.protocol.transport.AUDISK;
@@ -109,8 +110,11 @@ public class AuraDiskClientTest {
                     cmdMoveFile.OldFolderId=1;
                     sJSON = gson.toJson(cmdMoveFile);
                     System.out.println("Sending..."+sJSON);
-                    t.Request.Command=
-                    tcData.getOwner()
+
+                    t.Request.Command=sJSON;
+                    t.Request.Method= Settings.AuDisk.Method.Folder;
+                    t.Request.Protocol= Router.Version.toString();
+
                     tcData.getOwner().Buffers.Send.Write(sJSON);
                     tcData.getOwner().queueSend();
                 }

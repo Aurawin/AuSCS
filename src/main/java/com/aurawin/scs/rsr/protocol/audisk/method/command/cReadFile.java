@@ -43,7 +43,7 @@ public class cReadFile extends Item{
     public long FolderId;
 
     public cReadFile() {
-        super(Table.AuDisk.Method.File+"."+Table.AuDisk.Method.Command.Read);
+        super(Settings.AuDisk.Method.File+"."+Settings.AuDisk.Method.Command.Read);
     }
 
     @Override

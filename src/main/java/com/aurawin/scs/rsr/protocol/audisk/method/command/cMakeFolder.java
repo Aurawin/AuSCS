@@ -43,7 +43,7 @@ public class cMakeFolder extends Item {
 
 
     public cMakeFolder() {
-        super(Table.AuDisk.Method.Folder+"."+Table.AuDisk.Method.Command.Make);
+        super(Settings.AuDisk.Method.Folder+"."+Settings.AuDisk.Method.Command.Make);
     }
 
     @Override

@@ -43,7 +43,7 @@ public class cWriteFile extends Item{
     public long FolderId;
 
     public cWriteFile() {
-        super(Table.AuDisk.Method.File+"."+Table.AuDisk.Method.Command.Write);
+        super(Settings.AuDisk.Method.File+"."+Settings.AuDisk.Method.Command.Write);
     }
 
     @Override

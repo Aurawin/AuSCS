@@ -48,7 +48,7 @@ public class cMoveFile extends Item {
     public long NewFolderId;
 
     public cMoveFile() {
-        super(Table.AuDisk.Method.File+"."+ Table.AuDisk.Method.Command.Move);
+        super(Settings.AuDisk.Method.File+"."+ Settings.AuDisk.Method.Command.Move);
     }
     @Override
     public Result onProcess(Session ssn, Transport transport){

@@ -43,7 +43,7 @@ public class cDeleteFolder extends Item {
     public long FolderId;
 
     public cDeleteFolder() {
-        super(Table.AuDisk.Method.Folder+"."+Table.AuDisk.Method.Command.Delete);
+        super(Settings.AuDisk.Method.Folder+"."+Settings.AuDisk.Method.Command.Delete);
     }
 
     @Override

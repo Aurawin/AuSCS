@@ -11,6 +11,7 @@ import com.aurawin.scs.rsr.protocol.audisk.def.Request;
 import com.aurawin.scs.rsr.protocol.audisk.def.version.Version;
 import com.aurawin.scs.rsr.protocol.audisk.method.command.cMakeFolder;
 
+import com.aurawin.scs.solution.Settings;
 import com.aurawin.scs.stored.cloud.Disk;
 import com.aurawin.scs.stored.cloud.Node;
 import com.aurawin.scs.stored.cloud.Service;
@@ -84,7 +85,7 @@ public class Router {
 
         Request rq = new Request();
         rq.Command=gson.toJson(cmd);
-        rq.Method=Table.AuDisk.Method.Folder;
+        rq.Method= Settings.AuDisk.Method.Folder;
         rq.Protocol=Version.toString();
 
 
