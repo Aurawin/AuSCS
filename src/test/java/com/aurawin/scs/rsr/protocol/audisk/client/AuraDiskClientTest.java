@@ -54,7 +54,7 @@ public class AuraDiskClientTest {
         Engine.Start();
         System.out.println("AuDisk Client is running");
 
-        tcData=Engine.Connect(saServer);
+        tcData=Engine.Connect(saServer,true);
 
         while (Engine.State != EngineState.esFinalize) {
 

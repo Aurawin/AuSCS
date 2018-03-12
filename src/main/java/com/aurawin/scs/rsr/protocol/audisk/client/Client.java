@@ -12,7 +12,7 @@ public class Client extends com.aurawin.core.rsr.client.Client {
     public Client(InetSocketAddress bindIp, InetSocketAddress remoteIp) throws InvocationTargetException,IOException, NoSuchMethodException,
             InstantiationException,IllegalAccessException
     {
-        super(bindIp, AUDISK.class, true,true);
+        super(bindIp, AUDISK.class, true);
         RemoteIp= remoteIp;
     }
 

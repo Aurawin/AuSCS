@@ -16,7 +16,7 @@ public class AuraDiskClientTestClient extends com.aurawin.core.rsr.client.Client
             InstantiationException,            NoSuchMethodException,IOException,InvocationTargetException
 
     {
-        super(bindIp, AUDISKTest.class, true,true);
+        super(bindIp, AUDISKTest.class, true);
         RemoteIp= remoteIp;
     }
 }

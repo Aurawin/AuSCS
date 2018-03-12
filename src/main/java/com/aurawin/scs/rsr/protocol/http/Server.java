@@ -50,7 +50,7 @@ public class Server extends com.aurawin.core.rsr.server.Server{
     public Server(Manifest manifest, Service service) throws NoSuchMethodException,InvocationTargetException,IOException, NoSuchMethodException,
             InstantiationException,IllegalAccessException
     {
-        super(new InetSocketAddress(service.getIP(),service.getPort()), HTTP_1_1.class, false, false,service.getHostname());
+        super(new InetSocketAddress(service.getIP(),service.getPort()), HTTP_1_1.class, false, service.getHostname());
 
         Service = service;
         Node = service.getNode();
