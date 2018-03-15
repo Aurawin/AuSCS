@@ -28,7 +28,7 @@ public class BootstrapTest {
     public static Service svcHTTP;
     public static Service svcAUDISK;
     public static Disk auDisk;
-    public static final String Mount = "/media/raid";
+    public static final String Mount = "/Developer/test";
     public static final String DomainName = "aurawin.com";
 
     public static void createTestData() throws Exception {

@@ -1,6 +1,7 @@
 package com.aurawin.scs.audisk.router;
 
 import com.aurawin.core.log.Syslog;
+import com.aurawin.core.rsr.IpHelper;
 import com.aurawin.core.rsr.Item;
 import com.aurawin.core.stored.Stored;
 import com.aurawin.core.stored.annotations.QueryAll;
@@ -49,8 +50,8 @@ public class Router {
                     Routes.put(d.getId(), r);
                 }
                 if (r.Client==null){
-                    InetSocketAddress bind=new InetSocketAddress(Node.getIP(),r.Service.getPort());
-                    InetSocketAddress remote=new InetSocketAddress(r.Service.getIP(),r.Service.getPort());
+                    InetSocketAddress bind=new InetSocketAddress(IpHelper.fromLong(Node.getIP()),r.Service.getPort());
+                    InetSocketAddress remote=new InetSocketAddress(IpHelper.fromLong(r.Service.getIP()),r.Service.getPort());
                     try {
                         r.Client = new Client(bind, remote);
                         r.Connection = r.Client.Connect(remote, Settings.RSR.TransportConnect.Persist.Infinite);

@@ -28,6 +28,7 @@ import org.hibernate.Session;
 import com.aurawin.scs.rsr.protocol.audisk.def.Request;
 
 import java.lang.reflect.InvocationTargetException;
+import java.net.InetSocketAddress;
 import java.nio.channels.SocketChannel;
 import java.time.Instant;
 import java.util.Queue;
@@ -77,6 +78,7 @@ public class AUDISK extends Item implements Transport
     @Override
     public AUDISK newInstance(Items aOwner, SocketChannel aChannel, ItemKind aKind)throws InvocationTargetException,NoSuchMethodException,InstantiationException, IllegalAccessException{
         AUDISK itm = new AUDISK(aOwner, aKind);
+        itm.Address= new InetSocketAddress(aChannel.socket().getInetAddress(),aChannel.socket().getPort());
         itm.SocketHandler.Channel=aChannel;
         return itm;
     }

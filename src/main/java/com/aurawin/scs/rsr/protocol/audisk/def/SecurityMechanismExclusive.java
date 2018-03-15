@@ -71,7 +71,7 @@ public class SecurityMechanismExclusive extends Mechanism {
         try{
             Node n = (Node)
                     ssn.getNamedQuery(Database.Query.Cloud.Node.ByIP.name)
-                            .setParameter("IP",Ip)
+                            .setParameter("Ip",Ip)
                             .uniqueResult();
             if (n!=null){
                 return CredentialResult.Passed;

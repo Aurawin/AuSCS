@@ -1,5 +1,6 @@
 package com.aurawin.scs.rsr.protocol.audisk.server;
 
+import com.aurawin.core.rsr.IpHelper;
 import com.aurawin.core.stored.Stored;
 import com.aurawin.core.stored.annotations.QueryAll;
 import com.aurawin.core.stored.annotations.QueryByOwnerId;
@@ -23,7 +24,7 @@ public class Server extends com.aurawin.core.rsr.server.Server {
     public Server(Manifest manifest, Service service) throws IOException, NoSuchMethodException,
             Exception, InstantiationException,IllegalAccessException
     {
-        super(new InetSocketAddress(service.getIP(),service.getPort()), AUDISK.class, true, service.getHostname());
+        super(new InetSocketAddress(IpHelper.fromLong(service.getIP()),service.getPort()), AUDISK.class, true, service.getHostname());
 
         Service = service;
         Disks = Entities.Lookup(Disk.class.getAnnotation(QueryByOwnerId.class),service.getNode().getId());

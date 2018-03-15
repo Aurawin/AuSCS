@@ -1,6 +1,8 @@
 package com.aurawin.scs.stored.bootstrap;
 
 
+import com.aurawin.core.array.Bytes;
+import com.aurawin.core.rsr.IpHelper;
 import com.aurawin.core.stored.annotations.AnnotatedList;
 import com.aurawin.core.stored.entities.security.Certificate;
 import com.aurawin.core.stored.entities.Entities;
@@ -138,7 +140,7 @@ public class Bootstrap {
             Node n = new Node();
             n.setResource(resource);
             n.setName(name);
-            n.setIP(ip);
+            n.setIP(IpHelper.toLong(ip));
             Entities.Save(n,Entities.CascadeOn);
             return n;
         }

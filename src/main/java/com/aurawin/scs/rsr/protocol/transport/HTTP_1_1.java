@@ -21,6 +21,7 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import java.io.ByteArrayOutputStream;
 import java.lang.reflect.InvocationTargetException;
+import java.net.InetSocketAddress;
 import java.nio.channels.SocketChannel;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
@@ -53,6 +54,7 @@ public class HTTP_1_1 extends com.aurawin.core.rsr.server.protocol.http.HTTP_1_1
     @Override
     public HTTP_1_1 newInstance(Items aOwner, SocketChannel aChannel, ItemKind aKind)throws NoSuchMethodException,InvocationTargetException,InstantiationException, IllegalAccessException{
         HTTP_1_1 itm = new HTTP_1_1(aOwner, aKind);
+        itm.Address= new InetSocketAddress(aChannel.socket().getInetAddress(),aChannel.socket().getPort());
         itm.SocketHandler.Channel=aChannel;
         return itm;
     }

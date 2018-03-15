@@ -69,7 +69,7 @@ public class AuraDiskServerTest {
         System.out.println("AuraDiskServerTest.testRun()");
         System.out.println("AuraDiskServerTest.Server.Start()");
         Server.Start();
-        System.out.println("AuDisk is running");
+        System.out.println("AuDisk Server is running");
 
         while (Server.State != EngineState.esFinalize) {
 

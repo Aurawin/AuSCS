@@ -76,9 +76,9 @@ public class Node extends Stored {
 
     @Column(name = Database.Field.Cloud.Node.IP, length = 45)
     @Expose(serialize = true, deserialize = true)
-    protected String IP;
-    public String getIP(){ return IP;}
-    public void setIP(String ip){IP=ip;}
+    protected long IP;
+    public long getIP(){ return IP;}
+    public void setIP(long ip){IP=ip;}
 
     @Cascade({CascadeType.MERGE})
     @ManyToOne(targetEntity = Domain.class, fetch = FetchType.EAGER )
@@ -136,7 +136,7 @@ public class Node extends Stored {
     public void Reset(){
         Id = 0;
         Name = "";
-        IP = "";
+        IP = 0;
         Transactions = null;
         Resource = null;
         Group = null;

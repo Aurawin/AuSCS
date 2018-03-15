@@ -161,7 +161,7 @@ public class Database extends com.aurawin.core.lang.Database {
                 }
                 public static class ByIP{
                     public static final String name ="QueryCloudNodeByIP";
-                    public static final String value = "from Node where IP=:IP";
+                    public static final String value = "from Node where IP=:Ip";
                 }
             }
             public static class Resource{
