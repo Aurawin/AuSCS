@@ -75,6 +75,7 @@ public class AuraDiskServerTest {
 
             Thread.sleep(100);
         }
+        System.out.println("AuDisk Server shut down");
     }
     @After
     public void after() throws Exception {
