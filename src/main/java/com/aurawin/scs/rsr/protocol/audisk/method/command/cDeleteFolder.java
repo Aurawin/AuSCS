@@ -3,12 +3,10 @@ package com.aurawin.scs.rsr.protocol.audisk.method.command;
 
 import com.aurawin.core.log.Syslog;
 import com.aurawin.core.rsr.transport.Transport;
-import com.aurawin.core.rsr.transport.methods.Item;
+import com.aurawin.core.rsr.transport.methods.Method;
 import com.aurawin.core.rsr.transport.methods.Result;
-import com.aurawin.scs.lang.Table;
 import com.aurawin.scs.rsr.protocol.audisk.client.Client;
 import com.aurawin.scs.rsr.protocol.audisk.def.Request;
-import com.aurawin.scs.rsr.protocol.audisk.def.Status;
 import com.aurawin.scs.rsr.protocol.audisk.server.Server;
 import com.aurawin.scs.rsr.protocol.transport.AUDISK;
 import com.aurawin.scs.solution.Settings;
@@ -25,7 +23,7 @@ import static com.aurawin.core.rsr.transport.methods.Result.Failure;
 import static com.aurawin.core.rsr.transport.methods.Result.None;
 import static com.aurawin.core.rsr.transport.methods.Result.Ok;
 
-public class cDeleteFolder extends Item {
+public class cDeleteFolder extends Method {
     @Expose(serialize = true, deserialize = true)
     @SerializedName("DSK")
     public long DiskId;
@@ -58,36 +56,22 @@ public class cDeleteFolder extends Item {
                 cmd = t.gson.fromJson(t.Request.Command,cDeleteFolder.class);
                 Disk disk = s.getDisk(cmd.DiskId);
                 if (disk!=null) {
-                    Path dPath = Settings.Stored.Domain.Network.File.buildPath(
-                            disk.getMount(),
-                            cmd.NamespaceId,
+                    disk.deleteFolder(cmd.NamespaceId,
                             cmd.DomainId,
                             cmd.OwnerId,
                             cmd.FolderId
                     );
-                    File fPath = dPath.toFile();
-                    if (fPath.isDirectory()) {
-                        try {
-                            Files.delete(dPath);
-                            r = Ok;
-                        } catch (Exception e){
-                            Syslog.Append(getClass().getCanonicalName(),"Execute.Files.delete", com.aurawin.core.lang.Table.Format(com.aurawin.core.lang.Table.Error.RSR.MethodFailure,e.getMessage()));
-                            r= Failure;
-                        }
-                    } else {
-                        r = Failure;
-                    }
-
+                    r = Ok;
                 } else {
                     r = Failure;
                 }
                 break;
             case Client:
                 Client c = (Client) t.Owner.Engine;
-                if (t.Response.Code == Status.Ok){
+                if (t.Response.Code == Ok){
 
                 }
-                Request q = t.Requests.parallelStream()
+                Request q = t.Requests.stream()
                         .filter(rq -> rq.Id==t.Response.Id)
                         .findFirst()
                         .orElse(null);

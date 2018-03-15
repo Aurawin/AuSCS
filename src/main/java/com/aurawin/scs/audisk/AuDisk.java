@@ -37,30 +37,34 @@ public class AuDisk {
     protected static Node Node;
 
     protected static volatile ArrayList<? extends Stored> Disks;
-    public static void Initialize(Node node) throws Exception{
+
+    public static void Initialize(Node node) throws Exception {
         randomInt = new Random();
         Node = node;
-        Disks = Entities.Lookup(Disk.class.getAnnotation(QueryByOwnerId.class),node.getId());
+        Disks = Entities.Lookup(Disk.class.getAnnotation(QueryByOwnerId.class), node.getId());
     }
-    public static Disk isDiskLocal(long Id){
-        return (Disk) Disks.stream().filter(d-> d.getId()==Id)
+
+    public static Disk isDiskLocal(long Id) {
+        return (Disk) Disks.stream().filter(d -> d.getId() == Id)
                 .findFirst()
                 .orElse(null);
     }
-    public static Disk getNextAvailableDisk(){
-        ArrayList<Stored>disks = Entities.Lookup(Disk.class.getAnnotation(QueryAll.class));
+
+    public static Disk getNextAvailableDisk() {
+        ArrayList<Stored> disks = Entities.Lookup(Disk.class.getAnnotation(QueryAll.class));
         int len = disks.size();
-        return (len>0) ? (Disk) disks.get(randomInt.nextInt(len)) : null;
-    }
-    public static long getNextAvailableDiskId(){
-        ArrayList<Stored>disks = Entities.Lookup(Disk.class.getAnnotation(QueryAll.class));
-        int len = disks.size();
-        return (len>0) ? ((Disk) disks.get(randomInt.nextInt(len))).getId() : 0;
+        return (len > 0) ? (Disk) disks.get(randomInt.nextInt(len)) : null;
     }
 
-    public static void makeDirectory(long DiskId, long NamespaceId, long DomainId, long OwnerId, long FolderId){
+    public static long getNextAvailableDiskId() {
+        ArrayList<Stored> disks = Entities.Lookup(Disk.class.getAnnotation(QueryAll.class));
+        int len = disks.size();
+        return (len > 0) ? ((Disk) disks.get(randomInt.nextInt(len))).getId() : 0;
+    }
+
+    public static void makeDirectory(long DiskId, long NamespaceId, long DomainId, long OwnerId, long FolderId) {
         Disk d = isDiskLocal(DiskId);
-        if (d!=null) {
+        if (d != null) {
             Path Mount = Settings.Stored.Domain.Network.File.buildMount(d.getMount());
             Path newPath = Settings.Stored.Domain.Network.File.buildPath(
                     d.getMount(),
@@ -73,18 +77,19 @@ public class AuDisk {
             if (!dNewPath.isDirectory()) {
                 try {
                     Files.createDirectories(newPath, Settings.Stored.Cloud.Disk.Attributes);
-                } catch (Exception e){
-                    Syslog.Append(AuDisk.class.getCanonicalName(),"onProcess.createDirectories", com.aurawin.core.lang.Table.Format(com.aurawin.core.lang.Table.Error.RSR.MethodFailure,e.getMessage()));
+                } catch (Exception e) {
+                    Syslog.Append(AuDisk.class.getCanonicalName(), "onProcess.createDirectories", com.aurawin.core.lang.Table.Format(com.aurawin.core.lang.Table.Error.RSR.MethodFailure, e.getMessage()));
                 }
             }
         } else {
             Router.makeDirectory(DiskId, NamespaceId, DomainId, OwnerId, FolderId);
         }
     }
-    public static ArrayList<String> listFiles(long DiskId, long NamespaceId, long DomainId, long OwnerId, long FolderId){
+
+    public static ArrayList<String> listFiles(long DiskId, long NamespaceId, long DomainId, long OwnerId, long FolderId) {
         ArrayList<String> r = null;
         Disk d = isDiskLocal(DiskId);
-        if (d!=null) {
+        if (d != null) {
             Path Mount = Settings.Stored.Domain.Network.File.buildMount(d.getMount());
             Path Path = Settings.Stored.Domain.Network.File.buildPath(
                     d.getMount(),
@@ -98,39 +103,49 @@ public class AuDisk {
                 r = new ArrayList<>();
                 try {
                     java.io.File[] lst = dPath.listFiles();
-                    for (java.io.File f:lst ) {
-                        if (f.isFile()){
+                    for (java.io.File f : lst) {
+                        if (f.isFile()) {
                             r.add(f.getName());
                         }
                     }
-                } catch (Exception e){
-                    Syslog.Append(AuDisk.class.getCanonicalName(),"onProcess.listFiles", com.aurawin.core.lang.Table.Format(com.aurawin.core.lang.Table.Error.RSR.MethodFailure,e.getMessage()));
+                } catch (Exception e) {
+                    Syslog.Append(AuDisk.class.getCanonicalName(), "onProcess.listFiles", com.aurawin.core.lang.Table.Format(com.aurawin.core.lang.Table.Error.RSR.MethodFailure, e.getMessage()));
                 }
             } else {
 
             }
         } else {
-            r = Router.listFiles(DiskId, NamespaceId, DomainId, OwnerId, FolderId);
+            r = d.listFiles(NamespaceId,DomainId,OwnerId,FolderId);
         }
         return r;
     }
+
     public static void deleteDirectory(Folder folder) {
 
     }
-    public static void deleteFile(File file){
+
+    public static void deleteFile(File file) {
 
     }
-    public static void createFile(File file, MemoryStream data){
+
+    public static void createFile(File file, MemoryStream data) {
 
     }
-    public static void writeFile(File file, MemoryStream data){
+
+    public static void writeFile(File file, MemoryStream data) {
 
     }
-    public static void readFile(File file, MemoryStream data){
+
+    public static void readFile(File file, MemoryStream data) {
 
     }
-    public static void moveFile(File file, long newFolderId){
 
+    public static void moveFile(File file, long newFolderId) {
+
+    }
+
+    public static ArrayList<String> listFiles() {
+        return null;
     }
 
 

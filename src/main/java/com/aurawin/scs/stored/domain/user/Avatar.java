@@ -1,7 +1,7 @@
 package com.aurawin.scs.stored.domain.user;
 
 import com.aurawin.scs.lang.Database;
-import com.aurawin.scs.lang.Namespace;
+import com.aurawin.scs.solution.Namespace;
 import com.aurawin.core.stored.annotations.EntityDispatch;
 import com.aurawin.core.stored.entities.Entities;
 import com.aurawin.core.stored.Stored;

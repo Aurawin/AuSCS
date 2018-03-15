@@ -8,7 +8,7 @@ import com.aurawin.scs.lang.Database;
 import com.aurawin.core.stored.Dialect;
 import com.aurawin.core.stored.Driver;
 import com.aurawin.core.stored.Manifest;
-import com.aurawin.scs.lang.Namespace;
+import com.aurawin.scs.solution.Namespace;
 import com.aurawin.scs.stored.bootstrap.Bootstrap;
 import com.aurawin.scs.stored.bootstrap.BootstrapTest;
 import com.aurawin.scs.stored.domain.Domain;

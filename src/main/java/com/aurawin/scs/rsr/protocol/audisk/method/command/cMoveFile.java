@@ -2,7 +2,7 @@ package com.aurawin.scs.rsr.protocol.audisk.method.command;
 
 import com.aurawin.core.log.Syslog;
 import com.aurawin.core.rsr.transport.Transport;
-import com.aurawin.core.rsr.transport.methods.Item;
+import com.aurawin.core.rsr.transport.methods.Method;
 import com.aurawin.core.rsr.transport.methods.Result;
 import com.aurawin.scs.lang.Table;
 import com.aurawin.scs.rsr.protocol.audisk.client.Client;
@@ -24,7 +24,7 @@ import static com.aurawin.core.rsr.transport.methods.Result.None;
 import static com.aurawin.core.rsr.transport.methods.Result.Ok;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
-public class cMoveFile extends Item {
+public class cMoveFile extends Method {
     @Expose(serialize = true, deserialize = true)
     @SerializedName("DSK")
     public long DiskId;

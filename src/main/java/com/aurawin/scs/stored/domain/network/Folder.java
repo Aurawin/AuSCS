@@ -8,7 +8,7 @@ import com.aurawin.scs.lang.Table;
 import com.aurawin.scs.stored.Entities;
 import com.aurawin.core.stored.Stored;
 
-import com.aurawin.scs.lang.Namespace;
+import com.aurawin.scs.solution.Namespace;
 import com.aurawin.scs.stored.annotations.QueryByDomainId;
 import com.aurawin.scs.stored.annotations.QueryByDomainIdAndName;
 import com.aurawin.scs.stored.annotations.QueryByDomainIdAndParentIdAndName;

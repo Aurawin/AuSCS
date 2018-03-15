@@ -2,12 +2,10 @@ package com.aurawin.scs.rsr.protocol.audisk.method.command;
 
 import com.aurawin.core.log.Syslog;
 import com.aurawin.core.rsr.transport.Transport;
-import com.aurawin.core.rsr.transport.methods.Item;
+import com.aurawin.core.rsr.transport.methods.Method;
 import com.aurawin.core.rsr.transport.methods.Result;
-import com.aurawin.scs.lang.Table;
 import com.aurawin.scs.rsr.protocol.audisk.client.Client;
 import com.aurawin.scs.rsr.protocol.audisk.def.Request;
-import com.aurawin.scs.rsr.protocol.audisk.def.Status;
 import com.aurawin.scs.rsr.protocol.audisk.server.Server;
 import com.aurawin.scs.rsr.protocol.transport.AUDISK;
 import com.aurawin.scs.solution.Settings;
@@ -22,7 +20,7 @@ import static com.aurawin.core.rsr.transport.methods.Result.Failure;
 import static com.aurawin.core.rsr.transport.methods.Result.None;
 import static com.aurawin.core.rsr.transport.methods.Result.Ok;
 
-public class cReadFile extends Item{
+public class cReadFile extends Method{
     @Expose(serialize = true, deserialize = true)
     @SerializedName("DSK")
     public long DiskId;
@@ -77,7 +75,7 @@ public class cReadFile extends Item{
                 break;
             case Client:
                 Client c = (Client) t.Owner.Engine;
-                if (t.Response.Code == Status.Ok) {
+                if (t.Response.Code == Ok) {
 
                 }
                 Request q = t.Requests.parallelStream()

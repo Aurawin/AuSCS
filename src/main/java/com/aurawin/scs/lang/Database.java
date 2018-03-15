@@ -2,6 +2,13 @@ package com.aurawin.scs.lang;
 
 
 public class Database extends com.aurawin.core.lang.Database {
+    public static class Test extends com.aurawin.core.lang.Database.Test{
+        public static class Entities{
+            public static class Domain {
+                public static final String UserAccount = "storage.entities.domain.UserAccount.json";
+            }
+        }
+    }
     public static class Table extends com.aurawin.core.lang.Database.Table{
         public static class Security{
             public static final String ACL = "tbl_sec_a";
@@ -474,6 +481,7 @@ public class Database extends com.aurawin.core.lang.Database {
                 public static final String Id = "itmid";
                 public static final String OwnerId = "ioid";
                 public static final String ServiceId = "isid";
+                public static final String NamespaceId = "insd";
                 public static final String spaceTotal = "itst";
                 public static final String spaceAvailable = "itsa";
                 public static final String Mount = "imnt";
@@ -671,14 +679,6 @@ public class Database extends com.aurawin.core.lang.Database {
 
 
                 }
-            }
-        }
-    }
-
-    public static class Test extends com.aurawin.core.lang.Database.Test {
-        public static class Entities extends com.aurawin.core.lang.Database.Test.Entities {
-            public static class Domain{
-                public static final String UserAccount = "/resources/storage.entities.domain.UserAccount.json";
             }
         }
     }

@@ -1,9 +1,8 @@
 package com.aurawin.scs.stored.bootstrap;
 
-import com.aurawin.core.lang.Table;
 import com.aurawin.core.stored.entities.security.Certificate;
 import com.aurawin.scs.audisk.AuDisk;
-import com.aurawin.scs.lang.Namespace;
+import com.aurawin.scs.solution.Namespace;
 import com.aurawin.scs.solution.Settings;
 import com.aurawin.scs.stored.Entities;
 import com.aurawin.scs.stored.cloud.*;

@@ -1,4 +1,4 @@
-package com.aurawin.scs.lang;
+package com.aurawin.scs.solution;
 
 import com.aurawin.core.stored.entities.UniqueId;
 
@@ -7,7 +7,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Namespace extends com.aurawin.core.lang.Namespace {
+public class Namespace extends com.aurawin.core.solution.Namespace {
     public static class Stored {
         public static class Cloud{
             public static final UniqueId Group = new UniqueId("com.aurawin.scs.stored.cloud.group");

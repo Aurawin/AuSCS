@@ -34,11 +34,7 @@ public class AUDISKTest extends AUDISK {
                 cmd.NamespaceId = 1;
                 cmd.OwnerId = 1234;
 
-                Request.Protocol = Version.toString();
-                Request.Method = cmd.Keys.get(0);
-                Request.Command = gson.toJson(cmd);
-
-                Query();
+                Response = Query(cmd,null);
             } else {
 
             }

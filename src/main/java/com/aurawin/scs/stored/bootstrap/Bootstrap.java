@@ -2,18 +2,13 @@ package com.aurawin.scs.stored.bootstrap;
 
 
 import com.aurawin.core.stored.annotations.AnnotatedList;
-import com.aurawin.core.stored.annotations.QueryByOwnerId;
 import com.aurawin.core.stored.entities.security.Certificate;
 import com.aurawin.core.stored.entities.Entities;
-import com.aurawin.core.stored.Stored;
 import com.aurawin.core.stored.entities.FetchKind;
 import com.aurawin.core.stored.entities.UniqueId;
 import com.aurawin.scs.lang.Database;
-import com.aurawin.scs.lang.Namespace;
+import com.aurawin.scs.solution.Namespace;
 import com.aurawin.scs.lang.Table;
-import com.aurawin.scs.stored.bootstrap.roles.Administrator;
-import com.aurawin.scs.stored.bootstrap.roles.PowerUser;
-import com.aurawin.scs.stored.bootstrap.roles.User;
 import com.aurawin.scs.stored.cloud.*;
 import com.aurawin.scs.stored.domain.Domain;
 import com.aurawin.scs.stored.domain.user.Account;

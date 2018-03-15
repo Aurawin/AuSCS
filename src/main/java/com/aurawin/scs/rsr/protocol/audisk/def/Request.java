@@ -1,10 +1,16 @@
 package com.aurawin.scs.rsr.protocol.audisk.def;
 
 import com.aurawin.core.stream.MemoryStream;
+import com.aurawin.scs.rsr.protocol.transport.AUDISK;
 import com.google.gson.annotations.Expose;
+import com.aurawin.core.rsr.transport.methods.Method;
 import com.google.gson.annotations.SerializedName;
 
+import javax.persistence.Transient;
+
 public class Request {
+    public transient AUDISK Owner;
+
     @Expose(serialize = false, deserialize = false)
     private static volatile long MasterId = 0;
 
@@ -22,14 +28,16 @@ public class Request {
 
     @Expose(serialize = true, deserialize = true)
     @SerializedName("I")
-    public static volatile long Id = 1;
+    public long Id = 1;
 
     @Expose(serialize = true, deserialize = true)
     @SerializedName("S")
     public long Size;
+
     public transient MemoryStream Payload;
 
-    public Request() {
+    public Request(AUDISK owner) {
+        Owner = owner;
         Payload = new MemoryStream();
         Reset();
         MasterId +=1;
@@ -49,10 +57,21 @@ public class Request {
     }
 
     public void Release(){
+        Owner=null;
         Protocol = null;
         Command = null;
         Method = null;
         Payload.Release();
         Payload=null;
     }
+
+    public void Assign(Request src){
+        Owner = src.Owner;
+        Protocol = src.Protocol;
+        Command = src.Command;
+        Method = src.Method;
+        Payload = src.Payload;
+        src.Payload = new MemoryStream();
+    }
+
 }

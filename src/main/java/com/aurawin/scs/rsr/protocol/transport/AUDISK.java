@@ -2,38 +2,34 @@ package com.aurawin.scs.rsr.protocol.transport;
 
 import com.aurawin.core.array.Bytes;
 import com.aurawin.core.json.Builder;
+
 import com.aurawin.core.rsr.Item;
 import com.aurawin.core.rsr.Items;
 import com.aurawin.core.rsr.def.CredentialResult;
 import com.aurawin.core.rsr.def.ItemKind;
 
-import static com.aurawin.core.rsr.def.ItemKind.Server;
-import static com.aurawin.core.rsr.def.ItemKind.Client;
+import static com.aurawin.core.rsr.def.EngineState.esFinalize;
 
-import com.aurawin.core.rsr.def.handlers.*;
-
-import com.aurawin.core.rsr.def.http.SecurityMechanismBasic;
 import com.aurawin.core.rsr.def.rsrResult;
 import com.aurawin.core.rsr.security.Security;
 import com.aurawin.core.rsr.transport.Transport;
 import com.aurawin.core.rsr.transport.annotations.Protocol;
 import com.aurawin.core.rsr.transport.methods.Result;
-import com.aurawin.core.solution.Settings;
+import com.aurawin.scs.solution.Settings;
+import com.aurawin.core.stream.MemoryStream;
 import com.aurawin.scs.lang.Table;
 import com.aurawin.scs.rsr.protocol.audisk.def.Response;
 import com.aurawin.scs.rsr.protocol.audisk.def.SecurityMechanismExclusive;
 import com.aurawin.scs.rsr.protocol.audisk.def.version.Version;
 import com.aurawin.scs.rsr.protocol.audisk.method.command.*;
-import com.aurawin.scs.rsr.protocol.audisk.server.Server;
-import com.aurawin.scs.stored.cloud.Resource;
-import com.aurawin.scs.stored.cloud.Group;
-import com.aurawin.scs.stored.cloud.Node;
+import com.aurawin.core.rsr.transport.methods.Method;
 import com.google.gson.Gson;
 import org.hibernate.Session;
 import com.aurawin.scs.rsr.protocol.audisk.def.Request;
 
 import java.lang.reflect.InvocationTargetException;
 import java.nio.channels.SocketChannel;
+import java.time.Instant;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
@@ -42,8 +38,8 @@ import static com.aurawin.core.rsr.def.rsrResult.rFailure;
 import static com.aurawin.core.rsr.def.rsrResult.rPostpone;
 import static com.aurawin.core.rsr.def.rsrResult.rSuccess;
 import static com.aurawin.core.rsr.transport.methods.Result.Failure;
-import static com.aurawin.scs.rsr.protocol.audisk.def.Status.Ok;
-import static com.aurawin.scs.rsr.protocol.audisk.def.Status.Fail;
+import static com.aurawin.core.rsr.transport.methods.Result.Ok;
+
 
 @Protocol(
         Version = Version.class
@@ -63,12 +59,12 @@ public class AUDISK extends Item implements Transport
 
     public AUDISK(Items aOwner, ItemKind aKind) throws NoSuchMethodException,InvocationTargetException,InstantiationException, IllegalAccessException {
         super(aOwner,aKind);
-        Response = new Response();
-        Request = new Request();
+        Response = new Response(this);
+        Request = new Request(this);
 
         Methods.registerMethod(new cDeleteFile());
         Methods.registerMethod(new cDeleteFolder());
-        Methods.registerMethod(new cListAllFiles());
+        Methods.registerMethod(new cListFiles());
         Methods.registerMethod(new cMakeFolder());
         Methods.registerMethod(new cMoveFile());
         Methods.registerMethod(new cReadFile());
@@ -213,20 +209,35 @@ public class AUDISK extends Item implements Transport
                             Response.Code=Ok;
                             break;
                         default :
-                            Response.Code=Fail;
+                            Response.Code=Failure;
                             break;
 
                     }
                     Respond();
                     break;
                 case Client:
-                    Methods.Process(Response.Method,ssn,this);
+
+                    mr =Methods.Process(Response.Method,ssn,this);
+                    switch (mr){
+                        case Ok:
+                            Response.Code=Ok;
+                            break;
+                        default :
+                            Response.Code=Failure;
+                            break;
+
+                    }
+
+                    Response res = new Response(this);
+                    res.Assign(Response);
+                    Responses.add(res);
+
                     break;
             }
         } else {
             switch (Kind) {
                 case Server:
-                    Response.Code = Fail;
+                    Response.Code = Failure;
                     Respond();
                     break;
                 case Client:
@@ -237,6 +248,8 @@ public class AUDISK extends Item implements Transport
     }
 
     public void Respond() {
+        Response.Id=Request.Id;
+        Response.Size = Response.Payload.Size;
         String sHeader=gson.toJson(Response);
         Buffers.Send.position(Buffers.Send.size());
         Buffers.Send.Write(sHeader);
@@ -246,16 +259,48 @@ public class AUDISK extends Item implements Transport
         }
         queueSend();
     }
-    public void Query(){
-        String sHeader=gson.toJson(Request);
+
+    public Response Query(Method cmd, MemoryStream Payload) {
+        Request req = new Request(this);
+        req.Assign(Request);
+        req.Protocol = Version.toString();
+        req.Method = cmd.getKey();
+        req.Command = gson.toJson(cmd);
+        if (Payload!=null) {
+            req.Size = Payload.Size;
+            req.Payload = Payload;
+        } else {
+            req.Size = 0;
+        }
+
+        String sHeader=gson.toJson(req);
+
         Buffers.Send.position(Buffers.Send.size());
         Buffers.Send.Write(sHeader);
         Buffers.Send.Write(Settings.RSR.Items.Header.Separator);
-        if (Request.Payload.size()>0) {
-            Request.Payload.Move(Buffers.Send);
+        if (req.Payload.size()>0) {
+            req.Payload.Move(Buffers.Send);
         }
 
+        Requests.add(req);
+
         queueSend();
+        Response res = null;
+        Instant ttl = Instant.now().plusMillis(Settings.RSR.ResponseToQueryDelay);
+        while ( (Owner.Engine.State!= esFinalize) && (res==null) && Instant.now().isBefore(ttl)) {
+            res=Responses.stream()
+                    .filter(r -> r.Id==Request.Id)
+                    .findFirst()
+                    .orElse(null);
+            try {
+                Thread.sleep(Settings.RSR.TransportConnect.ResponseDelay);
+            } catch (InterruptedException ie){
+                return null;
+            }
+        }
+        return res;
+
+
     }
     @Override
     public CredentialResult validateCredentials(Session ssn){

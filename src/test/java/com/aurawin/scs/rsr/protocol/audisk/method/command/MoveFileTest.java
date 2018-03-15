@@ -2,9 +2,7 @@ package com.aurawin.scs.rsr.protocol.audisk.method.command;
 
 import com.aurawin.core.json.Builder;
 import com.aurawin.core.stored.entities.UniqueId;
-import com.aurawin.scs.lang.Namespace;
-import com.aurawin.scs.rsr.protocol.audisk.def.Request;
-import com.aurawin.scs.rsr.protocol.audisk.def.Response;
+import com.aurawin.scs.solution.Namespace;
 import com.google.gson.Gson;
 import org.junit.After;
 import org.junit.Before;

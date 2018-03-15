@@ -1,12 +1,12 @@
 package com.aurawin.scs.rsr.protocol.audisk.method.command;
 
 import com.aurawin.core.rsr.transport.Transport;
-import com.aurawin.core.rsr.transport.methods.Item;
+import com.aurawin.core.rsr.transport.methods.Method;
 import com.aurawin.core.rsr.transport.methods.Result;
-import com.aurawin.scs.lang.Table;
 import com.aurawin.scs.rsr.protocol.audisk.client.Client;
 import com.aurawin.scs.rsr.protocol.audisk.def.Request;
-import com.aurawin.scs.rsr.protocol.audisk.def.Status;
+
+import com.aurawin.scs.rsr.protocol.audisk.def.Response;
 import com.aurawin.scs.rsr.protocol.audisk.server.Server;
 import com.aurawin.scs.rsr.protocol.transport.AUDISK;
 import com.aurawin.scs.solution.Settings;
@@ -17,12 +17,13 @@ import org.hibernate.Session;
 
 import java.io.File;
 import java.nio.file.Path;
+import java.util.ArrayList;
 
 import static com.aurawin.core.rsr.transport.methods.Result.Failure;
 import static com.aurawin.core.rsr.transport.methods.Result.None;
 import static com.aurawin.core.rsr.transport.methods.Result.Ok;
 
-public class cListAllFiles extends Item {
+public class cListFiles extends Method {
 
     @Expose(serialize = true, deserialize = true)
     @SerializedName("DSK")
@@ -41,36 +42,34 @@ public class cListAllFiles extends Item {
     public long FolderId;
 
 
-    public cListAllFiles() {
-        super(Settings.AuDisk.Method.File+"."+Settings.AuDisk.Method.Command.ListAll);
+    public cListFiles() {
+        super(Settings.AuDisk.Method.File+"."+Settings.AuDisk.Method.Command.List);
     }
 
     @Override
     public Result onProcess(Session ssn, Transport transport){
         Result r = None;
-        cListAllFiles cmd = null;
+        cListFiles cmd = null;
         AUDISK t = (AUDISK) transport;
 
         switch (t.Kind) {
             case Server:
                 Server s = (Server) t.Owner.Engine;
-                cmd = t.gson.fromJson(t.Request.Command,cListAllFiles.class);
+                cmd = t.gson.fromJson(t.Request.Command,cListFiles.class);
+
                 Disk disk = s.getDisk(cmd.DiskId);
                 if (disk!=null) {
-                    Path scanPath = Settings.Stored.Domain.Network.File.buildPath(
-                            disk.getMount(),
+
+                    ArrayList<String> f =disk.listFiles(
                             cmd.NamespaceId,
                             cmd.DomainId,
                             cmd.OwnerId,
                             cmd.FolderId
                     );
-                    File dScanPath = scanPath.toFile();
-                    File[] dList = dScanPath.listFiles();
-
-                    for (File d:dList){
-                        t.Response.Payload.Write(d.getName());
-                        t.Response.Payload.Write(com.aurawin.core.lang.Table.CRLF);
-                    }
+                    t.Response.Method=t.Request.Method;
+                    t.Response.Id=t.Request.Id;
+                    t.Response.Payload.Write(t.gson.toJson(f));
+                    t.Response.Size=t.Response.Payload.Size;
 
                     r = Ok;
 
@@ -81,20 +80,7 @@ public class cListAllFiles extends Item {
                 break;
 
             case Client:
-                Client c = (Client) t.Owner.Engine;
-
-                Request q = t.Requests.parallelStream()
-                        .filter(rq -> rq.Id==t.Response.Id)
-                        .findFirst()
-                        .orElse(null);
-                if (q!=null) {
-                    t.Requests.remove(q);
-                    // todo notify completion
-                    r=Ok;
-                } else {
-                    r = Failure;
-                }
-
+                r=Ok;
                 break;
         }
 

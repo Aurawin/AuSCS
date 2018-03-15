@@ -6,18 +6,17 @@ import com.aurawin.core.lang.Database;
 import com.aurawin.core.lang.Table;
 import com.aurawin.core.rsr.def.EngineState;
 import com.aurawin.core.rsr.def.TransportConnect;
-import com.aurawin.core.solution.Version;
 import com.aurawin.core.stored.Dialect;
 import com.aurawin.core.stored.Driver;
 import com.aurawin.core.stored.Manifest;
 import com.aurawin.core.stored.entities.UniqueId;
 import com.aurawin.core.stored.entities.security.Certificate;
-import com.aurawin.scs.audisk.router.Router;
-import com.aurawin.scs.lang.Namespace;
+import com.aurawin.scs.rsr.protocol.audisk.def.Response;
+import com.aurawin.scs.rsr.protocol.audisk.method.command.cListFiles;
+import com.aurawin.scs.solution.Namespace;
 import com.aurawin.scs.rsr.protocol.audisk.method.command.cMoveFile;
 import com.aurawin.scs.rsr.protocol.transport.AUDISK;
 import com.aurawin.scs.solution.Settings;
-import com.aurawin.scs.rsr.protocol.audisk.client.AuraDiskClientTestClient;
 
 
 import com.aurawin.scs.stored.Entities;
@@ -28,10 +27,12 @@ import org.junit.Test;
 
 import java.net.InetSocketAddress;
 
+import static com.aurawin.core.rsr.transport.methods.Result.Ok;
+
 
 public class AuraDiskClientTest {
     String sJSON;
-    cMoveFile cmdMoveFile;
+    cListFiles cmdListFiles;
     TransportConnect tcData;
     Builder bldr;
     Gson gson;
@@ -97,26 +98,21 @@ public class AuraDiskClientTest {
                 (tcData.isAlive()==true)
         ){
             if (tcData.readyForUse()) {
-                if (cmdMoveFile==null){
-                    t = (AUDISK) tcData.getOwner();
-                    cmdMoveFile = new cMoveFile();
-                    cmdMoveFile.DiskId=1;
-                    cmdMoveFile.DomainId=1;
-                    cmdMoveFile.NamespaceId=Kind.getId();
-                    cmdMoveFile.FileId=1;
-                    cmdMoveFile.OwnerId=1;
-                    cmdMoveFile.NamespaceId=Kind.getId();
-                    cmdMoveFile.NewFolderId=2;
-                    cmdMoveFile.OldFolderId=1;
-                    sJSON = gson.toJson(cmdMoveFile);
-                    System.out.println("Sending..."+sJSON);
+                if (cmdListFiles==null){
+                    t = (AUDISK) tcData.getOwnerOrWait();
+                    cmdListFiles = new cListFiles();
+                    cmdListFiles.DiskId=1;
+                    cmdListFiles.DomainId=1;
+                    cmdListFiles.NamespaceId=Kind.getId();
+                    cmdListFiles.FolderId=1;
+                    cmdListFiles.OwnerId=1;
+                    cmdListFiles.NamespaceId=Kind.getId();
 
-                    t.Request.Command=sJSON;
-                    t.Request.Method= Settings.AuDisk.Method.Folder;
-                    t.Request.Protocol= Router.Version.toString();
+                    Response r = t.Query(cmdListFiles,null);
+                    if (r.Code!=Ok){
+                       throw new Exception("Disk [Move] command failed.");
+                    }
 
-                    tcData.getOwner().Buffers.Send.Write(sJSON);
-                    tcData.getOwner().queueSend();
                 }
             }
             Thread.sleep(100);

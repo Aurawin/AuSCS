@@ -6,7 +6,6 @@ import com.aurawin.core.stored.annotations.EntityDispatch;
 import com.aurawin.core.stored.annotations.QueryById;
 import com.aurawin.core.stored.entities.Entities;
 import com.aurawin.scs.lang.Database;
-import com.aurawin.scs.lang.Namespace;
 import com.aurawin.scs.stored.bootstrap.Bootstrap;
 import com.google.gson.annotations.Expose;
 import org.hibernate.Session;

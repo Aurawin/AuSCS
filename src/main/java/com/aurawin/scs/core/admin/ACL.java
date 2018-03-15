@@ -11,17 +11,13 @@ import com.aurawin.core.stored.Stored;
 import com.aurawin.core.stored.entities.Entities;
 import com.aurawin.scs.stored.domain.user.Account;
 import com.aurawin.scs.core.CoreResult;
-import com.aurawin.scs.core.def.login.CredentialChange;
 import com.aurawin.scs.lang.Database;
-import com.aurawin.scs.lang.Namespace;
 import com.aurawin.scs.rsr.protocol.http.Server;
 import com.aurawin.scs.rsr.protocol.transport.HTTP_1_1;
 import com.google.gson.Gson;
 import org.hibernate.Session;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 /**
  * Created by atbrunner on 3/12/17.
