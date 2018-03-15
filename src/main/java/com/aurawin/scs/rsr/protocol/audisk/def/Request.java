@@ -53,7 +53,12 @@ public class Request {
         Id = MasterId;
 
         Size = 0;
-        Payload.Clear();
+        if (Payload!=null) {
+            Payload.Clear();
+        } else {
+            Payload=new MemoryStream();
+        }
+
     }
 
     public void Release(){

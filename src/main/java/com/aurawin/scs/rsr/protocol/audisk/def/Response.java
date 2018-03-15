@@ -46,7 +46,11 @@ public class Response {
         Size = 0;
         Id = 0;
         Code = None;
-        Payload.Clear();
+        if (Payload!=null) {
+            Payload.Clear();
+        } else {
+            Payload=new MemoryStream();
+        }
     }
 
     public void Release(){
