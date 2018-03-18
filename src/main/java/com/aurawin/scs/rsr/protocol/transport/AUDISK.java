@@ -184,10 +184,10 @@ public class AUDISK extends Item implements Transport
             try {
                 switch (Kind) {
                     case Server:
-                        Request = gson.fromJson(sLine, com.aurawin.scs.rsr.protocol.audisk.def.Request.class);
+                        Request.Assign(gson.fromJson(sLine, com.aurawin.scs.rsr.protocol.audisk.def.Request.class));
                         break;
                     case Client:
-                        Response = gson.fromJson(sLine, com.aurawin.scs.rsr.protocol.audisk.def.Response.class);
+                        Response.Assign(gson.fromJson(sLine, com.aurawin.scs.rsr.protocol.audisk.def.Response.class));
                         break;
                 }
                 return rSuccess;

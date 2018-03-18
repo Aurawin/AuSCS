@@ -11,8 +11,6 @@ import javax.persistence.Transient;
 public class Request {
     public transient AUDISK Owner;
 
-    @Expose(serialize = false, deserialize = false)
-    private static volatile long MasterId = 0;
 
     @Expose(serialize = true, deserialize = true)
     @SerializedName("P")
@@ -40,8 +38,7 @@ public class Request {
         Owner = owner;
         Payload = new MemoryStream();
         Reset();
-        MasterId +=1;
-        Id = MasterId;
+        Id = Owner.Id.getId();
     }
 
     public void Reset(){
@@ -49,15 +46,10 @@ public class Request {
         Method = "";
         Command = "";
 
-        MasterId +=1;
-        Id = MasterId;
+        Id = Owner.Id.Spin();
 
         Size = 0;
-        if (Payload!=null) {
-            Payload.Clear();
-        } else {
-            Payload=new MemoryStream();
-        }
+        Payload.Clear();
 
     }
 
@@ -71,12 +63,13 @@ public class Request {
     }
 
     public void Assign(Request src){
+        Reset();
+
         Owner = src.Owner;
         Protocol = src.Protocol;
         Command = src.Command;
         Method = src.Method;
-        Payload = src.Payload;
-        src.Payload = new MemoryStream();
+        Payload.CopyFrom(src.Payload);
     }
 
 }

@@ -136,9 +136,11 @@ public class Disk extends Stored {
         );
         File fp = p.toFile();
         File[] list = fp.listFiles();
-        for (File f : list){
-            if (f.isFile()) {
-                result.add(f.getName());
+        if (list!=null) {
+            for (File f : list){
+                if (f.isFile()) {
+                    result.add(f.getName());
+                }
             }
         }
         return result;

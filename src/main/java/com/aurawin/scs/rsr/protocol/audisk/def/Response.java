@@ -62,14 +62,16 @@ public class Response {
         Payload=null;
     }
     public void Assign(Response src){
+        Reset();
+
         Owner = src.Owner;
         Protocol = src.Protocol;
         Method = src.Method;
         Code = src.Code;
-        Payload=src.Payload;
+
+        Payload.CopyFrom(src.Payload);
         Size = src.Size;
         Id = src.Id;
-        src.Payload= new MemoryStream();
     }
 
 }
