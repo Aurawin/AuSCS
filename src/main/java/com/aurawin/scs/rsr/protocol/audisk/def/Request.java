@@ -38,19 +38,18 @@ public class Request {
         Owner = owner;
         Payload = new MemoryStream();
         Reset();
-        Id = Owner.Id.getId();
     }
 
     public void Reset(){
+        Id=0;
+
         Protocol = "";
         Method = "";
         Command = "";
 
-        Id = Owner.Id.Spin();
-
         Size = 0;
-        Payload.Clear();
-
+        if (Payload!=null)
+          Payload.Clear();
     }
 
     public void Release(){
@@ -58,13 +57,13 @@ public class Request {
         Protocol = null;
         Command = null;
         Method = null;
-        Payload.Release();
+        if (Payload!=null)
+          Payload.Release();
         Payload=null;
     }
 
     public void Assign(Request src){
-        Reset();
-
+        Id = src.Id;
         Owner = src.Owner;
         Protocol = src.Protocol;
         Command = src.Command;

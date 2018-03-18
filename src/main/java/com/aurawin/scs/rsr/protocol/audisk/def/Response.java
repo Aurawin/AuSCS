@@ -74,7 +74,8 @@ public class Response {
         Method = src.Method;
         Code = src.Code;
 
-        Payload.CopyFrom(src.Payload);
+        if (Payload!=null)
+          Payload.CopyFrom(src.Payload);
         Size = src.Size;
         Id = src.Id;
     }
