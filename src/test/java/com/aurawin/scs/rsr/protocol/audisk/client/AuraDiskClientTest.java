@@ -109,13 +109,20 @@ public class AuraDiskClientTest {
                     cmdListFiles.NamespaceId=Kind.getId();
                     cmdListFiles.FolderId=1;
                     cmdListFiles.OwnerId=1;
-
-                    Response r = t.Query(cmdListFiles,null);
-                    if (r.Code==Ok){
-                        String[] result = t.gson.fromJson(r.Payload.toString(),String[].class);
-                        System.out.println("Results:".concat(result.toString()));
-                    } else{
-                        throw new Exception("Disk [Move] command failed.");
+                    int loops = 10;
+                    int iLcv=1;
+                    while (iLcv<=loops) {
+                        Response r = t.Query(cmdListFiles, null);
+                        try {
+                            if (r.Code == Ok) {
+                                String[] result = t.gson.fromJson(r.Payload.toString(), String[].class);
+                                System.out.println("Results:".concat(result.toString()));
+                            } else {
+                                throw new Exception("Disk [Move] command failed.");
+                            }
+                        } finally {
+                            r.Release();
+                        }
                     }
 
                 }

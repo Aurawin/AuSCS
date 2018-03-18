@@ -263,49 +263,53 @@ public class AUDISK extends Item implements Transport
     }
 
     public Response Query(Method cmd, MemoryStream Payload) {
-        Request req = new Request(this);
-
-        req.Assign(Request);
-        req.Id = Id.Spin();
-        req.Protocol = Version.toString();
-        req.Method = cmd.getKey();
-        req.Command = gson.toJson(cmd);
-        if (Payload!=null) {
-            req.Size = Payload.Size;
-            req.Payload = Payload;
-        } else {
-            req.Size = 0;
-        }
-
-        String sHeader=gson.toJson(req);
-
-        Buffers.Send.position(Buffers.Send.size());
-        Buffers.Send.Write(sHeader);
-        Buffers.Send.Write(Settings.RSR.Items.Header.Separator);
-        if (req.Payload.size()>0) {
-            req.Payload.Move(Buffers.Send);
-        }
-
-        queueSend();
         Response res = null;
-        Instant ttl = Instant.now().plusMillis(Settings.RSR.ResponseToQueryDelay);
-        while ( (Owner.Engine.State!= esFinalize) && (res==null) && Instant.now().isBefore(ttl)) {
-            res=Responses.stream()
-                    .filter(r -> r.Id==req.Id)
-                    .findFirst()
-                    .orElse(null);
-            try {
-                Thread.sleep(Settings.RSR.TransportConnect.ResponseDelay);
-            } catch (InterruptedException ie){
-                return null;
-            } finally{
-                res.Release();
+        Request req = new Request(this);
+        try {
+            req.Assign(Request);
+            req.Id = Id.Spin();
+            req.Protocol = Version.toString();
+            req.Method = cmd.getKey();
+            req.Command = gson.toJson(cmd);
+            if (Payload != null) {
+                req.Size = Payload.Size;
+                req.Payload = Payload;
+            } else {
+                req.Size = 0;
             }
 
-        }
-        req.Release();
+            String sHeader = gson.toJson(req);
 
-        return res;
+            Buffers.Send.position(Buffers.Send.size());
+            Buffers.Send.Write(sHeader);
+            Buffers.Send.Write(Settings.RSR.Items.Header.Separator);
+            if (req.Payload.size() > 0) {
+                req.Payload.Move(Buffers.Send);
+            }
+
+            queueSend();
+
+            Instant ttl = Instant.now().plusMillis(Settings.RSR.ResponseToQueryDelay);
+            while ((Owner.Engine.State != esFinalize) && (res == null) && Instant.now().isBefore(ttl)) {
+                res = Responses.stream()
+                        .filter(r -> r.Id == req.Id)
+                        .findFirst()
+                        .orElse(null);
+                try {
+                    if (res == null)
+                        Thread.sleep(Settings.RSR.TransportConnect.ResponseDelay);
+
+                } catch (InterruptedException ie) {
+                    return null;
+                }
+
+            }
+        } finally {
+            req.Release();
+        }
+
+
+    return res;
 
 
     }
