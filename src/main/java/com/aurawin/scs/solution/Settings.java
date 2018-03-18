@@ -18,7 +18,7 @@ public class Settings extends com.aurawin.core.solution.Settings {
     }
     public static class AuDisk{
 
-        public static final String Protocol = "Version";
+        public static final String Protocol = "AUDISK";
         public static class Method{
             public static class Command{
                 public static final String Move = "MVE";
