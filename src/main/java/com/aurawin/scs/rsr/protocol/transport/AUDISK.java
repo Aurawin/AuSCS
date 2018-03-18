@@ -278,7 +278,6 @@ public class AUDISK extends Item implements Transport
         }
 
         String sHeader=gson.toJson(req);
-        Requests.add(req);
 
         Buffers.Send.position(Buffers.Send.size());
         Buffers.Send.Write(sHeader);
@@ -299,11 +298,12 @@ public class AUDISK extends Item implements Transport
                 Thread.sleep(Settings.RSR.TransportConnect.ResponseDelay);
             } catch (InterruptedException ie){
                 return null;
+            } finally{
+                res.Release();
             }
-        }
 
-        Request.Reset();
-        Response.Reset();
+        }
+        req.Release();
 
         return res;
 
