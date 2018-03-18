@@ -24,6 +24,7 @@ import com.aurawin.scs.rsr.protocol.audisk.def.version.Version;
 import com.aurawin.scs.rsr.protocol.audisk.method.command.*;
 import com.aurawin.core.rsr.transport.methods.Method;
 import com.google.gson.Gson;
+
 import org.hibernate.Session;
 import com.aurawin.scs.rsr.protocol.audisk.def.Request;
 
@@ -264,7 +265,9 @@ public class AUDISK extends Item implements Transport
 
     public Response Query(Method cmd, MemoryStream Payload) {
         Request req = new Request(this);
+
         req.Assign(Request);
+        req.Id = Id.Spin();
         req.Protocol = Version.toString();
         req.Method = cmd.getKey();
         req.Command = gson.toJson(cmd);
@@ -291,7 +294,7 @@ public class AUDISK extends Item implements Transport
         Instant ttl = Instant.now().plusMillis(Settings.RSR.ResponseToQueryDelay);
         while ( (Owner.Engine.State!= esFinalize) && (res==null) && Instant.now().isBefore(ttl)) {
             res=Responses.stream()
-                    .filter(r -> r.Id==Request.Id)
+                    .filter(r -> r.Id==req.Id)
                     .findFirst()
                     .orElse(null);
             try {
@@ -300,6 +303,11 @@ public class AUDISK extends Item implements Transport
                 return null;
             }
         }
+        Request.Reset();
+        Response.Reset();
+        Requests.remove(req);
+        Responses.remove(res);
+
         return res;
 
 
