@@ -25,7 +25,9 @@ import com.google.gson.Gson;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.Console;
 import java.net.InetSocketAddress;
+import java.util.ArrayList;
 
 import static com.aurawin.core.rsr.transport.methods.Result.Ok;
 
@@ -98,6 +100,7 @@ public class AuraDiskClientTest {
                 (tcData.isAlive()==true)
         ){
             if (tcData.readyForUse()) {
+                AUDISK T = (AUDISK) tcData.getOwnerOrWait();
                 if (cmdListFiles==null){
                     t = (AUDISK) tcData.getOwnerOrWait();
                     cmdListFiles = new cListFiles();
@@ -106,11 +109,13 @@ public class AuraDiskClientTest {
                     cmdListFiles.NamespaceId=Kind.getId();
                     cmdListFiles.FolderId=1;
                     cmdListFiles.OwnerId=1;
-                    cmdListFiles.NamespaceId=Kind.getId();
 
                     Response r = t.Query(cmdListFiles,null);
-                    if (r.Code!=Ok){
-                       throw new Exception("Disk [Move] command failed.");
+                    if (r.Code==Ok){
+                        String[] result = t.gson.fromJson(r.Payload.toString(),String[].class);
+                        System.out.println("Results:".concat(result.toString()));
+                    } else{
+                        throw new Exception("Disk [Move] command failed.");
                     }
 
                 }

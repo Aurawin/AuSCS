@@ -33,6 +33,11 @@ public class Response {
     public Result Code;
 
 
+    public Response() {
+        Owner=null;
+        Payload = new MemoryStream();
+        Reset();
+    }
 
     public Response(AUDISK owner) {
         Owner = owner;
