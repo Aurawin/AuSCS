@@ -43,9 +43,12 @@ public class Response {
         Owner = owner;
         Payload = new MemoryStream();
         Reset();
+        Owner.Responses.add(this);
     }
 
     public void Reset(){
+        if (Owner!=null)
+            Owner.Responses.remove(this);
         Protocol = "";
         Method = "";
         Size = 0;

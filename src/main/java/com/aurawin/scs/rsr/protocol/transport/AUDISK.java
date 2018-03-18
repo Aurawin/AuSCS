@@ -233,7 +233,6 @@ public class AUDISK extends Item implements Transport
 
                     Response res = new Response(this);
                     res.Assign(Response);
-                    Responses.add(res);
 
                     break;
             }
@@ -279,6 +278,7 @@ public class AUDISK extends Item implements Transport
         }
 
         String sHeader=gson.toJson(req);
+        Requests.add(req);
 
         Buffers.Send.position(Buffers.Send.size());
         Buffers.Send.Write(sHeader);
@@ -286,8 +286,6 @@ public class AUDISK extends Item implements Transport
         if (req.Payload.size()>0) {
             req.Payload.Move(Buffers.Send);
         }
-
-        Requests.add(req);
 
         queueSend();
         Response res = null;
@@ -303,10 +301,9 @@ public class AUDISK extends Item implements Transport
                 return null;
             }
         }
+
         Request.Reset();
         Response.Reset();
-        Requests.remove(req);
-        Responses.remove(res);
 
         return res;
 

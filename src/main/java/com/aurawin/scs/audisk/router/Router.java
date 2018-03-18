@@ -73,7 +73,8 @@ public class Router {
     public static void invalidateRoutes(){
         Routes.values().stream().forEach(r -> r.Valid = false);
     }
-    public static ArrayList<String> listAllFiles(long DiskId, long NamespaceId, long DomainId, long OwnerId, long FolderId){
+
+    public static ArrayList<String> listFiles(long DiskId, long NamespaceId, long DomainId, long OwnerId, long FolderId){
         Route r = Routes.get(DiskId);
         AUDISK t = (AUDISK) r.Connection.getOwnerOrWait();
 
@@ -85,7 +86,9 @@ public class Router {
         cmd.FolderId=FolderId;
 
         AUDISK rsr = (AUDISK) r.Connection.getOwnerOrWait();
+
         Request req = new Request(rsr);
+
 
         return new ArrayList<String>();
     }

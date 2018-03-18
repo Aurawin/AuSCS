@@ -90,34 +90,10 @@ public class AuDisk {
         ArrayList<String> r = null;
         Disk d = isDiskLocal(DiskId);
         if (d != null) {
-            Path Mount = Settings.Stored.Domain.Network.File.buildMount(d.getMount());
-            Path Path = Settings.Stored.Domain.Network.File.buildPath(
-                    d.getMount(),
-                    NamespaceId,
-                    DomainId,
-                    OwnerId,
-                    FolderId
-            );
-            java.io.File dPath = Path.toFile();
-            if (dPath.isDirectory()) {
-                r = new ArrayList<>();
-                try {
-                    java.io.File[] lst = dPath.listFiles();
-                    for (java.io.File f : lst) {
-                        if (f.isFile()) {
-                            r.add(f.getName());
-                        }
-                    }
-                } catch (Exception e) {
-                    Syslog.Append(AuDisk.class.getCanonicalName(), "onProcess.listFiles", com.aurawin.core.lang.Table.Format(com.aurawin.core.lang.Table.Error.RSR.MethodFailure, e.getMessage()));
-                }
-            } else {
-
-            }
+            return d.listFiles(NamespaceId,DomainId,OwnerId, FolderId);
         } else {
-            r = d.listFiles(NamespaceId,DomainId,OwnerId,FolderId);
+            return Router.listFiles(DiskId,NamespaceId,DomainId,OwnerId, FolderId);
         }
-        return r;
     }
 
     public static void deleteDirectory(Folder folder) {

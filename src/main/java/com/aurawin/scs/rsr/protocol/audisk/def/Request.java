@@ -38,10 +38,13 @@ public class Request {
         Owner = owner;
         Payload = new MemoryStream();
         Reset();
+        Owner.Requests.add(this);
     }
 
     public void Reset(){
         Id=0;
+        if (Owner!=null)
+            Owner.Requests.remove(this);
 
         Protocol = "";
         Method = "";
@@ -53,6 +56,7 @@ public class Request {
     }
 
     public void Release(){
+        Owner.Requests.remove(this);
         Owner=null;
         Protocol = null;
         Command = null;
