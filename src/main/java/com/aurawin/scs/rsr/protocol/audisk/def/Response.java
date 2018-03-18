@@ -36,19 +36,15 @@ public class Response {
     public Response() {
         Owner=null;
         Payload = new MemoryStream();
-        Reset();
     }
 
     public Response(AUDISK owner) {
         Owner = owner;
         Payload = new MemoryStream();
-        Reset();
         Owner.Responses.add(this);
     }
 
     public void Reset(){
-        if (Owner!=null)
-            Owner.Responses.remove(this);
         Protocol = "";
         Method = "";
         Size = 0;
@@ -62,6 +58,8 @@ public class Response {
     }
 
     public void Release(){
+        if (Owner!=null)
+            Owner.Responses.remove(this);
         Owner = null;
         Protocol = null;
         Method = null;
@@ -69,18 +67,16 @@ public class Response {
         Payload.Release();
         Payload=null;
     }
+    public void setOwner(AUDISK owner){
+        Owner = owner;
+    }
     public void Assign(Response src){
-        Reset();
-
-        Owner = src.Owner;
+        Id = src.Id;
         Protocol = src.Protocol;
         Method = src.Method;
         Code = src.Code;
-
-        if (Payload!=null)
-          Payload.CopyFrom(src.Payload);
         Size = src.Size;
-        Id = src.Id;
+        Payload.CopyFrom(src.Payload);
     }
 
 }

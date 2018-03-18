@@ -37,15 +37,11 @@ public class Request {
     public Request(AUDISK owner) {
         Owner = owner;
         Payload = new MemoryStream();
-        Reset();
         Owner.Requests.add(this);
     }
 
     public void Reset(){
         Id=0;
-        if (Owner!=null)
-            Owner.Requests.remove(this);
-
         Protocol = "";
         Method = "";
         Command = "";
@@ -56,7 +52,8 @@ public class Request {
     }
 
     public void Release(){
-        Owner.Requests.remove(this);
+        if (Owner!=null)
+            Owner.Requests.remove(this);
         Owner=null;
         Protocol = null;
         Command = null;
@@ -68,10 +65,10 @@ public class Request {
 
     public void Assign(Request src){
         Id = src.Id;
-        Owner = src.Owner;
         Protocol = src.Protocol;
         Command = src.Command;
         Method = src.Method;
+        Size = src.Size;
         Payload.CopyFrom(src.Payload);
     }
 
