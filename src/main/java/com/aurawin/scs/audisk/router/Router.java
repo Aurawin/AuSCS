@@ -33,6 +33,7 @@ import java.util.stream.Collectors;
 import static com.aurawin.core.rsr.transport.methods.Result.Ok;
 
 public class Router {
+    private static boolean TimerStarted=false;
     protected static RouterTimer Timer = new RouterTimer();
     public static Node Node;
     public static Version Version = new Version();
@@ -40,11 +41,11 @@ public class Router {
 
     public static void Initialize(Node node){
         Node = node;
-        Timer.start();
+        if (!TimerStarted) {
+            TimerStarted=true;
+            Timer.start();
+        }
     }
-
-
-
     protected static void scanForRoutes(){
         invalidateRoutes();
         ArrayList<Stored> Disks = Entities.Lookup(Disk.class.getAnnotation(QueryAll.class));

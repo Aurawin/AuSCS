@@ -84,8 +84,6 @@ public class BootstrapTest {
         nAu1.setDomain(domain);
         nAu2.setDomain(domain);
 
-        AuDisk.Initialize(nPhoenix);
-
         Certificate  cert = Certificate.createSelfSigned(
                 "phoenix.aurawin.com",
                 "NOC",
