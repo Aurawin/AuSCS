@@ -57,7 +57,7 @@ public class BootstrapTest {
         nChump = Bootstrap.Cloud.addNode(rcChump,"chump","172.16.1.2");
         nAu1 = Bootstrap.Cloud.addNode(rcPhoenix,"au1","107.218.165.193");
         nAu2 = Bootstrap.Cloud.addNode(rcChump,"au2","107.218.165.194");
-        AuDisk.Initialize(nChump);
+
 
         svcAUDISK = Bootstrap.Cloud.addService(
                 nPhoenix,
@@ -76,7 +76,6 @@ public class BootstrapTest {
                 1
         );
         auDisk = Bootstrap.Cloud.addDisk(nPhoenix,svcAUDISK,Mount);
-
         domain = Bootstrap.addDomain(DomainName);
         account=Bootstrap.addUser(domain,"test","1Bl4H4uotT");
 
@@ -85,7 +84,7 @@ public class BootstrapTest {
         nAu1.setDomain(domain);
         nAu2.setDomain(domain);
 
-        Router.Initialize(nPhoenix);
+        AuDisk.Initialize(nPhoenix);
 
         Certificate  cert = Certificate.createSelfSigned(
                 "phoenix.aurawin.com",

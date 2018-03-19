@@ -61,11 +61,9 @@ public class Service extends Stored{
     public int getPort(){return Port;}
     public void setPort(int port){ Port=port;}
 
-    @Transient
     public long getIP(){
         return (Node!=null) ? Node.IP : 0;
     }
-    @Transient
     public String getHostname(){
         return ( (Node!=null) && (Node.Domain!=null) ) ? Node.Domain.getName() : "";
     }

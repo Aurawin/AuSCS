@@ -50,7 +50,10 @@ public class Namespace extends com.aurawin.core.solution.Namespace {
         l.add(Stored.Cloud.Location);
         l.add(Stored.Cloud.Node);
         l.add(Stored.Cloud.Resource);
+
+        l.add(Stored.Cloud.Service.AUDISK);
         l.add(Stored.Cloud.Service.HTTP);
+
         l.add(Stored.Cloud.Transactions);
         l.add(Stored.Cloud.Uptime);
 
