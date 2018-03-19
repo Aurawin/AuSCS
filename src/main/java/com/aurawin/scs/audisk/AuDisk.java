@@ -86,7 +86,7 @@ public class AuDisk {
         }
     }
 
-    public static ArrayList<String> listFiles(long DiskId, long NamespaceId, long DomainId, long OwnerId, long FolderId) {
+    public static String[] listFiles(long DiskId, long NamespaceId, long DomainId, long OwnerId, long FolderId) {
         ArrayList<String> r = null;
         Disk d = isDiskLocal(DiskId);
         if (d != null) {
@@ -120,9 +120,6 @@ public class AuDisk {
 
     }
 
-    public static ArrayList<String> listFiles() {
-        return null;
-    }
 
 
 

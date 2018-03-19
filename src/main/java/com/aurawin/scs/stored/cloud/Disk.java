@@ -125,8 +125,8 @@ public class Disk extends Stored {
         }
     }
 
-    public ArrayList<String> listFiles(long namespaceId, long domainId, long ownerId, long folderId){
-        ArrayList<String> result = new ArrayList<String>();
+    public String[] listFiles(long namespaceId, long domainId, long ownerId, long folderId){
+        ArrayList<String> al = new ArrayList<String>();
         Path p =Settings.Stored.Domain.Network.File.buildPath(
             Mount,
             namespaceId,
@@ -139,11 +139,12 @@ public class Disk extends Stored {
         if (list!=null) {
             for (File f : list){
                 if (f.isFile()) {
-                    result.add(f.getName());
+                    al.add(f.getName());
                 }
             }
         }
-        return result;
+        String[] a = new String[al.size()];
+        return al.toArray(a);
     }
     private void deleteDirectory(File folder){
         File [] list = folder.listFiles();

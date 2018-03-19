@@ -11,6 +11,8 @@ import com.aurawin.core.stored.Driver;
 import com.aurawin.core.stored.Manifest;
 import com.aurawin.core.stored.entities.UniqueId;
 import com.aurawin.core.stored.entities.security.Certificate;
+import com.aurawin.scs.audisk.AuDisk;
+import com.aurawin.scs.audisk.router.Router;
 import com.aurawin.scs.rsr.protocol.audisk.def.Response;
 import com.aurawin.scs.rsr.protocol.audisk.method.command.cListFiles;
 import com.aurawin.scs.solution.Namespace;
@@ -33,6 +35,11 @@ import static com.aurawin.core.rsr.transport.methods.Result.Ok;
 
 
 public class AuraDiskClientTest {
+    long DiskId=1;
+    long DomainId=1;
+    long OwnerId=1;
+    long FolderId=1;
+
     String sJSON;
     cListFiles cmdListFiles;
     TransportConnect tcData;
@@ -95,39 +102,11 @@ public class AuraDiskClientTest {
 
         tcData=Engine.Connect(saServer,true);
 
-        while (
-                (Engine.State != EngineState.esFinalize) &&
-                (tcData.isAlive()==true)
-        ){
-            if (tcData.readyForUse()) {
-                AUDISK T = (AUDISK) tcData.getOwnerOrWait();
-                if (cmdListFiles==null){
-                    t = (AUDISK) tcData.getOwnerOrWait();
-                    cmdListFiles = new cListFiles();
-                    cmdListFiles.DiskId=1;
-                    cmdListFiles.DomainId=1;
-                    cmdListFiles.NamespaceId=Kind.getId();
-                    cmdListFiles.FolderId=1;
-                    cmdListFiles.OwnerId=1;
-                    int loops = 10;
-                    int iLcv=1;
-                    while (iLcv<=loops) {
-                        Response r = t.Query(cmdListFiles, null);
-                        try {
-                            if (r.Code == Ok) {
-                                String[] result = t.gson.fromJson(r.Payload.toString(), String[].class);
-                                System.out.println("Results:".concat(result.toString()));
-                            } else {
-                                throw new Exception("Disk [Move] command failed.");
-                            }
-                        } finally {
-                            r.Release();
-                        }
-                    }
 
-                }
-            }
-            Thread.sleep(100);
+
+        String[] Result = AuDisk.listFiles(DiskId,Kind.getId(),DomainId,OwnerId,FolderId);
+        if (Result!=null){
+            throw new Exception("AuDisk [listFiles] command failed.");
         }
     }
 }

@@ -16,4 +16,8 @@ public class Route {
     public Client Client;
     public TransportConnect Connection;
 
+    public Route(Node node, Service service) {
+        Node = node;
+        Service = service;
+    }
 }

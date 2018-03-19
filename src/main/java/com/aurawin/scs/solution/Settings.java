@@ -31,6 +31,10 @@ public class Settings extends com.aurawin.core.solution.Settings {
             public static final String File = "FLE";
             public static final String Folder = "FLDR";
         }
+        public static class Router{
+            public static final int ConnectionYield = 300;
+            public static final int ScanTimerYield = 1000*60*2;
+        }
     }
     public static class Stored{
         public static class Cloud{

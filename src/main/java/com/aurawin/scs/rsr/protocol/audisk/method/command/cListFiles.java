@@ -60,7 +60,7 @@ public class cListFiles extends Method {
                 Disk disk = s.getDisk(cmd.DiskId);
                 if (disk!=null) {
 
-                    ArrayList<String> f =disk.listFiles(
+                    String [] f =disk.listFiles(
                             cmd.NamespaceId,
                             cmd.DomainId,
                             cmd.OwnerId,
