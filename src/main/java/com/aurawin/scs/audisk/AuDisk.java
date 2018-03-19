@@ -42,6 +42,7 @@ public class AuDisk {
         randomInt = new Random();
         Node = node;
         Disks = Entities.Lookup(Disk.class.getAnnotation(QueryByOwnerId.class), node.getId());
+        Router.Initialize(Node);
     }
 
     public static Disk isDiskLocal(long Id) {

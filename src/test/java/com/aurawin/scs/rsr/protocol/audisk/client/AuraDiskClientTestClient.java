@@ -13,13 +13,11 @@ import static org.junit.Assert.*;
 
 
 public class AuraDiskClientTestClient extends com.aurawin.core.rsr.client.Client {
-    protected InetSocketAddress RemoteIp;
 
-    public AuraDiskClientTestClient(InetSocketAddress bindIp, InetSocketAddress remoteIp) throws IllegalAccessException,
+    public AuraDiskClientTestClient(InetSocketAddress bindIp) throws IllegalAccessException,
             InstantiationException,            NoSuchMethodException,IOException,InvocationTargetException
 
     {
         super(bindIp, AUDISKTest.class, true);
-        RemoteIp= remoteIp;
     }
 }

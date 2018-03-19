@@ -45,7 +45,7 @@ public class Router {
 
 
 
-    public static void scanForRoutes(){
+    protected static void scanForRoutes(){
         invalidateRoutes();
         ArrayList<Stored> Disks = Entities.Lookup(Disk.class.getAnnotation(QueryAll.class));
         for (Stored s: Disks){

@@ -4,6 +4,7 @@ import com.aurawin.core.Environment;
 import com.aurawin.core.json.Builder;
 import com.aurawin.core.lang.Database;
 import com.aurawin.core.lang.Table;
+import com.aurawin.core.rsr.IpHelper;
 import com.aurawin.core.rsr.def.EngineState;
 import com.aurawin.core.rsr.def.TransportConnect;
 import com.aurawin.core.stored.Dialect;
@@ -23,6 +24,7 @@ import com.aurawin.scs.solution.Settings;
 
 import com.aurawin.scs.stored.Entities;
 import com.aurawin.scs.stored.bootstrap.Bootstrap;
+import com.aurawin.scs.stored.cloud.Node;
 import com.google.gson.Gson;
 import org.junit.Before;
 import org.junit.Test;
@@ -39,7 +41,8 @@ public class AuraDiskClientTest {
     long DomainId=1;
     long OwnerId=1;
     long FolderId=1;
-
+    Node nClient;
+    Node nServer;
     String sJSON;
     cListFiles cmdListFiles;
     TransportConnect tcData;
@@ -48,8 +51,7 @@ public class AuraDiskClientTest {
     UniqueId Kind;
     AUDISK t;
     AuraDiskClientTestClient Engine;
-    InetSocketAddress saServer  = new InetSocketAddress("172.16.1.1",Settings.Stored.Cloud.Service.Port.AuDisk);
-    InetSocketAddress saClient  = new InetSocketAddress("172.16.1.2",0);
+
     @Before
     public void before() throws Exception{
         bldr = new Builder();
@@ -82,9 +84,16 @@ public class AuraDiskClientTest {
 
         Namespace.Merge(mf.Namespaces);
         com.aurawin.core.stored.entities.Entities.Initialize(mf);
-
-        Engine = new AuraDiskClientTestClient(saClient,saServer);
+        nServer = Entities.Lookup(Node.class,1l);
+        nClient = Entities.Lookup(Node.class,2l);
         Certificate cert = Entities.Lookup(Certificate.class,1l);
+
+        AuDisk.Initialize(nClient);
+
+        InetSocketAddress saBind  = new InetSocketAddress(IpHelper.fromLong(nClient.getIP()),0);
+
+        Engine = new AuraDiskClientTestClient(saBind);
+
         Engine.SSL.Load(cert);
         Engine.Infinite=true;
 
@@ -100,8 +109,9 @@ public class AuraDiskClientTest {
         Engine.Start();
         System.out.println("AuDisk Client is running");
 
-        tcData=Engine.Connect(saServer,true);
+        InetSocketAddress saServer  = new InetSocketAddress(IpHelper.fromLong(nServer.getIP()),Settings.Stored.Cloud.Service.Port.AuDisk);
 
+        tcData=Engine.Connect(saServer,true);
 
 
         String[] Result = AuDisk.listFiles(DiskId,Kind.getId(),DomainId,OwnerId,FolderId);
