@@ -40,6 +40,7 @@ public class Router {
 
     public static void Initialize(Node node){
         Node = node;
+        Timer.start();
     }
 
 

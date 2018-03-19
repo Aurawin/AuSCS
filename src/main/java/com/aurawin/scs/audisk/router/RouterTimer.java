@@ -3,7 +3,7 @@ package com.aurawin.scs.audisk.router;
 import com.aurawin.scs.solution.Settings;
 import com.aurawin.scs.stored.Entities;
 
-public class RouterTimer implements Runnable {
+public class RouterTimer extends Thread {
     public void run(){
         try{
             while (!Entities.Loaded){
