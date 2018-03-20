@@ -3,6 +3,7 @@ package com.aurawin.scs.rsr.protocol.http;
 import com.aurawin.core.Environment;
 import com.aurawin.core.lang.Database;
 import com.aurawin.core.stored.entities.Entities;
+import com.aurawin.core.stored.entities.security.Certificate;
 import com.aurawin.scs.audisk.AuDisk;
 import com.aurawin.core.lang.Table;
 
@@ -53,12 +54,13 @@ public class HTTPServerTest {
         com.aurawin.scs.rsr.protocol.http.Server.Bootstrap();
 
         BootstrapTest.createTestData();
-        AuDisk.Initialize(BootstrapTest.nChump);
+        Certificate cert = com.aurawin.scs.stored.Entities.Lookup(Certificate.class,1l);
+        AuDisk.Initialize(BootstrapTest.nChump,cert);
 
         Server = new Server(mf,BootstrapTest.svcHTTP);
 
         // Testing without https
-        Server.loadSecurity(1l);
+        Server.SSL.Load(cert);
         Server.installPlugin(new Noid());
         Server.installPlugin(new Login());
         Server.Configure();

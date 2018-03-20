@@ -56,47 +56,23 @@ public class cMakeFolder extends Method {
                 cmd = t.gson.fromJson(t.Request.Command,cMakeFolder.class);
                 Disk disk = s.getDisk(cmd.DiskId);
                 if (disk!=null) {
-                    Path Mount = Settings.Stored.Domain.Network.File.buildMount(disk.getMount());
-                    Path newPath = Settings.Stored.Domain.Network.File.buildPath(
-                            disk.getMount(),
+                    if (disk.makeFolder(
                             cmd.NamespaceId,
                             cmd.DomainId,
                             cmd.OwnerId,
                             cmd.FolderId
-                    );
-                    File dNewPath = newPath.toFile();
-                    if (!dNewPath.isDirectory()) {
-                        try {
-                            Files.createDirectories(newPath, Settings.Stored.Cloud.Disk.Attributes);
-                            r = Ok;
-                        } catch (Exception e){
-                            Syslog.Append(getClass().getCanonicalName(),"Execute.Files.createDirectories", com.aurawin.core.lang.Table.Format(com.aurawin.core.lang.Table.Error.RSR.MethodFailure,e.getMessage()));
-                            r = Failure;
-                        }
-                    } else {
+                    )) {
                         r = Ok;
+                    } else{
+                        r=Failure;
                     }
                 } else {
                     r=Failure;
                 }
+
                 break;
             case Client:
-                Client c = (Client) t.Owner.Engine;
-                if (t.Response.Code == Ok){
-
-                }
-                Request q = t.Requests.parallelStream()
-                        .filter(rq -> rq.Id==t.Response.Id)
-                        .findFirst()
-                        .orElse(null);
-                if (q!=null) {
-                    t.Requests.remove(q);
-                    // todo notify completion
                     r=Ok;
-                } else {
-                    r = Failure;
-                }
-
                 break;
         }
         return r;

@@ -56,32 +56,23 @@ public class cDeleteFolder extends Method {
                 cmd = t.gson.fromJson(t.Request.Command,cDeleteFolder.class);
                 Disk disk = s.getDisk(cmd.DiskId);
                 if (disk!=null) {
-                    disk.deleteFolder(cmd.NamespaceId,
+                    if (disk.deleteFolder(
+                            cmd.NamespaceId,
                             cmd.DomainId,
                             cmd.OwnerId,
                             cmd.FolderId
-                    );
-                    r = Ok;
+                    )) {
+                        r = Ok;
+                    } else {
+                        return Failure;
+                    }
+
                 } else {
                     r = Failure;
                 }
                 break;
             case Client:
-                Client c = (Client) t.Owner.Engine;
-                if (t.Response.Code == Ok){
-
-                }
-                Request q = t.Requests.stream()
-                        .filter(rq -> rq.Id==t.Response.Id)
-                        .findFirst()
-                        .orElse(null);
-                if (q!=null) {
-                    t.Requests.remove(q);
-                    // todo notify completion
-                    r=Ok;
-                } else {
-                    r = Failure;
-                }
+                r = Ok;
                 break;
         }
         return r;

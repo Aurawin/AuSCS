@@ -1,6 +1,7 @@
 package com.aurawin.scs.stored.cloud;
 
 import com.aurawin.core.log.Syslog;
+import com.aurawin.core.stream.MemoryStream;
 import com.aurawin.scs.solution.Namespace;
 import com.aurawin.scs.solution.Settings;
 import com.aurawin.core.stored.Stored;
@@ -26,6 +27,7 @@ import java.util.Collection;
 
 import static com.aurawin.core.rsr.transport.methods.Result.Failure;
 import static com.aurawin.core.rsr.transport.methods.Result.Ok;
+import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
 @Entity
 @DynamicInsert(value=true)
@@ -146,7 +148,7 @@ public class Disk extends Stored {
         String[] a = new String[al.size()];
         return al.toArray(a);
     }
-    private void deleteDirectory(File folder){
+    private boolean deleteDirectory(File folder){
         File [] list = folder.listFiles();
         for (File f:list){
             if (Files.isSymbolicLink(f.toPath())){
@@ -157,8 +159,9 @@ public class Disk extends Stored {
                 f.delete();
             }
         }
+        return true;
     }
-    public void deleteFolder(long namespaceId, long domainId, long ownerId, long folderId){
+    public boolean deleteFolder(long namespaceId, long domainId, long ownerId, long folderId){
         Path p =Settings.Stored.Domain.Network.File.buildPath(
                 Mount,
                 namespaceId,
@@ -166,7 +169,179 @@ public class Disk extends Stored {
                 ownerId,
                 folderId
         );
-        deleteDirectory(p.toFile());
+        return deleteDirectory(p.toFile());
+    }
+    public boolean makeFolder(long namespaceId, long domainId, long ownerId, long folderId){
+        Path p =Settings.Stored.Domain.Network.File.buildPath(
+                Mount,
+                namespaceId,
+                domainId,
+                ownerId,
+                folderId
+        );
+        File dNewPath = p.toFile();
+        if (!dNewPath.isDirectory()) {
+            try {
+                Files.createDirectories(p, Settings.Stored.Cloud.Disk.Attributes);
+                return true;
+            } catch (Exception e) {
+                Syslog.Append(getClass().getCanonicalName(), "makeDirectory", com.aurawin.core.lang.Table.Format(com.aurawin.core.lang.Table.Error.RSR.MethodFailure, e.getMessage()));
+                return false;
+            }
+        }else{
+            return true;
+        }
+    }
+    public boolean deleteFile(long namespaceId, long domainId, long ownerId, long folderId, long fileId){
+        Path dPath = Settings.Stored.Domain.Network.File.buildPath(
+                Mount,
+                namespaceId,
+                domainId,
+                ownerId,
+                folderId
+        );
+        File fPath = dPath.toFile();
+        if (fPath.isDirectory()) {
+            try {
+                Path pFile = Settings.Stored.Domain.Network.File.buildFilename(
+                        Mount,
+                        namespaceId,
+                        domainId,
+                        ownerId,
+                        folderId,
+                        fileId
+                );
+                Files.delete(pFile);
+                return true;
+            } catch (Exception e){
+                Syslog.Append(getClass().getCanonicalName(),"deleteFile", e.getMessage());
+                return false;
+            }
+        } else{
+            return false;
+        }
+    }
+    public boolean makeFile(long namespaceId, long domainId, long ownerId, long folderId, long fileId){
+        Path dPath = Settings.Stored.Domain.Network.File.buildPath(
+                Mount,
+                namespaceId,
+                domainId,
+                ownerId,
+                folderId
+        );
+        File fPath = dPath.toFile();
+        if (fPath.isDirectory()) {
+            try {
+                Path pFile = Settings.Stored.Domain.Network.File.buildFilename(
+                        Mount,
+                        namespaceId,
+                        domainId,
+                        ownerId,
+                        folderId,
+                        fileId
+                );
+                Files.createFile(pFile,Settings.Stored.Cloud.Disk.Attributes);
+                return true;
+            } catch (Exception e){
+                Syslog.Append(getClass().getCanonicalName(),"makeFile", e.getMessage());
+                return false;
+            }
+        } else{
+            return false;
+        }
+    }
+    public boolean moveFile(long namespaceId, long domainId, long ownerId, long olderFolderId, long newFolderId, long fileId){
+        Path OldPath = Settings.Stored.Domain.Network.File.buildPath(
+                Mount,
+                namespaceId,
+                domainId,
+                ownerId,
+                olderFolderId
+        );
+        Path NewPath = Settings.Stored.Domain.Network.File.buildPath(
+                Mount,
+                namespaceId,
+                domainId,
+                ownerId,
+                newFolderId
+        );
+        Path OldFile = Settings.Stored.Domain.Network.File.buildFilename(
+                Mount,
+                namespaceId,
+                domainId,
+                ownerId,
+                olderFolderId,
+                fileId
+        );
+        Path NewFile = Settings.Stored.Domain.Network.File.buildFilename(
+                Mount,
+                namespaceId,
+                domainId,
+                ownerId,
+                newFolderId,
+                fileId
+        );
+        Path pMount = Paths.get(Mount);
+        File dMount = pMount.toFile();
+        File dOldPath = OldPath.toFile();
+        File dNewPath = NewPath.toFile();
+        if (dMount.isDirectory()==true) {
+            if (dOldPath.isDirectory()==true) {
+                if (!dNewPath.isDirectory()) {
+                    try {
+                        Files.createDirectories(NewPath, Settings.Stored.Cloud.Disk.Attributes);
+                    } catch (Exception e){
+                        Syslog.Append(getClass().getCanonicalName(),"moveFile.createDirectories", com.aurawin.core.lang.Table.Format(com.aurawin.core.lang.Table.Error.RSR.MethodFailure,e.getMessage()));
+                        return false;
+                    }
+                }
+                try {
+                    Files.move(OldFile, NewFile, REPLACE_EXISTING);
+                    return true;
+                } catch (Exception e){
+                    Syslog.Append(getClass().getCanonicalName(),"moveFile.Files.move", com.aurawin.core.lang.Table.Format(com.aurawin.core.lang.Table.Error.RSR.MethodFailure,e.getMessage()));
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        } else{
+            return false;
+        }
+    }
+    public boolean readFile(MemoryStream Data, long namespaceId, long domainId, long ownerId, long folderId, long fileId){
+        Path dPath = Settings.Stored.Domain.Network.File.buildFilename(
+                Mount,
+                namespaceId,
+                domainId,
+                ownerId,
+                folderId,
+                fileId
+        );
+        try {
+            Data.LoadFromFile(dPath.toFile());
+            return true;
+        } catch (Exception e) {
+            Syslog.Append(getClass().getCanonicalName(), "readFile", com.aurawin.core.lang.Table.Format(com.aurawin.core.lang.Table.Error.RSR.MethodFailure, e.getMessage()));
+            return false;
+        }
+    }
+    public boolean writeFile(MemoryStream Data, long namespaceId, long domainId, long ownerId, long folderId, long fileId) {
+        Path dPath = Settings.Stored.Domain.Network.File.buildFilename(
+                Mount,
+                namespaceId,
+                domainId,
+                ownerId,
+                folderId,
+                fileId
+        );
+        try {
+            Data.SaveToFile(dPath.toFile());
+            return true;
+        } catch (Exception e) {
+            Syslog.Append(getClass().getCanonicalName(), "writeFile", com.aurawin.core.lang.Table.Format(com.aurawin.core.lang.Table.Error.RSR.MethodFailure, e.getMessage()));
+            return false;
+        }
     }
     public static void entityCreated(Stored Entity, boolean Cascade){ }
     public static void entityDeleted(Stored Entity, boolean Cascade) {}

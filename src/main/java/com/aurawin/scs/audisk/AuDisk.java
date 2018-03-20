@@ -6,6 +6,7 @@ import com.aurawin.core.stored.Stored;
 import com.aurawin.core.stored.annotations.QueryAll;
 import com.aurawin.core.stored.annotations.QueryByOwnerId;
 import com.aurawin.core.stored.entities.Entities;
+import com.aurawin.core.stored.entities.security.Certificate;
 import com.aurawin.core.stream.MemoryStream;
 import com.aurawin.scs.audisk.router.Router;
 import com.aurawin.scs.solution.Settings;
@@ -35,14 +36,16 @@ public class AuDisk {
     protected static ExecutorService Service = Executors.newCachedThreadPool();
     protected static Random randomInt;
     protected static Node Node;
+    protected static Certificate Certificate;
 
     protected static volatile ArrayList<? extends Stored> Disks;
 
-    public static void Initialize(Node node) throws Exception {
+    public static void Initialize(Node node, Certificate cert) throws Exception {
         randomInt = new Random();
         Node = node;
+        Certificate = cert;
         Disks = Entities.Lookup(Disk.class.getAnnotation(QueryByOwnerId.class), node.getId());
-        Router.Initialize(Node);
+        Router.Initialize(Node,Certificate);
     }
 
     public static Disk isDiskLocal(long Id) {
@@ -63,27 +66,17 @@ public class AuDisk {
         return (len > 0) ? ((Disk) disks.get(randomInt.nextInt(len))).getId() : 0;
     }
 
-    public static void makeDirectory(long DiskId, long NamespaceId, long DomainId, long OwnerId, long FolderId) {
+    public static boolean makeFolder(long DiskId, long NamespaceId, long DomainId, long OwnerId, long FolderId) {
         Disk d = isDiskLocal(DiskId);
         if (d != null) {
-            Path Mount = Settings.Stored.Domain.Network.File.buildMount(d.getMount());
-            Path newPath = Settings.Stored.Domain.Network.File.buildPath(
-                    d.getMount(),
+            return d.makeFolder(
                     NamespaceId,
                     DomainId,
                     OwnerId,
                     FolderId
             );
-            java.io.File dNewPath = newPath.toFile();
-            if (!dNewPath.isDirectory()) {
-                try {
-                    Files.createDirectories(newPath, Settings.Stored.Cloud.Disk.Attributes);
-                } catch (Exception e) {
-                    Syslog.Append(AuDisk.class.getCanonicalName(), "onProcess.createDirectories", com.aurawin.core.lang.Table.Format(com.aurawin.core.lang.Table.Error.RSR.MethodFailure, e.getMessage()));
-                }
-            }
         } else {
-            Router.makeDirectory(DiskId, NamespaceId, DomainId, OwnerId, FolderId);
+            return Router.makeFolder(DiskId, NamespaceId, DomainId, OwnerId, FolderId);
         }
     }
 
@@ -97,31 +90,81 @@ public class AuDisk {
         }
     }
 
-    public static void deleteDirectory(Folder folder) {
+    public static boolean deleteFolder(long DiskId, long NamespaceId, long DomainId, long OwnerId, long FolderId) {
+        Disk d = isDiskLocal(DiskId);
+        if (d != null) {
+            return d.deleteFolder(
+                    NamespaceId,
+                    DomainId,
+                    OwnerId,
+                    FolderId
+            );
+        } else {
+            return Router.deleteFolder(DiskId, NamespaceId, DomainId, OwnerId, FolderId);
+        }
+    }
+
+    public static boolean deleteFile(long DiskId, long NamespaceId, long DomainId, long OwnerId, long FolderId, long FileId) {
+        Disk d = isDiskLocal(DiskId);
+        if (d != null) {
+            return d.deleteFile(
+                    NamespaceId,
+                    DomainId,
+                    OwnerId,
+                    FolderId,
+                    FileId
+            );
+        } else {
+            return Router.deleteFile(DiskId, NamespaceId, DomainId, OwnerId, FolderId,FileId);
+        }
 
     }
 
-    public static void deleteFile(File file) {
-
+    public static boolean makeFile(long DiskId, long NamespaceId, long DomainId, long OwnerId, long FolderId, long FileId) {
+        Disk d = isDiskLocal(DiskId);
+        if (d != null) {
+            return d.makeFile(
+                    NamespaceId,
+                    DomainId,
+                    OwnerId,
+                    FolderId,
+                    FileId
+            );
+        } else {
+            return Router.makeFile(DiskId, NamespaceId, DomainId, OwnerId, FolderId,FileId);
+        }
     }
 
-    public static void createFile(File file, MemoryStream data) {
-
+    public static boolean writeFile(MemoryStream Data, long DiskId, long NamespaceId, long DomainId, long OwnerId, long FolderId, long FileId) {
+        Disk d = isDiskLocal(DiskId);
+        if (d != null) {
+            return d.writeFile(
+                    Data,
+                    NamespaceId,
+                    DomainId,
+                    OwnerId,
+                    FolderId,
+                    FileId
+            );
+        } else {
+            return Router.writeFile(Data,DiskId, NamespaceId, DomainId, OwnerId, FolderId,FileId);
+        }
     }
 
-    public static void writeFile(File file, MemoryStream data) {
 
+    public static boolean readFile(MemoryStream Data, long DiskId, long NamespaceId, long DomainId, long OwnerId, long FolderId, long FileId) {
+        Disk d = isDiskLocal(DiskId);
+        if (d != null) {
+            return d.readFile(
+                    Data,
+                    NamespaceId,
+                    DomainId,
+                    OwnerId,
+                    FolderId,
+                    FileId
+            );
+        } else {
+            return Router.readFile(Data,DiskId, NamespaceId, DomainId, OwnerId, FolderId,FileId);
+        }
     }
-
-    public static void readFile(File file, MemoryStream data) {
-
-    }
-
-    public static void moveFile(File file, long newFolderId) {
-
-    }
-
-
-
-
 }

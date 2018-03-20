@@ -88,9 +88,9 @@ public class AuraDiskClientTest {
         nClient = Entities.Lookup(Node.class,2l);
         Certificate cert = Entities.Lookup(Certificate.class,1l);
 
-        AuDisk.Initialize(nClient);
+        AuDisk.Initialize(nClient,cert);
 
-        InetSocketAddress saBind  = new InetSocketAddress(IpHelper.fromLong(nClient.getIP()),0);
+        InetSocketAddress saBind  = new InetSocketAddress(IpHelper.fromLong(nClient.getIP()),Settings.RSR.AnyPort);
 
         Engine = new AuraDiskClientTestClient(saBind);
 
@@ -115,7 +115,7 @@ public class AuraDiskClientTest {
 
 
         String[] Result = AuDisk.listFiles(DiskId,Kind.getId(),DomainId,OwnerId,FolderId);
-        if (Result!=null){
+        if (Result==null){
             throw new Exception("AuDisk [listFiles] command failed.");
         }
     }

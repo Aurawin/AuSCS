@@ -52,6 +52,7 @@ public class cMoveFile extends Method {
     }
     @Override
     public Result onProcess(Session ssn, Transport transport){
+        cMoveFile cmd= null;
         Result r = None;
         AUDISK t = (AUDISK) transport;
 
@@ -59,61 +60,10 @@ public class cMoveFile extends Method {
             case Server:
                 Server s = (Server) t.Owner.Engine;
                 Disk disk = s.getDisk(DiskId);
+                cmd = t.gson.fromJson(t.Request.Command,cMoveFile.class);
                 if (disk!=null) {
-                    Path Mount = Settings.Stored.Domain.Network.File.buildMount(disk.getMount());
-                    Path OldPath = Settings.Stored.Domain.Network.File.buildPath(
-                            disk.getMount(),
-                            NamespaceId,
-                            DomainId,
-                            OwnerId,
-                            OldFolderId
-                    );
-                    Path NewPath = Settings.Stored.Domain.Network.File.buildPath(
-                            disk.getMount(),
-                            NamespaceId,
-                            DomainId,
-                            OwnerId,
-                            NewFolderId
-                    );
-                    Path OldFile = Settings.Stored.Domain.Network.File.buildFilename(
-                            disk.getMount(),
-                            NamespaceId,
-                            DomainId,
-                            OwnerId,
-                            OldFolderId,
-                            FileId
-                    );
-                    Path NewFile = Settings.Stored.Domain.Network.File.buildFilename(
-                            disk.getMount(),
-                            NamespaceId,
-                            DomainId,
-                            OwnerId,
-                            NewFolderId,
-                            FileId
-                    );
-                    File dMount = Mount.toFile();
-                    File dOldPath = OldPath.toFile();
-                    File dNewPath = NewPath.toFile();
-                    if (dMount.isDirectory()==true) {
-                        if (dOldPath.isDirectory()==true) {
-                            if (!dNewPath.isDirectory()) {
-                                try {
-                                    Files.createDirectories(NewPath, Settings.Stored.Cloud.Disk.Attributes);
-                                } catch (Exception e){
-                                    Syslog.Append(getClass().getCanonicalName(),"Execute.createDirectories", com.aurawin.core.lang.Table.Format(com.aurawin.core.lang.Table.Error.RSR.MethodFailure,e.getMessage()));
-                                    r = Failure;
-                                }
-                            }
-                            try {
-                                Files.move(OldFile, NewFile, REPLACE_EXISTING);
-                                r = Ok;
-                            } catch (Exception e){
-                                Syslog.Append(getClass().getCanonicalName(),"Execute.Files.move", com.aurawin.core.lang.Table.Format(com.aurawin.core.lang.Table.Error.RSR.MethodFailure,e.getMessage()));
-                                r = Failure;
-                            }
-                        } else {
-                            r = Failure;
-                        }
+                    if (disk.moveFile(cmd.NamespaceId,cmd.DomainId,cmd.OwnerId,cmd.OldFolderId,cmd.NewFolderId,cmd.FileId)){
+                        r = Ok;
                     } else {
                         r = Failure;
                     }
@@ -123,19 +73,7 @@ public class cMoveFile extends Method {
 
                 break;
             case Client:
-                Client c = (Client) t.Owner.Engine;
-
-                Request q = t.Requests.parallelStream()
-                        .filter(rq -> rq.Id==t.Response.Id)
-                        .findFirst()
-                        .orElse(null);
-                if (q!=null) {
-                    t.Requests.remove(q);
-                    // todo notify completion
-                    r=Ok;
-                } else {
-                    r = Failure;
-                }
+                r = Ok;
                 break;
         }
 

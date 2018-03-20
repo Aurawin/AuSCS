@@ -54,18 +54,9 @@ public class cReadFile extends Method{
                 cReadFile cmd = t.gson.fromJson(t.Request.Command, cReadFile.class);
                 Disk disk = s.getDisk(cmd.DiskId);
                 if (disk != null) {
-                    Path dPath = Settings.Stored.Domain.Network.File.buildPath(
-                            disk.getMount(),
-                            cmd.NamespaceId,
-                            cmd.DomainId,
-                            cmd.OwnerId,
-                            cmd.FolderId
-                    );
-                    try {
-                        t.Response.Payload.LoadFromFile(dPath.toFile());
+                    if (disk.readFile(t.Response.Payload,cmd.NamespaceId,cmd.DomainId,cmd.OwnerId,cmd.FolderId,cmd.FileId)){
                         r = Ok;
-                    } catch (Exception e) {
-                        Syslog.Append(getClass().getCanonicalName(), "Execute.Request.Payload.LoadFromFile", com.aurawin.core.lang.Table.Format(com.aurawin.core.lang.Table.Error.RSR.MethodFailure, e.getMessage()));
+                    } else{
                         r = Failure;
                     }
 
@@ -74,21 +65,7 @@ public class cReadFile extends Method{
                 }
                 break;
             case Client:
-                Client c = (Client) t.Owner.Engine;
-                if (t.Response.Code == Ok) {
-
-                }
-                Request q = t.Requests.parallelStream()
-                        .filter(rq -> rq.Id == t.Response.Id)
-                        .findFirst()
-                        .orElse(null);
-                if (q != null) {
-                    t.Requests.remove(q);
-                    // todo notify completion
                     r = Ok;
-                } else {
-                    r = Failure;
-                }
                 break;
 
         }

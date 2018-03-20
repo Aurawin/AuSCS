@@ -66,8 +66,6 @@ public class cListFiles extends Method {
                             cmd.OwnerId,
                             cmd.FolderId
                     );
-                    t.Response.Method=t.Request.Method;
-                    t.Response.Id=t.Request.Id;
                     t.Response.Payload.Write(t.gson.toJson(f));
                     t.Response.Size=t.Response.Payload.Size;
 

@@ -3,6 +3,7 @@ package com.aurawin.scs.stored;
 import com.aurawin.core.Environment;
 import com.aurawin.core.lang.Table;
 import com.aurawin.core.stored.entities.FetchKind;
+import com.aurawin.core.stored.entities.security.Certificate;
 import com.aurawin.scs.audisk.AuDisk;
 import com.aurawin.scs.lang.Database;
 import com.aurawin.core.stored.Dialect;
@@ -63,7 +64,8 @@ public class EntitiesTest {
     @Test
     public void testCheckEntitiesAsCreate() throws Exception {
         BootstrapTest.createTestData();
-        AuDisk.Initialize(BootstrapTest.nChump);
+        Certificate cert = Entities.Lookup(Certificate.class,1l);
+        AuDisk.Initialize(BootstrapTest.nChump,cert);
 
         Domain lD = Entities.Lookup(Domain.class,BootstrapTest.domain.getId());
         Account lUA = Entities.Lookup(Account.class,lD.getId(), lD.getRootId());

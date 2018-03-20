@@ -262,7 +262,7 @@ public class Folder extends Stored {
             if (n.Root==null){
                 n.Root = new Folder(n.getDomainId(), n.Owner.getId(), n.Id, "");
                 Entities.Save(n.Root,Cascade);
-                AuDisk.makeDirectory(
+                AuDisk.makeFolder(
                         n.getDiskId(),
                         Namespace.Stored.Domain.Network.Folder.getId(),
                         n.getDomainId(),
@@ -278,7 +278,7 @@ public class Folder extends Stored {
             if (n.Root==null) {
                 n.Root = new Folder(a.getDomainId(), a.getId(), n.Id, "");
                 Entities.Save(n.Root,Cascade);
-                AuDisk.makeDirectory(
+                AuDisk.makeFolder(
                         n.getDiskId(),
                         Namespace.Stored.Domain.Network.Folder.getId(),
                         n.getDomainId(),
@@ -296,7 +296,7 @@ public class Folder extends Stored {
                     if (f==null) {
                         f = fLcv.addChild(sfC);
                         Entities.Save(f, Cascade);
-                        AuDisk.makeDirectory(
+                        AuDisk.makeFolder(
                                 n.getDiskId(),
                                 Namespace.Stored.Domain.Network.Folder.getId(),
                                 a.getDomainId(),
@@ -314,7 +314,7 @@ public class Folder extends Stored {
                 if (f==null) {
                     f = n.Root.addChild(Table.Stored.Path.Web);
                     Entities.Save(f,Cascade);
-                    AuDisk.makeDirectory(
+                    AuDisk.makeFolder(
                             n.getDiskId(),
                             Namespace.Stored.Domain.Network.Folder.getId(),
                             a.getDomainId(),

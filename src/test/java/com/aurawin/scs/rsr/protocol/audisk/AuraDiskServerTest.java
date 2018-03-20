@@ -9,6 +9,7 @@ import com.aurawin.core.stored.Dialect;
 import com.aurawin.core.stored.Driver;
 import com.aurawin.core.stored.Manifest;
 import com.aurawin.core.stored.entities.Entities;
+import com.aurawin.core.stored.entities.security.Certificate;
 import com.aurawin.scs.audisk.AuDisk;
 import com.aurawin.scs.solution.Namespace;
 import com.aurawin.scs.rsr.protocol.audisk.server.Server;
@@ -50,7 +51,9 @@ public class AuraDiskServerTest {
 
         BootstrapTest.createTestData();
 
-        AuDisk.Initialize(BootstrapTest.nPhoenix);
+        Certificate cert =Entities.Lookup(Certificate.class,1l);
+
+        AuDisk.Initialize(BootstrapTest.nPhoenix,cert);
 
         Server = new Server(mf,BootstrapTest.svcAUDISK);
         Server.Root= BootstrapTest.account.getName();
@@ -58,7 +61,7 @@ public class AuraDiskServerTest {
         Server.rootId = BootstrapTest.account.getId();
         Server.Realm = BootstrapTest.domain.getName();
         Server.realmId = BootstrapTest.domain.getId();
-        Server.loadSecurity(1l);
+
         Server.Configure();
     }
 

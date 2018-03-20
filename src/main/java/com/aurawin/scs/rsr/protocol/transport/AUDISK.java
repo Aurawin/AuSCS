@@ -64,13 +64,15 @@ public class AUDISK extends Item implements Transport
         Response = new Response(this);
         Request = new Request(this);
 
+        Methods.registerMethod(new cReadFile());
+        Methods.registerMethod(new cWriteFile());
+        Methods.registerMethod(new cMakeFile());
         Methods.registerMethod(new cDeleteFile());
         Methods.registerMethod(new cDeleteFolder());
         Methods.registerMethod(new cListFiles());
         Methods.registerMethod(new cMakeFolder());
         Methods.registerMethod(new cMoveFile());
-        Methods.registerMethod(new cReadFile());
-        Methods.registerMethod(new cWriteFile());
+
     }
     @Override
     public AUDISK newInstance(Items aOwner) throws InvocationTargetException,NoSuchMethodException,InstantiationException, IllegalAccessException{
