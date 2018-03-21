@@ -5,6 +5,8 @@ import com.aurawin.core.stored.annotations.*;
 import com.aurawin.core.stored.entities.Entities;
 import com.aurawin.core.stored.Stored;
 import com.aurawin.scs.lang.Database;
+import com.aurawin.scs.stored.domain.network.Network;
+import com.aurawin.scs.stored.domain.user.Account;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.annotations.Expose;
@@ -15,6 +17,8 @@ import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.SelectBeforeUpdate;
 
 import javax.persistence.*;
+
+import static com.aurawin.core.stored.entities.Entities.CascadeOn;
 
 @javax.persistence.Entity
 @DynamicInsert(value=true)
@@ -226,7 +230,8 @@ public class Domain extends Stored {
     }
     public static void entityCreated(Stored Entity, boolean Cascade) {}
     public static void entityUpdated(Stored Entity, boolean Cascade) {}
-    public static void entityDeleted(Stored Entity, boolean Cascade) {}
+    public static void entityDeleted(Stored Entity, boolean Cascade) {
+    }
 
 
 }

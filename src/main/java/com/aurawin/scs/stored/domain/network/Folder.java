@@ -9,10 +9,7 @@ import com.aurawin.scs.stored.Entities;
 import com.aurawin.core.stored.Stored;
 
 import com.aurawin.scs.solution.Namespace;
-import com.aurawin.scs.stored.annotations.QueryByDomainId;
-import com.aurawin.scs.stored.annotations.QueryByDomainIdAndName;
-import com.aurawin.scs.stored.annotations.QueryByDomainIdAndParentIdAndName;
-import com.aurawin.scs.stored.annotations.QueryByNetworkId;
+import com.aurawin.scs.stored.annotations.*;
 import com.aurawin.scs.stored.domain.Domain;
 import com.aurawin.scs.stored.domain.user.Account;
 import com.aurawin.core.time.Time;
@@ -30,6 +27,8 @@ import javax.persistence.NamedQuery;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.aurawin.core.stored.entities.Entities.CascadeOn;
 
 @javax.persistence.Entity
 @DynamicInsert(value=true)
@@ -126,6 +125,9 @@ public class Folder extends Stored {
     @Column(name = Database.Field.Domain.Network.Folders.NetworkId)
     private long NetworkId;
 
+    @Column(name = Database.Field.Domain.Network.Folders.DiskId)
+    private long DiskId;
+
     @Column(name = Database.Field.Domain.Network.Folders.Exposition)
     private byte Exposition;
 
@@ -176,13 +178,14 @@ public class Folder extends Stored {
         DomainId=Source.DomainId;
         OwnerId=Source.OwnerId;
         NetworkId=Source.NetworkId;
+        DiskId = Source.DiskId;
         Modified=Source.Modified;
         Created = Source.Created;
         Exposition = Source.Exposition;
         Name = Source.Name;
     }
     public Folder addChild(String name){
-        Folder c = new Folder(DomainId,OwnerId,NetworkId,name);
+        Folder c = new Folder(DomainId,OwnerId,NetworkId,DiskId,name);
         c.Parent=this;
         c.Exposition=Exposition;
         Modified=c.Created;
@@ -224,11 +227,12 @@ public class Folder extends Stored {
         Exposition = Exposure.None;
         Name="";
     }
-    public Folder(long domainId, long ownerId, long networkId, String name) {
+    public Folder(long domainId, long ownerId, long networkId, long diskId, String name) {
         Parent = null;
         DomainId = domainId;
         OwnerId = ownerId;
         NetworkId = networkId;
+        DiskId = diskId;
         Name = name;
         Created=Time.instantUTC();
         Modified = Created;
@@ -260,7 +264,7 @@ public class Folder extends Stored {
         if (Entity instanceof Network){
             Network n = (Network) Entity;
             if (n.Root==null){
-                n.Root = new Folder(n.getDomainId(), n.Owner.getId(), n.Id, "");
+                n.Root = new Folder(n.getDomainId(), n.Owner.getId(), n.Id, n.getDiskId(),"");
                 Entities.Save(n.Root,Cascade);
                 AuDisk.makeFolder(
                         n.getDiskId(),
@@ -276,7 +280,7 @@ public class Folder extends Stored {
             Account a = (Account) Entity;
             Network n = a.Cabinet;
             if (n.Root==null) {
-                n.Root = new Folder(a.getDomainId(), a.getId(), n.Id, "");
+                n.Root = new Folder(a.getDomainId(), a.getId(), n.Id, n.getDiskId(),"");
                 Entities.Save(n.Root,Cascade);
                 AuDisk.makeFolder(
                         n.getDiskId(),
@@ -325,6 +329,7 @@ public class Folder extends Stored {
 
 
             }
+
         }
     }
 
@@ -332,8 +337,9 @@ public class Folder extends Stored {
         if (Entity instanceof Folder) {
             Folder f = (Folder) Entity;
             for (Folder c : f.Children) {
-                Entities.Delete(c, Entities.CascadeOn);
+                Entities.Delete(c, CascadeOn);
             }
+            AuDisk.deleteFolder(f.DiskId,Namespace.Stored.Domain.Network.Folder.getId(),f.DomainId,f.OwnerId,f.Id);
         } else if (Entity instanceof Domain) {
             Domain d = (Domain) Entity;
             ArrayList<Stored> lst = Entities.Lookup(
@@ -341,18 +347,21 @@ public class Folder extends Stored {
                     d.getId()
             );
             for (Stored h : lst) {
-                Entities.Delete(h, Entities.CascadeOn);
+                // this is an entire list, don't cascade
+                // children are included in this list.
+                Entities.Delete(h, Entities.CascadeOff);
             }
+        } else if (Entity instanceof Network) {
+            Network n = (Network) Entity;
+            Entities.Delete(n.Root, CascadeOn);
         }
     }
     public static void entityUpdated(Stored Entity, boolean Cascade) throws Exception{
         if (Entity instanceof Folder) {
             Folder f = (Folder) Entity;
-            if (Cascade == true) {
-                // note, just Update all children re-entrant will handle their children
-                for (Folder c : f.Children) {
-                    //todo Entities.Domain.mFolder.
-                }
+            f.recalculatePath();
+            for (Folder c : f.Children) {
+                c.recalculatePath();
             }
         }
     }

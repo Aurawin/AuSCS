@@ -26,6 +26,8 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.aurawin.core.stored.entities.Entities.CascadeOn;
+
 
 @javax.persistence.Entity
 @DynamicInsert(value=true)
@@ -228,9 +230,11 @@ public class Network extends Stored {
                     Network.class.getAnnotation(QueryByDomainId.class),
                     d.getId()
             );
-            for (Stored h : lst) {
-                Entities.Delete(h,Entities.CascadeOn);
+            Account root = Entities.Lookup(Account.class,d.getRootId());
+            for (Network n : root.Networks) {
+                Entities.Delete(n, CascadeOn);
             }
+
         }
     }
 
