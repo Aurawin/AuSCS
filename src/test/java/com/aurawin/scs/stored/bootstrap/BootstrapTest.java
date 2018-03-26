@@ -71,7 +71,7 @@ public class BootstrapTest {
         nPhoenix = Bootstrap.Cloud.addNode(rcPhoenix,"phoenix","172.16.1.1");
         nChump = Bootstrap.Cloud.addNode(rcChump,"chump","172.16.1.2");
 
-        nDisk = nPhoenix;
+        nDisk = nChump;
 
         nAu1 = Bootstrap.Cloud.addNode(rcPhoenix,"au1","107.218.165.193");
         nAu2 = Bootstrap.Cloud.addNode(rcChump,"au2","107.218.165.194");

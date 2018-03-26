@@ -48,7 +48,6 @@ public class EntitiesTest {
                 Driver.Postgresql.getValue(),            // Driver
                 Bootstrap.buildAnnotations()
         );
-        Namespace.Merge(Manifest.Namespaces);
         Entities.Initialize(Manifest);
 
     }

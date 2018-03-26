@@ -46,7 +46,6 @@ public class AuraDiskServerTest {
                 Driver.Postgresql.getValue(),                                   // Driver
                 Bootstrap.buildAnnotations()
         );
-        Namespace.Merge(mf.Namespaces);
         Entities.Initialize(mf);
 
 

@@ -82,8 +82,7 @@ public class AuraDiskClientTest {
                 Bootstrap.buildAnnotations()
         );
 
-        Namespace.Merge(mf.Namespaces);
-        com.aurawin.core.stored.entities.Entities.Initialize(mf);
+        Entities.Initialize(mf);
         nServer = Entities.Lookup(Node.class,1l);
         nClient = Entities.Lookup(Node.class,2l);
         Certificate cert = Entities.Lookup(Certificate.class,1l);
