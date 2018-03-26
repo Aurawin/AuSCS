@@ -49,6 +49,7 @@ public class AuraDiskServerTest {
         Namespace.Merge(mf.Namespaces);
         Entities.Initialize(mf);
 
+
         BootstrapTest.createTestData();
 
         Certificate cert =Entities.Lookup(Certificate.class,1l);

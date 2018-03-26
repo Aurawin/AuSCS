@@ -75,9 +75,7 @@ public class ACL extends Plug {
                         .setParameter("OwnerId", acl.getOwnerId())
                         .uniqueResult();
                 if (acl2 == null) {
-                    acl2 = new com.aurawin.scs.stored.security.ACL();
-                    acl2.Owner = ua;
-                    acl2.NamespaceId = acl.NamespaceId;
+                    acl2 = new com.aurawin.scs.stored.security.ACL(ua,acl.NamespaceId);
                     acl2.Identify(ssn);
                 }
                 h.Response.Payload.Write(gson.toJson(acl2));

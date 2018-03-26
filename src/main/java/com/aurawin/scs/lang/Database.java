@@ -303,6 +303,10 @@ public class Database extends com.aurawin.core.lang.Database {
                         public static final String name = "QueryDomainUserRoleById";
                         public static final String value = "from Role where Id=:Id";
                     }
+                    public static class ByName{
+                        public static final String name = "QueryDomainUserRoleByName";
+                        public static final String value = "from Role where Name=:Name";
+                    }
                 }
                 public static class RoleMap{
                     public static class ByOwnerId{
@@ -516,7 +520,8 @@ public class Database extends com.aurawin.core.lang.Database {
             public static final String RootId = "itmrid";
             public static final String CertId = "itmcid";
             public static final String Name="itnme";
-            public static final String Root="itmrt";
+            public static final String RootName="itmrn";
+
             public static final String Organization="iogn";
             public static final String FriendlyName="itfme";
             public static final String DefaultOptionCatchAll="itmdca";
@@ -526,6 +531,7 @@ public class Database extends com.aurawin.core.lang.Database {
                 public static class Role{
                     public static final String Id = "itmid";
                     public static final String Title = "itle";
+                    public static final String Name = "inme";
                 }
                 public static class RoleMap{
                     public static final String Id = "itmid";

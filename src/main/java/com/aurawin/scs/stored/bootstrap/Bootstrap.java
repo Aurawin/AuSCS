@@ -43,10 +43,11 @@ public class Bootstrap {
 
         return d;
     }
-    public static Account addUser(Domain domain, String user, String password) throws Exception{
+    public static Account addUser(Domain domain, String user, String password, UniqueId Namespace) throws Exception{
         Account a = new Account(domain,user);
         a.setPass(password);
-        Entities.Save(a,Entities.CascadeOff);
+        ACL acl = new ACL(a,Namespace.getId());
+        Entities.Save(a,Entities.CascadeOn);
         return a;
     }
     public static Certificate addSelfSignedCertificate(
@@ -170,9 +171,7 @@ public class Bootstrap {
                     acl = (ACL) q.uniqueResult();
 
                     if (acl==null){
-                        acl = new ACL();
-                        acl.NamespaceId=rm.NamespaceId;
-                        acl.Owner=user;
+                        acl = new ACL(user,rm.NamespaceId);
                         ssn.save(acl);
                     }
                 }

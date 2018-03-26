@@ -18,11 +18,15 @@ public class Table extends com.aurawin.core.lang.Table {
     public static class Entities extends com.aurawin.core.lang.Table.Entities{
         public static class Domain{
             public static final String Root = "table.entities.domain.root";
+            public static final String Default = "table.entities.domain.default";
+
             public static class User {
                 public static class Role{
                     public static final String Administrator = "table.entities.domain.user.role.administrator";
                     public static final String PowerUser = "table.entities.domain.user.role.poweruser";
                     public static final String User = "table.entities.domain.user.role.user";
+                    public static final String ContentManagement = "table.entities.domain.user.role.cms";
+                    public static final String Guest = "table.entities.domain.user.role.guest";
                 }
                 public static class Roster {
                     public static final String Me = "table.entities.domain.roster.me";

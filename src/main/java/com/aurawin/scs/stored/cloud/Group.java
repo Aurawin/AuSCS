@@ -9,11 +9,14 @@ import com.aurawin.core.stored.Stored;
 import com.google.gson.annotations.Expose;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.DynamicUpdate;
-import org.hibernate.annotations.SelectBeforeUpdate;
+import org.hibernate.annotations.*;
 
 import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -83,7 +86,7 @@ public class Group extends Stored {
             }
         }
     }
-
+    @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(
             targetEntity = Resource.class,
             cascade = CascadeType.ALL,

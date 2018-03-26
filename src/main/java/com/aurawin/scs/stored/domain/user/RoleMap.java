@@ -72,7 +72,10 @@ public class RoleMap extends Stored {
     @Expose(serialize = true, deserialize = true)
     public long NamespaceId;
 
-    public RoleMap(Role owner,long namespaceId) {
+    public RoleMap() {
+    }
+
+    public RoleMap(Role owner, long namespaceId) {
         Owner = owner;
         NamespaceId = namespaceId;
         owner.Map.add(this);

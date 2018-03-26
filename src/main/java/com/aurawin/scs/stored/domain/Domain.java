@@ -5,6 +5,7 @@ import com.aurawin.core.stored.annotations.*;
 import com.aurawin.core.stored.entities.Entities;
 import com.aurawin.core.stored.Stored;
 import com.aurawin.scs.lang.Database;
+import com.aurawin.scs.stored.domain.network.Folder;
 import com.aurawin.scs.stored.domain.network.Network;
 import com.aurawin.scs.stored.domain.user.Account;
 import com.google.gson.Gson;
@@ -12,11 +13,14 @@ import com.google.gson.JsonElement;
 import com.google.gson.annotations.Expose;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.DynamicUpdate;
-import org.hibernate.annotations.SelectBeforeUpdate;
+import org.hibernate.annotations.*;
 
 import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 
 import static com.aurawin.core.stored.entities.Entities.CascadeOn;
 
@@ -71,10 +75,6 @@ public class Domain extends Stored {
     }
 
     @Expose(serialize = true, deserialize = true)
-    @Column(name = Database.Field.Domain.RootId)
-    private long RootId;
-
-    @Expose(serialize = true, deserialize = true)
     @Column(name = Database.Field.Domain.CertId)
     private long CertId;
 
@@ -84,11 +84,11 @@ public class Domain extends Stored {
 
 
     @Expose(serialize = true, deserialize = true)
-    @Column(name = Database.Field.Domain.Root, nullable = false)
-    private String Root;
+    @Column(name = Database.Field.Domain.RootName, nullable = false)
+    private String RootName;
 
     @Expose(serialize = true, deserialize = true)
-    @Column(name = Database.Field.Domain.Organization, nullable = false)
+    @Column(name = Database.Field.Domain.Organization, nullable = true)
     private String Organization;
 
 
@@ -108,25 +108,34 @@ public class Domain extends Stored {
     @Column(name = Database.Field.Domain.DefaultOptionQuota)
     private long DefaultOptionQuota;
 
+
+    @Expose(serialize = false, deserialize = false)
+    @ManyToOne()
+    @JoinColumn(name = Database.Field.Domain.RootId)
+    @Fetch(value= FetchMode.JOIN)
+    public Account Root;
+
     public Domain() {
         Id = 0;
         CertId = 0;
         Name="";
-        Root = "";
+        RootName = "";
         FriendlyName = "";
         DefaultOptionCatchAll = true;
         DefaultOptionFiltering = true;
         DefaultOptionQuota = 1024 * 1024 * 32; // todo create storage entity for end-user plans
+        Root = null;
     }
-    public Domain(String name, String root){
+    public Domain(String name, String rootName){
         Id=0;
         CertId=0;
         Name=name;
-        Root=root;
+        RootName=rootName;
         FriendlyName=name;
         DefaultOptionCatchAll = true;
         DefaultOptionFiltering = true;
         DefaultOptionQuota  = 1024*1014*32; // todo get from system
+        Root = null;
     }
 
     public static Domain fromJSON(Gson Parser, String Data) {
@@ -140,7 +149,7 @@ public class Domain extends Stored {
         return (
                 (o instanceof Domain) &&
                 Id == ((Domain) o).Id &&
-                Root.compareTo( ((Domain) o).Root) == 0 &&
+                RootName.compareTo( ((Domain) o).RootName) == 0 &&
                 FriendlyName.compareTo(((Domain) o).FriendlyName) == 0 &&
                 DefaultOptionCatchAll == ((Domain) o).DefaultOptionCatchAll &&
                 DefaultOptionFiltering == ((Domain) o).DefaultOptionFiltering &&
@@ -157,14 +166,10 @@ public class Domain extends Stored {
         DefaultOptionFiltering = src.DefaultOptionFiltering;
         DefaultOptionQuota = src.DefaultOptionQuota;
         DefaultOptionCatchAll = src.DefaultOptionCatchAll;
-    }
-    public long getRootId() {
-        return RootId;
+        RootName = src.RootName;
+        Root = src.Root;
     }
 
-    public void setRootId(long rootId) {
-        RootId = rootId;
-    }
 
     public long getCertId() {
         return CertId;
@@ -173,12 +178,12 @@ public class Domain extends Stored {
         CertId = certId;
     }
 
-    public String getRoot() {
-        return Root;
+    public String getRootName() {
+        return RootName;
     }
 
-    public void setRoot(String root) {
-        Root = root;
+    public void setRootName(String rootName) {
+        RootName = rootName;
     }
 
     public String getName() {

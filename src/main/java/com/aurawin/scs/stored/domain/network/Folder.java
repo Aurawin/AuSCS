@@ -1,12 +1,13 @@
 package com.aurawin.scs.stored.domain.network;
 
 
+import com.aurawin.core.stored.Stored;
 import com.aurawin.core.stored.annotations.*;
 import com.aurawin.scs.audisk.AuDisk;
 import com.aurawin.scs.lang.Database;
 import com.aurawin.scs.lang.Table;
 import com.aurawin.scs.stored.Entities;
-import com.aurawin.core.stored.Stored;
+
 
 import com.aurawin.scs.solution.Namespace;
 import com.aurawin.scs.stored.annotations.*;
@@ -26,6 +27,7 @@ import javax.persistence.NamedQuery;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static com.aurawin.core.stored.entities.Entities.CascadeOn;
@@ -237,6 +239,7 @@ public class Folder extends Stored {
         Created=Time.instantUTC();
         Modified = Created;
     }
+
     @Override
     public void Identify(Session ssn){
         if (Id == 0) {

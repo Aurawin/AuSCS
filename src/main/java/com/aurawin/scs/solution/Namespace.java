@@ -27,6 +27,14 @@ public class Namespace extends com.aurawin.core.solution.Namespace {
             public static final UniqueId Avatar = new UniqueId("com.aurawin.scs.stored.domain.avatar");
             public static final UniqueId Item = new UniqueId("com.aurawin.scs.stored.domain");
             public static class User {
+                public static class Role{
+                    public static final UniqueId Admin = new UniqueId("com.aurawin.scs.stored.domain.user.role.admin");
+                    public static final UniqueId User = new UniqueId("com.aurawin.stored.domain.user.role.user");
+                    public static final UniqueId PowerUser = new UniqueId("com.aurawin.stored.domain.user.role.poweruser");
+                    public static final UniqueId ContentManagment = new UniqueId("com.aurawin.core.domain.user.role.cms");
+                    public static final UniqueId Guest = new UniqueId("com.aurawin.stored.domain.user.role.guest");
+
+                }
                 public static final UniqueId Account = new UniqueId("com.aurawin.scs.stored.domain.user.account");
                 public static final UniqueId Avatar = new UniqueId("com.aurawin.scs.stored.domain.user.avatar");
                 public static final UniqueId Roster = new UniqueId("com.aurawin.scs.stored.domain.roster");
@@ -64,6 +72,11 @@ public class Namespace extends com.aurawin.core.solution.Namespace {
         l.add(Stored.Domain.User.Avatar);
         l.add(Stored.Domain.User.Roster);
         l.add(Stored.Domain.User.RosterField);
+        l.add(Stored.Domain.User.Role.Admin);
+        l.add(Stored.Domain.User.Role.PowerUser);
+        l.add(Stored.Domain.User.Role.User);
+        l.add(Stored.Domain.User.Role.ContentManagment);
+        l.add(Stored.Domain.User.Role.Guest);
 
         l.add(Stored.Domain.Network.Avatar);
         l.add(Stored.Domain.Network.Exposure);
@@ -73,6 +86,8 @@ public class Namespace extends com.aurawin.core.solution.Namespace {
         l.add(Stored.Domain.Network.Item);
         l.add(Stored.Domain.Network.Permission);
         l.add(Stored.Domain.Network.Standing);
+
+
 
         return l;
     }

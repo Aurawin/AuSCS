@@ -2,6 +2,8 @@ package com.aurawin.scs.rsr.protocol.http;
 
 import com.aurawin.core.rsr.IpHelper;
 import com.aurawin.core.stored.entities.Entities;
+import com.aurawin.core.stored.entities.UniqueId;
+import com.aurawin.scs.solution.Namespace;
 import com.aurawin.scs.stored.cloud.Node;
 import com.aurawin.scs.stored.cloud.Service;
 import com.aurawin.core.stored.Manifest;
@@ -19,14 +21,17 @@ import static com.aurawin.scs.stored.bootstrap.Plugins.initializePlugin;
 
 public class Server extends com.aurawin.core.rsr.server.Server{
     public Service Service;
-    public Account Root;
     public Domain Domain;
     public Node Node;
 
 
     public static void Bootstrap(){
+
+
         Session ssn = Entities.openSession();
         try{
+            Namespace.Discover().stream().forEach(uid-> uid.Identify(ssn));
+
             initializePlugin(com.aurawin.scs.core.admin.cms.CMS.class,ssn);
             initializePlugin(com.aurawin.scs.core.admin.cms.Domain.class,ssn);
             initializePlugin(com.aurawin.scs.core.admin.cms.Template.class,ssn);
@@ -46,6 +51,7 @@ public class Server extends com.aurawin.core.rsr.server.Server{
         com.aurawin.scs.stored.bootstrap.roles.Administrator.Initialize();
         com.aurawin.scs.stored.bootstrap.roles.PowerUser.Initialize();
         com.aurawin.scs.stored.bootstrap.roles.User.Initialize();
+
     }
 
     public Server(Manifest manifest, Service service) throws NoSuchMethodException,InvocationTargetException,IOException, NoSuchMethodException,
@@ -56,6 +62,6 @@ public class Server extends com.aurawin.core.rsr.server.Server{
         Service = service;
         Node = service.getNode();
         Domain = Node.getDomain();
-        Root = Entities.Lookup(Account.class, Domain.getRootId());
+
     }
 }

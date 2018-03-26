@@ -200,7 +200,6 @@ public class Roster extends Stored {
             if (ua.Me==null) {
                 ua.Me = new Roster(ua,Table.String(Table.Entities.Domain.User.Roster.Me));
                 Entities.Save(ua.Me,Cascade);
-                ua.Contacts.add(ua.Me);
                 Entities.Update(ua,Entities.CascadeOff);
             }
         }

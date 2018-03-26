@@ -57,12 +57,14 @@ public class AuDisk {
     public static Disk getNextAvailableDisk() {
         ArrayList<Stored> disks = Entities.Lookup(Disk.class.getAnnotation(QueryAll.class));
         int len = disks.size();
+        if (randomInt==null) randomInt = new Random();
         return (len > 0) ? (Disk) disks.get(randomInt.nextInt(len)) : null;
     }
 
     public static long getNextAvailableDiskId() {
         ArrayList<Stored> disks = Entities.Lookup(Disk.class.getAnnotation(QueryAll.class));
         int len = disks.size();
+        if (randomInt==null) randomInt = new Random();
         return (len > 0) ? ((Disk) disks.get(randomInt.nextInt(len))).getId() : 0;
     }
 
@@ -165,6 +167,21 @@ public class AuDisk {
             );
         } else {
             return Router.readFile(Data,DiskId, NamespaceId, DomainId, OwnerId, FolderId,FileId);
+        }
+    }
+    public static boolean moveFile(long DiskId, long NamespaceId, long DomainId, long OwnerId, long OldFolderId, long NewFolderId, long FileId) {
+        Disk d = isDiskLocal(DiskId);
+        if (d != null) {
+            return d.moveFile(
+                    NamespaceId,
+                    DomainId,
+                    OwnerId,
+                    OldFolderId,
+                    NewFolderId,
+                    FileId
+            );
+        } else {
+            return Router.moveFile(DiskId, NamespaceId, DomainId, OwnerId, OldFolderId,NewFolderId,FileId);
         }
     }
 }

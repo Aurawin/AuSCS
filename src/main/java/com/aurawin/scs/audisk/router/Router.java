@@ -67,7 +67,7 @@ public class Router {
                         Routes.put(d.getId(), r);
                     }
                 }
-                if (r.Client==null){
+                if ((r!=null) && (r.Client==null)){
                     InetSocketAddress bind=new InetSocketAddress(IpHelper.fromLong(Node.getIP()),Settings.RSR.AnyPort);
                     InetSocketAddress remote=new InetSocketAddress(IpHelper.fromLong(r.Service.getIP()),r.Service.getPort());
                     try {
@@ -400,5 +400,47 @@ public class Router {
         }
 
         return false;
+    }
+    public static boolean moveFile(long DiskId, long NamespaceId, long DomainId, long OwnerId, long OldFolderId, long NewFolderId, long FileId) {
+        Route r = Routes.get(DiskId);
+        AUDISK T = (AUDISK) r.Connection.getOwnerOrWait();
+
+
+        cMoveFile cmd = new cMoveFile();
+        cmd.DiskId=DiskId;
+        cmd.NamespaceId=NamespaceId;
+        cmd.DomainId=DomainId;
+        cmd.OwnerId=OwnerId;
+        cmd.OldFolderId=OldFolderId;
+        cmd.NewFolderId=NewFolderId;
+        cmd.FileId=FileId;
+
+        Request rq = new Request(T);
+
+        if (r!=null) {
+            while (
+                    (r.Client.State != esFinalize) &&
+                            (r.Connection.isAlive() == true)
+                    ) {
+                if (r.Connection.readyForUse()) {
+                    int loops = 10;
+                    int iLcv = 1;
+                    while (iLcv <= loops) {
+                        Response res = T.Query(cmd, null);
+                        try {
+                            return (res.Code == Ok);
+                        } finally {
+                            res.Release();
+                        }
+                    }
+
+                }
+            }
+        } else {
+            return false;
+        }
+
+        return false;
+
     }
 }

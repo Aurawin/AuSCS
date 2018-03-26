@@ -55,7 +55,7 @@ public class HTTPServerTest {
 
         BootstrapTest.createTestData();
         Certificate cert = com.aurawin.scs.stored.Entities.Lookup(Certificate.class,1l);
-        AuDisk.Initialize(BootstrapTest.nChump,cert);
+
 
         Server = new Server(mf,BootstrapTest.svcHTTP);
 

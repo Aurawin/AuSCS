@@ -4,6 +4,7 @@ import com.aurawin.core.log.Syslog;
 import com.aurawin.core.rsr.transport.Transport;
 import com.aurawin.core.rsr.transport.methods.Method;
 import com.aurawin.core.rsr.transport.methods.Result;
+import com.aurawin.scs.audisk.AuDisk;
 import com.aurawin.scs.rsr.protocol.audisk.client.Client;
 import com.aurawin.scs.rsr.protocol.audisk.def.Request;
 import com.aurawin.scs.rsr.protocol.audisk.server.Server;
@@ -52,15 +53,10 @@ public class cWriteFile extends Method{
             case Server :
                 Server s = (Server) t.Owner.Engine;
                 cWriteFile cmd = t.gson.fromJson(t.Request.Command,cWriteFile.class);
-                Disk disk = s.getDisk(cmd.DiskId);
-                if (disk!=null) {
-                    if (disk.writeFile(t.Request.Payload,cmd.NamespaceId,cmd.DomainId,cmd.OwnerId,cmd.FolderId,cmd.FileId)) {
-                        r = Ok;
-                    } else {
-                        r = Failure;
-                    }
+                if (AuDisk.writeFile(t.Request.Payload,cmd.DiskId,cmd.NamespaceId,cmd.DomainId,cmd.OwnerId,cmd.FolderId,cmd.FileId)) {
+                    r = Ok;
                 } else {
-                    r=Failure;
+                    r = Failure;
                 }
                 break;
             case Client :

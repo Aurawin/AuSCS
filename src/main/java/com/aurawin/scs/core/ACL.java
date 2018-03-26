@@ -25,7 +25,7 @@ import java.util.ArrayList;
         Package = "com.aurawin.scs.core",
         Name = "ACL",
         Namespace = "/core/acl",
-        Title = "Access Contro Plugin",
+        Title = "Access Control Plugin",
         Prompt = "Enable access controls",
         Description = "Facilitates access controls to system information.",
         Vendor = "Aurawin LLC",

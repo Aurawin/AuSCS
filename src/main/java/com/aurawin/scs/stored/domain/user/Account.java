@@ -3,6 +3,7 @@ package com.aurawin.scs.stored.domain.user;
 import com.aurawin.core.enryption.MD5;
 import com.aurawin.scs.lang.Table;
 import com.aurawin.core.stored.annotations.*;
+import com.aurawin.scs.solution.Namespace;
 import com.aurawin.scs.stored.Entities;
 import com.aurawin.core.stored.Stored;
 
@@ -26,6 +27,8 @@ import javax.persistence.Entity;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.aurawin.core.stored.entities.Entities.CascadeOff;
 
 @Entity
 @DynamicInsert(value=true)
@@ -139,6 +142,19 @@ public class Account extends Stored {
     @OneToMany(targetEntity = ACL.class, mappedBy = "Owner")
     public List<ACL>ACL = new ArrayList<ACL>();
     public boolean isGranted(long namespaceId){
+        for (ACL acl:ACL){
+            if (acl.NamespaceId==namespaceId)
+                return true;
+        }
+        return false;
+    }
+
+    @Expose(serialize = false, deserialize = false)
+    @Cascade(CascadeType.ALL)
+    @Fetch(value=FetchMode.SUBSELECT)
+    @OneToMany(targetEntity = ACL.class, mappedBy = "Owner")
+    public List<ACL>Roles = new ArrayList<ACL>();
+    public boolean isMember(long namespaceId){
         for (ACL acl:ACL){
             if (acl.NamespaceId==namespaceId)
                 return true;
@@ -343,11 +359,25 @@ public class Account extends Stored {
     public static void entityCreated(Stored Entity, boolean Cascade) throws Exception{
         if (Entity instanceof Domain){
             Domain d = (Domain) Entity;
-            Account ua = new Account(d,Table.String(Table.Entities.Domain.Root));
+            Account ua = null;
+            ACL acl = null;
+            ua = new Account(d,Table.String(Table.Entities.Domain.Root));
+            acl = new ACL(ua,Namespace.Stored.Domain.User.Role.Admin.getId());
+            Entities.Save(acl, CascadeOff);
+            ua.Roles.add(acl);
             Entities.Save(ua,Cascade);
-            d.setRootId(ua.Id);
-            Entities.Update(ua,Entities.CascadeOff);
-            Entities.Update(d,Entities.CascadeOff);
+            d.Root=ua;
+
+
+            Entities.Update(d, CascadeOff);
+
+
+            ua = new Account(d,Table.String(Table.Entities.Domain.Default));
+            acl = new ACL(ua,Namespace.Stored.Domain.User.Role.User.getId());
+            Entities.Save(acl, CascadeOff);
+            ua.Roles.add(acl);
+            ua.AllowLogin=false;
+            Entities.Save(ua,Cascade);
         }
     }
     public static void entityUpdated(Stored Entity, boolean Cascade){}

@@ -8,6 +8,7 @@ import com.aurawin.scs.lang.Table;
 import com.aurawin.scs.stored.Entities;
 import com.aurawin.core.stored.Stored;
 import com.aurawin.scs.stored.annotations.QueryByDomainId;
+import com.aurawin.scs.stored.annotations.QueryByNetworkId;
 import com.aurawin.scs.stored.domain.Domain;
 import com.aurawin.scs.stored.domain.user.Account;
 
@@ -26,6 +27,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.aurawin.core.stored.entities.Entities.CascadeOff;
 import static com.aurawin.core.stored.entities.Entities.CascadeOn;
 
 
@@ -89,11 +91,15 @@ public class Network extends Stored {
     @JoinColumn(name = Database.Field.Domain.Network.OwnerId)
     protected Account Owner;
 
+    @LazyCollection(LazyCollectionOption.FALSE)
     @Expose(serialize = true, deserialize = true)
+    @Fetch(value=FetchMode.SUBSELECT)
     @OneToMany(mappedBy = "Owner", fetch = FetchType.EAGER, targetEntity = Member.class, cascade = CascadeType.MERGE)
     protected List<Member> Members = new ArrayList<Member>();
 
+    @LazyCollection(LazyCollectionOption.FALSE)
     @Expose(serialize = false, deserialize = false)
+    @Fetch(value = FetchMode.JOIN)
     @ManyToOne(fetch=FetchType.EAGER, targetEntity = Folder.class, cascade = CascadeType.MERGE)
     @JoinColumn(name = Database.Field.Domain.Network.FolderId)
     protected Folder Root;
@@ -202,6 +208,15 @@ public class Network extends Stored {
     }
     public long getAvatarId() {  return AvatarId; }
     public void setAvatarId(long id){ AvatarId=id; }
+    public ArrayList<Folder> getAllFolders(long networkId){
+        ArrayList<Folder> r = new ArrayList<>();
+        Entities.Lookup(Folder.class.getAnnotation(QueryByNetworkId.class),networkId)
+                .stream()
+                .filter(f -> f instanceof Folder)
+                .forEach(fld -> r.add((Folder) fld)
+                );
+        return r;
+    }
     public static void entityCreated(Stored Entity, boolean Cascade) throws Exception{
         if (Entity instanceof Account) {
             Account ua = (Account) Entity;
@@ -213,7 +228,8 @@ public class Network extends Stored {
                         Table.Format(Table.Entities.Domain.User.Network.Default.Description, ua.getName())
                 );
                 ua.Networks.add(ua.Cabinet);
-                Entities.Save(ua.Cabinet,Cascade);
+                Entities.Save(ua.Cabinet,CascadeOn);
+                Entities.Update(ua,CascadeOff);
             }
         } else if (Entity instanceof Network){
             Network n = (Network) Entity;
@@ -230,7 +246,7 @@ public class Network extends Stored {
                     Network.class.getAnnotation(QueryByDomainId.class),
                     d.getId()
             );
-            Account root = Entities.Lookup(Account.class,d.getRootId());
+            Account root = Entities.Lookup(Account.class,d.Root.getId());
             for (Network n : root.Networks) {
                 Entities.Delete(n, CascadeOn);
             }

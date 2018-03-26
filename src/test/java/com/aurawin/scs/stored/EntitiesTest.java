@@ -68,7 +68,7 @@ public class EntitiesTest {
         AuDisk.Initialize(BootstrapTest.nChump,cert);
 
         Domain lD = Entities.Lookup(Domain.class,BootstrapTest.domain.getId());
-        Account lUA = Entities.Lookup(Account.class,lD.getId(), lD.getRootId());
+        Account lUA = Entities.Lookup(Account.class,lD.getId(), lD.Root.getId());
         Entities.Fetch(lUA, FetchKind.Infinite);
 
         Roster r = new Roster(lUA,"Bestie");

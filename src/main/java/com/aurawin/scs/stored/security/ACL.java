@@ -55,6 +55,17 @@ import static org.hibernate.annotations.CascadeType.ALL;
         onUpdated = false
 )
 public class ACL extends Stored {
+    public ACL(){
+
+    }
+    public ACL(Account owner, long namespaceId){
+        Owner = owner;
+        NamespaceId = namespaceId;
+        if (Owner!=null) {
+            Owner.Roles.add(this);
+        }
+    }
+
     @javax.persistence.Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = Database.Field.Security.ACL.Id)

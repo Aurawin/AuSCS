@@ -164,7 +164,7 @@ public class Admin extends Plug {
         String src = new String(h.Request.Payload.Read());
         Domain d = gson.fromJson(src,Domain.class);
         if ( (d!=null) && (d.getName()!=null) && (d.getName().length()>0) ) {
-            if ((d.getRoot().length()==0) ) d.setRoot(Table.String(Table.Entities.Domain.Root));
+            if ((d.getRootName().length()==0) ) d.setRootName(Table.String(Table.Entities.Domain.Root));
             Domain e = Entities.Lookup(Domain.class,d.getName());
             if (e!=null){
                 h.Response.Headers.Update(Field.Code,CoreResult.CoreCommandDuplicate);

@@ -4,6 +4,7 @@ import com.aurawin.core.json.Builder;
 import com.aurawin.core.plugin.FormatIO;
 import com.aurawin.core.plugin.Plug;
 import com.aurawin.core.plugin.PluginState;
+import com.aurawin.core.plugin.annotations.Plugin;
 import com.aurawin.core.rsr.Item;
 import com.aurawin.core.rsr.def.CredentialResult;
 import com.aurawin.core.rsr.def.http.Field;
@@ -24,7 +25,7 @@ import java.util.stream.Collectors;
 import static com.aurawin.core.stored.entities.Entities.CascadeOff;
 
 
-@com.aurawin.core.plugin.annotations.Plugin(
+@Plugin(
         Package = "com.aurawin.scs.core",
         Name = "Login",
         Namespace = "/core/login",
@@ -116,12 +117,6 @@ public class Login extends Plug {
                             .setParameter("Auth",h.Request.Cookies.ValueAsString(Field.Auth))
                             .uniqueResult();
             if (a!=null) {
-//                h.User = a;
-//                h.Credentials.Digest = a.getAuth();
-//                h.Credentials.Id = a.getId();
-//                h.Credentials.Password = a.getPass();
-//                h.Credentials.ACLUIds = a.ACL.stream().map(acl -> acl.NamespaceId).collect(Collectors.toList());
-//                h.Credentials.Username = a.getName();
                 h.Response.Headers.Update(Field.User,h.Credentials.Passport.Username);
                 h.Response.Headers.Update(Field.Auth, h.Credentials.Passport.Digest);
                 h.Response.Headers.Update(Field.Code, CoreResult.Ok);

@@ -4,14 +4,15 @@ import com.aurawin.core.log.Syslog;
 import com.aurawin.core.rsr.transport.Transport;
 import com.aurawin.core.rsr.transport.methods.Method;
 import com.aurawin.core.rsr.transport.methods.Result;
+
+import com.aurawin.scs.audisk.AuDisk;
 import com.aurawin.scs.lang.Table;
 import com.aurawin.scs.rsr.protocol.audisk.client.Client;
 import com.aurawin.scs.rsr.protocol.audisk.def.Request;
 import com.aurawin.scs.rsr.protocol.audisk.server.Server;
 import com.aurawin.scs.rsr.protocol.transport.AUDISK;
 import com.aurawin.scs.solution.Settings;
-import com.aurawin.scs.stored.cloud.Disk;
-import com.google.gson.annotations.Expose;
+import com.aurawin.scs.stored.cloud.Disk;import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import org.hibernate.Session;
 
@@ -52,21 +53,16 @@ public class cMoveFile extends Method {
     }
     @Override
     public Result onProcess(Session ssn, Transport transport){
-        cMoveFile cmd= null;
         Result r = None;
         AUDISK t = (AUDISK) transport;
 
         switch (t.Kind){
             case Server:
                 Server s = (Server) t.Owner.Engine;
-                Disk disk = s.getDisk(DiskId);
-                cmd = t.gson.fromJson(t.Request.Command,cMoveFile.class);
-                if (disk!=null) {
-                    if (disk.moveFile(cmd.NamespaceId,cmd.DomainId,cmd.OwnerId,cmd.OldFolderId,cmd.NewFolderId,cmd.FileId)){
-                        r = Ok;
-                    } else {
-                        r = Failure;
-                    }
+                cMoveFile cmd = t.gson.fromJson(t.Request.Command,cMoveFile.class);
+
+                if (AuDisk.moveFile(cmd.DiskId,cmd.NamespaceId,cmd.DomainId,cmd.OwnerId,cmd.OldFolderId,cmd.NewFolderId,cmd.FileId)){
+                    r = Ok;
                 } else {
                     r = Failure;
                 }
