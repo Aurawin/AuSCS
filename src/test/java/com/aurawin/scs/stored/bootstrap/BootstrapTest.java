@@ -24,6 +24,7 @@ public class BootstrapTest {
     public static Node nChump;
     public static Node nAu1;
     public static Node nAu2;
+    public static Node nDisk;
 
     public static Account account;
     public static Service svcHTTP;
@@ -69,6 +70,9 @@ public class BootstrapTest {
         rcChump = Bootstrap.Cloud.addResource(gp,"Chump");
         nPhoenix = Bootstrap.Cloud.addNode(rcPhoenix,"phoenix","172.16.1.1");
         nChump = Bootstrap.Cloud.addNode(rcChump,"chump","172.16.1.2");
+
+        nDisk = nPhoenix;
+
         nAu1 = Bootstrap.Cloud.addNode(rcPhoenix,"au1","107.218.165.193");
         nAu2 = Bootstrap.Cloud.addNode(rcChump,"au2","107.218.165.194");
 
@@ -90,7 +94,7 @@ public class BootstrapTest {
                 1
         );
         auDisk = Bootstrap.Cloud.addDisk(nPhoenix,svcAUDISK,Mount);
-        AuDisk.Initialize(nChump,Cert);
+        AuDisk.Initialize(nDisk,Cert);
 
 
 
