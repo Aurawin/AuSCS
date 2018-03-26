@@ -48,8 +48,7 @@ public class HTTPServerTest {
                 Bootstrap.buildAnnotations()
         );
 
-
-        Entities.Initialize(mf);
+       Entities.Initialize(mf);
 
         com.aurawin.scs.rsr.protocol.http.Server.Bootstrap();
 

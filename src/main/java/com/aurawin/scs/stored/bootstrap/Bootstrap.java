@@ -31,10 +31,6 @@ public class Bootstrap {
         al.addAll(com.aurawin.scs.stored.bootstrap.Stored.buildAnnotations());
         return al;
     }
-    public static ArrayList<UniqueId> buildNamespaces(){
-        return Namespace.Discover();
-    }
-
 
     public static Domain addDomain(String name) throws Exception{
         Domain d = new Domain(name, Table.String(Table.Entities.Domain.Root));

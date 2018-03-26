@@ -47,7 +47,7 @@ public class AuraDiskServerTest {
                 Bootstrap.buildAnnotations()
         );
         Entities.Initialize(mf);
-
+        com.aurawin.scs.stored.Entities.Identify(Namespace.Discover());
 
         BootstrapTest.createTestData();
 
@@ -61,6 +61,7 @@ public class AuraDiskServerTest {
         Server.rootId = BootstrapTest.account.getId();
         Server.Realm = BootstrapTest.domain.getName();
         Server.realmId = BootstrapTest.domain.getId();
+
 
         Server.Configure();
     }

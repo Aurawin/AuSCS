@@ -83,6 +83,8 @@ public class AuraDiskClientTest {
         );
 
         Entities.Initialize(mf);
+        Entities.Identify(Namespace.Discover());
+
         nServer = Entities.Lookup(Node.class,1l);
         nClient = Entities.Lookup(Node.class,2l);
         Certificate cert = Entities.Lookup(Certificate.class,1l);
@@ -95,8 +97,6 @@ public class AuraDiskClientTest {
 
         Engine.SSL.Load(cert);
         Engine.Infinite=true;
-
-        Engine.SSL.Enabled=true;
         Engine.Configure();
     }
 

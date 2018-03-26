@@ -3,9 +3,6 @@ package com.aurawin.scs.solution;
 import com.aurawin.core.stored.entities.UniqueId;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
 
 public class Namespace extends com.aurawin.core.solution.Namespace {
     public static class Stored {
@@ -87,16 +84,6 @@ public class Namespace extends com.aurawin.core.solution.Namespace {
         l.add(Stored.Domain.Network.Permission);
         l.add(Stored.Domain.Network.Standing);
 
-
-
         return l;
-    }
-    public static void Merge(ArrayList<UniqueId> Destination){
-        ArrayList<UniqueId> l = Discover();
-        Destination.addAll(l);
-        Set<UniqueId> hs = new HashSet<>();
-        hs.addAll(Destination);
-        Destination.clear();
-        Destination.addAll(hs);
     }
 }
