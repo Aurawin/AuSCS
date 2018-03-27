@@ -33,7 +33,9 @@ public class Settings extends com.aurawin.core.solution.Settings {
         }
         public static class Router{
             public static final int ConnectionYield = 300;
+            public static final int ScanTimerFastYield = 500;
             public static final int ScanTimerYield = 1000*60*2;
+            public static final int ObtainRouteYield = 250;
             public static final int EntitiesLoadingDelay = 1800;
         }
     }

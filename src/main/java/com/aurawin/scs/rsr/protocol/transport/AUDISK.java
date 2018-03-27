@@ -265,7 +265,7 @@ public class AUDISK extends Item implements Transport
         queueSend();
     }
 
-    public Response Query(Method cmd, MemoryStream Payload) {
+    public Response Query(Method cmd, MemoryStream Input, MemoryStream Output) {
         Response res = null;
         Request req = new Request(this);
         try {
@@ -274,9 +274,10 @@ public class AUDISK extends Item implements Transport
             req.Protocol = Version.toString();
             req.Method = cmd.getKey();
             req.Command = gson.toJson(cmd);
-            if (Payload != null) {
-                req.Size = Payload.Size;
-                req.Payload = Payload;
+            if (Input != null) {
+                Input.Position=0;
+                Input.Move(req.Payload);
+                req.Size = req.Payload.Size;
             } else {
                 req.Size = 0;
             }
@@ -299,8 +300,14 @@ public class AUDISK extends Item implements Transport
                         .findFirst()
                         .orElse(null);
                 try {
-                    if (res == null)
+
+                    if (res == null) {
                         Thread.sleep(Settings.RSR.TransportConnect.ResponseDelay);
+                    } else {
+                        if (Output!=null){
+                            res.Payload.Move(Output);
+                        }
+                    }
 
                 } catch (InterruptedException ie) {
                     return null;

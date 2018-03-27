@@ -2,6 +2,7 @@ package com.aurawin.scs.rsr.protocol.transport;
 
 import com.aurawin.core.rsr.def.ItemKind;
 import com.aurawin.core.rsr.transport.annotations.Protocol;
+import com.aurawin.core.stream.MemoryStream;
 import com.aurawin.scs.rsr.protocol.audisk.def.version.Version;
 import com.aurawin.scs.rsr.protocol.audisk.method.command.cReadFile;
 
@@ -25,6 +26,7 @@ public class AUDISKTest extends AUDISK {
         if (State== isEstablished) {
             if (!issued) {
                 issued = true;
+                MemoryStream File = new MemoryStream();
                 cReadFile cmd = new cReadFile();
 
                 cmd.DiskId = 1;
@@ -34,7 +36,12 @@ public class AUDISKTest extends AUDISK {
                 cmd.NamespaceId = 1;
                 cmd.OwnerId = 1234;
 
-                Response = Query(cmd,null);
+                Response = Query(cmd,null, File);
+                try {
+
+                }finally {
+                    Response.Release();
+                }
             } else {
 
             }

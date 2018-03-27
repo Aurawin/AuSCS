@@ -64,7 +64,8 @@ public class Response {
         Protocol = null;
         Method = null;
         Code  = null;
-        Payload.Release();
+        if (Payload!=null)
+          Payload.Release();
         Payload=null;
     }
     public void setOwner(AUDISK owner){

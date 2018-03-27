@@ -1,5 +1,6 @@
 package com.aurawin.scs.audisk.router;
 
+import com.aurawin.core.Memo;
 import com.aurawin.core.log.Syslog;
 import com.aurawin.core.rsr.IpHelper;
 import com.aurawin.core.rsr.Item;
@@ -40,7 +41,7 @@ public class Router {
     public static Node Node;
     public static Certificate Certificate;
     public static Version Version = new Version();
-    public static ConcurrentHashMap<Long,Route> Routes = new ConcurrentHashMap<Long, Route>();
+    private static ConcurrentHashMap<Long,Route> Routes = new ConcurrentHashMap<Long, Route>();
 
     public static void Initialize(Node node, Certificate cert){
         Node = node;
@@ -49,6 +50,24 @@ public class Router {
             TimerStarted=true;
             Timer.start();
         }
+    }
+    public static Route getRoute(long DiskId){
+        Route route=null;
+        boolean terminated= false;
+        while ((route==null) && (!terminated)) {
+            route = Routes.get(DiskId);
+            if (route==null) {
+                try{
+                  Thread.sleep(Settings.AuDisk.Router.ObtainRouteYield);
+                } catch (InterruptedException ie){
+                    terminated=true;
+                }
+            }
+        }
+        return route;
+    }
+    public static int getRouteCount(){
+        return Routes.size();
     }
     protected static void scanForRoutes(){
         invalidateRoutes();
@@ -67,19 +86,24 @@ public class Router {
                         Routes.put(d.getId(), r);
                     }
                 }
-                if ((r!=null) && (r.Client==null)){
-                    InetSocketAddress bind=new InetSocketAddress(IpHelper.fromLong(Node.getIP()),Settings.RSR.AnyPort);
-                    InetSocketAddress remote=new InetSocketAddress(IpHelper.fromLong(r.Service.getIP()),r.Service.getPort());
-                    try {
-                        r.Client = new Client(bind, remote);
-                        if (Certificate!=null) {
-                            r.Client.SSL.Load(Certificate);
+                if (r!=null) {
+                    r.Valid = true;
+                    if (r.Client==null) {
+
+                        InetSocketAddress bind = new InetSocketAddress(IpHelper.fromLong(Node.getIP()), Settings.RSR.AnyPort);
+                        InetSocketAddress remote = new InetSocketAddress(IpHelper.fromLong(r.Service.getIP()), r.Service.getPort());
+                        try {
+                            r.Client = new Client(bind, remote);
+                            if (Certificate != null) {
+                                r.Client.SSL.Load(Certificate);
+                            }
+                            r.Connection = r.Client.Connect(remote, Settings.RSR.TransportConnect.Persist.Infinite);
+                        } catch (Exception ex) {
+                            Syslog.Append("Router", "scanForRoutes.MakeClientConnection", ex.getMessage());
                         }
-                        r.Connection = r.Client.Connect(remote, Settings.RSR.TransportConnect.Persist.Infinite);
-                    } catch (Exception ex){
-                        Syslog.Append("Router", "scanForRoutes.MakeClientConnection",ex.getMessage());
                     }
                 }
+
             }
         }
         // Release disks from pool of disks on route
@@ -96,7 +120,7 @@ public class Router {
     }
 
     public static String[] listFiles(long DiskId, long NamespaceId, long DomainId, long OwnerId, long FolderId){
-        Route r = Routes.get(DiskId);
+        Route r = getRoute(DiskId);
         if (r!=null) {
             while (
                     (r.Client.State != esFinalize) &&
@@ -113,7 +137,7 @@ public class Router {
                     int loops = 10;
                     int iLcv=1;
                     while (iLcv<=loops) {
-                        Response res = T.Query(cmd, null);
+                        Response res = T.Query(cmd, null,null);
                         try {
                             if (res.Code == Ok) {
                                 String[] result = T.gson.fromJson(res.Payload.toString(), String[].class);
@@ -149,7 +173,7 @@ public class Router {
         // construct query...
         // send query
         // get result...
-        Route r = Routes.get(DiskId);
+        Route r = getRoute(DiskId);
         AUDISK T = (AUDISK) r.Connection.getOwnerOrWait();
 
 
@@ -170,7 +194,7 @@ public class Router {
                     int loops = 10;
                     int iLcv = 1;
                     while (iLcv <= loops) {
-                        Response res = T.Query(cmd, null);
+                        Response res = T.Query(cmd, null,null);
                         try {
                             return (res.Code == Ok);
                         } finally {
@@ -190,7 +214,7 @@ public class Router {
         // construct query...
         // send query
         // get result...
-        Route r = Routes.get(DiskId);
+        Route r = getRoute(DiskId);
         AUDISK T = (AUDISK) r.Connection.getOwnerOrWait();
 
 
@@ -211,7 +235,7 @@ public class Router {
                     int loops = 10;
                     int iLcv = 1;
                     while (iLcv <= loops) {
-                        Response res = T.Query(cmd, null);
+                        Response res = T.Query(cmd, null,null);
                         try {
                             return (res.Code == Ok);
                         } finally {
@@ -231,7 +255,7 @@ public class Router {
         // construct query...
         // send query
         // get result...
-        Route r = Routes.get(DiskId);
+        Route r = getRoute(DiskId);
         AUDISK T = (AUDISK) r.Connection.getOwnerOrWait();
 
 
@@ -253,7 +277,7 @@ public class Router {
                     int loops = 10;
                     int iLcv = 1;
                     while (iLcv <= loops) {
-                        Response res = T.Query(cmd, null);
+                        Response res = T.Query(cmd, null,null);
                         try {
                             return (res.Code == Ok);
                         } finally {
@@ -273,7 +297,7 @@ public class Router {
         // construct query...
         // send query
         // get result...
-        Route r = Routes.get(DiskId);
+        Route r = getRoute(DiskId);
         AUDISK T = (AUDISK) r.Connection.getOwnerOrWait();
 
 
@@ -295,7 +319,7 @@ public class Router {
                     int loops = 10;
                     int iLcv = 1;
                     while (iLcv <= loops) {
-                        Response res = T.Query(cmd, null);
+                        Response res = T.Query(cmd, null,null);
                         try {
                             return (res.Code == Ok);
                         } finally {
@@ -311,11 +335,11 @@ public class Router {
 
         return false;
     }
-    public static boolean writeFile(MemoryStream Data, long DiskId, long NamespaceId, long DomainId, long OwnerId, long FolderId, long FileId){
+    public static boolean writeFile(MemoryStream Input,long DiskId, long NamespaceId, long DomainId, long OwnerId, long FolderId, long FileId){
         // construct query...
         // send query
         // get result...
-        Route r = Routes.get(DiskId);
+        Route r = getRoute(DiskId);
         AUDISK T = (AUDISK) r.Connection.getOwnerOrWait();
 
 
@@ -337,7 +361,7 @@ public class Router {
                     int loops = 10;
                     int iLcv = 1;
                     while (iLcv <= loops) {
-                        Response res = T.Query(cmd, Data);
+                        Response res = T.Query(cmd, Input, null);
                         try {
                             res.Payload = null;
                             return (res.Code == Ok);
@@ -358,7 +382,7 @@ public class Router {
         // construct query...
         // send query
         // get result...
-        Route r = Routes.get(DiskId);
+        Route r = getRoute(DiskId);
         AUDISK T = (AUDISK) r.Connection.getOwnerOrWait();
 
 
@@ -380,7 +404,7 @@ public class Router {
                     int loops = 10;
                     int iLcv = 1;
                     while (iLcv <= loops) {
-                        Response res = T.Query(cmd, Data);
+                        Response res = T.Query(cmd, null, Data);
                         try {
                             res.Payload.Move(Data);
                             return (res.Code == Ok);
@@ -398,7 +422,7 @@ public class Router {
         return false;
     }
     public static boolean moveFile(long DiskId, long NamespaceId, long DomainId, long OwnerId, long OldFolderId, long NewFolderId, long FileId) {
-        Route r = Routes.get(DiskId);
+        Route r = getRoute(DiskId);
         AUDISK T = (AUDISK) r.Connection.getOwnerOrWait();
 
 
@@ -421,7 +445,7 @@ public class Router {
                     int loops = 10;
                     int iLcv = 1;
                     while (iLcv <= loops) {
-                        Response res = T.Query(cmd, null);
+                        Response res = T.Query(cmd, null, null);
                         try {
                             return (res.Code == Ok);
                         } finally {

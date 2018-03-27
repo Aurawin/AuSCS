@@ -56,15 +56,16 @@ public class AuraDiskClientTest {
     UniqueId Kind;
     AUDISK t;
     AuraDiskClientTestClient Engine;
+    String TestString;
 
     @Before
     public void before() throws Exception{
         bldr = new Builder();
         gson = bldr.Create();
-
+        TestString  = "Testing";
         Input = new MemoryStream();
         Output = new MemoryStream();
-        Input.Write("Testing");
+        Input.Write(TestString);
 
         Kind= Namespace.Stored.Domain.Network.File;
         Settings.Initialize(
@@ -124,7 +125,7 @@ public class AuraDiskClientTest {
             if (AuDisk.makeFile(DiskId, Kind.getId(), DomainId, OwnerId, FolderId, FileId)) {
                 AuDisk.writeFile(Input, DiskId, Kind.getId(), DomainId, OwnerId, FolderId, FileId);
                 AuDisk.readFile(Output, DiskId, Kind.getId(), DomainId, OwnerId, FolderId, FileId);
-                assert(Input.toString().equals(Output.toString()));
+                assert(TestString.equals(Output.toString()));
             } else {
                 throw new Exception("AuDisk [makeFile] command failed.");
             }
