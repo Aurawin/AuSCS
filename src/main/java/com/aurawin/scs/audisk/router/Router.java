@@ -160,9 +160,8 @@ public class Router {
         cmd.OwnerId=OwnerId;
         cmd.FolderId=FolderId;
 
-        Request rq = new Request(T);
 
-        if (r!=null) {
+        if (r != null) {
             while (
                     (r.Client.State != esFinalize) &&
                             (r.Connection.isAlive() == true)
@@ -202,9 +201,8 @@ public class Router {
         cmd.OwnerId=OwnerId;
         cmd.FolderId=FolderId;
 
-        Request rq = new Request(T);
 
-        if (r!=null) {
+        if (r != null) {
             while (
                     (r.Client.State != esFinalize) &&
                             (r.Connection.isAlive() == true)
@@ -245,9 +243,8 @@ public class Router {
         cmd.FolderId=FolderId;
         cmd.FileId=FileId;
 
-        Request rq = new Request(T);
 
-        if (r!=null) {
+        if (r != null) {
             while (
                     (r.Client.State != esFinalize) &&
                             (r.Connection.isAlive() == true)
@@ -288,7 +285,6 @@ public class Router {
         cmd.FolderId=FolderId;
         cmd.FileId=FileId;
 
-        Request rq = new Request(T);
 
         if (r!=null) {
             while (
@@ -331,9 +327,8 @@ public class Router {
         cmd.FolderId=FolderId;
         cmd.FileId=FileId;
 
-        Request rq = new Request(T);
 
-        if (r!=null) {
+        if (r != null) {
             while (
                     (r.Client.State != esFinalize) &&
                             (r.Connection.isAlive() == true)
@@ -344,6 +339,7 @@ public class Router {
                     while (iLcv <= loops) {
                         Response res = T.Query(cmd, Data);
                         try {
+                            res.Payload = null;
                             return (res.Code == Ok);
                         } finally {
                             res.Release();
@@ -374,9 +370,8 @@ public class Router {
         cmd.FolderId=FolderId;
         cmd.FileId=FileId;
 
-        Request rq = new Request(T);
 
-        if (r!=null) {
+        if (r != null) {
             while (
                     (r.Client.State != esFinalize) &&
                             (r.Connection.isAlive() == true)
@@ -387,6 +382,7 @@ public class Router {
                     while (iLcv <= loops) {
                         Response res = T.Query(cmd, Data);
                         try {
+                            res.Payload.Move(Data);
                             return (res.Code == Ok);
                         } finally {
                             res.Release();
@@ -415,7 +411,6 @@ public class Router {
         cmd.NewFolderId=NewFolderId;
         cmd.FileId=FileId;
 
-        Request rq = new Request(T);
 
         if (r!=null) {
             while (

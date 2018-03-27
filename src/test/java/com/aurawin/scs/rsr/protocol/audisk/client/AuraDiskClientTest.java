@@ -12,6 +12,7 @@ import com.aurawin.core.stored.Driver;
 import com.aurawin.core.stored.Manifest;
 import com.aurawin.core.stored.entities.UniqueId;
 import com.aurawin.core.stored.entities.security.Certificate;
+import com.aurawin.core.stream.MemoryStream;
 import com.aurawin.scs.audisk.AuDisk;
 import com.aurawin.scs.audisk.router.Router;
 import com.aurawin.scs.rsr.protocol.audisk.def.Response;
@@ -26,6 +27,7 @@ import com.aurawin.scs.stored.Entities;
 import com.aurawin.scs.stored.bootstrap.Bootstrap;
 import com.aurawin.scs.stored.cloud.Node;
 import com.google.gson.Gson;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -41,6 +43,9 @@ public class AuraDiskClientTest {
     long DomainId=1;
     long OwnerId=1;
     long FolderId=1;
+    long FileId = 1;
+    MemoryStream Input;
+    MemoryStream Output;
     Node nClient;
     Node nServer;
     String sJSON;
@@ -57,6 +62,9 @@ public class AuraDiskClientTest {
         bldr = new Builder();
         gson = bldr.Create();
 
+        Input = new MemoryStream();
+        Output = new MemoryStream();
+        Input.Write("Testing");
 
         Kind= Namespace.Stored.Domain.Network.File;
         Settings.Initialize(
@@ -112,10 +120,17 @@ public class AuraDiskClientTest {
 
         tcData=Engine.Connect(saServer,true);
 
+        if (AuDisk.makeFolder(DiskId,Kind.getId(),DomainId,OwnerId,FolderId)) {
+            if (AuDisk.makeFile(DiskId, Kind.getId(), DomainId, OwnerId, FolderId, FileId)) {
+                AuDisk.writeFile(Input, DiskId, Kind.getId(), DomainId, OwnerId, FolderId, FileId);
+                AuDisk.readFile(Output, DiskId, Kind.getId(), DomainId, OwnerId, FolderId, FileId);
+                assert(Input.toString().equals(Output.toString()));
+            } else {
+                throw new Exception("AuDisk [makeFile] command failed.");
+            }
 
-        String[] Result = AuDisk.listFiles(DiskId,Kind.getId(),DomainId,OwnerId,FolderId);
-        if (Result==null){
-            throw new Exception("AuDisk [listFiles] command failed.");
+        } else {
+            throw new Exception("AuDisk [makeFolder] command failed.");
         }
     }
 }
