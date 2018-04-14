@@ -9,6 +9,7 @@ public class Stored {
     public static AnnotatedList buildAnnotations() {
         AnnotatedList aL = new AnnotatedList();
 
+        aL.add(com.aurawin.scs.stored.ContentType.class);
 
         aL.add(com.aurawin.scs.stored.cloud.Disk.class);
         aL.add(com.aurawin.scs.stored.cloud.Group.class);

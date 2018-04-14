@@ -40,6 +40,9 @@ public class Settings extends com.aurawin.core.solution.Settings {
         }
     }
     public static class Stored{
+        public static class ContentType{
+            public static final int LoadDelay = 1800;
+        }
         public static class Cloud{
             public static class Service{
                 public static class Port{

@@ -33,19 +33,12 @@ import java.util.ArrayList;
         Transport = HTTP_1_1.class
 )
 public class ACL extends Plug {
-    private Builder bldr;
-    public Gson gson;
-
     @Override
     public PluginState Setup(Session ssn){
-        bldr = new Builder();
-        gson = bldr.Create();
         return super.Setup(ssn);
     }
     @Override
     public PluginState Teardown(Session ssn){
-        bldr = null;
-        gson = null;
         return PluginState.PluginSuccess;
     }
     @Command(
@@ -62,7 +55,8 @@ public class ACL extends Plug {
         HTTP_1_1 h = (HTTP_1_1) Transport;
         Server s = (Server) h.Owner.Engine;
         ArrayList<Plug> pgs = s.Plugins.toArrayList();
-        h.Response.Payload.Write(gson.toJson(pgs));
+        writeObjects(h.Response.Payload,pgs);
+
         h.Response.Headers.Update(Field.Code,CoreResult.Ok);
         return PluginState.PluginSuccess;
     }

@@ -16,10 +16,12 @@ import org.hibernate.Session;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.InetSocketAddress;
+import com.aurawin.scs.rsr.ContentTypes;
 
 import static com.aurawin.scs.stored.bootstrap.Plugins.initializePlugin;
 
 public class Server extends com.aurawin.core.rsr.server.Server{
+    public ContentTypes ContentTypes = new ContentTypes();
     public Service Service;
     public Domain Domain;
     public Node Node;
@@ -31,6 +33,7 @@ public class Server extends com.aurawin.core.rsr.server.Server{
         Session ssn = Entities.openSession();
         try{
             Namespace.Discover().stream().forEach(uid-> uid.Identify(ssn));
+
 
             initializePlugin(com.aurawin.scs.core.admin.cms.CMS.class,ssn);
             initializePlugin(com.aurawin.scs.core.admin.cms.Domain.class,ssn);
@@ -44,6 +47,8 @@ public class Server extends com.aurawin.core.rsr.server.Server{
             initializePlugin(com.aurawin.scs.core.Avatar.class,ssn);
             initializePlugin(com.aurawin.scs.core.Login.class,ssn);
             initializePlugin(com.aurawin.scs.core.Noid.class,ssn);
+
+            initializePlugin(com.aurawin.scs.core.social.Cabinet.class,ssn);
 
         } finally{
             ssn.close();

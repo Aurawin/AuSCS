@@ -28,19 +28,16 @@ import static com.aurawin.core.stored.entities.Entities.CascadeOn;
         Transport = HTTP_1_1.class
 )
 public class Account extends Plug {
-    private Builder bldr;
-    public Gson gson;
+
 
     @Override
     public PluginState Setup(Session ssn){
-        bldr = new Builder();
-        gson = bldr.Create();
+
         return super.Setup(ssn);
     }
     @Override
     public PluginState Teardown(Session ssn){
-        bldr = null;
-        gson = null;
+
         return PluginState.PluginSuccess;
     }
     @Command(
@@ -56,11 +53,11 @@ public class Account extends Plug {
     public PluginState Read(Session ssn, Item Transport){
         HTTP_1_1 h = (HTTP_1_1) Transport;
         Server s = (Server) h.Owner.Engine;
-        long id =  h.Request.Headers.ValueAsLong(Field.Search, -1l);
+        long id =  h.Request.Headers.ValueAsLong(Field.Query, -1l);
         if (id!=-1l) {
             com.aurawin.scs.stored.domain.user.Account a = Entities.Lookup(com.aurawin.scs.stored.domain.user.Account.class, id);
             if (a != null) {
-                h.Response.Payload.Write(gson.toJson(a));
+                writeObject(h.Response.Payload, a);
                 h.Response.Headers.Update(Field.Code,CoreResult.Ok);
             } else {
                 h.Response.Headers.Update(Field.Code,CoreResult.CoreCommandDMSFailure);
@@ -84,13 +81,12 @@ public class Account extends Plug {
     public PluginState Write(Session ssn, Item Transport){
         HTTP_1_1 h = (HTTP_1_1) Transport;
         Server s = (Server) h.Owner.Engine;
-        String src = new String(h.Request.Payload.Read());
-        com.aurawin.scs.stored.domain.user.Account a = gson.fromJson(src, com.aurawin.scs.stored.domain.user.Account.class);
+        com.aurawin.scs.stored.domain.user.Account a = readObject(h.Request.Payload, com.aurawin.scs.stored.domain.user.Account.class);
         if (a.getId()>0) {
             com.aurawin.scs.stored.domain.user.Account e= Entities.Lookup(com.aurawin.scs.stored.domain.user.Account.class, a.getId());
             if (e != null) {
                 e.Assign(a);
-                h.Response.Payload.Write(gson.toJson(e));
+                writeObject(h.Response.Payload, e);
                 h.Response.Headers.Update(Field.Code,CoreResult.Ok);
             } else {
                 h.Response.Headers.Update(Field.Code,CoreResult.CoreCommandDMSFailure);
@@ -114,8 +110,7 @@ public class Account extends Plug {
     public PluginState DiskConsumption(Session ssn, Item Transport){
         HTTP_1_1 h = (HTTP_1_1) Transport;
         Server s = (Server) h.Owner.Engine;
-        String src = new String(h.Request.Payload.Read());
-        long id =  h.Request.Headers.ValueAsLong(Field.Search, -1l);
+        long id =  h.Request.Headers.ValueAsLong(Field.Query, -1l);
         com.aurawin.scs.stored.domain.user.Account a = Entities.Lookup(com.aurawin.scs.stored.domain.user.Account.class,id);
         if (a!=null) {
             long c = (long) ssn.getNamedQuery(Database.Query.Domain.Network.File.ConsumptionByOwnerId.name)
@@ -125,7 +120,7 @@ public class Account extends Plug {
             a.setConsumption(c);
             try {
                 Entities.Update(a,CascadeOn);
-                h.Response.Payload.Write(gson.toJson(a));
+                writeObject(h.Response.Payload, a);
                 h.Response.Headers.Update(Field.Code, CoreResult.Ok);
 
             } catch (Exception ex){
