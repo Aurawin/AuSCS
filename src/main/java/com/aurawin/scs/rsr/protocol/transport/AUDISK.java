@@ -178,7 +178,7 @@ public class AUDISK extends Item implements Transport
         byte[] aHeaders;
         String[] saLine;
         String sLine;
-        idxLineEnd = Bytes.indexOf(input, Settings.RSR.Items.Header.Separator.getBytes(), 0);
+        idxLineEnd = Bytes.indexOf(input, Settings.RSR.Items.Header.Separator.getBytes(), 0l,0);
         if (idxLineEnd > -1) {
             iChunk = iOffset + idxLineEnd;
             aLine = new byte[iChunk];

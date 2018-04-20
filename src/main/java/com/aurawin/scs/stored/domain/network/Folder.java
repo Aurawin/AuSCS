@@ -58,9 +58,14 @@ import static com.aurawin.core.stored.entities.Entities.CascadeOn;
                 @NamedQuery(
                         name  = Database.Query.Domain.Network.Folder.ById.name,
                         query = Database.Query.Domain.Network.Folder.ById.value
+                ),
+                @NamedQuery(
+                        name  = Database.Query.Domain.Network.Folder.ByParentId.name,
+                        query = Database.Query.Domain.Network.Folder.ByParentId.value
                 )
         }
 )
+@QueryByParentId(Name = Database.Query.Domain.Network.Folder.ByParentId.name)
 @QueryByDomainId(Name = Database.Query.Domain.Network.Folder.ByDomainId.name)
 @QueryByNetworkId(Name = Database.Query.Domain.Network.Folder.ByNetworkId.name)
 @QueryById(

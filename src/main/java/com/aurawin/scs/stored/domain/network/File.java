@@ -9,6 +9,7 @@ import com.aurawin.core.stored.annotations.*;
 import com.aurawin.scs.stored.annotations.QueryByDomainId;
 import com.aurawin.scs.stored.annotations.QueryByFolderId;
 import com.aurawin.scs.stored.annotations.QueryByNetworkId;
+import com.aurawin.scs.stored.annotations.QueryByParentId;
 import com.aurawin.scs.stored.domain.Domain;
 
 import com.aurawin.scs.stored.domain.user.Account;
@@ -20,6 +21,7 @@ import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.SelectBeforeUpdate;
 
 import javax.persistence.*;
+import javax.xml.crypto.Data;
 import java.time.Instant;
 import java.util.ArrayList;
 
@@ -51,6 +53,10 @@ import static com.aurawin.core.stored.entities.Entities.CascadeOn;
                 @NamedQuery(
                         name  = Database.Query.Domain.Network.File.ConsumptionByOwnerId.name,
                         query = Database.Query.Domain.Network.File.ConsumptionByOwnerId.value
+                ),
+                @NamedQuery(
+                        name  = Database.Query.Domain.Network.File.ByParentId.name,
+                        query = Database.Query.Domain.Network.File.ByParentId.value
                 )
         }
 )
@@ -67,6 +73,7 @@ import static com.aurawin.core.stored.entities.Entities.CascadeOn;
                 "Id"
         }
 )
+@QueryByParentId(Name = Database.Query.Domain.Network.File.ByParentId.name)
 @QueryByDomainId(Name=Database.Query.Domain.Network.File.ByDomainId.name)
 @QueryByNetworkId(Name=Database.Query.Domain.Network.File.ByNetworkId.name)
 @QueryByFolderId(Name=Database.Query.Domain.Network.File.ByFolderId.name)

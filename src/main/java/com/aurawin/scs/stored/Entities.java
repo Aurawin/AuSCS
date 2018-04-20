@@ -1,6 +1,7 @@
 package com.aurawin.scs.stored;
 
 import com.aurawin.core.stored.Stored;
+import com.aurawin.core.stored.annotations.QueryByOwnerId;
 import com.aurawin.scs.stored.annotations.*;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
@@ -73,6 +74,24 @@ public class Entities extends com.aurawin.core.stored.entities.Entities{
         }
     }
     @SuppressWarnings("unchecked")
+    public static ArrayList<Stored> LookupByParentId(Class<? extends  Stored>CofE, long ParentId){
+        Session ssn = acquireSession();
+        if (ssn==null) return new ArrayList<Stored>();
+        try {
+            QueryByParentId qc = CofE.getAnnotation(QueryByParentId.class);
+            Query q = ssn.getNamedQuery(qc.Name())
+                    .setParameter("ParentId", ParentId);
+            if (q != null) {
+                return new ArrayList(q.list());
+            } else {
+                return null;
+            }
+        } finally {
+            ssn.close();
+        }
+    }
+
+    @SuppressWarnings("unchecked")
     public static <T extends Stored>T Lookup(Class<? extends Stored> CofE,long DomainId, long Id){
         Session ssn = acquireSession();
         if (ssn==null) return null;
@@ -103,4 +122,5 @@ public class Entities extends com.aurawin.core.stored.entities.Entities{
             ssn.close();
         }
     }
+
 }

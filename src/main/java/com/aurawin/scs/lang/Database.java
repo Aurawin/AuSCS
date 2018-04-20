@@ -372,6 +372,10 @@ public class Database extends com.aurawin.core.lang.Database {
                         public static final String name = "QueryDomainNetworkFolderById";
                         public static final String value = "from Folder where DomainId=:DomainId and Id=:Id";
                     }
+                    public static class ByParentId {
+                        public static final String name = "QueryDomainNetworkFolderByParentId";
+                        public static final String value = "from Folder where ParentId=:Id";
+                    }
                     public static class ByDomainId {
                         public static final String name = "QueryDomainNetworkFolderByDomainId";
                         public static final String value = "from Folder where DomainId=:DomainId";
@@ -399,6 +403,10 @@ public class Database extends com.aurawin.core.lang.Database {
                     public static class ById {
                         public static final String name = "QueryDomainNetworkFileById";
                         public static final String value = "from File where DomainId=:DomainId and NetworkId=:NetworkId and Id=:Id";
+                    }
+                    public static class ByParentId {
+                        public static final String name = "QueryDomainNetworkFileByParentId";
+                        public static final String value = "from File where FolderId=:Id";
                     }
                     public static class ByDomainId {
                         public static final String name = "QueryDomainNetworkFileByDomainId";

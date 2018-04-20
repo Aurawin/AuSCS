@@ -13,9 +13,6 @@ public class Settings extends com.aurawin.core.solution.Settings {
             public static long RecentItemsTimeWindowInSeconds=60*2; // 2 minutes
         }
     }
-    public static class RSR extends com.aurawin.core.solution.Settings.RSR{
-        public static int ResponseToQueryDelay = 1000*60;
-    }
     public static class AuDisk{
 
         public static final String Protocol = "AUDISK";
