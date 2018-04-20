@@ -13,6 +13,7 @@ public class Settings extends com.aurawin.core.solution.Settings {
             public static long RecentItemsTimeWindowInSeconds=60*2; // 2 minutes
         }
     }
+
     public static class AuDisk{
 
         public static final String Protocol = "AUDISK";
