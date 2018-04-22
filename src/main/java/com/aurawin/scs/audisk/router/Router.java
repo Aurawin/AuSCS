@@ -1,26 +1,19 @@
 package com.aurawin.scs.audisk.router;
 
-import com.aurawin.core.Memo;
 import com.aurawin.core.log.Syslog;
 import com.aurawin.core.rsr.IpHelper;
-import com.aurawin.core.rsr.Item;
-import com.aurawin.core.rsr.def.EngineState;
-import com.aurawin.core.rsr.def.TransportConnect;
 import com.aurawin.core.stored.Stored;
 import com.aurawin.core.stored.annotations.QueryAll;
 import com.aurawin.core.stored.annotations.QueryByOwnerId;
 import com.aurawin.core.stored.entities.Entities;
 import com.aurawin.core.stored.entities.security.Certificate;
 import com.aurawin.core.stream.MemoryStream;
-import com.aurawin.scs.audisk.AuDisk;
 import com.aurawin.scs.rsr.protocol.audisk.client.Client;
-import com.aurawin.scs.rsr.protocol.audisk.def.Request;
 import com.aurawin.scs.rsr.protocol.audisk.def.Response;
 import com.aurawin.scs.rsr.protocol.audisk.def.version.Version;
 import com.aurawin.scs.rsr.protocol.audisk.method.command.*;
 
 import com.aurawin.scs.rsr.protocol.transport.AUDISK;
-import com.aurawin.scs.solution.Namespace;
 import com.aurawin.scs.solution.Settings;
 import com.aurawin.scs.stored.cloud.Disk;
 import com.aurawin.scs.stored.cloud.Node;

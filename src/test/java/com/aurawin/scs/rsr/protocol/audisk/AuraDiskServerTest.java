@@ -11,7 +11,6 @@ import com.aurawin.core.stored.Manifest;
 import com.aurawin.core.stored.entities.Entities;
 import com.aurawin.core.stored.entities.security.Certificate;
 import com.aurawin.scs.audisk.AuDisk;
-import com.aurawin.scs.solution.Namespace;
 import com.aurawin.scs.rsr.protocol.audisk.server.Server;
 import com.aurawin.scs.stored.bootstrap.Bootstrap;
 import com.aurawin.scs.stored.bootstrap.BootstrapTest;
@@ -21,6 +20,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class AuraDiskServerTest {
+    public static final String basePackage = "com.aurawin";
     Server Server;
     @Before
     public void before() throws Exception{
@@ -44,10 +44,9 @@ public class AuraDiskServerTest {
                 "AuDiskTest",                                          // database
                 Dialect.Postgresql.getValue(),                                  // Dialect
                 Driver.Postgresql.getValue(),                                   // Driver
-                Bootstrap.buildAnnotations()
+                Bootstrap.buildAnnotations(basePackage)
         );
         Entities.Initialize(mf);
-        com.aurawin.scs.stored.Entities.Identify(Namespace.Discover());
 
         BootstrapTest.createTestData();
 

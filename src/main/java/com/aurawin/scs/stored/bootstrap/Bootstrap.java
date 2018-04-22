@@ -1,7 +1,8 @@
 package com.aurawin.scs.stored.bootstrap;
 
 
-import com.aurawin.core.array.Bytes;
+import com.aurawin.core.plugin.ClassScanner;
+import com.aurawin.core.plugin.annotations.Plugin;
 import com.aurawin.core.rsr.IpHelper;
 import com.aurawin.core.stored.annotations.AnnotatedList;
 import com.aurawin.core.stored.entities.security.Certificate;
@@ -9,7 +10,6 @@ import com.aurawin.core.stored.entities.Entities;
 import com.aurawin.core.stored.entities.FetchKind;
 import com.aurawin.core.stored.entities.UniqueId;
 import com.aurawin.scs.lang.Database;
-import com.aurawin.scs.solution.Namespace;
 import com.aurawin.scs.lang.Table;
 import com.aurawin.scs.stored.cloud.*;
 import com.aurawin.scs.stored.domain.Domain;
@@ -21,14 +21,32 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
+import javax.persistence.Entity;
+import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 
-public class Bootstrap {
 
-    public static AnnotatedList buildAnnotations(){
+public class Bootstrap {
+    public static AnnotatedList buildAnnotations(String basePackage){
         AnnotatedList al = new AnnotatedList();
-        al.addAll(Plugins.buildAnnotations());
-        al.addAll(com.aurawin.scs.stored.bootstrap.Stored.buildAnnotations());
+        ClassScanner cs= new ClassScanner();
+        try {
+            Annotation ed = null;
+            Class[] ca = cs.scanPackage(basePackage);
+            for (Class c : ca) {
+                ed = c.getAnnotation(Plugin.class);
+                if (ed!=null) {
+                    al.add(c);
+                }else {
+                    ed = c.getAnnotation(Entity.class);
+                    if (ed!=null){
+                        al.add(c);
+                    }
+                }
+            }
+        } catch (Exception ex){
+
+        }
         return al;
     }
 

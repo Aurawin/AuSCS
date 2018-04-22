@@ -1,16 +1,29 @@
 package com.aurawin.scs.stored.bootstrap;
 
 
+import com.aurawin.core.plugin.ClassScanner;
 import com.aurawin.core.stored.annotations.AnnotatedList;
+
+import java.util.ArrayList;
 
 
 public class Stored {
 
-    public static AnnotatedList buildAnnotations() {
+    public static AnnotatedList buildAnnotations(String rootPackage) {
         AnnotatedList aL = new AnnotatedList();
+        // todo change name of ClassScanner to PluginClassScanner
+        ClassScanner cs= new ClassScanner();
+        try {
+            Class[] ca = cs.scanPackage(rootPackage);
+            for (Class c : ca) {
+                aL.add(c);
+            }
+        } catch (Exception ex){
+
+        }
 
         aL.add(com.aurawin.scs.stored.ContentType.class);
-
+/*
         aL.add(com.aurawin.scs.stored.cloud.Disk.class);
         aL.add(com.aurawin.scs.stored.cloud.Group.class);
         aL.add(com.aurawin.scs.stored.cloud.Location.class);
@@ -44,7 +57,7 @@ public class Stored {
         aL.add(com.aurawin.scs.stored.security.Intrusion.class);
         aL.add(com.aurawin.scs.stored.security.IpLog.class);
 
-
+*/
         return aL;
     }
 }

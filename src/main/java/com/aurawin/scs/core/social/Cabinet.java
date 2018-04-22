@@ -1,24 +1,20 @@
 package com.aurawin.scs.core.social;
 
-import com.aurawin.core.json.Builder;
 import com.aurawin.core.plugin.FormatIO;
 import com.aurawin.core.plugin.Plug;
 import com.aurawin.core.plugin.PluginState;
 import com.aurawin.core.plugin.annotations.Command;
 import com.aurawin.core.rsr.Item;
-import com.aurawin.core.rsr.def.ContentType;
 import com.aurawin.core.rsr.def.http.Field;
+import com.aurawin.core.solution.Namespace;
 import com.aurawin.core.stored.Stored;
 import com.aurawin.scs.audisk.AuDisk;
 import com.aurawin.scs.core.CoreResult;
 import com.aurawin.scs.rsr.protocol.http.Server;
 import com.aurawin.scs.rsr.protocol.transport.HTTP_1_1;
-import com.aurawin.scs.solution.Namespace;
 import com.aurawin.scs.stored.Entities;
-import com.aurawin.scs.stored.annotations.QueryByParentId;
 import com.aurawin.scs.stored.domain.network.File;
 import com.aurawin.scs.stored.domain.network.Folder;
-import com.google.gson.Gson;
 import org.hibernate.Session;
 
 import java.util.ArrayList;
@@ -153,8 +149,7 @@ public class Cabinet extends Plug {
                 AuDisk.writeFile(
                         h.Request.Payload,
                         f.getDiskId(),
-                        com.aurawin.scs.solution.Namespace.Stored.Domain.Network.File.getId(),
-
+                        com.aurawin.core.solution.Namespace.Entities.Identify(com.aurawin.scs.stored.domain.network.File.class),
                         h.User.getDomainId(),
                         h.User.getId(),
                         f.getFolderId(),
@@ -193,7 +188,7 @@ public class Cabinet extends Plug {
                 AuDisk.readFile(
                         h.Response.Payload,
                         f.getDiskId(),
-                        com.aurawin.scs.solution.Namespace.Stored.Domain.Network.File.getId(),
+                        com.aurawin.core.solution.Namespace.Entities.Identify(com.aurawin.scs.stored.domain.network.File.class),
 
                         h.User.getDomainId(),
                         h.User.getId(),

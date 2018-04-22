@@ -44,7 +44,8 @@ public class ACL extends Plug {
     @Command(
             Anonymous=true,
             Name = "DiscoverAll",
-            Namespace = "/dsc",
+            Namespace = "/da",
+            Method = "GET",
             Title = "Discover All Plugin Commands",
             Prompt = "This feature enabled to discover all available plugin commands.",
             Description = "Allows for discovery of all plugin commands",

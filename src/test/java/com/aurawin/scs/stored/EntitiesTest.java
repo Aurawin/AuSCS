@@ -9,7 +9,6 @@ import com.aurawin.scs.lang.Database;
 import com.aurawin.core.stored.Dialect;
 import com.aurawin.core.stored.Driver;
 import com.aurawin.core.stored.Manifest;
-import com.aurawin.scs.solution.Namespace;
 import com.aurawin.scs.stored.bootstrap.Bootstrap;
 import com.aurawin.scs.stored.bootstrap.BootstrapTest;
 import com.aurawin.scs.stored.domain.Domain;
@@ -26,6 +25,7 @@ import org.junit.After;
 import static com.aurawin.core.stored.entities.Entities.CascadeOn;
 
 public class EntitiesTest {
+    public static final String basePackage = "com.aurawin";
     public static final String DomainName = "chump.aurawin.com";
     Manifest Manifest;
 
@@ -46,7 +46,7 @@ public class EntitiesTest {
                 "EntitiesTest",                                 // database
                 Dialect.Postgresql.getValue(),          // Dialect
                 Driver.Postgresql.getValue(),            // Driver
-                Bootstrap.buildAnnotations()
+                Bootstrap.buildAnnotations(basePackage)
         );
         Entities.Initialize(Manifest);
 

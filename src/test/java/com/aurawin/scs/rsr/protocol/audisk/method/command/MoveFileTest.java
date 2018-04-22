@@ -1,8 +1,8 @@
 package com.aurawin.scs.rsr.protocol.audisk.method.command;
 
 import com.aurawin.core.json.Builder;
+import com.aurawin.core.solution.Namespace;
 import com.aurawin.core.stored.entities.UniqueId;
-import com.aurawin.scs.solution.Namespace;
 import com.google.gson.Gson;
 import org.junit.After;
 import org.junit.Before;
@@ -21,7 +21,7 @@ public class MoveFileTest {
 
         bldr = new Builder();
         gson = bldr.Create();
-        Kind=Namespace.Stored.Domain.Network.File;
+        Kind=Namespace.Entities.getUniqueId(com.aurawin.scs.stored.domain.network.File.class);
     }
 
     @After

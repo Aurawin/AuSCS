@@ -1,8 +1,8 @@
 package com.aurawin.scs.stored.domain.network;
 
+import com.aurawin.core.solution.Namespace;
 import com.aurawin.scs.audisk.AuDisk;
 import com.aurawin.scs.lang.Database;
-import com.aurawin.scs.solution.Namespace;
 import com.aurawin.scs.stored.Entities;
 import com.aurawin.core.stored.Stored;
 import com.aurawin.core.stored.annotations.*;
@@ -10,9 +10,7 @@ import com.aurawin.scs.stored.annotations.QueryByDomainId;
 import com.aurawin.scs.stored.annotations.QueryByFolderId;
 import com.aurawin.scs.stored.annotations.QueryByNetworkId;
 import com.aurawin.scs.stored.annotations.QueryByParentId;
-import com.aurawin.scs.stored.domain.Domain;
 
-import com.aurawin.scs.stored.domain.user.Account;
 import com.google.gson.annotations.SerializedName;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -21,13 +19,13 @@ import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.SelectBeforeUpdate;
 
 import javax.persistence.*;
-import javax.xml.crypto.Data;
 import java.time.Instant;
 import java.util.ArrayList;
 
 import static com.aurawin.core.stored.entities.Entities.CascadeOn;
 
 @javax.persistence.Entity
+@Namespaced
 @NamedQueries(
         {
                 @NamedQuery(
@@ -200,7 +198,7 @@ public class File extends Stored {
              File f = (File) Entity;
              AuDisk.deleteFile(
                      ((File) f).DiskId,
-                     Namespace.Stored.Domain.Network.File.getId(),
+                     Namespace.Entities.Identify(com.aurawin.scs.stored.domain.network.File.class),
                      ((File) f).DomainId,
                      ((File) f).OwnerId,
                      ((File) f).FolderId,

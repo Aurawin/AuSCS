@@ -1,7 +1,8 @@
 package com.aurawin.scs.stored.domain.user;
 
+import com.aurawin.core.solution.Namespace;
+import com.aurawin.core.stored.annotations.Namespaced;
 import com.aurawin.scs.lang.Database;
-import com.aurawin.scs.solution.Namespace;
 import com.aurawin.core.stored.annotations.EntityDispatch;
 import com.aurawin.core.stored.entities.Entities;
 import com.aurawin.core.stored.Stored;
@@ -22,6 +23,7 @@ import java.time.Instant;
 
 
 @Entity
+@Namespaced
 @DynamicInsert(value = true)
 @DynamicUpdate(value = true)
 @SelectBeforeUpdate(value=true)
@@ -121,14 +123,22 @@ public class Avatar extends Stored {
         if (Entity instanceof Account) {
             Account ua = (Account) Entity;
             if (ua.Avatar == null) {
-                ua.Avatar = new Avatar(ua.getDomainId(),ua.getId(),Namespace.Stored.Domain.User.Avatar.getId());
+                ua.Avatar = new Avatar(
+                        ua.getDomainId(),
+                        ua.getId(),
+                        Namespace.Entities.Identify(com.aurawin.scs.stored.domain.user.Avatar.class)
+                );
                 Entities.Save(ua.Avatar,Cascade);
                 Entities.Update(ua,Entities.CascadeOff);
             }
         } else if (Entity instanceof Roster){
             Roster r = (Roster) Entity;
             if (r.getAvatarId()==0) {
-                Avatar a = new Avatar(r.getDomainId(),r.getOwnerId(),Namespace.Stored.Domain.User.Avatar.getId());
+                Avatar a = new Avatar(
+                        r.getDomainId(),
+                        r.getOwnerId(),
+                        Namespace.Entities.Identify(com.aurawin.scs.stored.domain.user.Avatar.class)
+                );
                 Entities.Save(a,Cascade);
                 r.setAvatarId(a.getId());
                 Entities.Update(r,Entities.CascadeOff);
@@ -137,7 +147,11 @@ public class Avatar extends Stored {
         } else if (Entity instanceof Network){
             Network n = (Network) Entity;
             if (n.getAvatarId()==0){
-                Avatar a = new Avatar(n.getDomainId(),n.getOwnerId(),Namespace.Stored.Domain.Network.Avatar.getId());
+                Avatar a = new Avatar(
+                        n.getDomainId(),
+                        n.getOwnerId(),
+                        Namespace.Entities.Identify(com.aurawin.scs.stored.domain.network.Avatar.class)
+                );
                 Entities.Save(a,Cascade);
                 n.setAvatarId(a.getId());
                 Entities.Update(n,Entities.CascadeOff);

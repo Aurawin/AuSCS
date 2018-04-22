@@ -1,6 +1,7 @@
 package com.aurawin.scs.stored.domain.network;
 
 
+import com.aurawin.core.solution.Namespace;
 import com.aurawin.core.stored.Stored;
 import com.aurawin.core.stored.annotations.*;
 import com.aurawin.scs.audisk.AuDisk;
@@ -9,7 +10,6 @@ import com.aurawin.scs.lang.Table;
 import com.aurawin.scs.stored.Entities;
 
 
-import com.aurawin.scs.solution.Namespace;
 import com.aurawin.scs.stored.annotations.*;
 import com.aurawin.scs.stored.domain.Domain;
 import com.aurawin.scs.stored.domain.user.Account;
@@ -27,12 +27,12 @@ import javax.persistence.NamedQuery;
 
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static com.aurawin.core.stored.entities.Entities.CascadeOn;
 
 @javax.persistence.Entity
+@Namespaced
 @DynamicInsert(value=true)
 @DynamicUpdate(value=true)
 @SelectBeforeUpdate(value=true)
@@ -276,7 +276,7 @@ public class Folder extends Stored {
                 Entities.Save(n.Root,Cascade);
                 AuDisk.makeFolder(
                         n.getDiskId(),
-                        Namespace.Stored.Domain.Network.Folder.getId(),
+                        Namespace.Entities.Identify(com.aurawin.scs.stored.domain.network.Folder.class),
                         n.getDomainId(),
                         n.Id,
                         n.Root.Id
@@ -292,7 +292,7 @@ public class Folder extends Stored {
                 Entities.Save(n.Root,Cascade);
                 AuDisk.makeFolder(
                         n.getDiskId(),
-                        Namespace.Stored.Domain.Network.Folder.getId(),
+                        Namespace.Entities.Identify(com.aurawin.scs.stored.domain.network.Folder.class),
                         n.getDomainId(),
                         n.Id,
                         n.Root.Id
@@ -310,7 +310,7 @@ public class Folder extends Stored {
                         Entities.Save(f, Cascade);
                         AuDisk.makeFolder(
                                 n.getDiskId(),
-                                Namespace.Stored.Domain.Network.Folder.getId(),
+                                Namespace.Entities.Identify(com.aurawin.scs.stored.domain.network.Folder.class),
                                 a.getDomainId(),
                                 n.Id,
                                 f.Id
@@ -328,7 +328,7 @@ public class Folder extends Stored {
                     Entities.Save(f,Cascade);
                     AuDisk.makeFolder(
                             n.getDiskId(),
-                            Namespace.Stored.Domain.Network.Folder.getId(),
+                            Namespace.Entities.Identify(com.aurawin.scs.stored.domain.network.Folder.class),
                             a.getDomainId(),
                             n.Id,
                             f.Id
@@ -347,7 +347,14 @@ public class Folder extends Stored {
             for (Folder c : f.Children) {
                 Entities.Delete(c, CascadeOn);
             }
-            AuDisk.deleteFolder(f.DiskId,Namespace.Stored.Domain.Network.Folder.getId(),f.DomainId,f.OwnerId,f.Id);
+            AuDisk.deleteFolder(
+                    f.DiskId,
+                    Namespace.Entities.Identify(com.aurawin.scs.stored.domain.network.Folder.class),
+
+                    f.DomainId,
+                    f.OwnerId,
+                    f.Id
+            );
         } else if (Entity instanceof Domain) {
             Domain d = (Domain) Entity;
             ArrayList<Stored> lst = Entities.Lookup(

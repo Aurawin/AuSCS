@@ -21,6 +21,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class HTTPServerTest {
+    public static final String basePackage = "com.aurawin";
 
     com.aurawin.scs.rsr.protocol.http.Server Server;
     @Before
@@ -45,14 +46,15 @@ public class HTTPServerTest {
                 "HTTPServerTest",                                      // database
                 Dialect.Postgresql.getValue(),                                  // Dialect
                 Driver.Postgresql.getValue(),                                   // Driver
-                Bootstrap.buildAnnotations()
+                Bootstrap.buildAnnotations(basePackage)
         );
 
-       Entities.Initialize(mf);
+        Entities.Initialize(mf);
 
         com.aurawin.scs.rsr.protocol.http.Server.Bootstrap();
 
         BootstrapTest.createTestData();
+
         Certificate cert = com.aurawin.scs.stored.Entities.Lookup(Certificate.class,1l);
 
 

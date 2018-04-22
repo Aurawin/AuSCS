@@ -2,7 +2,6 @@ package com.aurawin.scs.stored.cloud;
 
 import com.aurawin.core.log.Syslog;
 import com.aurawin.core.stream.MemoryStream;
-import com.aurawin.scs.solution.Namespace;
 import com.aurawin.scs.solution.Settings;
 import com.aurawin.core.stored.Stored;
 import com.aurawin.core.stored.annotations.*;
@@ -23,13 +22,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Collection;
 
-import static com.aurawin.core.rsr.transport.methods.Result.Failure;
-import static com.aurawin.core.rsr.transport.methods.Result.Ok;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
 @Entity
+@Namespaced
 @DynamicInsert(value=true)
 @DynamicUpdate(value=true)
 @SelectBeforeUpdate(value=true)

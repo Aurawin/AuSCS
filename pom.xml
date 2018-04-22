@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.aurawin</groupId>
     <artifactId>scs</artifactId>
-    <version>2018.4.20.1</version>
+    <version>2018.4.22.1</version>
     <name>AuSCS</name>
     <properties>
         <maven.compiler.source>10</maven.compiler.source>
@@ -46,7 +46,7 @@
         <dependency>
             <groupId>com.aurawin</groupId>
             <artifactId>core</artifactId>
-            <version>2018.4.20.1</version>
+            <version>2018.4.22.6</version>
         </dependency>
         <dependency>
             <groupId>com.aurawin</groupId>

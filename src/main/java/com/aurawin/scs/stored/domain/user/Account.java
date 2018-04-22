@@ -1,9 +1,9 @@
 package com.aurawin.scs.stored.domain.user;
 
 import com.aurawin.core.enryption.MD5;
+import com.aurawin.core.solution.Namespace;
 import com.aurawin.scs.lang.Table;
 import com.aurawin.core.stored.annotations.*;
-import com.aurawin.scs.solution.Namespace;
 import com.aurawin.scs.stored.Entities;
 import com.aurawin.core.stored.Stored;
 
@@ -362,7 +362,8 @@ public class Account extends Stored {
             Account ua = null;
             ACL acl = null;
             ua = new Account(d,Table.String(Table.Entities.Domain.Root));
-            acl = new ACL(ua,Namespace.Stored.Domain.User.Role.Admin.getId());
+
+            acl = new ACL(ua,Namespace.Entities.Identify(com.aurawin.scs.stored.security.role.User.class));
             Entities.Save(acl, CascadeOff);
             ua.Roles.add(acl);
             Entities.Save(ua,Cascade);
@@ -373,7 +374,7 @@ public class Account extends Stored {
 
 
             ua = new Account(d,Table.String(Table.Entities.Domain.Default));
-            acl = new ACL(ua,Namespace.Stored.Domain.User.Role.User.getId());
+            acl = new ACL(ua,Namespace.Entities.Identify(com.aurawin.scs.stored.security.role.User.class));
             Entities.Save(acl, CascadeOff);
             ua.Roles.add(acl);
             ua.AllowLogin=false;

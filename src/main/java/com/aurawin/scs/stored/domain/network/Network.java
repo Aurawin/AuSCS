@@ -32,6 +32,7 @@ import static com.aurawin.core.stored.entities.Entities.CascadeOn;
 
 
 @javax.persistence.Entity
+@Namespaced
 @DynamicInsert(value=true)
 @DynamicUpdate(value=true)
 @SelectBeforeUpdate(value=true)

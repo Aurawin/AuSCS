@@ -1,9 +1,8 @@
 package com.aurawin.scs.stored.bootstrap;
 
+import com.aurawin.core.solution.Namespace;
 import com.aurawin.core.stored.entities.security.Certificate;
 import com.aurawin.scs.audisk.AuDisk;
-import com.aurawin.scs.audisk.router.Router;
-import com.aurawin.scs.solution.Namespace;
 import com.aurawin.scs.solution.Settings;
 import com.aurawin.scs.stored.Entities;
 import com.aurawin.scs.stored.cloud.*;
@@ -25,6 +24,7 @@ public class BootstrapTest {
     public static Node nAu1;
     public static Node nAu2;
     public static Node nDisk;
+    public static Node nHTTP;
 
     public static Account account;
     public static Service svcHTTP;
@@ -71,36 +71,42 @@ public class BootstrapTest {
         nPhoenix = Bootstrap.Cloud.addNode(rcPhoenix,"phoenix","172.16.1.1");
         nChump = Bootstrap.Cloud.addNode(rcChump,"chump","172.16.1.2");
 
-        nDisk = nChump;
 
         nAu1 = Bootstrap.Cloud.addNode(rcPhoenix,"au1","107.218.165.193");
         nAu2 = Bootstrap.Cloud.addNode(rcChump,"au2","107.218.165.194");
 
+        nHTTP = nChump;
+        nDisk = nChump;
 
         svcAUDISK = Bootstrap.Cloud.addService(
-                nPhoenix,
-                Namespace.Stored.Cloud.Service.AUDISK,
+                nDisk,
+                Namespace.Entities.getUniqueId(com.aurawin.scs.stored.cloud.Disk.class),
                 Settings.Stored.Cloud.Service.Port.AuDisk,
                 1,
                 10,
                 1
         );
         svcHTTP = Bootstrap.Cloud.addService(
-                nPhoenix,
-                Namespace.Stored.Cloud.Service.HTTP,
+                nHTTP,
+                Namespace.Entities.getUniqueId(com.aurawin.scs.stored.cloud.service.HTTP.class),
                 1080,
                 1,
                 10,
                 1
         );
-        auDisk = Bootstrap.Cloud.addDisk(nPhoenix,svcAUDISK,Mount);
+        auDisk = Bootstrap.Cloud.addDisk(nDisk,svcAUDISK,Mount);
         AuDisk.Initialize(nDisk,Cert);
 
 
 
 
         domain = Bootstrap.addDomain(DomainName);
-        account = Bootstrap.addUser(domain,"test","1Bl4H4uotT",Namespace.Stored.Domain.User.Role.User);
+        account = Bootstrap.addUser(
+                domain,
+                "test",
+                "1Bl4H4uotT",
+                Namespace.Entities.getUniqueId(com.aurawin.scs.stored.security.role.User.class)
+        );
 
         nPhoenix.setDomain(domain);
         nChump.setDomain(domain);
