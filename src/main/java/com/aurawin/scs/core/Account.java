@@ -43,8 +43,9 @@ public class Account extends Plug {
     @Command(
             Anonymous=true,
             Name = "Read",
-            Namespace = "/ar",
+            Namespace = "/a",
             Title = "Read",
+            Method = "GET",
             Prompt = "This feature enabled to read account information.",
             Description = "Allows for updating account information.",
             Roles = {"Administrator", "Power User", "User"},
@@ -71,7 +72,8 @@ public class Account extends Plug {
     @Command(
             Anonymous=false,
             Name = "Write",
-            Namespace = "/aw",
+            Namespace = "/a",
+            Method = "PUT",
             Title = "Write",
             Prompt = "This feature enables users to update account information.",
             Description = "Allows for account updating.",
@@ -81,9 +83,9 @@ public class Account extends Plug {
     public PluginState Write(Session ssn, Item Transport){
         HTTP_1_1 h = (HTTP_1_1) Transport;
         Server s = (Server) h.Owner.Engine;
-        com.aurawin.scs.stored.domain.user.Account a = readObject(h.Request.Payload, com.aurawin.scs.stored.domain.user.Account.class);
+        Account a = readObject(h.Request.Payload, Account.class);
         if (a.getId()>0) {
-            com.aurawin.scs.stored.domain.user.Account e= Entities.Lookup(com.aurawin.scs.stored.domain.user.Account.class, a.getId());
+            Account e= Entities.Lookup(Account.class, a.getId());
             if (e != null) {
                 e.Assign(a);
                 writeObject(h.Response.Payload, e);
@@ -101,6 +103,7 @@ public class Account extends Plug {
             Anonymous=false,
             Name = "DiskConsumption",
             Namespace = "/dc",
+            Method = "GET",
             Title = "Disk Consumption",
             Prompt = "This feature enables users to calculate disk consumption.",
             Description = "Allows for account quota calulation.",

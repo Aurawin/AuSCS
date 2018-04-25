@@ -2,6 +2,7 @@ package com.aurawin.scs.stored.domain.user;
 
 import com.aurawin.core.enryption.MD5;
 import com.aurawin.core.solution.Namespace;
+import com.aurawin.scs.lang.Database;
 import com.aurawin.scs.lang.Table;
 import com.aurawin.core.stored.annotations.*;
 import com.aurawin.scs.stored.Entities;
@@ -253,6 +254,16 @@ public class Account extends Stored {
     public Instant Modified;
     public Instant getModified() {        return Modified;    }
     public void setModified(Instant modified) {        Modified = modified;    }
+
+    @Expose(serialize = true, deserialize = true)
+    @Column(name = Database.Field.Domain.User.Account.LockCount)
+    protected int LockCount;
+    public int getLockCount() {
+        return LockCount;
+    }
+    public void setLockCount(int lockCount) {
+        LockCount = lockCount;
+    }
 
     @Expose(serialize = true, deserialize = true)
     @Column(name = com.aurawin.scs.lang.Database.Field.Domain.User.Account.LastLogin)

@@ -502,7 +502,9 @@ public class Database extends com.aurawin.core.lang.Database {
                 public static final String Id = "itmid";
                 public static final String OwnerId = "itnid";
                 public static final String UniqueId = "ituid";
+                public static final String Enabled = "itme";
                 public static final String Port="itmp";
+                public static final String Service="itmsv";
                 public static final String ScaleStart = "itss";
                 public static final String ScaleMin = "itsm";
                 public static final String ScaleMax = "itsx";
@@ -579,6 +581,7 @@ public class Database extends com.aurawin.core.lang.Database {
                     public static final String Created = "itmctd";
                     public static final String Modified = "itmmtd";
                     public static final String LastLogin = "itmlln";
+                    public static final String LockCount = "itmlc";
                     public static final String LastConsumptionCalc = "itmlcc";
                     public static final String Consumption = "itmcspn";
                     public static final String Quota = "itmquo";

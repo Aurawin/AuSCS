@@ -45,8 +45,9 @@ public class Avatar extends Plug{
     @Command(
             Anonymous=true,
             Name = "Read",
-            Namespace = "/ar",
+            Namespace = "/r",
             Title = "Read",
+            Method = "GET",
             Prompt = "This feature enabled all to access avatar images.",
             Description = "Allows for avatar images for Networks and Contacts.",
             Roles = {"Administrator", "Power User", "User"},
@@ -74,8 +75,9 @@ public class Avatar extends Plug{
     @Command(
             Anonymous=false,
             Name = "Write",
-            Namespace = "/aw",
+            Namespace = "/w",
             Title = "Write",
+            Method = "PUT",
             Prompt = "This feature enables users to update avatar images.",
             Description = "Allows for avatar updating images for Networks and Contacts.",
             Roles = {"Administrator", "Power User", "User"},

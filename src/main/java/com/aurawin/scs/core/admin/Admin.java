@@ -50,7 +50,8 @@ public class Admin extends Plug {
     @Command(
             Anonymous = false,
             Name = "AddUser",
-            Namespace = "/au",
+            Namespace = "/u",
+            Method = "POST",
             Title = "Add User",
             Prompt = "Enable to provide access to adding users.",
             Description = "Allows for administrators to add new users.",
@@ -84,7 +85,8 @@ public class Admin extends Plug {
     @Command(
             Anonymous = false,
             Name = "DeleteUser",
-            Namespace = "/du",
+            Namespace = "/u",
+            Method = "DELETE",
             Title = "Delete User",
             Prompt = "Enable to provide access to deleting users.",
             Description = "Allows for administrators to delete users.",
@@ -118,7 +120,8 @@ public class Admin extends Plug {
     @Command(
             Anonymous = false,
             Name = "WriteUser",
-            Namespace = "/wu",
+            Namespace = "/u",
+            Method = "PUT",
             Title = "Write User",
             Prompt = "Enable to provide access to updating users.",
             Description = "Allows for administrators to update users.",
@@ -151,7 +154,8 @@ public class Admin extends Plug {
     @Command(
             Anonymous = false,
             Name = "AddDomain",
-            Namespace = "/ad",
+            Namespace = "/d",
+            Method = "POST",
             Title = "Add Domain",
             Prompt = "Enable to provide access to adding domains.",
             Description = "Allows for administrators to add new domains.",
@@ -185,7 +189,8 @@ public class Admin extends Plug {
     @Command(
             Anonymous = false,
             Name = "DeleteDomain",
-            Namespace = "/dd",
+            Namespace = "/d",
+            Method = "DELETE",
             Title = "Delete Domain",
             Prompt = "Enable to provide access to delete domains.",
             Description = "Allows for administrators to delete domains.",
@@ -218,7 +223,8 @@ public class Admin extends Plug {
     @Command(
             Anonymous = false,
             Name = "WriteDomain",
-            Namespace = "/wd",
+            Namespace = "/d",
+            Method = "PUT",
             Title = "Write Domain",
             Prompt = "Enable to provide access to updating domain.",
             Description = "Allows for administrators to update domains.",

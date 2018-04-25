@@ -56,10 +56,21 @@ public class Service extends Stored{
     protected long Id;
     public long getId(){return Id;}
 
+    @Column(name = Database.Field.Cloud.Service.Enabled)
+    protected boolean Enabled;
+    public boolean getEnabled(){return Enabled;}
+    public void setEnabled(boolean enabled){ Enabled=enabled;}
+
+
     @Column(name = Database.Field.Cloud.Service.Port)
     protected int Port;
     public int getPort(){return Port;}
     public void setPort(int port){ Port=port;}
+
+    @Column(name = Database.Field.Cloud.Service.Service)
+    protected com.aurawin.scs.solution.Table.Stored.Cloud.Service Service;
+    public com.aurawin.scs.solution.Table.Stored.Cloud.Service getService(){return Service;}
+    public void setService(com.aurawin.scs.solution.Table.Stored.Cloud.Service service){ Service=service;}
 
     public long getIP(){
         return (Node!=null) ? Node.IP : 0;
@@ -67,7 +78,6 @@ public class Service extends Stored{
     public String getHostname(){
         return ( (Node!=null) && (Node.Domain!=null) ) ? Node.Domain.getName() : "";
     }
-
 
     @Column(name = Database.Field.Cloud.Service.ScaleStart)
     protected int ScaleStart;
