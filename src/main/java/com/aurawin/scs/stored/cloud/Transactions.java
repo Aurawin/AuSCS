@@ -1,5 +1,6 @@
 package com.aurawin.scs.stored.cloud;
 
+import com.aurawin.core.stored.annotations.Namespaced;
 import com.aurawin.scs.lang.Database;
 import com.aurawin.core.stored.annotations.EntityDispatch;
 import com.aurawin.core.stored.annotations.QueryById;
@@ -14,6 +15,7 @@ import org.hibernate.annotations.SelectBeforeUpdate;
 import javax.persistence.*;
 
 @Entity
+@Namespaced
 @DynamicInsert(value = true)
 @DynamicUpdate(value =true)
 @SelectBeforeUpdate(value =true)

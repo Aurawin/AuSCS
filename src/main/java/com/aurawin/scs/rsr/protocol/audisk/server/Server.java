@@ -27,7 +27,7 @@ public class Server extends com.aurawin.core.rsr.server.Server {
         super(new InetSocketAddress(IpHelper.fromLong(service.getIP()),service.getPort()), AUDISK.class, true, service.getHostname());
 
         Service = service;
-        Disks = Entities.Lookup(Disk.class.getAnnotation(QueryByOwnerId.class),service.getNode().getId());
+        Disks = Entities.Lookup(Disk.class.getAnnotation(QueryByOwnerId.class),service.getOwner().getId());
     }
 
     public Disk getDisk(long id){

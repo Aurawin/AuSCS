@@ -2,6 +2,7 @@ package com.aurawin.scs.stored;
 
 import com.aurawin.core.Environment;
 import com.aurawin.core.lang.Table;
+import com.aurawin.core.solution.Settings;
 import com.aurawin.core.stored.entities.FetchKind;
 import com.aurawin.core.stored.entities.security.Certificate;
 import com.aurawin.scs.audisk.AuDisk;
@@ -11,6 +12,8 @@ import com.aurawin.core.stored.Driver;
 import com.aurawin.core.stored.Manifest;
 import com.aurawin.scs.stored.bootstrap.Bootstrap;
 import com.aurawin.scs.stored.bootstrap.BootstrapTest;
+import com.aurawin.scs.stored.cloud.Node;
+import com.aurawin.scs.stored.cloud.Service;
 import com.aurawin.scs.stored.domain.Domain;
 import com.aurawin.scs.stored.domain.user.Roster;
 import com.aurawin.scs.stored.domain.user.Account;
@@ -22,6 +25,8 @@ import org.junit.Test;
 import org.junit.Before; 
 import org.junit.After;
 
+import java.util.ArrayList;
+
 import static com.aurawin.core.stored.entities.Entities.CascadeOn;
 
 public class EntitiesTest {
@@ -31,6 +36,11 @@ public class EntitiesTest {
 
     @Before
     public void before() throws Exception {
+        Settings.Initialize(
+                "AuProcess",
+                "Aurawin Social Computing Server",
+                "Universal"
+        );
         Manifest=new Manifest(
                 Environment.getString(Table.DBMS.Username), // username
                 Environment.getString(Table.DBMS.Password),  // password
@@ -46,7 +56,7 @@ public class EntitiesTest {
                 "EntitiesTest",                                 // database
                 Dialect.Postgresql.getValue(),          // Dialect
                 Driver.Postgresql.getValue(),            // Driver
-                Bootstrap.buildAnnotations(basePackage)
+                Bootstrap.buildAnnotations(com.aurawin.core.Package.class,com.aurawin.scs.Package.class)
         );
         Entities.Initialize(Manifest);
 
@@ -66,7 +76,12 @@ public class EntitiesTest {
         Certificate cert = Entities.Lookup(Certificate.class,1l);
         AuDisk.Initialize(BootstrapTest.nChump,cert);
 
+        ArrayList<Domain> ds = Entities.Domains.listAll();
+
         Domain lD = Entities.Lookup(Domain.class,BootstrapTest.domain.getId());
+        Node  lN = Entities.Lookup(Node.class,2l);
+        ArrayList<Service> svcs = Entities.Cloud.Service.listAll(lN);
+
         Account lUA = Entities.Lookup(Account.class,lD.getId(), lD.Root.getId());
         Entities.Fetch(lUA, FetchKind.Infinite);
 

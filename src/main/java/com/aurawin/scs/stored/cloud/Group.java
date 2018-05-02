@@ -1,9 +1,7 @@
 package com.aurawin.scs.stored.cloud;
 
+import com.aurawin.core.stored.annotations.*;
 import com.aurawin.scs.lang.Database;
-import com.aurawin.core.stored.annotations.EntityDispatch;
-import com.aurawin.core.stored.annotations.QueryById;
-import com.aurawin.core.stored.annotations.QueryByName;
 import com.aurawin.core.stored.entities.Entities;
 import com.aurawin.core.stored.Stored;
 import com.google.gson.annotations.Expose;
@@ -21,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Namespaced
 @DynamicInsert(value = true)
 @DynamicUpdate(value =true)
 @SelectBeforeUpdate(value =true)
@@ -47,8 +46,15 @@ import java.util.List;
                 @NamedQuery(
                         name  = Database.Query.Cloud.Group.ById.name,
                         query = Database.Query.Cloud.Group.ById.value
+                ),
+                @NamedQuery(
+                        name = Database.Query.Cloud.Group.All.name,
+                        query = Database.Query.Cloud.Group.All.value
                 )
         }
+)
+@QueryAll(
+        Name = Database.Query.Cloud.Group.All.name
 )
 public class Group extends Stored {
     @Id
@@ -61,6 +67,15 @@ public class Group extends Stored {
         return Id;
     }
 
+    @OneToMany(
+            mappedBy = "Group",
+            targetEntity=Resource.class,
+            cascade = CascadeType.ALL,
+            fetch = FetchType.EAGER
+    )
+    @Fetch(value=FetchMode.SUBSELECT)
+    @Expose(serialize = false, deserialize = false)
+    public List<Resource> Resources = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.EAGER, cascade=CascadeType.ALL, targetEntity=Location.class)
     @JoinColumn(name = Database.Field.Cloud.Group.LocationId)
@@ -71,6 +86,10 @@ public class Group extends Stored {
         Location=location;
         if (Location.Groups.indexOf(this)==-1)
             Location.Groups.add(this);
+    }
+    @Override
+    public String toString(){
+        return Name;
     }
 
     @Override
@@ -86,15 +105,7 @@ public class Group extends Stored {
             }
         }
     }
-    @LazyCollection(LazyCollectionOption.FALSE)
-    @OneToMany(
-            targetEntity = Resource.class,
-            cascade = CascadeType.ALL,
-            fetch = FetchType.EAGER,
-            mappedBy = "Group"
-    )
-    @Expose(serialize = false, deserialize = false)
-    protected List<Resource> Resources = new ArrayList<Resource>();
+
 
     @Column(name = Database.Field.Cloud.Group.Name)
     @Expose(serialize = true, deserialize = true)
@@ -104,6 +115,17 @@ public class Group extends Stored {
     }
     public void setName(String name) {
         Name = name;
+    }
+
+
+    @Column(name = Database.Field.Cloud.Group.Description)
+    @Expose(serialize = true, deserialize = true)
+    protected String Description;
+    public String getDescription() {
+        return Description;
+    }
+    public void setDescription(String description) {
+        Description = description;
     }
 
     @Column(name = Database.Field.Cloud.Group.Rack)

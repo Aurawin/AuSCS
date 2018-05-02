@@ -1,11 +1,12 @@
 package com.aurawin.scs.stored.domain.network;
 
 
+import com.aurawin.core.stored.annotations.Namespaced;
 import com.aurawin.scs.lang.Database;
 import com.aurawin.scs.stored.Entities;
 
 import com.aurawin.core.stored.annotations.EntityDispatch;
-import com.aurawin.scs.stored.annotations.QueryByDomainId;
+import com.aurawin.core.stored.annotations.QueryByDomainId;
 import com.aurawin.core.stored.Stored;
 
 import com.aurawin.scs.stored.annotations.QueryByNetworkId;
@@ -20,6 +21,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 
 @javax.persistence.Entity
+@Namespaced
 @DynamicInsert(value = true)
 @DynamicUpdate(value = true)
 @SelectBeforeUpdate(value =true)

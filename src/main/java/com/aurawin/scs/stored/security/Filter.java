@@ -2,6 +2,7 @@ package com.aurawin.scs.stored.security;
 
 import com.aurawin.core.stored.Stored;
 import com.aurawin.core.stored.annotations.EntityDispatch;
+import com.aurawin.core.stored.annotations.Namespaced;
 import com.aurawin.core.stored.entities.UniqueId;
 import com.aurawin.scs.lang.Database;
 import com.aurawin.scs.stored.domain.user.Account;
@@ -17,6 +18,7 @@ import java.time.Instant;
 
 
 @Entity
+@Namespaced
 @DynamicInsert(value = true)
 @DynamicUpdate(value = true)
 @SelectBeforeUpdate(value=true)

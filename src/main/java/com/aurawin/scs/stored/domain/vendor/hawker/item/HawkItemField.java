@@ -4,12 +4,13 @@ import com.aurawin.core.Memo;
 import com.aurawin.core.array.KeyItem;
 import com.aurawin.core.array.KeyPairs;
 import com.aurawin.core.array.VarString;
+import com.aurawin.core.stored.annotations.Namespaced;
 import com.aurawin.scs.lang.Database;
 import com.aurawin.core.stored.Stored;
 import com.aurawin.core.stored.annotations.EntityDispatch;
 import com.aurawin.core.stored.annotations.QueryById;
 import com.aurawin.scs.stored.Entities;
-import com.aurawin.scs.stored.annotations.QueryByDomainId;
+import com.aurawin.core.stored.annotations.QueryByDomainId;
 import com.aurawin.scs.stored.domain.Domain;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -21,6 +22,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 
 @Entity
+@Namespaced
 @EntityDispatch(
         onCreated = false,
         onDeleted = false,

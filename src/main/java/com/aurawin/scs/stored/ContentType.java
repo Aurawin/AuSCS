@@ -2,10 +2,7 @@ package com.aurawin.scs.stored;
 
 import com.aurawin.core.solution.Settings;
 import com.aurawin.core.stored.Stored;
-import com.aurawin.core.stored.annotations.EntityDispatch;
-import com.aurawin.core.stored.annotations.QueryAll;
-import com.aurawin.core.stored.annotations.QueryById;
-import com.aurawin.core.stored.annotations.QueryByOwnerId;
+import com.aurawin.core.stored.annotations.*;
 import com.aurawin.scs.lang.Database;
 import com.google.gson.annotations.Expose;
 import org.hibernate.Session;
@@ -17,6 +14,7 @@ import org.hibernate.annotations.SelectBeforeUpdate;
 import javax.persistence.*;
 
 @Entity
+@Namespaced
 @DynamicInsert(value=true)
 @DynamicUpdate(value=true)
 @SelectBeforeUpdate(value=true)

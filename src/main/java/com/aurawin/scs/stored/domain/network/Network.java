@@ -7,7 +7,7 @@ import com.aurawin.scs.lang.Table;
 
 import com.aurawin.scs.stored.Entities;
 import com.aurawin.core.stored.Stored;
-import com.aurawin.scs.stored.annotations.QueryByDomainId;
+import com.aurawin.core.stored.annotations.QueryByDomainId;
 import com.aurawin.scs.stored.annotations.QueryByNetworkId;
 import com.aurawin.scs.stored.domain.Domain;
 import com.aurawin.scs.stored.domain.user.Account;

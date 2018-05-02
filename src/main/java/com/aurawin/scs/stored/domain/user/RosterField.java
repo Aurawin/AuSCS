@@ -1,8 +1,9 @@
 package com.aurawin.scs.stored.domain.user;
 
 import com.aurawin.core.stored.annotations.EntityDispatch;
+import com.aurawin.core.stored.annotations.Namespaced;
 import com.aurawin.core.stored.annotations.QueryByOwnerId;
-import com.aurawin.scs.stored.annotations.QueryByDomainId;
+import com.aurawin.core.stored.annotations.QueryByDomainId;
 import com.aurawin.core.stored.Stored;
 import com.aurawin.scs.stored.Entities;
 import com.aurawin.scs.lang.Database;
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 import static org.hibernate.annotations.CascadeType.ALL;
 
 @javax.persistence.Entity
+@Namespaced
 @DynamicInsert(value = true)
 @DynamicUpdate(value = true)
 @SelectBeforeUpdate(value = true)

@@ -12,7 +12,6 @@ import com.aurawin.scs.stored.Entities;
 
 import com.aurawin.scs.stored.annotations.*;
 import com.aurawin.scs.stored.domain.Domain;
-import com.aurawin.scs.stored.domain.user.Account;
 import com.aurawin.core.time.Time;
 
 import com.google.gson.annotations.Expose;
@@ -281,24 +280,24 @@ public class Folder extends Stored {
                         n.Id,
                         n.Root.Id
                 );
-            }
+                if (n.Owner.getName().equalsIgnoreCase(Table.String(Table.Entities.Domain.Root))){
+                    // need the basic folders for www
+                    Folder f = n.Root.getChildByName(Table.Stored.Path.Web);
+                    if (f==null) {
+                        f = n.Root.addChild(Table.Stored.Path.Web);
+                        Entities.Save(f,Cascade);
+                        AuDisk.makeFolder(
+                                n.getDiskId(),
+                                Namespace.Entities.Identify(com.aurawin.scs.stored.domain.network.Folder.class),
+                                n.getDomainId(),
+                                n.Id,
+                                f.Id
+                        );
+                    }
 
-        } else if (Entity instanceof Account) {
-            // new user account is created
-            Account a = (Account) Entity;
-            Network n = a.Cabinet;
-            if (n.Root==null) {
-                n.Root = new Folder(a.getDomainId(), a.getId(), n.Id, n.getDiskId(),"");
-                Entities.Save(n.Root,Cascade);
-                AuDisk.makeFolder(
-                        n.getDiskId(),
-                        Namespace.Entities.Identify(com.aurawin.scs.stored.domain.network.Folder.class),
-                        n.getDomainId(),
-                        n.Id,
-                        n.Root.Id
-                );
-            }
 
+                }
+            }
             for (String sF:Table.Stored.Path.Default.Userland) {
                 String[] slPath = sF.split("/");
                 Folder fLcv = n.Root;
@@ -311,7 +310,7 @@ public class Folder extends Stored {
                         AuDisk.makeFolder(
                                 n.getDiskId(),
                                 Namespace.Entities.Identify(com.aurawin.scs.stored.domain.network.Folder.class),
-                                a.getDomainId(),
+                                n.getDomainId(),
                                 n.Id,
                                 f.Id
                         );
@@ -319,25 +318,6 @@ public class Folder extends Stored {
                     fLcv = f;
                 }
             }
-            if (a.getName().equalsIgnoreCase(Table.String(Table.Entities.Domain.Root))){
-                // need the basic folders for www
-
-                Folder f = n.Root.getChildByName(Table.Stored.Path.Web);
-                if (f==null) {
-                    f = n.Root.addChild(Table.Stored.Path.Web);
-                    Entities.Save(f,Cascade);
-                    AuDisk.makeFolder(
-                            n.getDiskId(),
-                            Namespace.Entities.Identify(com.aurawin.scs.stored.domain.network.Folder.class),
-                            a.getDomainId(),
-                            n.Id,
-                            f.Id
-                    );
-                }
-
-
-            }
-
         }
     }
 

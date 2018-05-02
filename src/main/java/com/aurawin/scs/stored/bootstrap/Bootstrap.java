@@ -1,9 +1,12 @@
 package com.aurawin.scs.stored.bootstrap;
 
 
-import com.aurawin.core.plugin.ClassScanner;
+import com.aurawin.core.Package;
+import com.aurawin.core.ClassScanner;
+import com.aurawin.core.plugin.Plug;
 import com.aurawin.core.plugin.annotations.Plugin;
 import com.aurawin.core.rsr.IpHelper;
+import com.aurawin.core.stored.Stored;
 import com.aurawin.core.stored.annotations.AnnotatedList;
 import com.aurawin.core.stored.entities.security.Certificate;
 import com.aurawin.core.stored.entities.Entities;
@@ -24,26 +27,23 @@ import org.hibernate.query.Query;
 import javax.persistence.Entity;
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
+import java.util.Set;
 
 
 public class Bootstrap {
-    public static AnnotatedList buildAnnotations(String basePackage){
+
+    public static AnnotatedList buildAnnotations(Class<? extends Package>... args){
         AnnotatedList al = new AnnotatedList();
         ClassScanner cs= new ClassScanner();
         try {
             Annotation ed = null;
-            Class[] ca = cs.scanPackage(basePackage);
-            for (Class c : ca) {
-                ed = c.getAnnotation(Plugin.class);
-                if (ed!=null) {
-                    al.add(c);
-                }else {
-                    ed = c.getAnnotation(Entity.class);
-                    if (ed!=null){
-                        al.add(c);
-                    }
-                }
+            Set<Class<?>> sa = null;
+            for (Class<? extends Package> p : args){
+                sa = cs.scanPackageForNamespaced(p);
+                for (Class c : sa) al.add(c);
+
             }
+
         } catch (Exception ex){
 
         }
@@ -134,7 +134,7 @@ public class Bootstrap {
 
             Service svc = new Service();
             svc.setNamespace(namespace);
-            svc.setNode(node);
+            svc.setOwner(node);
             svc.setPort(port);
             svc.setScaleMax(scaleMax);
             svc.setScaleMin(scaleMin);

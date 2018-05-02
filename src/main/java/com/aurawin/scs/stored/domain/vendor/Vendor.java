@@ -1,12 +1,13 @@
 package com.aurawin.scs.stored.domain.vendor;
 
+import com.aurawin.core.stored.annotations.Namespaced;
 import com.aurawin.scs.lang.Database;
 import com.aurawin.core.stored.Stored;
 
 import com.aurawin.core.stored.annotations.EntityDispatch;
 import com.aurawin.core.stored.annotations.QueryById;
 import com.aurawin.core.stored.annotations.QueryByName;
-import com.aurawin.scs.stored.annotations.QueryByDomainId;
+import com.aurawin.core.stored.annotations.QueryByDomainId;
 
 import com.aurawin.core.time.Time;
 import com.aurawin.scs.stored.Entities;
@@ -22,6 +23,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 
 @javax.persistence.Entity
+@Namespaced
 @EntityDispatch(
         onUpdated = false,
         onDeleted = false,

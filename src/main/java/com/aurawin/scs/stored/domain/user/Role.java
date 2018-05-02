@@ -3,6 +3,7 @@ package com.aurawin.scs.stored.domain.user;
 import com.aurawin.core.plugin.Plugins;
 import com.aurawin.core.stored.Stored;
 import com.aurawin.core.stored.annotations.EntityDispatch;
+import com.aurawin.core.stored.annotations.Namespaced;
 import com.aurawin.core.stored.annotations.QueryById;
 import com.aurawin.core.stored.annotations.QueryByName;
 import com.aurawin.core.stored.entities.Entities;
@@ -23,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Namespaced
 @DynamicInsert(value = true)
 @DynamicUpdate(value = true)
 @SelectBeforeUpdate(value=true)

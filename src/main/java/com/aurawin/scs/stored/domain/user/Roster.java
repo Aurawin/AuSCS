@@ -1,6 +1,7 @@
 package com.aurawin.scs.stored.domain.user;
 
 
+import com.aurawin.core.stored.annotations.Namespaced;
 import com.aurawin.scs.lang.Table;
 import com.aurawin.core.stored.annotations.FetchField;
 import com.aurawin.core.stored.annotations.FetchFields;
@@ -23,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Namespaced
 @DynamicInsert(value = true)
 @DynamicUpdate(value = true)
 @SelectBeforeUpdate( value = true)

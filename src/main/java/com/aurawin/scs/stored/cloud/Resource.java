@@ -6,16 +6,19 @@ import com.aurawin.core.stored.Stored;
 import com.google.gson.annotations.Expose;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.DynamicUpdate;
-import org.hibernate.annotations.SelectBeforeUpdate;
+import org.hibernate.annotations.*;
 
 import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Namespaced
 @DynamicInsert(value =true)
 @DynamicUpdate(value= true)
 @SelectBeforeUpdate(value =true)
@@ -29,12 +32,19 @@ import java.util.List;
         Name = com.aurawin.scs.lang.Database.Query.Cloud.Resource.ById.name,
         Fields = { "Id" }
 )
+@QueryByOwnerId(
+        Name = com.aurawin.scs.lang.Database.Query.Cloud.Resource.ByOwnerId.name
+)
 @QueryByName(
         Name = com.aurawin.scs.lang.Database.Query.Cloud.Resource.ByName.name,
         Fields = {"Name"}
 )
 @NamedQueries(
         {
+                @NamedQuery(
+                        name  = com.aurawin.scs.lang.Database.Query.Cloud.Resource.ByOwnerId.name,
+                        query = com.aurawin.scs.lang.Database.Query.Cloud.Resource.ByOwnerId.value
+                ),
                 @NamedQuery(
                         name  = com.aurawin.scs.lang.Database.Query.Cloud.Resource.ByName.name,
                         query = com.aurawin.scs.lang.Database.Query.Cloud.Resource.ByName.value
@@ -63,7 +73,7 @@ public class Resource extends Stored{
     public void setName(String name) {      Name = name;   }
 
     @ManyToOne(fetch=FetchType.EAGER,cascade=CascadeType.MERGE,targetEntity=Group.class)
-    @JoinColumn(name = com.aurawin.scs.lang.Database.Field.Cloud.Resource.GroupId)
+    @JoinColumn(name = com.aurawin.scs.lang.Database.Field.Cloud.Resource.OwnerId)
     @Expose(serialize = true, deserialize = true)
     protected Group Group;
     public Group getGroup() { return Group; }
@@ -72,9 +82,16 @@ public class Resource extends Stored{
         if (!group.Resources.contains(this)==true)
             group.Resources.add(this);
     }
-    @OneToMany(mappedBy = "Resource", targetEntity=Node.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+
+    @OneToMany(
+            mappedBy = "Resource",
+            targetEntity=Node.class,
+            cascade = CascadeType.ALL,
+            fetch = FetchType.EAGER
+    )
+    @Fetch(value=FetchMode.SUBSELECT)
     @Expose(serialize = false, deserialize = false)
-    protected List<Node> Nodes = new ArrayList<Node>();
+    public List<Node> Nodes = new ArrayList<Node>();
 
     public Resource(long id) {
         Id = id;
@@ -93,6 +110,11 @@ public class Resource extends Stored{
         Name = name;
         Group=null;
     }
+    @Override
+    public String toString(){
+        return Name;
+    }
+
     @Override
     public void Identify(Session ssn){
         if (Id == 0) {

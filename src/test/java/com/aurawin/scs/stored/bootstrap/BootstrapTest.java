@@ -8,11 +8,14 @@ import com.aurawin.scs.stored.Entities;
 import com.aurawin.scs.stored.cloud.*;
 import com.aurawin.scs.stored.domain.Domain;
 import com.aurawin.scs.stored.domain.user.Account;
+import org.junit.Test;
+
 import static com.aurawin.core.stored.entities.Entities.CascadeOff;
 
 /**
  * Created by atbrunner on 3/7/17.
  */
+
 public class BootstrapTest {
     public static Domain domain;
     public static Location lc;
@@ -71,7 +74,6 @@ public class BootstrapTest {
         nPhoenix = Bootstrap.Cloud.addNode(rcPhoenix,"phoenix","172.16.1.1");
         nChump = Bootstrap.Cloud.addNode(rcChump,"chump","172.16.1.2");
 
-
         nAu1 = Bootstrap.Cloud.addNode(rcPhoenix,"au1","107.218.165.193");
         nAu2 = Bootstrap.Cloud.addNode(rcChump,"au2","107.218.165.194");
 
@@ -94,6 +96,9 @@ public class BootstrapTest {
                 10,
                 1
         );
+        gp = Entities.Lookup(Group.class, 1l);
+        gp = Entities.Lookup(Group.class, 1l);
+
         auDisk = Bootstrap.Cloud.addDisk(nDisk,svcAUDISK,Mount);
         AuDisk.Initialize(nDisk,Cert);
 

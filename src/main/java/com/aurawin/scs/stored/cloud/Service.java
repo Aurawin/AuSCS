@@ -1,10 +1,7 @@
 package com.aurawin.scs.stored.cloud;
 
-import com.aurawin.core.stored.annotations.QueryByOwnerId;
+import com.aurawin.core.stored.annotations.*;
 import com.aurawin.scs.lang.Database;
-import com.aurawin.core.stored.annotations.EntityDispatch;
-import com.aurawin.core.stored.annotations.QueryById;
-import com.aurawin.core.stored.annotations.QueryByName;
 import com.aurawin.core.stored.Stored;
 import com.aurawin.core.stored.entities.UniqueId;
 import org.hibernate.Session;
@@ -20,7 +17,10 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+import static javax.persistence.CascadeType.ALL;
+
 @Entity
+@Namespaced
 @DynamicInsert
 @DynamicUpdate
 @SelectBeforeUpdate
@@ -46,6 +46,14 @@ import javax.persistence.Table;
                 @NamedQuery(
                         name  = Database.Query.Cloud.Service.ById.name,
                         query = Database.Query.Cloud.Service.ById.value
+                ),
+                @NamedQuery(
+                        name  = Database.Query.Cloud.Service.ByName.name,
+                        query = Database.Query.Cloud.Service.ByName.value
+                ),
+                @NamedQuery(
+                        name  = Database.Query.Cloud.Service.ByOwnerId.name,
+                        query = Database.Query.Cloud.Service.ByOwnerId.value
                 )
         }
 )
@@ -68,21 +76,21 @@ public class Service extends Stored{
     public void setPort(int port){ Port=port;}
 
     @Column(name = Database.Field.Cloud.Service.Service)
-    protected com.aurawin.scs.solution.Table.Stored.Cloud.Service Service;
-    public com.aurawin.scs.solution.Table.Stored.Cloud.Service getService(){return Service;}
-    public void setService(com.aurawin.scs.solution.Table.Stored.Cloud.Service service){ Service=service;}
+    protected com.aurawin.scs.solution.Table.Stored.Cloud.Service.Kind Kind;
+    public com.aurawin.scs.solution.Table.Stored.Cloud.Service.Kind getKind(){return Kind;}
+    public void setKind(com.aurawin.scs.solution.Table.Stored.Cloud.Service.Kind kind){ Kind=kind;}
 
     public long getIP(){
-        return (Node!=null) ? Node.IP : 0;
+        return (Owner!=null) ? Owner.IP : 0;
     }
     public String getHostname(){
-        return ( (Node!=null) && (Node.Domain!=null) ) ? Node.Domain.getName() : "";
+        return ( (Owner!=null) && (Owner.Domain!=null) ) ? Owner.Domain.getName() : "";
     }
 
     @Column(name = Database.Field.Cloud.Service.ScaleStart)
     protected int ScaleStart;
     public int getScaleStart(){return ScaleStart;}
-    public void setScaleStart(int scaleStart){ ScaleMax=scaleStart;}
+    public void setScaleStart(int scaleStart){ ScaleStart=scaleStart;}
 
     @Column(name = Database.Field.Cloud.Service.ScaleMax)
     protected int ScaleMax;
@@ -94,12 +102,19 @@ public class Service extends Stored{
     public int getScaleMin(){return ScaleMin;}
     public void setScaleMin(int scaleMin){ ScaleMax=scaleMin;}
 
+    @Column(name = Database.Field.Cloud.Service.MountPoint)
+    protected String MountPoint;
+    public String getMountPoint(){return MountPoint;}
+    public void setMountPoint(String mountPoint){ MountPoint=mountPoint;}
+
+
     @Cascade({CascadeType.MERGE})
-    @ManyToOne(fetch=FetchType.EAGER,targetEntity = Node.class)
-    @JoinColumn(name = Database.Field.Cloud.Service.OwnerId)
-    protected Node Node;
-    public void setNode(Node node){ Node=node;}
-    public Node getNode(){return Node;}
+    @ManyToOne(fetch=FetchType.EAGER, cascade= ALL, targetEntity = Node.class)
+    @JoinColumn(nullable=true, name = Database.Field.Cloud.Service.OwnerId)
+    @Fetch(value=FetchMode.JOIN)
+    protected Node Owner;
+    public void setOwner(Node node){ Owner=node;}
+    public Node getOwner(){return Owner;}
 
     @Cascade({CascadeType.MERGE})
     @ManyToOne(fetch=FetchType.EAGER,targetEntity = UniqueId.class)
@@ -114,7 +129,7 @@ public class Service extends Stored{
         ScaleStart=0;
         ScaleMin=1;
         ScaleMax=10;
-        Node=null;
+        Owner=null;
         Namespace=null;
     }
 
@@ -123,7 +138,7 @@ public class Service extends Stored{
         ScaleStart=0;
         ScaleMin=1;
         ScaleMax=10;
-        Node=null;
+        Owner=null;
         Namespace=null;
     }
     @Override

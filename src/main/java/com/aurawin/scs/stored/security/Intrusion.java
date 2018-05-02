@@ -3,6 +3,7 @@ package com.aurawin.scs.stored.security;
 
 import com.aurawin.core.stored.Stored;
 import com.aurawin.core.stored.annotations.EntityDispatch;
+import com.aurawin.core.stored.annotations.Namespaced;
 import com.aurawin.scs.lang.Database;
 import com.google.gson.annotations.Expose;
 import org.hibernate.Session;
@@ -15,6 +16,7 @@ import javax.persistence.Table;
 import java.time.Instant;
 
 @Entity
+@Namespaced
 @DynamicInsert(value = true)
 @DynamicUpdate(value = true)
 @SelectBeforeUpdate(value=true)

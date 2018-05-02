@@ -18,6 +18,7 @@ public class Database extends com.aurawin.core.lang.Database {
             public static final String Filter = "tbl_sec_f";
         }
         public static class Cloud{
+            public static final String Cluster="tbl_c_c";
             public static final String Group = "tbl_c_g";
             public static final String Location = "tbl_c_l";
             public static final String Node = "tbl_c_n";
@@ -115,6 +116,10 @@ public class Database extends com.aurawin.core.lang.Database {
         }
         public static class Cloud{
             public static class Group{
+                public static class All{
+                    public static final String name ="QueryCloudGroupAll";
+                    public static final String value = "from Group";
+                }
                 public static class ById{
                     public static final String name ="QueryCloudGroupById";
                     public static final String value = "from Group where Id=:Id";
@@ -131,7 +136,7 @@ public class Database extends com.aurawin.core.lang.Database {
                 }
                 public static class ByOwnerId{
                     public static final String name ="QueryCloudServiceByOwnerId";
-                    public static final String value = "from Service where OwnerId=:OwnerId";
+                    public static final String value = "from Service where Owner.Id=:OwnerId order by Id";
                 }
                 public static class ByName{
                     public static final String name ="QueryCloudServiceByName";
@@ -171,6 +176,10 @@ public class Database extends com.aurawin.core.lang.Database {
                     public static final String name ="QueryCloudNodeByName";
                     public static final String value = "from Node where Name=:Name";
                 }
+                public static class ByOwnerId{
+                    public static final String name ="QueryCloudNodeByOwnerId";
+                    public static final String value = "from Node where Resource.Id=:OwnerId";
+                }
                 public static class ByIP{
                     public static final String name ="QueryCloudNodeByIP";
                     public static final String value = "from Node where IP=:Ip";
@@ -180,6 +189,10 @@ public class Database extends com.aurawin.core.lang.Database {
                 public static class ById{
                     public static final String name ="QueryCloudResourceById";
                     public static final String value = "from Resource where Id=:Id";
+                }
+                public static class ByOwnerId{
+                    public static final String name ="QueryCloudResourceByOwnerId";
+                    public static final String value = "from Resource where Group.Id=:OwnerId";
                 }
                 public static class ByName{
                     public static final String name ="QueryCloudResourceByName";
@@ -200,6 +213,10 @@ public class Database extends com.aurawin.core.lang.Database {
             }
         }
         public static class Domain{
+            public static class All{
+                public static final String name = "QueryDomainAll";
+                public static final String value = "from Domain";
+            }
             public static class ById {
                 public static final String name = "QueryDomainById";
                 public static final String value = "from Domain where Id=:Id";
@@ -489,13 +506,14 @@ public class Database extends com.aurawin.core.lang.Database {
             public static class Group{
                 public static final String Id = "itmid";
                 public static final String Name = "itmne";
+                public static final String Description = "itmdn";
                 public static final String Row = "itmrw";
                 public static final String Rack = "itmrk";
                 public static final String LocationId ="itmld";
             }
             public static class Resource{
                 public static final String Id = "itmid";
-                public static final String GroupId = "itgid";
+                public static final String OwnerId = "itoid";
                 public static final String Name = "itmne";
             }
             public static class Service{
@@ -505,6 +523,7 @@ public class Database extends com.aurawin.core.lang.Database {
                 public static final String Enabled = "itme";
                 public static final String Port="itmp";
                 public static final String Service="itmsv";
+                public static final String MountPoint="itmmp";
                 public static final String ScaleStart = "itss";
                 public static final String ScaleMin = "itsm";
                 public static final String ScaleMax = "itsx";
@@ -521,7 +540,7 @@ public class Database extends com.aurawin.core.lang.Database {
             }
             public static class Node{
                 public static final String Id = "itmid";
-                public static final String ResourceId = "ircid";
+                public static final String OwnerId = "ioid";
                 public static final String GroupId = "igid";
                 public static final String DomainId = "idid";
                 public static final String TransactionsId = "itxid";

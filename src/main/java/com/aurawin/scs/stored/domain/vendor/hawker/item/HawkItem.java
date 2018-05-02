@@ -1,10 +1,11 @@
 package com.aurawin.scs.stored.domain.vendor.hawker.item;
 
+import com.aurawin.core.stored.annotations.Namespaced;
 import com.aurawin.scs.lang.Database;
 import com.aurawin.core.stored.Stored;
 import com.aurawin.core.stored.annotations.EntityDispatch;
 import com.aurawin.scs.stored.Entities;
-import com.aurawin.scs.stored.annotations.QueryByDomainId;
+import com.aurawin.core.stored.annotations.QueryByDomainId;
 import com.aurawin.scs.stored.domain.Domain;
 import com.aurawin.scs.stored.domain.vendor.hawker.Hawker;
 import com.google.gson.Gson;
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Namespaced
 @DynamicInsert(value=true)
 @DynamicUpdate(value=true)
 @SelectBeforeUpdate(value=true)

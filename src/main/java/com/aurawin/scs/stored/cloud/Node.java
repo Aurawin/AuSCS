@@ -1,12 +1,10 @@
 package com.aurawin.scs.stored.cloud;
 
+import com.aurawin.core.stored.annotations.*;
 import com.aurawin.scs.lang.Database;
 import com.aurawin.scs.stored.domain.Domain;
 import com.google.gson.annotations.Expose;
 
-import com.aurawin.core.stored.annotations.EntityDispatch;
-import com.aurawin.core.stored.annotations.QueryById;
-import com.aurawin.core.stored.annotations.QueryByName;
 import com.aurawin.core.stored.entities.Entities;
 import com.aurawin.core.stored.Stored;
 
@@ -24,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Namespaced
 @DynamicInsert(value=true)
 @DynamicUpdate(value=true)
 @SelectBeforeUpdate(value=true)
@@ -41,6 +40,9 @@ import java.util.List;
         Name = Database.Query.Cloud.Node.ById.name,
         Fields = ("Id")
 )
+@QueryByOwnerId(
+        Name = com.aurawin.scs.lang.Database.Query.Cloud.Node.ByOwnerId.name
+)
 @NamedQueries(
         {
                 @NamedQuery(
@@ -50,6 +52,10 @@ import java.util.List;
                 @NamedQuery(
                         name  = Database.Query.Cloud.Node.ById.name,
                         query = Database.Query.Cloud.Node.ById.value
+                ),
+                @NamedQuery(
+                        name  = Database.Query.Cloud.Node.ByOwnerId.name,
+                        query = Database.Query.Cloud.Node.ByOwnerId.value
                 ),
                 @NamedQuery(
                         name  = Database.Query.Cloud.Node.ByIP.name,
@@ -99,7 +105,7 @@ public class Node extends Stored {
 
     @Cascade({CascadeType.MERGE})
     @ManyToOne(targetEntity = Resource.class, fetch = FetchType.EAGER )
-    @JoinColumn(name  = Database.Field.Cloud.Node.ResourceId, nullable = false)
+    @JoinColumn(name  = Database.Field.Cloud.Node.OwnerId, nullable = false)
     @Expose(serialize = false, deserialize = false)
     protected Resource Resource;
     public Resource getResource(){return Resource;}
@@ -126,9 +132,11 @@ public class Node extends Stored {
     public void setUptime(Uptime uptime){ Uptime = uptime;}
 
     @Cascade({CascadeType.MERGE})
-    @OneToMany(targetEntity = Service.class, fetch=FetchType.EAGER, mappedBy="Node")
+    @OneToMany(targetEntity = Service.class, fetch=FetchType.EAGER, mappedBy="Owner")
     @Expose(serialize = false, deserialize = false)
     protected List<Service> Services = new ArrayList<Service>();
+
+
 
     public Node() {
         Reset();
@@ -145,6 +153,12 @@ public class Node extends Stored {
         Reset();
         Id = id;
     }
+
+    @Override
+    public String toString(){
+        return Name;
+    }
+
     @Override
     public void Identify(Session ssn){
         if (Id == 0) {

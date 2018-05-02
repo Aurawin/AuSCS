@@ -25,9 +25,11 @@ import javax.persistence.Table;
 import static com.aurawin.core.stored.entities.Entities.CascadeOn;
 
 @javax.persistence.Entity
+@Namespaced
 @DynamicInsert(value=true)
 @DynamicUpdate(value=true)
 @SelectBeforeUpdate(value=true)
+
 @Table(name = Database.Table.Domain.Items)
 @NamedQueries(
         {
@@ -38,6 +40,10 @@ import static com.aurawin.core.stored.entities.Entities.CascadeOn;
                 @NamedQuery(
                         name  = Database.Query.Domain.ById.name,
                         query = Database.Query.Domain.ById.value
+                ),
+                @NamedQuery(
+                        name  = Database.Query.Domain.All.name,
+                        query = Database.Query.Domain.All.value
                 )
         }
 )
@@ -54,7 +60,9 @@ import static com.aurawin.core.stored.entities.Entities.CascadeOn;
         Name = Database.Query.Domain.ByName.name,
         Fields = {"Name"}
 )
-
+@QueryAll(
+        Name = Database.Query.Domain.All.name
+)
 @FetchFields(
         {
                 @FetchField(
@@ -226,6 +234,10 @@ public class Domain extends Stored {
         DefaultOptionQuota = defaultOptionQuota;
     }
 
+    @Override
+    public String toString(){
+        return Name;
+    }
     @Override
     public void Identify(Session ssn){
         if (Id == 0) {

@@ -46,7 +46,7 @@ public class HTTPServerTest {
                 "HTTPServerTest",                                      // database
                 Dialect.Postgresql.getValue(),                                  // Dialect
                 Driver.Postgresql.getValue(),                                   // Driver
-                Bootstrap.buildAnnotations(basePackage)
+                Bootstrap.buildAnnotations(com.aurawin.core.Package.class,com.aurawin.scs.Package.class)
         );
 
         Entities.Initialize(mf);
@@ -81,7 +81,7 @@ public class HTTPServerTest {
     }
     @After
     public void after() throws Exception {
-        Server.Stop();
+        if (Server!=null) Server.Stop();
         Server=null;
     }
 

@@ -8,7 +8,7 @@ import com.aurawin.core.stored.annotations.*;
 import com.aurawin.scs.stored.Entities;
 import com.aurawin.core.stored.Stored;
 
-import com.aurawin.scs.stored.annotations.QueryByDomainId;
+import com.aurawin.core.stored.annotations.QueryByDomainId;
 import com.aurawin.scs.stored.annotations.QueryByDomainIdAndId;
 import com.aurawin.scs.stored.annotations.QueryByDomainIdAndName;
 import com.aurawin.scs.stored.domain.Domain;
@@ -32,6 +32,7 @@ import java.util.List;
 import static com.aurawin.core.stored.entities.Entities.CascadeOff;
 
 @Entity
+@Namespaced
 @DynamicInsert(value=true)
 @DynamicUpdate(value=true)
 @SelectBeforeUpdate(value=true)
@@ -373,11 +374,11 @@ public class Account extends Stored {
             Account ua = null;
             ACL acl = null;
             ua = new Account(d,Table.String(Table.Entities.Domain.Root));
-
+            Entities.Save(ua,Cascade);
             acl = new ACL(ua,Namespace.Entities.Identify(com.aurawin.scs.stored.security.role.User.class));
             Entities.Save(acl, CascadeOff);
             ua.Roles.add(acl);
-            Entities.Save(ua,Cascade);
+            Entities.Update(ua,CascadeOff);
             d.Root=ua;
 
 
@@ -385,11 +386,14 @@ public class Account extends Stored {
 
 
             ua = new Account(d,Table.String(Table.Entities.Domain.Default));
+            ua.AllowLogin=false;
+            Entities.Save(ua,Cascade);
+
             acl = new ACL(ua,Namespace.Entities.Identify(com.aurawin.scs.stored.security.role.User.class));
             Entities.Save(acl, CascadeOff);
             ua.Roles.add(acl);
-            ua.AllowLogin=false;
-            Entities.Save(ua,Cascade);
+
+            Entities.Update(ua,CascadeOff);
         }
     }
     public static void entityUpdated(Stored Entity, boolean Cascade){}
