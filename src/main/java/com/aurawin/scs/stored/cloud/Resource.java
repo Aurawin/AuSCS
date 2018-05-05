@@ -1,7 +1,7 @@
 package com.aurawin.scs.stored.cloud;
 
 import com.aurawin.core.stored.annotations.*;
-import com.aurawin.core.stored.entities.Entities;
+import com.aurawin.scs.stored.Entities;
 import com.aurawin.core.stored.Stored;
 import com.google.gson.annotations.Expose;
 import org.hibernate.Session;
@@ -16,6 +16,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.aurawin.core.stored.entities.Entities.CascadeOn;
 
 @Entity
 @Namespaced
@@ -129,6 +131,17 @@ public class Resource extends Stored{
         }
     }
     public static void entityCreated(Stored Entity, boolean Cascade) {}
-    public static void entityDeleted(Stored Entity, boolean Cascade) {}
+    public static void entityDeleted(Stored Entity, boolean Cascade) {
+
+        if (Entity instanceof Group){
+            Group g = (Group) Entity;
+            ArrayList<Resource> rcs = com.aurawin.scs.stored.Entities.Cloud.Resource.listAll(g);
+            for (Resource r :rcs){
+                Entities.Delete(r, CascadeOn);
+            }
+
+        }
+
+    }
     public static void entityUpdated(Stored Entity, boolean Cascade) {}
 }

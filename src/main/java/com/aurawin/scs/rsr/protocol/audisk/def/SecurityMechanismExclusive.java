@@ -1,6 +1,6 @@
 package com.aurawin.scs.rsr.protocol.audisk.def;
 
-import com.aurawin.core.enryption.Base64;
+
 import com.aurawin.scs.lang.Database;
 import com.aurawin.scs.lang.Table;
 import com.aurawin.core.rsr.Item;
@@ -13,6 +13,9 @@ import com.aurawin.scs.stored.cloud.Node;
 import com.aurawin.scs.stored.domain.user.Account;
 import org.hibernate.Session;
 
+import java.io.UnsupportedEncodingException;
+
+import static com.aurawin.core.lang.Table.UTF8;
 import static com.aurawin.core.rsr.def.rsrResult.rAuthenticationNotSupported;
 import static com.aurawin.core.rsr.def.rsrResult.rSuccess;
 
@@ -32,7 +35,7 @@ public class SecurityMechanismExclusive extends Mechanism {
     @Override
     public rsrResult decryptCredentials(Item RSR, String... Params){
         if (Params.length==1) {
-            String s = Base64.Decode(Params[0]);
+            String s = new String(java.util.Base64.getDecoder().decode(Params[0]));
             String[] sa = s.split(":");
             if (sa.length==2) {
                 RSR.Credentials.Passport.Realm=RSR.Owner.Engine.Realm;
@@ -47,9 +50,9 @@ public class SecurityMechanismExclusive extends Mechanism {
         }
     }
     @Override
-    public String buildAuthorization(String User, String Pass){
+    public String buildAuthorization(String User, String Pass) throws UnsupportedEncodingException {
         return Table.Security.Method.AURADISK.Exclusive+ " " +
-                Base64.Encode(User+":"+Pass);
+                java.util.Base64.getEncoder().encodeToString((User+":"+Pass).getBytes(UTF8));
     }
     @Override
     public String buildChallenge(String realm){

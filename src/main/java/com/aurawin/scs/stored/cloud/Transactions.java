@@ -8,11 +8,15 @@ import com.aurawin.core.stored.entities.Entities;
 import com.aurawin.core.stored.Stored;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.SelectBeforeUpdate;
 
 import javax.persistence.*;
+import java.io.Serializable;
+
+import static com.aurawin.core.stored.entities.Entities.CascadeOff;
 
 @Entity
 @Namespaced
@@ -37,7 +41,7 @@ import javax.persistence.*;
                 )
         }
 )
-public class Transactions extends Stored {
+public class Transactions extends Stored implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = Database.Field.Cloud.Transactions.Id)
@@ -64,11 +68,12 @@ public class Transactions extends Stored {
     public long getStreams() {        return Streams;    }
     public void setStreams(long streams) {        Streams = streams;    }
 
-    @ManyToOne(targetEntity = Node.class, cascade = CascadeType.MERGE,fetch=FetchType.EAGER)
-    @JoinColumn(name = Database.Field.Cloud.Transactions.NodeId)
-    protected Node Node;
-    public Node getNode() { return Node; }
-    public void setNode(Node node) { Node = node; }
+    @Column(name=Database.Field.Cloud.Transactions.NodeId)
+    protected long NodeId;
+    public long getNodeId() {        return NodeId;    }
+    public void setNodeId(long nodeId) {        NodeId = nodeId;    }
+
+
     @Override
     public void Identify(Session ssn){
         if (Id == 0) {
@@ -87,12 +92,18 @@ public class Transactions extends Stored {
             Node n = (Node) Entity;
             if (n.Transactions==null) {
                 n.Transactions= new Transactions();
-                n.Transactions.Node=n;
+                n.Transactions.NodeId=n.Id;
                 Entities.Save(n.Transactions,Cascade);
                 Entities.Update(n,Cascade);
             }
         }
     }
-    public static void entityDeleted(Stored Entity, boolean Cascade) {}
+    public static void entityDeleted(Stored Entity, boolean Cascade) {
+        if (Entity instanceof Node){
+            Node n = (Node) Entity;
+            Entities.Delete(n.Transactions,CascadeOff);
+        }
+
+    }
     public static void entityUpdated(Stored Entity, boolean Cascade) {}
 }

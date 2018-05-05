@@ -3,7 +3,7 @@ package com.aurawin.scs.stored.domain.vendor.hawker.item;
 
 public enum ItemKind {
     Singleton ("Singleton"),
-    Collection ("Collection");
+    Collection ("KeyValue");
     private final String value;
     ItemKind(String val) {
         value = val;

@@ -16,6 +16,7 @@ import org.hibernate.annotations.SelectBeforeUpdate;
 import org.hibernate.annotations.CascadeType;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.Instant;
 
 @Entity
@@ -41,7 +42,7 @@ import java.time.Instant;
                 )
         }
 )
-public class Uptime extends Stored{
+public class Uptime extends Stored implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = Database.Table.Cloud.Uptime)
@@ -51,12 +52,10 @@ public class Uptime extends Stored{
         return Id;
     }
 
-    @Cascade({CascadeType.MERGE})
-    @ManyToOne(fetch=FetchType.EAGER,targetEntity=Node.class)
-    @JoinColumn(name = Database.Field.Cloud.Uptime.NodeId)
-    protected Node Node;
-    public Node getNode(){return Node;}
-    public void setNode(Node node){ Node=node;}
+    @Column(name = Database.Field.Cloud.Uptime.NodeId)
+    protected long NodeId;
+    public long getNodeId(){return NodeId;}
+    public void setNodeId(long nodeId){ NodeId=nodeId;}
 
     @Column(name = Database.Field.Cloud.Uptime.Stamp)
     protected Instant Stamp;
@@ -70,13 +69,12 @@ public class Uptime extends Stored{
     public Uptime(long id) {
         Id = id;
         Stamp= Time.instantUTC();
-        Node=null;
     }
 
     public Uptime() {
         Id = 0;
         Stamp=Time.instantUTC();
-        Node=null;
+        NodeId=0;
     }
     @Override
     public void Identify(Session ssn){
@@ -96,7 +94,7 @@ public class Uptime extends Stored{
             Node n = (Node) Entity;
             if (n.Uptime==null){
                 n.Uptime=new Uptime();
-                n.Uptime.Node=n;
+                n.Uptime.NodeId=n.Id;
                 Entities.Save(n.Uptime,Cascade);
                 Entities.Update(n,Cascade);
             }
@@ -105,7 +103,7 @@ public class Uptime extends Stored{
     public static void entityDeleted(Stored Entity, boolean Cascade) throws Exception{
         if (Entity instanceof Node){
             Node n = (Node) Entity;
-            Entities.Delete(n.Uptime,Entities.CascadeOn);
+            Entities.Delete(n.Uptime,Entities.CascadeOff);
         }
     }
     public static void entityUpdated(Stored Entity, boolean Cascade) {}

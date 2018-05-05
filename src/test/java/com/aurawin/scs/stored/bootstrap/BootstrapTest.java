@@ -19,18 +19,23 @@ import static com.aurawin.core.stored.entities.Entities.CascadeOff;
 public class BootstrapTest {
     public static Domain domain;
     public static Location lc;
+    public static Location lcDelete;
     public static Group gp;
+    public static Group gpDelete;
     public static Resource rcPhoenix;
     public static Resource rcChump;
+    public static Resource rcDelete;
     public static Node nPhoenix;
     public static Node nChump;
     public static Node nAu1;
     public static Node nAu2;
     public static Node nDisk;
     public static Node nHTTP;
+    public static Node nDelete;
 
     public static Account account;
     public static Service svcHTTP;
+    public static Service svcDelete;
     public static Service svcAUDISK;
     public static Disk auDisk;
     public static Certificate  Cert ;
@@ -63,12 +68,30 @@ public class BootstrapTest {
                 "78660",
                 "USA"
         );
+        lcDelete = Bootstrap.Cloud.addLocation(
+                "Falcon Pointe New",
+                "19309",
+                "Stage Line Trail",
+                "1st",
+                "Office",
+                "Pflugerville",
+                "Texas",
+                "78660",
+                "USA"
+        );
         gp = Bootstrap.Cloud.addGroup(
                 lc,
                 "Office",
                 "Primary",
                 "Primary"
         );
+        gpDelete= Bootstrap.Cloud.addGroup(
+            lcDelete,
+            "Office",
+            "Primary",
+            "Primary"
+        );
+
         rcPhoenix = Bootstrap.Cloud.addResource(gp,"Phoenix");
         rcChump = Bootstrap.Cloud.addResource(gp,"Chump");
         nPhoenix = Bootstrap.Cloud.addNode(rcPhoenix,"phoenix","172.16.1.1");
@@ -76,6 +99,8 @@ public class BootstrapTest {
 
         nAu1 = Bootstrap.Cloud.addNode(rcPhoenix,"au1","107.218.165.193");
         nAu2 = Bootstrap.Cloud.addNode(rcChump,"au2","107.218.165.194");
+        nDelete= Bootstrap.Cloud.addNode(rcChump,"nDelete","172.16.54.1");
+
 
         nHTTP = nChump;
         nDisk = nChump;
@@ -92,6 +117,14 @@ public class BootstrapTest {
                 nHTTP,
                 Namespace.Entities.getUniqueId(com.aurawin.scs.stored.cloud.service.HTTP.class),
                 1080,
+                1,
+                10,
+                1
+        );
+        svcDelete = Bootstrap.Cloud.addService(
+                nDelete,
+                Namespace.Entities.getUniqueId(com.aurawin.scs.stored.cloud.service.HTTP.class),
+                80,
                 1,
                 10,
                 1

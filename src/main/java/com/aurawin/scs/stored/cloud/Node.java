@@ -5,7 +5,7 @@ import com.aurawin.scs.lang.Database;
 import com.aurawin.scs.stored.domain.Domain;
 import com.google.gson.annotations.Expose;
 
-import com.aurawin.core.stored.entities.Entities;
+import com.aurawin.scs.stored.Entities;
 import com.aurawin.core.stored.Stored;
 
 import org.hibernate.Session;
@@ -18,8 +18,11 @@ import javax.persistence.Entity;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.aurawin.core.stored.entities.Entities.CascadeOn;
 
 @Entity
 @Namespaced
@@ -63,7 +66,8 @@ import java.util.List;
                 )
         }
 )
-public class Node extends Stored {
+
+public class Node extends Stored implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = Database.Field.Cloud.Node.Id)
@@ -86,54 +90,63 @@ public class Node extends Stored {
     public long getIP(){ return IP;}
     public void setIP(long ip){IP=ip;}
 
+    @Expose(serialize = false, deserialize = false)
     @Cascade({CascadeType.MERGE})
     @ManyToOne(targetEntity = Domain.class, fetch = FetchType.EAGER )
     @JoinColumn(name  = Database.Field.Cloud.Node.DomainId, nullable = true)
-    @Expose(serialize = false, deserialize = false)
     protected Domain Domain;
     public Domain getDomain(){return Domain;}
     public void setDomain(Domain domain){
         Domain=domain;
     }
 
+    @Expose(serialize = false, deserialize = false)
     @Cascade({CascadeType.MERGE})
     @ManyToOne(targetEntity = Group.class, fetch = FetchType.EAGER )
     @JoinColumn(name  = Database.Field.Cloud.Node.GroupId, nullable = false)
-    @Expose(serialize = false, deserialize = false)
     protected Group Group;
     public Group getGroup(){return Group;}
 
+    @Expose(serialize = false, deserialize = false)
     @Cascade({CascadeType.MERGE})
     @ManyToOne(targetEntity = Resource.class, fetch = FetchType.EAGER )
     @JoinColumn(name  = Database.Field.Cloud.Node.OwnerId, nullable = false)
-    @Expose(serialize = false, deserialize = false)
     protected Resource Resource;
     public Resource getResource(){return Resource;}
     public void setResource(Resource resource){
         Group = (resource!=null) ? resource.Group : null;
         Resource=resource;
     }
-
-    @Cascade({CascadeType.MERGE})
-    @ManyToOne(targetEntity = Transactions.class, fetch = FetchType.EAGER)
-    @JoinColumn(name  = Database.Field.Cloud.Node.TransactionsId)
-    @Expose(serialize = false, deserialize = false)
+    @Expose(serialize = true, deserialize = true)
+    //OnDelete(action = OnDeleteAction.CASCADE, o)
+    @Cascade({CascadeType.MERGE,CascadeType.DELETE})
+    @ManyToOne(targetEntity = Transactions.class, fetch = FetchType.EAGER )
+    @JoinColumn(
+            name  = Database.Field.Cloud.Node.TransactionsId
+    )
     protected Transactions Transactions;
     public Transactions getTransactions(){return Transactions;}
     public void setTransactions(Transactions transactions){ Transactions = transactions;}
 
 
-    @Cascade({CascadeType.MERGE})
+    @Expose(serialize = true, deserialize = true)
+    //@OnDelete(action = OnDeleteAction.CASCADE)
+    @Cascade({CascadeType.MERGE,CascadeType.ALL})
     @ManyToOne(targetEntity = Uptime.class, fetch = FetchType.EAGER)
-    @JoinColumn(name  = Database.Field.Cloud.Node.UptimeId)
-    @Expose(serialize = false, deserialize = false)
+    @JoinColumn(
+            name  = Database.Field.Cloud.Node.UptimeId
+    )
+
     protected Uptime Uptime;
     public Uptime getUptime(){return Uptime;}
     public void setUptime(Uptime uptime){ Uptime = uptime;}
 
+
+    @Expose(serialize = true, deserialize = true)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @Cascade({CascadeType.MERGE})
     @OneToMany(targetEntity = Service.class, fetch=FetchType.EAGER, mappedBy="Owner")
-    @Expose(serialize = false, deserialize = false)
+
     protected List<Service> Services = new ArrayList<Service>();
 
 
@@ -173,6 +186,15 @@ public class Node extends Stored {
         }
     }
     public static void entityCreated(Stored Entity, boolean Cascade){ }
-    public static void entityDeleted(Stored Entity, boolean Cascade) {}
+    public static void entityDeleted(Stored Entity, boolean Cascade) {
+        if (Entity instanceof Resource){
+            Resource r = (Resource) Entity;
+            ArrayList<Node> nodes = Entities.Cloud.Node.listAll(r);
+            for (Node n :nodes){
+                Entities.Delete(n, CascadeOn);
+            }
+
+        }
+    }
     public static void entityUpdated(Stored Entity, boolean Cascade) {}
 }

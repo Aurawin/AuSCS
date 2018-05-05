@@ -1,15 +1,19 @@
 package com.aurawin.scs.stored;
 
+import com.aurawin.core.solution.Namespace;
 import com.aurawin.core.stored.Stored;
 import com.aurawin.core.stored.annotations.QueryAll;
 import com.aurawin.core.stored.annotations.QueryByDomainId;
 import com.aurawin.core.stored.annotations.QueryByOwnerId;
 import com.aurawin.core.stored.entities.security.Certificate;
+import com.aurawin.scs.lang.Database;
 import com.aurawin.scs.stored.annotations.*;
 import com.aurawin.scs.stored.domain.Domain;
+import com.aurawin.scs.stored.domain.KeyValue;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
+import java.security.KeyPair;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
@@ -191,6 +195,27 @@ public class Entities extends com.aurawin.core.stored.entities.Entities{
         }
     }
     public static class Domains{
+        public static class KeyValues{
+            public static ArrayList<KeyValue>listAll(Domain d){
+                Session ssn = Entities.openSession();
+                try{
+                    Query q = ssn.getNamedQuery(Database.Query.Domain.KeyValue.ByDomainIdAndNamespaceId.name);
+                    if (q!=null){
+                        q.setParameter("DomainId",d.getId());
+                        q.setParameter("NamespaceId",Namespace.Entities.Identify(KeyValue.class));
+                        return (ArrayList<KeyValue>)q.list().stream()
+                                .filter(k-> k instanceof KeyValue)
+                                .map(KeyValue.class::cast)
+                                .collect(Collectors.toCollection(ArrayList::new));
+
+                    }
+
+                } finally{
+                    ssn.close();
+                }
+                return new ArrayList<>();
+            }
+        }
 
         public static class Certificates{
             public static ArrayList<Certificate> listAll(Domain d) {

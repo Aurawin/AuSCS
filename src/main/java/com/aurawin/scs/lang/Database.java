@@ -30,7 +30,7 @@ public class Database extends com.aurawin.core.lang.Database {
         }
         public static class Domain{
             public static final String Items = "tbl_d_itm";
-
+            public static final String KeyValue = "tbl_d_kv";
             public static class Network{
                 public static final String List = "tbl_d_ntk";
                 public static final String Member = "tbl_d_ntk_m";
@@ -213,6 +213,17 @@ public class Database extends com.aurawin.core.lang.Database {
             }
         }
         public static class Domain{
+            public static class KeyValue {
+                public static class ByDomainIdAndNamespaceId {
+                    public static final String name = "QueryDomainKeyValueByDomainIdAndNamespaceId";
+                    public static final String value = "from KeyValue where DomainId=:DomainId and NamespaceId=:NamespaceId";
+                }
+                public static class DeleteDomainKeyValueByDomainIdAndNamespaceId {
+                    public static final String name = "QueryDeleteDomainKeyValueByDomainId";
+                    public static final String value = "delete from KeyValue where DomainId=:DomainId";
+                }
+            }
+
             public static class All{
                 public static final String name = "QueryDomainAll";
                 public static final String value = "from Domain";
@@ -563,6 +574,7 @@ public class Database extends com.aurawin.core.lang.Database {
             }
         }
         public static class Domain{
+
             public static final String Id="itmid";
             public static final String RootId = "itmrid";
             public static final String CertId = "itmcid";
@@ -574,6 +586,14 @@ public class Database extends com.aurawin.core.lang.Database {
             public static final String DefaultOptionCatchAll="itmdca";
             public static final String DefaultOptionQuota="itmdqo";
             public static final String DefaultOptionFiltering="itmdfl";
+
+            public static class Collection{
+                public static final String Id = "itmid";
+                public static final String DomainId = "itdid";
+                public static final String NamespaceId = "itmnsid";
+                public static final String Name = "itmnme";
+                public static final String Value = "itmvl";
+            }
             public static class User {
                 public static class Role{
                     public static final String Id = "itmid";
