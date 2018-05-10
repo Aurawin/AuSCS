@@ -22,6 +22,8 @@ import org.hibernate.annotations.SelectBeforeUpdate;
 import javax.persistence.*;
 import java.util.ArrayList;
 
+import static com.aurawin.core.stored.entities.Entities.UseCurrentTransaction;
+
 @javax.persistence.Entity
 @Namespaced
 @EntityDispatch(
@@ -129,7 +131,7 @@ public class Vendor extends Stored {
             );
 
             for (Stored h : lst) {
-                Entities.Delete(h,Cascade);
+                Entities.Delete(h,Cascade,UseCurrentTransaction);
             }
 
         }

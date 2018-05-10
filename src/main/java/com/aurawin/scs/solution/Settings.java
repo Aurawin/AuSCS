@@ -64,7 +64,7 @@ public class Settings extends com.aurawin.core.solution.Settings {
         public static class Domain{
             public static class Network {
                 public static class File {
-                    public static final String fmtRouteFull  ="%2$s%1$s%3$s%1$s%4$s%1$s%5$s%1s$%6$s%1$s%7$s%1$s%8$s";
+                    public static final String fmtRouteFull  ="%2$s%1$s%3$s%1$s%4$s%1$s%5$s%1$s%6$s%1$s%7$s%1$s%8$s";
                     public static final String fmtRoutePath  ="%2$s%1$s%3$s%1$s%4$s%1$s%5$s%1$s%6$s%1$s%7$s";
                     public static final String fmtRouteMount ="%2$s%1$s%3$s";
 

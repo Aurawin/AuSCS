@@ -18,6 +18,8 @@ import com.google.gson.Gson;
 import org.hibernate.Session;
 
 import static com.aurawin.core.stored.entities.Entities.CascadeOn;
+import static com.aurawin.core.stored.entities.Entities.UseCurrentTransaction;
+import static com.aurawin.core.stored.entities.Entities.UseNewTransaction;
 
 @com.aurawin.core.plugin.annotations.Plugin(
         Package = "com.aurawin.scs.core.admin",
@@ -103,7 +105,7 @@ public class Admin extends Plug {
             Account e = Entities.Lookup(Account.class,a.getDomainId(),a.getName());
             if (e!=null){
                 try {
-                    Entities.Delete(e, CascadeOn);
+                    Entities.Delete(e, CascadeOn,UseCurrentTransaction);
                     h.Response.Headers.Update(Field.Code, CoreResult.Ok);
                 } catch (Exception ex){
                     h.Response.Headers.Update(Field.Code, CoreResult.CoreCommandDMSFailure);
@@ -206,7 +208,7 @@ public class Admin extends Plug {
             Domain e = Entities.Lookup(Domain.class,d.getId());
             if (e!=null){
                 try {
-                    Entities.Delete(e, CascadeOn);
+                    Entities.Delete(e, CascadeOn,UseCurrentTransaction);
                     h.Response.Headers.Update(Field.Code, CoreResult.Ok);
                 } catch (Exception ex){
                     h.Response.Headers.Update(Field.Code, CoreResult.CoreCommandDMSFailure);

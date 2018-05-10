@@ -17,6 +17,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 import static com.aurawin.core.stored.entities.Entities.CascadeOff;
+import static com.aurawin.core.stored.entities.Entities.UseCurrentTransaction;
 
 @Entity
 @Namespaced
@@ -38,6 +39,10 @@ import static com.aurawin.core.stored.entities.Entities.CascadeOff;
                 @NamedQuery(
                         name  = Database.Query.Cloud.Transactions.ById.name,
                         query = Database.Query.Cloud.Transactions.ById.value
+                ),
+                @NamedQuery(
+                        name = Database.Query.Cloud.Transactions.DeleteByNodeId.name,
+                        query = Database.Query.Cloud.Transactions.DeleteByNodeId.value
                 )
         }
 )
@@ -101,7 +106,7 @@ public class Transactions extends Stored implements Serializable {
     public static void entityDeleted(Stored Entity, boolean Cascade) {
         if (Entity instanceof Node){
             Node n = (Node) Entity;
-            Entities.Delete(n.Transactions,CascadeOff);
+            //Entities.Delete(n.Transactions,CascadeOff,UseCurrentTransaction);
         }
 
     }

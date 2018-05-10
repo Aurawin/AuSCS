@@ -23,6 +23,8 @@ import java.time.Instant;
 import java.util.ArrayList;
 
 import static com.aurawin.core.stored.entities.Entities.CascadeOn;
+import static com.aurawin.core.stored.entities.Entities.UseCurrentTransaction;
+import static com.aurawin.core.stored.entities.Entities.UseNewTransaction;
 
 @javax.persistence.Entity
 @Namespaced
@@ -59,6 +61,7 @@ import static com.aurawin.core.stored.entities.Entities.CascadeOn;
         }
 )
 @EntityDispatch(
+        onPurge = true,
         onCreated = false,
         onDeleted = true,
         onUpdated = false
@@ -191,37 +194,29 @@ public class File extends Stored {
             }
         }
     }
-    public static void entityCreated(Stored Entity, boolean Cascade) { }
-    public static void entityUpdated(Stored Entity, boolean Cascade) {}
-    public static void entityDeleted(Stored Entity, boolean Cascade) throws Exception{
-         if (Entity instanceof File) {
-             File f = (File) Entity;
-             AuDisk.deleteFile(
-                     ((File) f).DiskId,
-                     Namespace.Entities.Identify(com.aurawin.scs.stored.domain.network.File.class),
-                     ((File) f).DomainId,
-                     ((File) f).OwnerId,
-                     ((File) f).FolderId,
-                     ((File) f).Id
-             );
-         } else if (Entity instanceof Network){
-            Network n = (Network) Entity;
-            ArrayList<Stored> lst = Entities.Lookup(
-                    File.class.getAnnotation(QueryByNetworkId.class),
-                    n.getId()
+    public static void entityPurge(Stored Entity, boolean Cascade) {
+        if (Entity instanceof File) {
+            File f = (File) Entity;
+            AuDisk.deleteFile(
+                    ((File) f).DiskId,
+                    Namespace.Entities.Identify(File.class),
+                    ((File) f).DomainId,
+                    ((File) f).OwnerId,
+                    ((File) f).FolderId,
+                    ((File) f).Id
             );
-            for (Stored f : lst) {
-                Entities.Delete(f, CascadeOn);
-            }
-        } else if (Entity instanceof Folder) {
+        } else if (Entity instanceof Folder){
             Folder f = (Folder) Entity;
-            ArrayList<Stored> lst = Entities.Lookup(
-                    File.class.getAnnotation(QueryByFolderId.class),
-                    f.Id
-            );
-            for (Stored s: lst){
-                Entities.Delete(s,CascadeOn);
+            ArrayList<File> fls = Entities.Domains.Network.Files.listAll(f);
+            for (File fl:fls){
+                Entities.Purge(fl,CascadeOn);
+                Entities.Delete(fl,CascadeOn,UseNewTransaction);
             }
+
         }
     }
+    public static void entityCreated(Stored Entity, boolean Cascade) {}
+    public static void entityUpdated(Stored Entity, boolean Cascade) {}
+    public static void entityDeleted(Stored Entity, boolean Cascade) {}
+
 }

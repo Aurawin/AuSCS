@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.aurawin.core.stored.entities.Entities.CascadeOn;
+import static com.aurawin.core.stored.entities.Entities.UseCurrentTransaction;
 
 @Entity
 @Namespaced
@@ -137,7 +138,7 @@ public class Resource extends Stored{
             Group g = (Group) Entity;
             ArrayList<Resource> rcs = com.aurawin.scs.stored.Entities.Cloud.Resource.listAll(g);
             for (Resource r :rcs){
-                Entities.Delete(r, CascadeOn);
+                Entities.Delete(r, CascadeOn,UseCurrentTransaction);
             }
 
         }

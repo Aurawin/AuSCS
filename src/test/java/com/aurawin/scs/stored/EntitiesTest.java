@@ -6,6 +6,7 @@ import com.aurawin.core.solution.Namespace;
 import com.aurawin.core.solution.Settings;
 import com.aurawin.core.stored.entities.FetchKind;
 import com.aurawin.core.stored.entities.security.Certificate;
+import com.aurawin.core.stream.MemoryStream;
 import com.aurawin.scs.audisk.AuDisk;
 import com.aurawin.scs.lang.Database;
 import com.aurawin.core.stored.Dialect;
@@ -17,6 +18,8 @@ import com.aurawin.scs.stored.cloud.Node;
 import com.aurawin.scs.stored.cloud.Service;
 import com.aurawin.scs.stored.domain.Domain;
 import com.aurawin.scs.stored.domain.KeyValue;
+import com.aurawin.scs.stored.domain.network.File;
+import com.aurawin.scs.stored.domain.network.Folder;
 import com.aurawin.scs.stored.domain.user.Roster;
 import com.aurawin.scs.stored.domain.user.Account;
 import com.aurawin.scs.stored.domain.network.Network;
@@ -27,10 +30,10 @@ import org.junit.Test;
 import org.junit.Before; 
 import org.junit.After;
 
+import java.time.Instant;
 import java.util.ArrayList;
 
-import static com.aurawin.core.stored.entities.Entities.CascadeOff;
-import static com.aurawin.core.stored.entities.Entities.CascadeOn;
+import static com.aurawin.core.stored.entities.Entities.*;
 
 public class EntitiesTest {
     public static final String basePackage = "com.aurawin";
@@ -77,8 +80,34 @@ public class EntitiesTest {
     public void testCheckEntitiesAsCreate() throws Exception {
         BootstrapTest.createTestData();
 
-        //Entities.Delete(BootstrapTest.nDelete.getTransactions(),CascadeOff);
-        Entities.Delete(BootstrapTest.nDelete,CascadeOn);
+        File f = new File();
+        f.setCreated(Instant.now());
+        f.setModified(Instant.now());
+        f.setFolderId(BootstrapTest.aDelete.Cabinet.Root.getId());
+        f.setDiskIdId(BootstrapTest.aDelete.Cabinet.getDiskId());
+        f.setOwnerId(BootstrapTest.aDelete.getId());
+        f.setDomainId(BootstrapTest.aDelete.getDomainId());
+        f.setNetworkId(BootstrapTest.aDelete.Cabinet.getId());
+        f.setName("Test.txt");
+        f.setSummary("This is a test file.");
+
+        Entities.Save(f,CascadeOn);
+
+        MemoryStream ms = new MemoryStream();
+        ms.Write("This is a test of content");
+        AuDisk.writeFile(
+                ms,
+                f.getDiskId(),
+                Namespace.Entities.Identify(File.class),
+                f.getDomainId(),
+                f.getOwnerId(),
+                f.getFolderId(),
+                f.getId()
+        );
+        Entities.Delete(BootstrapTest.nDelete,CascadeOn,UseNewTransaction);
+
+        Entities.Purge(BootstrapTest.aDelete,CascadeOn);
+        Entities.Delete(BootstrapTest.aDelete,CascadeOn,UseNewTransaction);
 
         Certificate cert = Entities.Lookup(Certificate.class,1l);
         AuDisk.Initialize(BootstrapTest.nChump,cert);
@@ -103,6 +132,7 @@ public class EntitiesTest {
         Account lUA = Entities.Lookup(Account.class,lD.getId(), lD.Root.getId());
         Entities.Fetch(lUA, FetchKind.Infinite);
 
+
         Roster r = new Roster(lUA,"Bestie");
         r.setAddresses("19309 Stage Line Trl.");
         r.setFirstName("Jax");
@@ -112,6 +142,9 @@ public class EntitiesTest {
         r.setState("TX");
         r.setPostal("78660");
         Entities.Save(r,CascadeOn);
+
+        ArrayList<Account> uaAll=Entities.Domains.Users.listAll(lD);
+
 
         final GsonBuilder builder = new GsonBuilder();
         builder.excludeFieldsWithoutExposeAnnotation();

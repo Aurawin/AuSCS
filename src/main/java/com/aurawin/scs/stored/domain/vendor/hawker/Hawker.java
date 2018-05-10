@@ -21,6 +21,8 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.aurawin.core.stored.entities.Entities.UseCurrentTransaction;
+
 @Entity
 @Namespaced
 @DynamicInsert(value=true)
@@ -129,7 +131,7 @@ public class Hawker extends Stored {
                     d.getId()
             );
             for (Stored h : lst) {
-                Entities.Delete(h,Cascade);
+                Entities.Delete(h,Cascade,UseCurrentTransaction);
             }
         }
     }

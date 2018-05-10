@@ -138,6 +138,10 @@ public class Database extends com.aurawin.core.lang.Database {
                     public static final String name ="QueryCloudServiceByOwnerId";
                     public static final String value = "from Service where Owner.Id=:OwnerId order by Id";
                 }
+                public static class ByOwnerIdAndKind{
+                    public static final String name ="QueryCloudServiceByOwnerIdAndKind";
+                    public static final String value = "from Service where Owner.Id=:OwnerId and Kind=:Kind";
+                }
                 public static class ByName{
                     public static final String name ="QueryCloudServiceByName";
                     public static final String value = "from Group where Namespace=:Namespace";
@@ -165,6 +169,10 @@ public class Database extends com.aurawin.core.lang.Database {
                 public static class ByOwnerId{
                     public static final String name ="QueryCloudDiskByOwnerId";
                     public static final String value = "from Disk where OwnerId=:OwnerId";
+                }
+                public static class ByServiceId{
+                    public static final String name ="QueryCloudDiskByServiceId";
+                    public static final String value = "from Disk where ServiceId=:ServiceId";
                 }
             }
             public static class Node{
@@ -203,6 +211,10 @@ public class Database extends com.aurawin.core.lang.Database {
                 public static class ById{
                     public static final String name ="QueryCloudTransactionsById";
                     public static final String value = "from Transactions where Id=:Id";
+                }
+                public static class DeleteByNodeId{
+                    public static final String name ="QueryCloudTransactionsDeleteByNodeId";
+                    public static final String value = "from Transactions where NodeId=:Id";
                 }
             }
             public static class Uptime{
@@ -283,6 +295,12 @@ public class Database extends com.aurawin.core.lang.Database {
             }
             public static class User{
                 public static class Account {
+                    public static class Delete{
+                        public static class ById {
+                            public static final String name = "QueryDomainUserAccountDeleteByName";
+                            public static final String value = "delete from Account where DomainId=:DomainId and Id=:Id";
+                        }
+                    }
                     public static class ByName {
                         public static final String name = "QueryDomainUserAccountByName";
                         public static final String value = "from Account where DomainId=:DomainId and Name=:Name";
@@ -304,7 +322,7 @@ public class Database extends com.aurawin.core.lang.Database {
 
                     public static class All {
                         public static final String name = "QueryDomainUserAccountAll";
-                        public static final String value = "from Account";
+                        public static final String value = "from Account where DomainId=:DomainId";
                     }
                     public static class ByDomainIdAndId {
                         public static final String name = "QueryDomainUserAccountByDomainIdAndId";

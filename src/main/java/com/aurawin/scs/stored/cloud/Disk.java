@@ -59,6 +59,10 @@ import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
                 @NamedQuery(
                         name  = Database.Query.Cloud.Disk.ByOwnerId.name,
                         query = Database.Query.Cloud.Disk.ByOwnerId.value
+                ),
+                @NamedQuery(
+                        name  = Database.Query.Cloud.Disk.ByServiceId.name,
+                        query = Database.Query.Cloud.Disk.ByServiceId.value
                 )
         }
 )
@@ -78,12 +82,6 @@ public class Disk extends Stored {
     protected long OwnerId;
     public long getOwnerId(){return OwnerId;}
     public void setOwnerId(long ownerId){ OwnerId = ownerId;}
-
-//    @Column(name = Database.Field.Cloud.Disk.ServiceId)
-//    @Expose(serialize = true, deserialize = true)
-//    protected long NamespaceId;
-//    public long getServiceId(){return ServiceId;}
-//    public void setServiceId(long serviceId){ ServiceId = serviceId;}
 
     @Column(name = Database.Field.Cloud.Disk.ServiceId)
     @Expose(serialize = true, deserialize = true)
@@ -156,7 +154,7 @@ public class Disk extends Stored {
                 f.delete();
             }
         }
-        return true;
+        return folder.delete();
     }
     public boolean deleteFolder(long namespaceId, long domainId, long ownerId, long folderId){
         Path p =Settings.Stored.Domain.Network.File.buildPath(

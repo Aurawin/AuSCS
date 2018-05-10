@@ -57,10 +57,10 @@ public class Bootstrap {
 
         return d;
     }
-    public static Account addUser(Domain domain, String user, String password, UniqueId Namespace) throws Exception{
+    public static Account addUser(Domain domain, String user, String password, UniqueId Role) throws Exception{
         Account a = new Account(domain,user);
         a.setPass(password);
-        ACL acl = new ACL(a,Namespace.getId());
+        ACL acl = new ACL(a,Role.getId());
         Entities.Save(a,Entities.CascadeOn);
         return a;
     }

@@ -19,6 +19,8 @@ import org.hibernate.Session;
 
 import java.util.ArrayList;
 
+import static com.aurawin.core.stored.entities.Entities.UseCurrentTransaction;
+
 /**
  * Created by atbrunner on 3/12/17.
  */
@@ -117,7 +119,7 @@ public class ACL extends Plug {
             );
             for (Stored a:acls){
                 try {
-                    Entities.Delete(a, Entities.CascadeOn);
+                    Entities.Delete(a, Entities.CascadeOn,UseCurrentTransaction);
                 } catch (Exception ex){
                     h.Response.Headers.Update(Field.Code, CoreResult.CoreCommandDMSFailure);
                 }

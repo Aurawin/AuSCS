@@ -21,6 +21,9 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import java.time.Instant;
 
+import static com.aurawin.core.stored.entities.Entities.CascadeOn;
+import static com.aurawin.core.stored.entities.Entities.UseCurrentTransaction;
+
 
 @Entity
 @Namespaced
@@ -162,17 +165,14 @@ public class Avatar extends Stored {
 
     }
     public static void entityDeleted(Stored Entity, boolean Cascade)throws Exception {
-        if (Entity instanceof Account){
-            Account ua = (Account) Entity;
-            if (ua.Avatar!=null) Entities.Delete(ua.Avatar,Entities.CascadeOn);
-        } else if (Entity instanceof Roster){
+        if (Entity instanceof Roster){
             Roster r = (Roster) Entity;
             Avatar a = Entities.Lookup(Avatar.class,r.getAvatarId());
-            if (a!=null) Entities.Delete(a,Entities.CascadeOn);
+            if (a!=null) Entities.Delete(a,CascadeOn,UseCurrentTransaction);
         } else if (Entity instanceof Network){
             Network n = (Network) Entity;
             Avatar a  = Entities.Lookup(Avatar.class,n.getAvatarId());
-            if (a!=null) Entities.Delete(a,Entities.CascadeOn);
+            if (a!=null) Entities.Delete(a,CascadeOn,UseCurrentTransaction);
         }
     }
 

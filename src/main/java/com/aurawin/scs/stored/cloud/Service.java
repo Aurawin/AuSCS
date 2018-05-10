@@ -54,6 +54,10 @@ import static javax.persistence.CascadeType.ALL;
                 @NamedQuery(
                         name  = Database.Query.Cloud.Service.ByOwnerId.name,
                         query = Database.Query.Cloud.Service.ByOwnerId.value
+                ),
+                @NamedQuery(
+                        name  = Database.Query.Cloud.Service.ByOwnerIdAndKind.name,
+                        query = Database.Query.Cloud.Service.ByOwnerIdAndKind.value
                 )
         }
 )
@@ -108,9 +112,17 @@ public class Service extends Stored{
     public void setMountPoint(String mountPoint){ MountPoint=mountPoint;}
 
 
+
     @Cascade({CascadeType.MERGE})
-    @ManyToOne(fetch=FetchType.EAGER, cascade= ALL, targetEntity = Node.class)
-    @JoinColumn(nullable=true, name = Database.Field.Cloud.Service.OwnerId)
+    @ManyToOne(
+            fetch=FetchType.EAGER,
+            cascade= ALL,
+            targetEntity = Node.class
+    )
+    @JoinColumn(
+            nullable=true,
+            name = Database.Field.Cloud.Service.OwnerId
+    )
     @Fetch(value=FetchMode.JOIN)
     protected Node Owner;
     public void setOwner(Node node){ Owner=node;}

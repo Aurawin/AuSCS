@@ -19,6 +19,8 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.time.Instant;
 
+import static com.aurawin.core.stored.entities.Entities.UseCurrentTransaction;
+
 @Entity
 @Namespaced
 @DynamicInsert(value=true)
@@ -103,7 +105,8 @@ public class Uptime extends Stored implements Serializable {
     public static void entityDeleted(Stored Entity, boolean Cascade) throws Exception{
         if (Entity instanceof Node){
             Node n = (Node) Entity;
-            Entities.Delete(n.Uptime,Entities.CascadeOff);
+
+            //Entities.Delete(n.Uptime,Entities.CascadeOff,UseCurrentTransaction);
         }
     }
     public static void entityUpdated(Stored Entity, boolean Cascade) {}

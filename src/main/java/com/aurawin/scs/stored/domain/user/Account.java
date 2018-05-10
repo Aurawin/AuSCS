@@ -19,17 +19,19 @@ import com.google.gson.annotations.Expose;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.annotations.*;
-import org.hibernate.annotations.CascadeType;
+
 import org.hibernate.annotations.NamedQueries;
 import org.hibernate.annotations.NamedQuery;
 
 import javax.persistence.*;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.aurawin.core.stored.entities.Entities.CascadeOff;
+import static com.aurawin.core.stored.entities.Entities.UseCurrentTransaction;
 
 @Entity
 @Namespaced
@@ -68,6 +70,10 @@ import static com.aurawin.core.stored.entities.Entities.CascadeOff;
                 @NamedQuery(
                         name  = com.aurawin.scs.lang.Database.Query.Domain.User.Account.ByDomainIdAndName.name,
                         query = com.aurawin.scs.lang.Database.Query.Domain.User.Account.ByDomainIdAndName.value
+                ),
+                @NamedQuery(
+                        name = com.aurawin.scs.lang.Database.Query.Domain.User.Account.Delete.ById.name,
+                        query = com.aurawin.scs.lang.Database.Query.Domain.User.Account.Delete.ById.value
                 )
         }
 )
@@ -88,6 +94,7 @@ import static com.aurawin.core.stored.entities.Entities.CascadeOff;
         Name = com.aurawin.scs.lang.Database.Query.Domain.User.Account.ByDomainIdAndName.name
 )
 @EntityDispatch(
+        onPurge = true,
         onCreated = true,
         onDeleted = true,
         onUpdated = true
@@ -124,25 +131,42 @@ public class Account extends Stored {
     public void setId(long id){ Id=id;}
 
     @Expose(serialize = false, deserialize = false)
-    @Cascade(CascadeType.MERGE)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @Fetch(value=FetchMode.SUBSELECT)
     @OneToMany(
+            fetch = FetchType.EAGER,
             targetEntity = Network.class,
-            mappedBy = "Owner"
+            mappedBy = "Owner",
+            cascade = CascadeType.REMOVE,
+            orphanRemoval = true
     )
     public List<Network> Networks= new ArrayList<Network>();
 
+    @OnDelete(action = OnDeleteAction.NO_ACTION)
     @Expose(serialize = false, deserialize = false)
-    @Cascade(CascadeType.ALL)
     @Fetch(value=FetchMode.SUBSELECT)
-    @OneToMany(targetEntity = Roster.class, mappedBy = "Owner")
+    @OneToMany(
+            fetch = FetchType.EAGER,
+            targetEntity = Roster.class,
+            mappedBy = "Owner",
+            cascade = CascadeType.REMOVE,
+            orphanRemoval = true
+
+    )
     public List<Roster>Contacts = new ArrayList<Roster>();
 
+    @OnDelete(action = OnDeleteAction.NO_ACTION)
     @Expose(serialize = false, deserialize = false)
-    @Cascade(CascadeType.ALL)
     @Fetch(value=FetchMode.SUBSELECT)
-    @OneToMany(targetEntity = ACL.class, mappedBy = "Owner")
+    @OneToMany(
+            targetEntity = ACL.class,
+            mappedBy = "Owner",
+            cascade = CascadeType.REMOVE,
+            orphanRemoval = false
+    )
     public List<ACL>ACL = new ArrayList<ACL>();
+
+
     public boolean isGranted(long namespaceId){
         for (ACL acl:ACL){
             if (acl.NamespaceId==namespaceId)
@@ -152,7 +176,7 @@ public class Account extends Stored {
     }
 
     @Expose(serialize = false, deserialize = false)
-    @Cascade(CascadeType.ALL)
+
     @Fetch(value=FetchMode.SUBSELECT)
     @OneToMany(targetEntity = ACL.class, mappedBy = "Owner")
     public List<ACL>Roles = new ArrayList<ACL>();
@@ -173,16 +197,21 @@ public class Account extends Stored {
     public void setDomainId(long domainId) {DomainId = domainId;    }
 
 
-    @Cascade({CascadeType.ALL})
-    @ManyToOne(targetEntity = Network.class)
     @Fetch(value=FetchMode.JOIN)
-    @JoinColumn(nullable=true, name  = com.aurawin.scs.lang.Database.Field.Domain.User.Account.CabinetId)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(
+            nullable=true,
+            name  = com.aurawin.scs.lang.Database.Field.Domain.User.Account.CabinetId
+    )
+    @ManyToOne(
+            fetch=FetchType.EAGER,
+            targetEntity = Network.class,
+            cascade = CascadeType.REMOVE
+    )
     @Expose(serialize = false, deserialize = false)
     public Network Cabinet;
 
 
-
-    @Cascade({CascadeType.ALL})
     @ManyToOne(targetEntity = Roster.class)
     @Fetch(value=FetchMode.JOIN)
     @JoinColumn(nullable=true, name  = com.aurawin.scs.lang.Database.Field.Domain.User.Account.RosterId)
@@ -190,7 +219,6 @@ public class Account extends Stored {
     public Roster Me;
 
 
-    @Cascade({CascadeType.ALL})
     @ManyToOne(targetEntity = com.aurawin.scs.stored.domain.user.Avatar.class)
     @JoinColumn(nullable=true, name  = com.aurawin.scs.lang.Database.Field.Domain.User.Account.AvatarId)
     @Fetch(value=FetchMode.JOIN)
@@ -334,6 +362,10 @@ public class Account extends Stored {
 
     }
     @Override
+    public String toString(){
+        return Name;
+    }
+    @Override
     public void Identify(Session ssn){
         if (Id == 0) {
             Account ua = null;
@@ -368,32 +400,38 @@ public class Account extends Stored {
         Quota=src.Quota;
         Consumption=src.Consumption;
     }
+
+    public static void entityPurge(Stored Entity, boolean Cascade) throws Exception{
+        if (Entity instanceof Account){
+
+        }
+    }
     public static void entityCreated(Stored Entity, boolean Cascade) throws Exception{
-        if (Entity instanceof Domain){
+        if (Entity instanceof Domain) {
             Domain d = (Domain) Entity;
             Account ua = null;
             ACL acl = null;
-            ua = new Account(d,Table.String(Table.Entities.Domain.Root));
-            Entities.Save(ua,Cascade);
-            acl = new ACL(ua,Namespace.Entities.Identify(com.aurawin.scs.stored.security.role.User.class));
+            ua = new Account(d, Table.String(Table.Entities.Domain.Root));
+            Entities.Save(ua, Cascade);
+            acl = new ACL(ua, Namespace.Entities.Identify(com.aurawin.scs.stored.security.role.Administrator.class));
             Entities.Save(acl, CascadeOff);
             ua.Roles.add(acl);
-            Entities.Update(ua,CascadeOff);
-            d.Root=ua;
+            Entities.Update(ua, CascadeOff);
+            d.Root = ua;
 
 
             Entities.Update(d, CascadeOff);
 
 
-            ua = new Account(d,Table.String(Table.Entities.Domain.Default));
-            ua.AllowLogin=false;
-            Entities.Save(ua,Cascade);
+            ua = new Account(d, Table.String(Table.Entities.Domain.Default));
+            ua.AllowLogin = false;
+            Entities.Save(ua, Cascade);
 
-            acl = new ACL(ua,Namespace.Entities.Identify(com.aurawin.scs.stored.security.role.User.class));
+            acl = new ACL(ua, Namespace.Entities.Identify(com.aurawin.scs.stored.security.role.User.class));
             Entities.Save(acl, CascadeOff);
             ua.Roles.add(acl);
 
-            Entities.Update(ua,CascadeOff);
+            Entities.Update(ua, CascadeOff);
         }
     }
     public static void entityUpdated(Stored Entity, boolean Cascade){}
@@ -405,7 +443,7 @@ public class Account extends Stored {
                     d.getId()
             );
             for (Stored itm : lst) {
-                Entities.Delete(itm, Entities.CascadeOn);
+                Entities.Delete(itm, Entities.CascadeOn,UseCurrentTransaction);
             }
         }
     }

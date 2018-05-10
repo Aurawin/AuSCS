@@ -18,6 +18,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import java.util.ArrayList;
 
+import static com.aurawin.core.stored.entities.Entities.UseCurrentTransaction;
 import static org.hibernate.annotations.CascadeType.ALL;
 
 @javax.persistence.Entity
@@ -99,7 +100,7 @@ public class RosterField extends Stored {
                     d.getId()
             );
             for (Stored h : lst) {
-                Entities.Delete(h,Entities.CascadeOff);
+                Entities.Delete(h,Entities.CascadeOff,UseCurrentTransaction);
             }
         } else if (Entity instanceof Roster){
             Roster r = (Roster) Entity;
@@ -108,7 +109,7 @@ public class RosterField extends Stored {
                     r.getId()
             );
             for (Stored h : lst) {
-                Entities.Delete(h,Entities.CascadeOff);
+                Entities.Delete(h,Entities.CascadeOff,UseCurrentTransaction);
             }
         }
 

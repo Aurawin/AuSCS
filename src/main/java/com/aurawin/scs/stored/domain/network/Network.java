@@ -29,6 +29,7 @@ import java.util.List;
 
 import static com.aurawin.core.stored.entities.Entities.CascadeOff;
 import static com.aurawin.core.stored.entities.Entities.CascadeOn;
+import static com.aurawin.core.stored.entities.Entities.UseCurrentTransaction;
 
 
 @javax.persistence.Entity
@@ -38,6 +39,7 @@ import static com.aurawin.core.stored.entities.Entities.CascadeOn;
 @SelectBeforeUpdate(value=true)
 @javax.persistence.Table( name = Database.Table.Domain.Network.List)
 @EntityDispatch(
+        onPurge = true,
         onCreated = true,
         onDeleted = true,
         onUpdated = true
@@ -87,23 +89,42 @@ public class Network extends Stored {
     public long getId() {
         return Id;
     }
+
     @Expose(serialize = true, deserialize = true)
-    @ManyToOne(fetch=FetchType.EAGER, targetEntity = Account.class, cascade = CascadeType.MERGE)
+    @OnDelete(action = OnDeleteAction.NO_ACTION)
     @JoinColumn(name = Database.Field.Domain.Network.OwnerId)
-    protected Account Owner;
+    @ManyToOne(
+            fetch=FetchType.EAGER,
+            targetEntity = Account.class,
+            cascade = CascadeType.REMOVE
+    )
+
+    public Account Owner;
 
     @LazyCollection(LazyCollectionOption.FALSE)
+    @OnDelete(action = OnDeleteAction.NO_ACTION)
     @Expose(serialize = true, deserialize = true)
     @Fetch(value=FetchMode.SUBSELECT)
-    @OneToMany(mappedBy = "Owner", fetch = FetchType.EAGER, targetEntity = Member.class, cascade = CascadeType.MERGE)
-    protected List<Member> Members = new ArrayList<Member>();
+    @OneToMany(
+            mappedBy = "Owner",
+            fetch = FetchType.EAGER,
+            targetEntity = Member.class,
+            cascade = CascadeType.REMOVE,
+            orphanRemoval = true
+    )
+    public List<Member> Members = new ArrayList<Member>();
 
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @LazyCollection(LazyCollectionOption.FALSE)
     @Expose(serialize = false, deserialize = false)
     @Fetch(value = FetchMode.JOIN)
-    @ManyToOne(fetch=FetchType.EAGER, targetEntity = Folder.class, cascade = CascadeType.MERGE)
+    @ManyToOne(
+            fetch=FetchType.EAGER,
+            targetEntity = Folder.class,
+            cascade = CascadeType.REMOVE
+    )
     @JoinColumn(name = Database.Field.Domain.Network.FolderId)
-    protected Folder Root;
+    public Folder Root;
 
     @Expose(serialize = true, deserialize = true)
     @Column(name = Database.Field.Domain.Network.AvatarId)
@@ -218,6 +239,14 @@ public class Network extends Stored {
                 );
         return r;
     }
+    public static void entityPurge(Stored Entity, boolean Cascade) throws Exception{
+        if (Entity instanceof Account) {
+            Account ua = (Account) Entity;
+            for (Network n:ua.Networks) {
+                Entities.Purge(n, CascadeOn);
+            }
+        }
+    }
     public static void entityCreated(Stored Entity, boolean Cascade) throws Exception{
         if (Entity instanceof Account) {
             Account ua = (Account) Entity;
@@ -249,7 +278,7 @@ public class Network extends Stored {
             );
             Account root = Entities.Lookup(Account.class,d.Root.getId());
             for (Network n : root.Networks) {
-                Entities.Delete(n, CascadeOn);
+                Entities.Delete(n, CascadeOn,UseCurrentTransaction);
             }
 
         }

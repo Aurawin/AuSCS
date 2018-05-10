@@ -9,6 +9,7 @@ import com.aurawin.core.rsr.Item;
 import com.aurawin.core.rsr.def.CredentialResult;
 import com.aurawin.core.rsr.def.http.Field;
 import com.aurawin.core.rsr.security.Security;
+import com.aurawin.core.stored.annotations.Namespaced;
 import com.aurawin.scs.core.def.login.CredentialChange;
 import com.aurawin.scs.lang.Table;
 import com.aurawin.scs.rsr.protocol.http.Server;
@@ -36,7 +37,6 @@ import static com.aurawin.core.stored.entities.Entities.CascadeOff;
         Roles = {"Administrator", "Power User", "User"},
         Transport = HTTP_1_1.class
 )
-
 public class Login extends Plug {
     private Builder bldr;
     public Gson gson;
@@ -119,8 +119,10 @@ public class Login extends Plug {
                             .setParameter("Auth",h.Request.Cookies.ValueAsString(Field.Auth))
                             .uniqueResult();
             if (a!=null) {
-                h.Response.Headers.Update(Field.User,h.Credentials.Passport.Username);
-                h.Response.Headers.Update(Field.Auth, h.Credentials.Passport.Digest);
+                h.Response.Cookies.Update(Field.Id,a.getId());
+                h.Response.Cookies.Update(Field.Domain,s.Domain.getName());
+                h.Response.Cookies.Update(Field.User,h.Credentials.Passport.Username);
+                h.Response.Cookies.Update(Field.Auth, h.Credentials.Passport.Digest);
                 h.Response.Headers.Update(Field.Code, CoreResult.Ok);
             }
         } else {

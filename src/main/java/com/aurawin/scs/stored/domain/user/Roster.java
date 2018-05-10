@@ -13,10 +13,11 @@ import com.google.gson.annotations.Expose;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
+
 import org.hibernate.annotations.*;
 
 import javax.persistence.*;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -60,6 +61,7 @@ public class Roster extends Stored {
     }
 
     @Expose(serialize = false, deserialize = false)
+    @OnDelete(action = OnDeleteAction.NO_ACTION)
     @ManyToOne()
     @JoinColumn(name = Database.Field.Domain.User.Roster.OwnerId)
     @Fetch(value=FetchMode.JOIN)
@@ -67,11 +69,13 @@ public class Roster extends Stored {
     public long getOwnerId(){ return Owner.getId();}
 
     @Expose(serialize = true, deserialize = true)
-    @Cascade({CascadeType.ALL})
+    @OnDelete(action = OnDeleteAction.NO_ACTION)
     @Fetch(value=FetchMode.SUBSELECT)
     @OneToMany(
             targetEntity = RosterField.class,
-            mappedBy = "Owner"
+            mappedBy = "Owner",
+            cascade = CascadeType.REMOVE,
+            orphanRemoval = true
 
     )
     protected List<RosterField> Custom = new ArrayList<>();
@@ -211,7 +215,7 @@ public class Roster extends Stored {
         if (Entity instanceof Account) {
             Account ua = (Account) Entity;
             Roster r = ua.Me;
-            if (r!=null) Entities.Delete(r,Entities.CascadeOn);
+            //if (r!=null) Entities.Delete(r,Entities.CascadeOn);
         }
     }
 

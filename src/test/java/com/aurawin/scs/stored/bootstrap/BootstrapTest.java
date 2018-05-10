@@ -11,6 +11,7 @@ import com.aurawin.scs.stored.domain.user.Account;
 import org.junit.Test;
 
 import static com.aurawin.core.stored.entities.Entities.CascadeOff;
+import static com.aurawin.core.stored.entities.Entities.CascadeOn;
 
 /**
  * Created by atbrunner on 3/7/17.
@@ -34,6 +35,7 @@ public class BootstrapTest {
     public static Node nDelete;
 
     public static Account account;
+    public static Account aDelete;
     public static Service svcHTTP;
     public static Service svcDelete;
     public static Service svcAUDISK;
@@ -135,14 +137,21 @@ public class BootstrapTest {
         auDisk = Bootstrap.Cloud.addDisk(nDisk,svcAUDISK,Mount);
         AuDisk.Initialize(nDisk,Cert);
 
+        Disk dq = Entities.Cloud.Disk.byService(svcAUDISK);
 
-
+        assert((dq!=null) && (dq.getId()==auDisk.getId()));
 
         domain = Bootstrap.addDomain(DomainName);
         account = Bootstrap.addUser(
                 domain,
                 "test",
                 "1Bl4H4uotT",
+                Namespace.Entities.getUniqueId(com.aurawin.scs.stored.security.role.User.class)
+        );
+        aDelete = Bootstrap.addUser(
+                domain,
+                "delete",
+                "test",
                 Namespace.Entities.getUniqueId(com.aurawin.scs.stored.security.role.User.class)
         );
 

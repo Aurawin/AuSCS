@@ -20,6 +20,8 @@ import org.hibernate.annotations.SelectBeforeUpdate;
 import javax.persistence.*;
 import java.util.ArrayList;
 
+import static com.aurawin.core.stored.entities.Entities.UseCurrentTransaction;
+
 @javax.persistence.Entity
 @Namespaced
 @DynamicInsert(value = true)
@@ -151,7 +153,7 @@ public class Member extends Stored {
                     d.getId()
             );
             for (Stored itm : lst) {
-                Entities.Delete(itm, Entities.CascadeOn);
+                Entities.Delete(itm, Entities.CascadeOn,UseCurrentTransaction);
             }
         } else if (Entity instanceof Network){
             Network n = (Network) Entity;
@@ -160,7 +162,7 @@ public class Member extends Stored {
                     n.getId()
             );
             for (Stored itm : lst) {
-                Entities.Delete(itm, Entities.CascadeOn);
+                Entities.Delete(itm, Entities.CascadeOn,UseCurrentTransaction);
             }
         }
 

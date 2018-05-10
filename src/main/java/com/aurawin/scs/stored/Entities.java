@@ -1,5 +1,7 @@
 package com.aurawin.scs.stored;
 
+import com.aurawin.core.lang.Table;
+import com.aurawin.core.log.Syslog;
 import com.aurawin.core.solution.Namespace;
 import com.aurawin.core.stored.Stored;
 import com.aurawin.core.stored.annotations.QueryAll;
@@ -10,6 +12,12 @@ import com.aurawin.scs.lang.Database;
 import com.aurawin.scs.stored.annotations.*;
 import com.aurawin.scs.stored.domain.Domain;
 import com.aurawin.scs.stored.domain.KeyValue;
+import com.aurawin.scs.stored.domain.network.File;
+import com.aurawin.scs.stored.domain.network.Folder;
+import com.aurawin.scs.stored.domain.network.Member;
+import com.aurawin.scs.stored.domain.network.Network;
+import com.aurawin.scs.stored.domain.user.Account;
+import com.aurawin.scs.stored.domain.user.Roster;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
@@ -100,6 +108,23 @@ public class Entities extends com.aurawin.core.stored.entities.Entities{
         }
     }
 
+    public static ArrayList<Stored> LookupByNetworkId(Class<? extends  Stored>CofE, long NetworkId){
+        Session ssn = acquireSession();
+        if (ssn==null) return new ArrayList<Stored>();
+        try {
+            QueryByNetworkId qc = CofE.getAnnotation(QueryByNetworkId.class);
+            Query q = ssn.getNamedQuery(qc.Name())
+                    .setParameter("NetworkId", NetworkId);
+            if (q != null) {
+                return new ArrayList(q.list());
+            } else {
+                return null;
+            }
+        } finally {
+            ssn.close();
+        }
+    }
+
     @SuppressWarnings("unchecked")
     public static <T extends Stored>T Lookup(Class<? extends Stored> CofE,long DomainId, long Id){
         Session ssn = acquireSession();
@@ -132,6 +157,34 @@ public class Entities extends com.aurawin.core.stored.entities.Entities{
         }
     }
     public static class Cloud {
+        public static class Disk{
+            public static com.aurawin.scs.stored.cloud.Disk byService(com.aurawin.scs.stored.cloud.Service s){
+                if (s==null) return null;
+                Session ssn = Entities.openSession();
+                try{
+                    Query q = ssn.getNamedQuery(Database.Query.Cloud.Disk.ByServiceId.name);
+                    if (q!=null){
+                        q.setParameter("ServiceId",s.getId());
+                        return ( com.aurawin.scs.stored.cloud.Disk) q.list().stream()
+                                .findFirst()
+                                .orElse(null);
+
+                    }
+
+                } finally{
+                    ssn.close();
+                }
+                return null;
+            }
+            public static ArrayList<com.aurawin.scs.stored.cloud.Disk> listAll() {
+                QueryAll qa = (QueryAll) com.aurawin.scs.stored.cloud.Disk.class.getAnnotation(QueryAll.class);
+                return (ArrayList<com.aurawin.scs.stored.cloud.Disk>) Entities.Lookup(qa).stream()
+                        .filter(s -> s instanceof com.aurawin.scs.stored.cloud.Disk)
+                        .map(com.aurawin.scs.stored.cloud.Disk.class::cast)
+                        .collect(Collectors.toCollection(ArrayList::new));
+
+            }
+        }
         public static class Node{
             public static ArrayList<com.aurawin.scs.stored.cloud.Node> listAll(com.aurawin.scs.stored.cloud.Resource owner) {
                 QueryByOwnerId qa = (QueryByOwnerId) com.aurawin.scs.stored.cloud.Node.class.getAnnotation(QueryByOwnerId.class);
@@ -192,11 +245,67 @@ public class Entities extends com.aurawin.core.stored.entities.Entities{
                         .collect(Collectors.toCollection(ArrayList::new));
 
             }
+            public static com.aurawin.scs.stored.cloud.Service byOwnerIdAndKind(com.aurawin.scs.stored.cloud.Node Owner, com.aurawin.scs.solution.Table.Stored.Cloud.Service.Kind Kind){
+                Session ssn = Entities.openSession();
+                try{
+                    Query q = ssn.getNamedQuery(Database.Query.Cloud.Service.ByOwnerIdAndKind.name);
+                    if (q!=null){
+                        q.setParameter("OwnerId",Owner.getId());
+                        q.setParameter("Kind",Kind);
+                        return ( com.aurawin.scs.stored.cloud.Service) q.list().stream()
+                                .findFirst()
+                                .orElse(null);
+
+                    }
+
+                } finally{
+                    ssn.close();
+                }
+                return null;
+            }
         }
     }
     public static class Domains{
+        public static class Network{
+            public static class Files{
+                public static ArrayList<File> listAll(Folder f){
+                    return Entities.Lookup(
+                            File.class.getAnnotation(QueryByFolderId.class),
+                            f.getId()
+                    ).stream()
+                            .filter(fl->fl instanceof File)
+                            .map(File.class::cast)
+                            .collect(Collectors.toCollection(ArrayList::new));
+
+                }
+            }
+        }
+        public static class Users{
+            public static ArrayList<Account> listAll(Domain d){
+                if (d==null) return new ArrayList<>();
+                Session ssn = Entities.openSession();
+                try{
+                    Query q = ssn.getNamedQuery(Database.Query.Domain.User.Account.All.name);
+                    if (q!=null){
+                        q.setParameter("DomainId",d.getId());
+                        return (ArrayList<Account>)q.list().stream()
+                                .filter(k-> k instanceof Account)
+                                .map(Account.class::cast)
+                                .collect(Collectors.toCollection(ArrayList::new));
+
+                    }
+
+                } finally{
+                    ssn.close();
+                }
+                return new ArrayList<>();
+            }
+
+
+        }
         public static class KeyValues{
             public static ArrayList<KeyValue>listAll(Domain d){
+                if (d==null) return new ArrayList<>();
                 Session ssn = Entities.openSession();
                 try{
                     Query q = ssn.getNamedQuery(Database.Query.Domain.KeyValue.ByDomainIdAndNamespaceId.name);

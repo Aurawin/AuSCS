@@ -19,8 +19,7 @@ import org.hibernate.Session;
 
 import java.util.ArrayList;
 
-import static com.aurawin.core.stored.entities.Entities.CascadeOff;
-import static com.aurawin.core.stored.entities.Entities.CascadeOn;
+import static com.aurawin.core.stored.entities.Entities.*;
 
 @com.aurawin.core.plugin.annotations.Plugin(
         Package = "com.aurawin.scs.core.social",
@@ -231,7 +230,8 @@ public class Cabinet extends Plug {
             com.aurawin.scs.stored.domain.network.File f = Entities.Lookup(com.aurawin.scs.stored.domain.network.File.class, id);
             if (f != null) {
                 try {
-                    Entities.Delete(f,CascadeOn);
+                    Entities.Purge(f,CascadeOn);
+                    Entities.Delete(f,CascadeOn,UseCurrentTransaction);
                     h.Response.Headers.Update(Field.Code,CoreResult.Ok);
                 } catch (Exception ex){
                     h.Response.Headers.Update(Field.Code,CoreResult.CoreCommandDMSFailure);
@@ -297,7 +297,6 @@ public class Cabinet extends Plug {
         if (f != null) {
             try {
                 Entities.Save(f, CascadeOff);
-
                 writeObject(h.Response.Payload, f);
                 h.Response.Headers.Update(Field.Code, CoreResult.Ok);
             } catch (Exception ex){
@@ -391,7 +390,8 @@ public class Cabinet extends Plug {
             Folder f = Entities.Lookup(Folder.class, id);
             if (f != null) {
                 try {
-                    Entities.Delete(f,CascadeOn);
+                    Entities.Purge(f,CascadeOn);
+                    Entities.Delete(f,CascadeOn,UseCurrentTransaction);
                     h.Response.Headers.Update(Field.Code,CoreResult.Ok);
                 } catch (Exception ex){
                     h.Response.Headers.Update(Field.Code,CoreResult.CoreCommandDMSFailure);

@@ -14,21 +14,24 @@ import com.aurawin.scs.stored.annotations.*;
 import com.aurawin.scs.stored.domain.Domain;
 import com.aurawin.core.time.Time;
 
+import com.aurawin.scs.stored.domain.user.Account;
 import com.google.gson.annotations.Expose;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.annotations.*;
-import org.hibernate.annotations.CascadeType;
 
 import javax.persistence.*;
+import javax.persistence.CascadeType;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import static com.aurawin.core.stored.entities.Entities.CascadeOn;
+import static com.aurawin.core.stored.entities.Entities.UseCurrentTransaction;
 
 @javax.persistence.Entity
 @Namespaced
@@ -81,6 +84,7 @@ import static com.aurawin.core.stored.entities.Entities.CascadeOn;
         Name = Database.Query.Domain.Network.Folder.ByDomainIdAndName.name
 )
 @EntityDispatch(
+        onPurge = true,
         onCreated = true,
         onDeleted = true,
         onUpdated = true
@@ -107,9 +111,11 @@ public class Folder extends Stored {
     @Column(name = Database.Field.Domain.Network.Folders.OwnerId)
     private long OwnerId;
 
-
-    @Cascade({CascadeType.ALL})
-    @ManyToOne(targetEntity = Folder.class)
+    @OnDelete(action = OnDeleteAction.NO_ACTION)
+    @ManyToOne(
+            targetEntity = Folder.class,
+            fetch = FetchType.EAGER
+    )
     @Fetch(value=FetchMode.JOIN)
     @JoinColumn(nullable=true, name  = Database.Field.Domain.Network.Folders.ParentId)
     @Expose(serialize = false, deserialize = false)
@@ -123,9 +129,15 @@ public class Folder extends Stored {
     }
 
     @Expose(serialize = false, deserialize = false)
-    @Cascade(CascadeType.ALL)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @Fetch(value=FetchMode.SUBSELECT)
-    @OneToMany(targetEntity = Folder.class, mappedBy = "Parent")
+    @OneToMany(
+            fetch=FetchType.EAGER,
+            targetEntity = Folder.class,
+            mappedBy = "Parent",
+            orphanRemoval = true,
+            cascade={CascadeType.REMOVE,CascadeType.REFRESH}
+    )
     public List<Folder>Children = new ArrayList<Folder>();
 
     @Column(name = Database.Field.Domain.Network.Folders.NetworkId)
@@ -243,7 +255,10 @@ public class Folder extends Stored {
         Created=Time.instantUTC();
         Modified = Created;
     }
-
+    @Override
+    public String toString(){
+        return Name;
+    }
     @Override
     public void Identify(Session ssn){
         if (Id == 0) {
@@ -275,7 +290,7 @@ public class Folder extends Stored {
                 Entities.Save(n.Root,Cascade);
                 AuDisk.makeFolder(
                         n.getDiskId(),
-                        Namespace.Entities.Identify(com.aurawin.scs.stored.domain.network.Folder.class),
+                        Namespace.Entities.Identify(File.class),
                         n.getDomainId(),
                         n.Id,
                         n.Root.Id
@@ -288,7 +303,7 @@ public class Folder extends Stored {
                         Entities.Save(f,Cascade);
                         AuDisk.makeFolder(
                                 n.getDiskId(),
-                                Namespace.Entities.Identify(com.aurawin.scs.stored.domain.network.Folder.class),
+                                Namespace.Entities.Identify(File.class),
                                 n.getDomainId(),
                                 n.Id,
                                 f.Id
@@ -309,7 +324,7 @@ public class Folder extends Stored {
                         Entities.Save(f, Cascade);
                         AuDisk.makeFolder(
                                 n.getDiskId(),
-                                Namespace.Entities.Identify(com.aurawin.scs.stored.domain.network.Folder.class),
+                                Namespace.Entities.Identify(File.class),
                                 n.getDomainId(),
                                 n.Id,
                                 f.Id
@@ -320,21 +335,29 @@ public class Folder extends Stored {
             }
         }
     }
+    public static void entityPurge(Stored Entity, boolean Cascade) throws Exception{
+        if (Entity instanceof Network) {
+            // list all folders and delete
+            Network n = (Network) Entity;
+            Entities.Purge(n.Root, CascadeOn);
 
-    public static void entityDeleted(Stored Entity, boolean Cascade) throws Exception{
-        if (Entity instanceof Folder) {
+        } else if (Entity instanceof Folder){
             Folder f = (Folder) Entity;
-            for (Folder c : f.Children) {
-                Entities.Delete(c, CascadeOn);
-            }
             AuDisk.deleteFolder(
                     f.DiskId,
-                    Namespace.Entities.Identify(com.aurawin.scs.stored.domain.network.Folder.class),
-
+                    Namespace.Entities.Identify(File.class),
                     f.DomainId,
                     f.OwnerId,
                     f.Id
             );
+            for (Folder c:f.Children){
+                Entities.Purge(c,CascadeOn);
+            }
+        }
+    }
+    public static void entityDeleted(Stored Entity, boolean Cascade) throws Exception{
+        if (Entity instanceof Folder) {
+
         } else if (Entity instanceof Domain) {
             Domain d = (Domain) Entity;
             ArrayList<Stored> lst = Entities.Lookup(
@@ -344,11 +367,8 @@ public class Folder extends Stored {
             for (Stored h : lst) {
                 // this is an entire list, don't cascade
                 // children are included in this list.
-                Entities.Delete(h, Entities.CascadeOff);
+                Entities.Delete(h, Entities.CascadeOff,UseCurrentTransaction);
             }
-        } else if (Entity instanceof Network) {
-            Network n = (Network) Entity;
-            Entities.Delete(n.Root, CascadeOn);
         }
     }
     public static void entityUpdated(Stored Entity, boolean Cascade) throws Exception{

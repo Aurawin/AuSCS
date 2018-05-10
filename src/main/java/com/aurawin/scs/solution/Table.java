@@ -13,7 +13,6 @@ public class Table extends com.aurawin.core.solution.Table {
                     svcSMTP(Settings.Stored.Cloud.Service.Port.SMTP, "Mail Server", "Aurawin Send Mail Server"),
                     svcSMTPS(Settings.Stored.Cloud.Service.Port.SMTPS, "Secure Mail Server", "Aurawin Secure Send Mail Server");
 
-
                     Kind(int Port, String Value, String Description) {
                         this.port = Port;
                         this.value = Value;
