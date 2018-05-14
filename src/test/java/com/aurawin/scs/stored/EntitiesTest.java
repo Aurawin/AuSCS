@@ -104,7 +104,10 @@ public class EntitiesTest {
                 f.getFolderId(),
                 f.getId()
         );
+
+        Entities.Delete(BootstrapTest.svcDelete,CascadeOn,UseNewTransaction);
         Entities.Delete(BootstrapTest.nDelete,CascadeOn,UseNewTransaction);
+
 
         Entities.Purge(BootstrapTest.aDelete,CascadeOn);
         Entities.Delete(BootstrapTest.aDelete,CascadeOn,UseNewTransaction);

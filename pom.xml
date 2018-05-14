@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.aurawin</groupId>
     <artifactId>scs</artifactId>
-    <version>2018.5.9.6</version>
+    <version>2018.5.13.5</version>
     <name>AuSCS</name>
     <properties>
         <maven.compiler.source>10</maven.compiler.source>
@@ -52,6 +52,11 @@
             <groupId>com.aurawin</groupId>
             <artifactId>mp3</artifactId>
             <version>2018.4.19.7</version>
+        </dependency>
+        <dependency>
+            <groupId>dnsjava</groupId>
+            <artifactId>dnsjava</artifactId>
+            <version>2.1.8</version>
         </dependency>
         <dependency>
             <groupId>org.json</groupId>

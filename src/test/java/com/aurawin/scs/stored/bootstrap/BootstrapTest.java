@@ -4,11 +4,15 @@ import com.aurawin.core.solution.Namespace;
 import com.aurawin.core.stored.entities.security.Certificate;
 import com.aurawin.scs.audisk.AuDisk;
 import com.aurawin.scs.solution.Settings;
+import com.aurawin.scs.stored.ContentType;
+import com.aurawin.scs.stored.DNS;
 import com.aurawin.scs.stored.Entities;
 import com.aurawin.scs.stored.cloud.*;
 import com.aurawin.scs.stored.domain.Domain;
 import com.aurawin.scs.stored.domain.user.Account;
 import org.junit.Test;
+
+import java.util.ArrayList;
 
 import static com.aurawin.core.stored.entities.Entities.CascadeOff;
 import static com.aurawin.core.stored.entities.Entities.CascadeOn;
@@ -33,18 +37,22 @@ public class BootstrapTest {
     public static Node nDisk;
     public static Node nHTTP;
     public static Node nDelete;
+    public static DNS  dnsPhoenix;
 
     public static Account account;
     public static Account aDelete;
     public static Service svcHTTP;
     public static Service svcDelete;
     public static Service svcAUDISK;
+    public static ArrayList<DNS> Servers;
     public static Disk auDisk;
     public static Certificate  Cert ;
     public static final String Mount = "/Developer/test";
     public static final String DomainName = "aurawin.com";
 
     public static void createTestData() throws Exception {
+        ContentType.installDefaults();
+
         Cert = Certificate.createSelfSigned(
                 "phoenix.aurawin.com",
                 "NOC",
@@ -93,7 +101,8 @@ public class BootstrapTest {
             "Primary",
             "Primary"
         );
-
+        dnsPhoenix=Bootstrap.addDNS("172.16.1.1");
+        Servers = Entities.Settings.DNS.listAll();
         rcPhoenix = Bootstrap.Cloud.addResource(gp,"Phoenix");
         rcChump = Bootstrap.Cloud.addResource(gp,"Chump");
         nPhoenix = Bootstrap.Cloud.addNode(rcPhoenix,"phoenix","172.16.1.1");

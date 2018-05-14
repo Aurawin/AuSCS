@@ -8,6 +8,7 @@ import com.aurawin.core.stored.Stored;
 import com.aurawin.core.stored.annotations.Namespaced;
 import com.aurawin.core.stored.entities.Entities;
 import com.aurawin.core.stored.entities.UniqueId;
+import com.aurawin.scs.stored.ContentType;
 import com.aurawin.scs.stored.cloud.Node;
 import com.aurawin.scs.stored.cloud.Service;
 import com.aurawin.core.stored.Manifest;
@@ -21,9 +22,8 @@ import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.net.InetSocketAddress;
+import java.util.ArrayList;
 import java.util.Set;
-
-import com.aurawin.scs.rsr.ContentTypes;
 
 import javax.persistence.Entity;
 
@@ -31,7 +31,7 @@ import static com.aurawin.scs.lang.Database.Field.Cloud.Service.UniqueId;
 import static com.aurawin.scs.stored.bootstrap.Plugins.initializePlugin;
 
 public class Server extends com.aurawin.core.rsr.server.Server{
-    public ContentTypes ContentTypes = new ContentTypes();
+    public ArrayList<ContentType> ContentTypes = new ArrayList<>();
     public Service Service;
     public Domain Domain;
     public Node Node;

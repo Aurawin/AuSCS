@@ -65,7 +65,10 @@ public class KeyValue extends Stored {
         Name = name;
     }
 
-    @Column(name = Database.Field.Domain.Collection.Value)
+    @Column(
+            name = Database.Field.Domain.Collection.Value,
+            columnDefinition="TEXT"
+    )
     protected String Value;
     public String getValue() {
         return Value;

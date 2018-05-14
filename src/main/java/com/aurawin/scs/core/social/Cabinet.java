@@ -12,6 +12,7 @@ import com.aurawin.scs.audisk.AuDisk;
 import com.aurawin.scs.core.CoreResult;
 import com.aurawin.scs.rsr.protocol.http.Server;
 import com.aurawin.scs.rsr.protocol.transport.HTTP_1_1;
+import com.aurawin.scs.stored.ContentType;
 import com.aurawin.scs.stored.Entities;
 import com.aurawin.scs.stored.domain.network.File;
 import com.aurawin.scs.stored.domain.network.Folder;
@@ -19,6 +20,7 @@ import org.hibernate.Session;
 
 import java.util.ArrayList;
 
+import static com.aurawin.core.file.Util.extractFileExtension;
 import static com.aurawin.core.stored.entities.Entities.*;
 
 @com.aurawin.core.plugin.annotations.Plugin(
@@ -196,9 +198,11 @@ public class Cabinet extends Plug {
                 );
                 h.Response.Headers.Update(
                         Field.ContentType,
-                        s.ContentTypes.getContentType(
-                                com.aurawin.core.file.Util.extractFileExtension(f.getName())
-                        )
+                        s.ContentTypes.stream()
+                                .filter(c->c.getExt().equalsIgnoreCase(extractFileExtension(f.getName())))
+                                .map(ContentType::getStamp)
+                                .findFirst()
+                                .orElse("")
                 );
                 h.Response.Headers.Update(Field.Code,CoreResult.Ok);
             } else {

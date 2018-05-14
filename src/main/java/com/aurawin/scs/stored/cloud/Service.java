@@ -18,6 +18,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 import static javax.persistence.CascadeType.ALL;
+import static javax.persistence.CascadeType.DETACH;
+import static javax.persistence.CascadeType.REMOVE;
 
 @Entity
 @Namespaced
@@ -114,22 +116,27 @@ public class Service extends Stored{
 
 
     @Cascade({CascadeType.MERGE})
+    @Fetch(value=FetchMode.JOIN)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @ManyToOne(
             fetch=FetchType.EAGER,
-            cascade= ALL,
+            cascade= DETACH,
             targetEntity = Node.class
     )
     @JoinColumn(
             nullable=true,
             name = Database.Field.Cloud.Service.OwnerId
     )
-    @Fetch(value=FetchMode.JOIN)
+
     protected Node Owner;
     public void setOwner(Node node){ Owner=node;}
     public Node getOwner(){return Owner;}
 
     @Cascade({CascadeType.MERGE})
-    @ManyToOne(fetch=FetchType.EAGER,targetEntity = UniqueId.class)
+    @ManyToOne(
+            fetch=FetchType.EAGER,
+            targetEntity = UniqueId.class
+    )
     @JoinColumn(name = Database.Field.Cloud.Service.UniqueId)
     protected UniqueId Namespace;
     public void setNamespace(UniqueId ns){ Namespace=ns;}

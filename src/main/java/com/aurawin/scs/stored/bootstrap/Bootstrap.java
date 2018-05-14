@@ -14,6 +14,7 @@ import com.aurawin.core.stored.entities.FetchKind;
 import com.aurawin.core.stored.entities.UniqueId;
 import com.aurawin.scs.lang.Database;
 import com.aurawin.scs.lang.Table;
+import com.aurawin.scs.stored.DNS;
 import com.aurawin.scs.stored.cloud.*;
 import com.aurawin.scs.stored.domain.Domain;
 import com.aurawin.scs.stored.domain.user.Account;
@@ -28,6 +29,8 @@ import javax.persistence.Entity;
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.Set;
+
+import static com.aurawin.core.stored.entities.Entities.CascadeOn;
 
 
 public class Bootstrap {
@@ -49,11 +52,16 @@ public class Bootstrap {
         }
         return al;
     }
-
+    public static DNS addDNS(String ip) throws Exception{
+        DNS d = new DNS();
+        d.setHost(IpHelper.toLong(ip));
+        Entities.Save(d,CascadeOn);
+        return d;
+    }
     public static Domain addDomain(String name) throws Exception{
         Domain d = new Domain(name, Table.String(Table.Entities.Domain.Root));
 
-        Entities.Save(d, Entities.CascadeOn);
+        Entities.Save(d, CascadeOn);
 
         return d;
     }
@@ -61,7 +69,7 @@ public class Bootstrap {
         Account a = new Account(domain,user);
         a.setPass(password);
         ACL acl = new ACL(a,Role.getId());
-        Entities.Save(a,Entities.CascadeOn);
+        Entities.Save(a,CascadeOn);
         return a;
     }
     public static Certificate addSelfSignedCertificate(
@@ -90,7 +98,7 @@ public class Bootstrap {
                 days
         );
 
-        Entities.Save(c,Entities.CascadeOn);
+        Entities.Save(c,CascadeOn);
         domain.setCertId(c.Id);
         Entities.Update(domain,Entities.CascadeOff);
         return c;
@@ -111,7 +119,7 @@ public class Bootstrap {
             l.setRegion(Region);
             l.setZip(Postal);
             l.setCountry(Country);
-            Entities.Save(l, Entities.CascadeOn);
+            Entities.Save(l, CascadeOn);
             return l;
         }
         public static Group addGroup(
@@ -125,7 +133,7 @@ public class Bootstrap {
             g.setRack(rack);
             g.setRow(row);
             g.setLocation(location);
-            Entities.Save(g,Entities.CascadeOn);
+            Entities.Save(g,CascadeOn);
             return g;
         }
         public static Service addService(Node node, UniqueId namespace, int port, int scaleMin, int scaleMax, int scaleStart)
@@ -140,14 +148,14 @@ public class Bootstrap {
             svc.setScaleMin(scaleMin);
             svc.setScaleStart(scaleStart);
 
-            Entities.Save(svc,Entities.CascadeOn);
+            Entities.Save(svc,CascadeOn);
             return svc;
         }
         public static Resource addResource(Group group, String name)throws Exception{
             Resource r = new Resource();
             r.setGroup(group);
             r.setName(name);
-            Entities.Save(r,Entities.CascadeOn);
+            Entities.Save(r,CascadeOn);
 
             return r;
         }
@@ -156,7 +164,7 @@ public class Bootstrap {
             n.setResource(resource);
             n.setName(name);
             n.setIP(IpHelper.toLong(ip));
-            Entities.Save(n,Entities.CascadeOn);
+            Entities.Save(n,CascadeOn);
             return n;
         }
         public static Disk addDisk(Node node, Service svc, String mount) throws Exception{
@@ -164,7 +172,7 @@ public class Bootstrap {
             d.setOwnerId(node.getId());
             d.setServiceId(svc.getId());
             d.setMount(mount);
-            Entities.Save(d,Entities.CascadeOn);
+            Entities.Save(d,CascadeOn);
             return d;
         }
     }
@@ -203,10 +211,10 @@ public class Bootstrap {
         if (r==null) {
             r = new Role();
             r.Title = Title;
-            Entities.Save(r, Entities.CascadeOn);
+            Entities.Save(r, CascadeOn);
             for (UniqueId ns : Targets) {
                 RoleMap rm = new RoleMap(r, ns.getId());
-                Entities.Save(rm, Entities.CascadeOn);
+                Entities.Save(rm, CascadeOn);
             }
         } else {
             Entities.Fetch(r,FetchKind.Infinite);

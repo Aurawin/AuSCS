@@ -165,7 +165,7 @@ public class Entities extends com.aurawin.core.stored.entities.Entities{
                     Query q = ssn.getNamedQuery(Database.Query.Cloud.Disk.ByServiceId.name);
                     if (q!=null){
                         q.setParameter("ServiceId",s.getId());
-                        return ( com.aurawin.scs.stored.cloud.Disk) q.list().stream()
+                        return ( com.aurawin.scs.stored.cloud.Disk) q.stream()
                                 .findFirst()
                                 .orElse(null);
 
@@ -252,7 +252,7 @@ public class Entities extends com.aurawin.core.stored.entities.Entities{
                     if (q!=null){
                         q.setParameter("OwnerId",Owner.getId());
                         q.setParameter("Kind",Kind);
-                        return ( com.aurawin.scs.stored.cloud.Service) q.list().stream()
+                        return ( com.aurawin.scs.stored.cloud.Service) q.stream()
                                 .findFirst()
                                 .orElse(null);
 
@@ -264,6 +264,7 @@ public class Entities extends com.aurawin.core.stored.entities.Entities{
                 return null;
             }
         }
+
     }
     public static class Domains{
         public static class Network{
@@ -344,6 +345,55 @@ public class Entities extends com.aurawin.core.stored.entities.Entities{
                     .map(Domain.class::cast)
                     .collect(Collectors.toCollection(ArrayList::new));
 
+        }
+    }
+    public static class Settings{
+        public static class DNS{
+            public static com.aurawin.scs.stored.ContentType Lookup(long host){
+                Session ssn = Entities.openSession();
+                try{
+                    Query q = ssn.getNamedQuery(Database.Query.DNS.ByIp.name);
+                    q.setParameter("Ip", host);
+                    return (com.aurawin.scs.stored.ContentType) q.uniqueResult();
+                }finally{
+                    ssn.close();
+                }
+            }
+            public static ArrayList<com.aurawin.scs.stored.DNS> listAll(){
+                Session ssn = Entities.openSession();
+                try{
+                    Query q = ssn.getNamedQuery(Database.Query.DNS.All.name);
+                    return (ArrayList<com.aurawin.scs.stored.DNS>) q.stream()
+                            .filter(s -> s instanceof com.aurawin.scs.stored.DNS)
+                            .map(com.aurawin.scs.stored.DNS.class::cast)
+                            .collect(Collectors.toCollection(ArrayList::new));
+                }finally{
+                    ssn.close();
+                }
+            }
+
+        }
+        public static class ContentType {
+            public static com.aurawin.scs.stored.ContentType Lookup(String major, String minor, String ext){
+                Session ssn = Entities.openSession();
+                try{
+                    Query q = ssn.createQuery("from ContentType where Major=:major and Minor=:minor and Ext=:ext");
+                    q.setParameter("major", major);
+                    q.setParameter("minor",minor);
+                    q.setParameter("ext",ext);
+                    return (com.aurawin.scs.stored.ContentType) q.uniqueResult();
+                }finally{
+                    ssn.close();
+                }
+            }
+            public static ArrayList<com.aurawin.scs.stored.ContentType> listAll(){
+                QueryAll qa = (QueryAll) com.aurawin.scs.stored.ContentType.class.getAnnotation(QueryAll.class);
+                return (ArrayList<com.aurawin.scs.stored.ContentType>) Entities.Lookup(qa).stream()
+                        .filter(s -> s instanceof com.aurawin.scs.stored.ContentType)
+                        .map(com.aurawin.scs.stored.ContentType.class::cast)
+                        .collect(Collectors.toCollection(ArrayList::new));
+
+            }
         }
     }
 

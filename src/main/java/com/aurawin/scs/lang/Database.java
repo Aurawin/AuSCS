@@ -10,7 +10,8 @@ public class Database extends com.aurawin.core.lang.Database {
         }
     }
     public static class Table extends com.aurawin.core.lang.Database.Table{
-        public static final String ContentType = "tbl_cnt_t";
+        public static final String ContentType = "tbl_cnt";
+        public static final String DNS = "tbl_dns";
         public static class Security{
             public static final String ACL = "tbl_sec_a";
             public static final String Intrusion = "tbl_sec_n";
@@ -75,6 +76,22 @@ public class Database extends com.aurawin.core.lang.Database {
                 public static final String name = "QueryContentTypeById";
                 public static final String value = "from ContentType where Id=:Id";
             }
+        }
+        public static class DNS{
+            public static class All {
+                public static final String name = "QueryDNSAll";
+                public static final String value = "from DNS";
+            }
+
+            public static class ById {
+                public static final String name = "DNSById";
+                public static final String value = "from DNS where Id=:Id";
+            }
+            public static class ByIp {
+                public static final String name = "DNSByIp";
+                public static final String value = "from DNS where Host=:Ip";
+            }
+
         }
         public static class Security{
             public static class ACL{
@@ -488,6 +505,10 @@ public class Database extends com.aurawin.core.lang.Database {
             public static final String Major = "itmm";
             public static final String Minor = "itmn";
             public static final String Ext = "itmet";
+        }
+        public static class DNS{
+            public static final String Id = "itmid";
+            public static final String Host = "ithst";
         }
         public static class Security{
             public static class ACL{

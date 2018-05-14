@@ -212,9 +212,15 @@ public class Account extends Stored {
     public Network Cabinet;
 
 
-    @ManyToOne(targetEntity = Roster.class)
     @Fetch(value=FetchMode.JOIN)
+    @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(nullable=true, name  = com.aurawin.scs.lang.Database.Field.Domain.User.Account.RosterId)
+    @ManyToOne(
+            fetch = FetchType.EAGER,
+            targetEntity = Roster.class,
+            cascade = {CascadeType.REMOVE, CascadeType.MERGE, CascadeType.REFRESH}
+    )
     @Expose(serialize = false, deserialize = false)
     public Roster Me;
 
