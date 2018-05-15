@@ -225,25 +225,18 @@ public class Disk extends Stored {
                 folderId
         );
         File fPath = dPath.toFile();
-        if (fPath.isDirectory()) {
-            try {
-                Path pFile = Settings.Stored.Domain.Network.File.buildFilename(
-                        Mount,
-                        namespaceId,
-                        domainId,
-                        ownerId,
-                        folderId,
-                        fileId
-                );
-                Files.createFile(pFile,Settings.Stored.Cloud.Disk.Attributes);
-                return true;
-            } catch (Exception e){
-                Syslog.Append(getClass().getCanonicalName(),"makeFile", e.getMessage());
-                return false;
-            }
-        } else{
+        try {
+            File f = new File(fPath,String.valueOf(fileId));
+            f.createNewFile();
+            f.setExecutable(false);
+            f.setReadable(true);
+            f.setWritable(true);
+            return true;
+        } catch (Exception e){
+            Syslog.Append(getClass().getCanonicalName(),"makeFile", e.getMessage());
             return false;
         }
+
     }
     public boolean moveFile(long namespaceId, long domainId, long ownerId, long olderFolderId, long newFolderId, long fileId){
         Path OldPath = Settings.Stored.Domain.Network.File.buildPath(

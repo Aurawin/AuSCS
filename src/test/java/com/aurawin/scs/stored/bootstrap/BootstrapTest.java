@@ -22,6 +22,7 @@ import static com.aurawin.core.stored.entities.Entities.CascadeOn;
  */
 
 public class BootstrapTest {
+    public static Disk dPhoenix;
     public static Domain domain;
     public static Location lc;
     public static Location lcDelete;
@@ -49,6 +50,21 @@ public class BootstrapTest {
     public static Certificate  Cert ;
     public static final String Mount = "/Developer/test";
     public static final String DomainName = "aurawin.com";
+
+    public static Certificate createCertificate() throws Exception{
+        return Certificate.createSelfSigned(
+                "chump.aurawin.com",
+                "NOC",
+                "Aurawin LLC",
+                "19309 Stage Line Trail",
+                "Pflugerville",
+                "TX",
+                "78660",
+                "US",
+                "support@aurawin.com",
+                365
+        );
+    }
 
     public static void createTestData() throws Exception {
         ContentType.installDefaults();

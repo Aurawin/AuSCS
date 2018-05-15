@@ -255,7 +255,10 @@ public class AUDISK extends Item implements Transport
         Response.Id=Request.Id;
         Response.Size = Response.Payload.Size;
         Response.Protocol=Version.toString();
+        Response.Method=Request.Method;
+
         String sHeader=gson.toJson(Response);
+
         Buffers.Send.position(Buffers.Send.size());
         Buffers.Send.Write(sHeader);
         Buffers.Send.Write(Settings.RSR.Items.Header.Separator);

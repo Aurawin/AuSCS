@@ -15,6 +15,9 @@ import com.aurawin.scs.rsr.protocol.audisk.server.Server;
 import com.aurawin.scs.stored.bootstrap.Bootstrap;
 import com.aurawin.scs.stored.bootstrap.BootstrapTest;
 
+import com.aurawin.scs.stored.cloud.Disk;
+import com.aurawin.scs.stored.cloud.Node;
+import com.aurawin.scs.stored.cloud.Service;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -40,26 +43,30 @@ public class AuraDiskServerTest {
                 1,                                                 // Pool Acquire Increment
                 50,                                               // Max statements
                 10,                                                     // timeout
-                Database.Config.Automatic.Create,                               // Update or Install
-                "AuDiskTest",                                          // database
+                Database.Config.Automatic.Update,                               // Update or Install
+                "aus",                                          // database
                 Dialect.Postgresql.getValue(),                                  // Dialect
                 Driver.Postgresql.getValue(),                                   // Driver
                 Bootstrap.buildAnnotations(com.aurawin.core.Package.class,com.aurawin.scs.Package.class)
         );
         Entities.Initialize(mf);
 
-        BootstrapTest.createTestData();
-
-        Certificate cert =Entities.Lookup(Certificate.class,1l);
+        BootstrapTest.dPhoenix = Entities.Lookup(Disk.class,1l);
+        Certificate cert = BootstrapTest.createCertificate();
+        BootstrapTest.nPhoenix=Entities.Lookup(Node.class,1l);
+        BootstrapTest.svcAUDISK=Entities.Lookup(Service.class,6l);
 
         AuDisk.Initialize(BootstrapTest.nPhoenix,cert);
 
         Server = new Server(mf,BootstrapTest.svcAUDISK);
+
+        /*
         Server.Root= BootstrapTest.account.getName();
         Server.rootDigest = BootstrapTest.account.getAuth();
         Server.rootId = BootstrapTest.account.getId();
         Server.Realm = BootstrapTest.domain.getName();
         Server.realmId = BootstrapTest.domain.getId();
+        */
 
 
         Server.Configure();

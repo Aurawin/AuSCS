@@ -34,6 +34,12 @@
             <name>Aurawin</name>
             <url>http://au2.aurawin.com:8081/repository/aurawin</url>
         </repository>
+        <repository>
+            <id>central</id>
+            <name>Maven Repository Switchboard</name>
+            <layout>default</layout>
+            <url>http://repo1.maven.org/maven2</url>
+        </repository>
     </repositories>
     <distributionManagement>
         <repository>
