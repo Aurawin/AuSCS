@@ -36,7 +36,6 @@ import java.util.ArrayList;
 import static com.aurawin.core.stored.entities.Entities.*;
 
 public class EntitiesTest {
-    public static final String basePackage = "com.aurawin";
     public static final String DomainName = "chump.aurawin.com";
     Manifest Manifest;
 

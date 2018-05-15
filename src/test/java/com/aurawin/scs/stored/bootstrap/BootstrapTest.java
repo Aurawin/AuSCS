@@ -54,7 +54,7 @@ public class BootstrapTest {
         ContentType.installDefaults();
 
         Cert = Certificate.createSelfSigned(
-                "phoenix.aurawin.com",
+                "chump.aurawin.com",
                 "NOC",
                 "Aurawin LLC",
                 "19309 Stage Line Trail",
