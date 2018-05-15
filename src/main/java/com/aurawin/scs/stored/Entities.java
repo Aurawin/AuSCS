@@ -7,6 +7,7 @@ import com.aurawin.core.stored.Stored;
 import com.aurawin.core.stored.annotations.QueryAll;
 import com.aurawin.core.stored.annotations.QueryByDomainId;
 import com.aurawin.core.stored.annotations.QueryByOwnerId;
+import com.aurawin.core.stored.entities.UniqueId;
 import com.aurawin.core.stored.entities.security.Certificate;
 import com.aurawin.scs.lang.Database;
 import com.aurawin.scs.stored.annotations.*;
@@ -347,6 +348,35 @@ public class Entities extends com.aurawin.core.stored.entities.Entities{
 
         }
     }
+    public static class Security{
+        public static class Filter{
+            public static ArrayList<com.aurawin.scs.stored.security.Filter> listAll(long namespaceId){
+                Session ssn = Entities.openSession();
+                try{
+                    Query q = ssn.getNamedQuery(Database.Query.Security.Filter.ListAll.name);
+                    q.setParameter("NamespaceId",namespaceId);
+                    return (ArrayList<com.aurawin.scs.stored.security.Filter>) q.stream()
+                            .filter(s -> s instanceof com.aurawin.scs.stored.security.Filter)
+                            .map(com.aurawin.scs.stored.security.Filter.class::cast)
+                            .collect(Collectors.toCollection(ArrayList::new));
+                }finally{
+                    ssn.close();
+                }
+            }
+            public void incrementCounter(com.aurawin.scs.stored.security.Filter f){
+                Session ssn = Entities.openSession();
+                try{
+                    Query q = ssn.getNamedQuery(Database.Query.Security.Filter.Increment.name);
+                    q.setParameter("Id",f.getId());
+                    q.executeUpdate();
+
+                }finally{
+                    ssn.close();
+                }
+            }
+        }
+    }
+
     public static class Settings{
         public static class DNS{
             public static com.aurawin.scs.stored.ContentType Lookup(long host){

@@ -109,9 +109,17 @@ public class Database extends com.aurawin.core.lang.Database {
                 }
             }
             public static class Filter{
+                public static class ListAll{
+                    public static final String name ="QuerySecurityFilterListAll";
+                    public static final String value = "from Filter where Namespace.Id=:NamespaceId";
+                }
                 public static class ById{
                     public static final String name ="QuerySecurityFilterById";
                     public static final String value = "from Filter where Id=:Id";
+                }
+                public static class Increment{
+                    public static final String name ="QuerySecurityFilterIncrement";
+                    public static final String value = "update Filter set Counter = Counter +1 where Id=:Id";
                 }
             }
             public static class IpLog{

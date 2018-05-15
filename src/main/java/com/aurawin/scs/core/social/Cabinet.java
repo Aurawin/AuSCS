@@ -326,7 +326,7 @@ public class Cabinet extends Plug {
         HTTP_1_1 h = (HTTP_1_1) Transport;
         Server s = (Server) h.Owner.Engine;
         long id =  h.Request.Headers.ValueAsLong(Field.Query, -1l);
-        if (id!=-1l) {
+        if (id!=-1L) {
             Folder f = Entities.Lookup(Folder.class, id);
             if (f != null) {
                 writeObject(h.Response.Payload,f);
