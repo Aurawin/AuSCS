@@ -1,7 +1,10 @@
 package com.aurawin.scs.rsr.protocol.http;
 
+import com.aurawin.core.ClassScanner;
 import com.aurawin.core.Environment;
 import com.aurawin.core.lang.Database;
+import com.aurawin.core.plugin.Plug;
+import com.aurawin.core.plugin.annotations.Plugin;
 import com.aurawin.core.stored.entities.Entities;
 import com.aurawin.core.stored.entities.security.Certificate;
 import com.aurawin.scs.audisk.AuDisk;
@@ -19,6 +22,9 @@ import com.aurawin.scs.stored.bootstrap.BootstrapTest;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.lang.annotation.Annotation;
+import java.util.Set;
 
 public class HTTPServerTest {
     public static final String basePackage = "com.aurawin";
@@ -62,10 +68,10 @@ public class HTTPServerTest {
 
         // Testing without https
         Server.SSL.Load(cert);
-        Server.installPlugin(new Noid());
-        Server.installPlugin(new Login());
-        Server.Configure();
 
+        Bootstrap.buildPlugins(com.aurawin.scs.Package.class).stream().forEach( p-> Server.installPlugin(p));
+
+        Server.Configure();
 
     }
     @Test

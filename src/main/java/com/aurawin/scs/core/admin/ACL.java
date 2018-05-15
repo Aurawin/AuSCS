@@ -15,10 +15,12 @@ import com.aurawin.scs.lang.Database;
 import com.aurawin.scs.rsr.protocol.http.Server;
 import com.aurawin.scs.rsr.protocol.transport.HTTP_1_1;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import org.hibernate.Session;
 
 import java.util.ArrayList;
 
+import static com.aurawin.core.stored.entities.Entities.CascadeOn;
 import static com.aurawin.core.stored.entities.Entities.UseCurrentTransaction;
 
 /**
@@ -66,22 +68,17 @@ public class ACL extends Plug {
     public PluginState Grant(Session ssn, Item Transport) {
         HTTP_1_1 h = (HTTP_1_1) Transport;
         Server s = (Server) h.Owner.Engine;
-        com.aurawin.scs.stored.security.ACL acl = gson.fromJson(
+        ArrayList<Long> acl = gson.fromJson(
                 new String(h.Request.Payload.Read()),
-                com.aurawin.scs.stored.security.ACL.class
+                new TypeToken<ArrayList<Long>>(){}.getType()
         );
-        if ( (acl!=null) && (acl.NamespaceId!=0) && (acl.getOwnerId()!=0)){
-            Account ua = Entities.Lookup(Account.class,acl.getOwnerId());
+        long uid =h.Request.Headers.ValueAsLong(Field.Search,0);
+        if ( (acl!=null) && (uid!=0)){
+            Account ua = Entities.Lookup(Account.class,uid);
             if (ua!=null) {
-                com.aurawin.scs.stored.security.ACL acl2 = (com.aurawin.scs.stored.security.ACL) ssn.getNamedQuery(Database.Query.Security.ACL.ByNamespaceIdAndOwnerId.name)
-                        .setParameter("NamespaceId", acl.NamespaceId)
-                        .setParameter("OwnerId", acl.getOwnerId())
-                        .uniqueResult();
-                if (acl2 == null) {
-                    acl2 = new com.aurawin.scs.stored.security.ACL(ua,acl.NamespaceId);
-                    acl2.Identify(ssn);
-                }
-                h.Response.Payload.Write(gson.toJson(acl2));
+                ua.applyRoles(acl);
+                Entities.Update(ua,CascadeOn);
+                h.Response.Payload.Write(gson.toJson(ua.Roles));
                 h.Response.Headers.Update(Field.Code, CoreResult.Ok);
             } else {
                 h.Response.Headers.Update(Field.Code, CoreResult.CoreCommandMissingFields);
@@ -106,23 +103,20 @@ public class ACL extends Plug {
     public PluginState Revoke(Session ssn, Item Transport) {
         HTTP_1_1 h = (HTTP_1_1) Transport;
         Server s = (Server) h.Owner.Engine;
-        com.aurawin.scs.stored.security.ACL acl = gson.fromJson(
+        long uid =h.Request.Headers.ValueAsLong(Field.Search,0);
+        ArrayList<Long> acl = gson.fromJson(
                 new String(h.Request.Payload.Read()),
-                com.aurawin.scs.stored.security.ACL.class
+                new TypeToken<ArrayList<Long>>(){}.getType()
         );
-        if ( (acl!=null) && (acl.NamespaceId!=0) && (acl.getOwnerId()!=0) ){
-            ArrayList<Stored> acls =Entities.toArrayList(
-                    ssn.getNamedQuery(Database.Query.Security.ACL.ByNamespaceIdAndOwnerId.name)
-                    .setParameter("NamespaceId",acl.NamespaceId)
-                    .setParameter("OwnerId",acl.getOwnerId())
-                    .list()
-            );
-            for (Stored a:acls){
-                try {
-                    Entities.Delete(a, Entities.CascadeOn,UseCurrentTransaction);
-                } catch (Exception ex){
-                    h.Response.Headers.Update(Field.Code, CoreResult.CoreCommandDMSFailure);
-                }
+        if ( (acl!=null) && (uid!=0) ){
+            Account ua = Entities.Lookup(Account.class,uid);
+            if (ua!=null) {
+                ua.removeRoles(acl);
+                Entities.Update(ua,CascadeOn);
+                h.Response.Payload.Write(gson.toJson(ua.Roles));
+                h.Response.Headers.Update(Field.Code, CoreResult.Ok);
+            } else {
+                h.Response.Headers.Update(Field.Code, CoreResult.CoreCommandMissingFields);
             }
 
             h.Response.Headers.Update(Field.Code, CoreResult.Ok);

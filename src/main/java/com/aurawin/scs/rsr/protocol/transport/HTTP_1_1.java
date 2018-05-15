@@ -76,7 +76,7 @@ public class HTTP_1_1 extends com.aurawin.core.rsr.server.protocol.http.HTTP_1_1
                 Credentials.Passport.Password=User.getPass();
                 Credentials.Passport.Digest=User.getAuth();
 
-                Credentials.ACLUIds=User.ACL.stream().map(acl -> acl.NamespaceId).collect(Collectors.toList());
+                Credentials.ACLUIds=new ArrayList<>(User.Roles);
                 Response.Headers.Update(Field.Auth,Credentials.Passport.Digest);
                 return CredentialResult.Passed;
             }

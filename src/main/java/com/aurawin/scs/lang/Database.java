@@ -644,8 +644,8 @@ public class Database extends com.aurawin.core.lang.Database {
             public static class User {
                 public static class Role{
                     public static final String Id = "itmid";
-                    public static final String Title = "itle";
                     public static final String Name = "inme";
+                    public static final String Description = "itle";
                 }
                 public static class RoleMap{
                     public static final String Id = "itmid";
@@ -671,6 +671,7 @@ public class Database extends com.aurawin.core.lang.Database {
                     public static final String LastConsumptionCalc = "itmlcc";
                     public static final String Consumption = "itmcspn";
                     public static final String Quota = "itmquo";
+                    public static final String Roles = "itmrls";
                     public static final String AllowLogin = "italgn";
                 }
                 public static class Avatar{

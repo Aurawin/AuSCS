@@ -19,8 +19,7 @@ import com.aurawin.scs.stored.cloud.*;
 import com.aurawin.scs.stored.domain.Domain;
 import com.aurawin.scs.stored.domain.user.Account;
 import com.aurawin.scs.stored.domain.user.Role;
-import com.aurawin.scs.stored.domain.user.RoleMap;
-import com.aurawin.scs.stored.security.ACL;
+
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
@@ -35,6 +34,32 @@ import static com.aurawin.core.stored.entities.Entities.CascadeOn;
 
 public class Bootstrap {
 
+
+    public static ArrayList<Plug> buildPlugins(Class<? extends Package>... args){
+        ArrayList<Plug> al = new ArrayList<>();
+        Annotation ed;
+        Plug plug;
+        ClassScanner cs= new ClassScanner();
+        Set<Class<? extends Plug>> sa = null;
+        for (Class<? extends Package> p : args){
+            try {
+                sa = cs.scanPackageForPlugins(p);
+                for (Class c : sa) {
+                    try {
+                        plug = (Plug) c.getConstructor().newInstance();
+                        al.add(plug);
+                    } catch (Exception ex) {
+
+                    }
+
+                }
+            } catch (Exception x) {
+
+            }
+        }
+
+        return al;
+    }
     public static AnnotatedList buildAnnotations(Class<? extends Package>... args){
         AnnotatedList al = new AnnotatedList();
         ClassScanner cs= new ClassScanner();
@@ -68,7 +93,8 @@ public class Bootstrap {
     public static Account addUser(Domain domain, String user, String password, UniqueId Role) throws Exception{
         Account a = new Account(domain,user);
         a.setPass(password);
-        ACL acl = new ACL(a,Role.getId());
+        a.Roles.add(Role.getId());
+
         Entities.Save(a,CascadeOn);
         return a;
     }
@@ -176,46 +202,23 @@ public class Bootstrap {
             return d;
         }
     }
+
     public static void applyRole(Role role, Account user) throws Exception{
-        Entities.Fetch(role, FetchKind.Infinite);
-        ACL acl = null;
-
-        Session ssn = Entities.openSession();
-        try {
-            Transaction tx = ssn.beginTransaction();
-
-            Query q = ssn.getNamedQuery(Database.Query.Security.ACL.ByNamespaceIdAndOwnerId.name);
-            if (q!=null) {
-                for (RoleMap rm : role.Map) {
-                    q.setParameter("NamespaceId",rm.NamespaceId);
-                    q.setParameter("OwnerId",user.getId());
-
-                    acl = (ACL) q.uniqueResult();
-
-                    if (acl==null){
-                        acl = new ACL(user,rm.NamespaceId);
-                        ssn.save(acl);
-                    }
-                }
-            }
-            tx.commit();
-        } finally {
-            ssn.close();
-        }
-
+        user.Roles.add(role.getId());
+    }
+    public static void removeRole(Role role, Account user) throws Exception{
+        user.Roles.remove(role.getId());
     }
 
-    public static Role addRole(String Title, ArrayList<UniqueId> Targets) throws Exception{
+    public static Role addRole(String Name, String Description) throws Exception{
         Role r = null;
-        r = Entities.Lookup(Role.class,Title);
+        r = Entities.Lookup(Role.class,Name);
         if (r==null) {
             r = new Role();
-            r.Title = Title;
+            r.Name=Name;
+            r.Description=Description;
             Entities.Save(r, CascadeOn);
-            for (UniqueId ns : Targets) {
-                RoleMap rm = new RoleMap(r, ns.getId());
-                Entities.Save(rm, CascadeOn);
-            }
+
         } else {
             Entities.Fetch(r,FetchKind.Infinite);
         }

@@ -46,7 +46,7 @@
         <dependency>
             <groupId>com.aurawin</groupId>
             <artifactId>core</artifactId>
-            <version>2018.5.9.1</version>
+            <version>2018.5.15.1</version>
         </dependency>
         <dependency>
             <groupId>com.aurawin</groupId>

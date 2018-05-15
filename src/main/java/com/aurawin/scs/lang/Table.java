@@ -1,8 +1,13 @@
 package com.aurawin.scs.lang;
 
 
-public class Table extends com.aurawin.core.lang.Table {
+import java.util.Locale;
+import java.util.ResourceBundle;
 
+public class Table extends com.aurawin.core.lang.Table {
+    public static class Bundle {
+        public static final ResourceBundle Domain = ResourceBundle.getBundle("domain", Locale.getDefault());
+    }
     public static class Security extends com.aurawin.core.lang.Table.Security{
         public static class Mechanism extends com.aurawin.core.lang.Table.Security.Mechanism{
             public static class AURADISK{
@@ -18,10 +23,15 @@ public class Table extends com.aurawin.core.lang.Table {
     public static class Entities extends com.aurawin.core.lang.Table.Entities{
         public static class Domain{
             public static final String Root = "table.entities.domain.root";
-            public static final String Default = "table.entities.domain.default";
-
             public static class User {
                 public static class Role{
+                    public static class Description{
+                        public static final String Administrator = "table.entities.domain.user.role.description.administrator";
+                        public static final String PowerUser = "table.entities.domain.user.role.description.poweruser";
+                        public static final String User = "table.entities.domain.user.role.description.user";
+                        public static final String ContentManagement = "table.entities.domain.user.role.description.cms";
+                        public static final String Guest = "table.entities.domain.user.role.description.guest";
+                    }
                     public static final String Administrator = "table.entities.domain.user.role.administrator";
                     public static final String PowerUser = "table.entities.domain.user.role.poweruser";
                     public static final String User = "table.entities.domain.user.role.user";

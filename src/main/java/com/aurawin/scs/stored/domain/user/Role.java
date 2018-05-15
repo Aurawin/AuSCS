@@ -7,8 +7,10 @@ import com.aurawin.core.stored.annotations.Namespaced;
 import com.aurawin.core.stored.annotations.QueryById;
 import com.aurawin.core.stored.annotations.QueryByName;
 import com.aurawin.core.stored.entities.Entities;
+import com.aurawin.core.stored.entities.UniqueId;
 import com.aurawin.scs.lang.Database;
 import com.aurawin.scs.stored.bootstrap.Bootstrap;
+import com.aurawin.scs.stored.domain.Domain;
 import com.google.gson.annotations.Expose;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -70,23 +72,13 @@ public class Role extends Stored {
     @Expose(serialize = true, deserialize = true)
     public String Name;
 
-    @Column (name = Database.Field.Domain.User.Role.Title)
+    @Column (name = Database.Field.Domain.User.Role.Description)
     @Expose(serialize = true, deserialize = true)
-    public String Title;
-
-    @Expose(serialize = true, deserialize = true)
-    @Cascade({CascadeType.ALL})
-    @Fetch(value=FetchMode.SUBSELECT)
-    @OneToMany(
-            targetEntity = RoleMap.class,
-            mappedBy = "Owner"
-
-    )
-    public List<RoleMap> Map = new ArrayList<>();
+    public String Description;
 
     public void Assign(Role src){
         Id = src.Id;
-        Title = src.Title;
+        Description = src.Description;
         Name = src.Name;
     }
 
@@ -105,19 +97,62 @@ public class Role extends Stored {
 
 
     public static void entityCreated(Stored Entity, boolean Cascade) throws Exception {
-        if (Entity instanceof Account){
-            Account ua = (Account) Entity;
-            if (ua.Name.equals(com.aurawin.scs.lang.Table.String(com.aurawin.scs.lang.Table.Entities.Domain.Root))){
-                String sName = com.aurawin.scs.lang.Table.String(com.aurawin.scs.lang.Table.Entities.Domain.User.Role.Administrator);
-                Role r = Entities.Lookup(Role.class,sName);
-                if (r==null) {
-                    r = Bootstrap.addRole(
-                            sName,
-                            Plugins.listAll()
-                    );
-                }
+        if (Entity instanceof Domain){
+            Domain d = (Domain) Entity;
+            String sName;
+            String sDescription;
+            Role r;
 
+            sName = com.aurawin.scs.lang.Table.String(com.aurawin.scs.lang.Table.Entities.Domain.User.Role.Administrator);
+            sDescription = com.aurawin.scs.lang.Table.Bundle.Domain.getString(com.aurawin.scs.lang.Table.Entities.Domain.User.Role.Description.Administrator);
+
+            r = Entities.Lookup(Role.class,sName);
+            if (r==null) {
+                Bootstrap.addRole(
+                        sName,
+                        sDescription
+                );
             }
+
+            sName = com.aurawin.scs.lang.Table.String(com.aurawin.scs.lang.Table.Entities.Domain.User.Role.PowerUser);
+            sDescription = com.aurawin.scs.lang.Table.Bundle.Domain.getString(com.aurawin.scs.lang.Table.Entities.Domain.User.Role.Description.PowerUser);
+            r = Entities.Lookup(Role.class,sName);
+            if (r==null) {
+                Bootstrap.addRole(
+                        sName,
+                        sDescription
+                );
+            }
+
+            sName = com.aurawin.scs.lang.Table.String(com.aurawin.scs.lang.Table.Entities.Domain.User.Role.ContentManagement);
+            sDescription=com.aurawin.scs.lang.Table.Bundle.Domain.getString(com.aurawin.scs.lang.Table.Entities.Domain.User.Role.Description.ContentManagement);
+            r = Entities.Lookup(Role.class,sName);
+            if (r==null){
+                Bootstrap.addRole(
+                        sName,
+                        sDescription
+                );
+            }
+
+            sName = com.aurawin.scs.lang.Table.String(com.aurawin.scs.lang.Table.Entities.Domain.User.Role.User);
+            sDescription=com.aurawin.scs.lang.Table.Bundle.Domain.getString(com.aurawin.scs.lang.Table.Entities.Domain.User.Role.Description.User);
+            r = Entities.Lookup(Role.class,sName);
+            if (r==null){
+                Bootstrap.addRole(
+                        sName,
+                        sDescription
+                );
+            }
+            sName = com.aurawin.scs.lang.Table.String(com.aurawin.scs.lang.Table.Entities.Domain.User.Role.Guest);
+            sDescription=com.aurawin.scs.lang.Table.Bundle.Domain.getString(com.aurawin.scs.lang.Table.Entities.Domain.User.Role.Description.Guest);
+            r = Entities.Lookup(Role.class,sName);
+            if (r==null){
+                Bootstrap.addRole(
+                        sName,
+                        sDescription
+                );
+            }
+
         }
     }
     public static void entityUpdated(Stored Entity, boolean Caascade) {}

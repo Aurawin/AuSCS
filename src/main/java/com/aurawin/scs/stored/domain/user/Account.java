@@ -14,7 +14,6 @@ import com.aurawin.scs.stored.annotations.QueryByDomainIdAndName;
 import com.aurawin.scs.stored.domain.Domain;
 import com.aurawin.scs.stored.domain.network.Network;
 import com.aurawin.core.time.Time;
-import com.aurawin.scs.stored.security.ACL;
 import com.google.gson.annotations.Expose;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -155,38 +154,11 @@ public class Account extends Stored {
     )
     public List<Roster>Contacts = new ArrayList<Roster>();
 
-    @OnDelete(action = OnDeleteAction.NO_ACTION)
-    @Expose(serialize = false, deserialize = false)
-    @Fetch(value=FetchMode.SUBSELECT)
-    @OneToMany(
-            targetEntity = ACL.class,
-            mappedBy = "Owner",
-            cascade = CascadeType.REMOVE,
-            orphanRemoval = false
-    )
-    public List<ACL>ACL = new ArrayList<ACL>();
 
+    @Expose(serialize = true, deserialize = true)
+    @Column(name = com.aurawin.scs.lang.Database.Field.Domain.User.Account.Roles)
+    public ArrayList<Long>Roles = new ArrayList<>();
 
-    public boolean isGranted(long namespaceId){
-        for (ACL acl:ACL){
-            if (acl.NamespaceId==namespaceId)
-                return true;
-        }
-        return false;
-    }
-
-    @Expose(serialize = false, deserialize = false)
-
-    @Fetch(value=FetchMode.SUBSELECT)
-    @OneToMany(targetEntity = ACL.class, mappedBy = "Owner")
-    public List<ACL>Roles = new ArrayList<ACL>();
-    public boolean isMember(long namespaceId){
-        for (ACL acl:ACL){
-            if (acl.NamespaceId==namespaceId)
-                return true;
-        }
-        return false;
-    }
 
     @Expose(serialize = true, deserialize = true)
     @Column(name = com.aurawin.scs.lang.Database.Field.Domain.User.Account.DomainId)
@@ -338,6 +310,25 @@ public class Account extends Stored {
     public boolean isAllowLogin() {        return AllowLogin;    }
     public void setAllowLogin(boolean allowLogin) {        AllowLogin = allowLogin;    }
 
+    public void applyRoles(ArrayList<Long> roles){
+        ArrayList<Long> nl = new ArrayList<>(Roles);
+        Long rLcv;
+        for (Long rle:roles){
+            rLcv=nl.stream().filter(r->r.longValue()==rle.longValue()).findFirst().orElse(null);
+            if (rLcv==null) nl.add(rLcv);
+        }
+        Roles = nl;
+    }
+
+    public void removeRoles(ArrayList<Long> roles){
+        ArrayList<Long> nl = new ArrayList<>();
+        Long rLcv;
+        for (Long rle:Roles){
+            rLcv=roles.stream().filter(r->r.longValue()==rle.longValue()).findFirst().orElse(null);
+            if (rLcv!=null) nl.add(rLcv);
+        }
+        Roles = nl;
+    }
     public Account(Domain domain, String user) {
         this.Id=0;
         this.DomainId=domain.getId();
@@ -416,28 +407,19 @@ public class Account extends Stored {
         if (Entity instanceof Domain) {
             Domain d = (Domain) Entity;
             Account ua = null;
-            ACL acl = null;
+
             ua = new Account(d, Table.String(Table.Entities.Domain.Root));
             Entities.Save(ua, Cascade);
-            acl = new ACL(ua, Namespace.Entities.Identify(com.aurawin.scs.stored.security.role.Administrator.class));
-            Entities.Save(acl, CascadeOff);
-            ua.Roles.add(acl);
+
+            ua.Roles.add(Namespace.Entities.Identify(com.aurawin.scs.stored.security.role.Administrator.class));
+            ua.Roles.add(Namespace.Entities.Identify(com.aurawin.scs.stored.security.role.PowerUser.class));
+            ua.Roles.add(Namespace.Entities.Identify(com.aurawin.scs.stored.security.role.User.class));
             Entities.Update(ua, CascadeOff);
+
             d.Root = ua;
-
-
             Entities.Update(d, CascadeOff);
 
 
-            ua = new Account(d, Table.String(Table.Entities.Domain.Default));
-            ua.AllowLogin = false;
-            Entities.Save(ua, Cascade);
-
-            acl = new ACL(ua, Namespace.Entities.Identify(com.aurawin.scs.stored.security.role.User.class));
-            Entities.Save(acl, CascadeOff);
-            ua.Roles.add(acl);
-
-            Entities.Update(ua, CascadeOff);
         }
     }
     public static void entityUpdated(Stored Entity, boolean Cascade){}
