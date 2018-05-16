@@ -59,6 +59,7 @@ public class AuraDiskServerTest {
         AuDisk.Initialize(BootstrapTest.nPhoenix,cert);
 
         Server = new Server(mf,BootstrapTest.svcAUDISK);
+        Server.loadSecurity(cert);
 
         /*
         Server.Root= BootstrapTest.account.getName();
