@@ -125,9 +125,13 @@ public class AuraDiskClientTest {
         rsrItem=Engine.Connect(saServer,true);
 
         if (AuDisk.makeFolder(DiskId,Kind,DomainId,OwnerId,FolderId)) {
+            System.out.println("AuDisk makeFolder completed");
             if (AuDisk.makeFile(DiskId, Kind, DomainId, OwnerId, FolderId, FileId)) {
+                System.out.println("AuDisk makeFile completed");
                 AuDisk.writeFile(Input, DiskId, Kind, DomainId, OwnerId, FolderId, FileId);
+                System.out.println("AuDisk writeFile completed");
                 AuDisk.readFile(Output, DiskId, Kind, DomainId, OwnerId, FolderId, FileId);
+                System.out.println("AuDisk readFile completed");
                 assert(TestString.equals(Output.toString()));
             } else {
                 throw new Exception("AuDisk [makeFile] command failed.");
