@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
-import static com.aurawin.core.rsr.def.EngineState.esFinalize;
+import static com.aurawin.core.rsr.def.EngineState.esStop;
 import static com.aurawin.core.rsr.transport.methods.Result.Ok;
 
 public class Router {
@@ -103,7 +103,7 @@ public class Router {
         List<Route> stale =Routes.values().stream().filter(r->r.Valid==false).collect(Collectors.toList());
         for (Route r:stale) {
             for (Stored d : r.Disks){
-                r.Client.Close();
+                r.Client.Stop();
                 Routes.remove(d.getId());
             }
         }
@@ -115,12 +115,9 @@ public class Router {
     public static String[] listFiles(long DiskId, long NamespaceId, long DomainId, long OwnerId, long FolderId){
         Route r = getRoute(DiskId);
         if (r!=null) {
-            while (
-                    (r.Client.State != esFinalize) &&
-                            (r.Connection.isAlive()==true)
-                    ){
+            while (r.Client.State != esStop) {
                 if (r.Connection.readyForUse()) {
-                    AUDISK T = (AUDISK) r.Connection.getOwnerOrWait();
+                    AUDISK T = (AUDISK) r.getItemOrWait();
                     cListFiles cmd = new cListFiles();
                     cmd.DiskId=DiskId;
                     cmd.DomainId=DomainId;
@@ -167,7 +164,7 @@ public class Router {
         // send query
         // get result...
         Route r = getRoute(DiskId);
-        AUDISK T = (AUDISK) r.Connection.getOwnerOrWait();
+        AUDISK T = (AUDISK) r.getItemOrWait();
 
 
         cMakeFolder cmd = new cMakeFolder();
@@ -179,10 +176,7 @@ public class Router {
 
 
         if (r != null) {
-            while (
-                    (r.Client.State != esFinalize) &&
-                            (r.Connection.isAlive() == true)
-                    ) {
+            while (r.Client.State != esStop) {
                 if (r.Connection.readyForUse()) {
                     int loops = 10;
                     int iLcv = 1;
@@ -208,7 +202,7 @@ public class Router {
         // send query
         // get result...
         Route r = getRoute(DiskId);
-        AUDISK T = (AUDISK) r.Connection.getOwnerOrWait();
+        AUDISK T = (AUDISK) r.getItemOrWait();
 
 
         cDeleteFolder cmd = new cDeleteFolder();
@@ -220,10 +214,7 @@ public class Router {
 
 
         if (r != null) {
-            while (
-                    (r.Client.State != esFinalize) &&
-                            (r.Connection.isAlive() == true)
-                    ) {
+            while (r.Client.State != esStop){
                 if (r.Connection.readyForUse()) {
                     int loops = 10;
                     int iLcv = 1;
@@ -249,7 +240,7 @@ public class Router {
         // send query
         // get result...
         Route r = getRoute(DiskId);
-        AUDISK T = (AUDISK) r.Connection.getOwnerOrWait();
+        AUDISK T = (AUDISK) r.getItemOrWait();
 
 
         cDeleteFile cmd = new cDeleteFile();
@@ -262,10 +253,7 @@ public class Router {
 
 
         if (r != null) {
-            while (
-                    (r.Client.State != esFinalize) &&
-                            (r.Connection.isAlive() == true)
-                    ) {
+            while (r.Client.State != esStop) {
                 if (r.Connection.readyForUse()) {
                     int loops = 10;
                     int iLcv = 1;
@@ -291,7 +279,7 @@ public class Router {
         // send query
         // get result...
         Route r = getRoute(DiskId);
-        AUDISK T = (AUDISK) r.Connection.getOwnerOrWait();
+        AUDISK T = (AUDISK) r.getItemOrWait();
 
 
         cMakeFile cmd = new cMakeFile();
@@ -304,10 +292,7 @@ public class Router {
 
 
         if (r!=null) {
-            while (
-                    (r.Client.State != esFinalize) &&
-                            (r.Connection.isAlive() == true)
-                    ) {
+            while (r.Client.State != esStop) {
                 if (r.Connection.readyForUse()) {
                     int loops = 10;
                     int iLcv = 1;
@@ -333,7 +318,7 @@ public class Router {
         // send query
         // get result...
         Route r = getRoute(DiskId);
-        AUDISK T = (AUDISK) r.Connection.getOwnerOrWait();
+        AUDISK T = (AUDISK) r.getItemOrWait();
 
 
         cWriteFile cmd = new cWriteFile();
@@ -346,10 +331,7 @@ public class Router {
 
 
         if (r != null) {
-            while (
-                    (r.Client.State != esFinalize) &&
-                            (r.Connection.isAlive() == true)
-                    ) {
+            while (r.Client.State != esStop) {
                 if (r.Connection.readyForUse()) {
                     int loops = 10;
                     int iLcv = 1;
@@ -376,7 +358,7 @@ public class Router {
         // send query
         // get result...
         Route r = getRoute(DiskId);
-        AUDISK T = (AUDISK) r.Connection.getOwnerOrWait();
+        AUDISK T = (AUDISK) r.getItemOrWait();
 
 
         cReadFile cmd = new cReadFile();
@@ -389,10 +371,7 @@ public class Router {
 
 
         if (r != null) {
-            while (
-                    (r.Client.State != esFinalize) &&
-                            (r.Connection.isAlive() == true)
-                    ) {
+            while (r.Client.State != esStop) {
                 if (r.Connection.readyForUse()) {
                     int loops = 10;
                     int iLcv = 1;
@@ -416,7 +395,7 @@ public class Router {
     }
     public static boolean moveFile(long DiskId, long NamespaceId, long DomainId, long OwnerId, long OldFolderId, long NewFolderId, long FileId) {
         Route r = getRoute(DiskId);
-        AUDISK T = (AUDISK) r.Connection.getOwnerOrWait();
+        AUDISK T = (AUDISK) r.getItemOrWait();
 
 
         cMoveFile cmd = new cMoveFile();
@@ -430,10 +409,7 @@ public class Router {
 
 
         if (r!=null) {
-            while (
-                    (r.Client.State != esFinalize) &&
-                            (r.Connection.isAlive() == true)
-                    ) {
+            while (r.Client.State != esStop){
                 if (r.Connection.readyForUse()) {
                     int loops = 10;
                     int iLcv = 1;

@@ -5,7 +5,7 @@ import com.aurawin.core.json.Builder;
 import com.aurawin.core.lang.Database;
 import com.aurawin.core.lang.Table;
 import com.aurawin.core.rsr.IpHelper;
-import com.aurawin.core.rsr.def.TransportConnect;
+import com.aurawin.core.rsr.Item;
 import com.aurawin.core.solution.Namespace;
 import com.aurawin.core.stored.Dialect;
 import com.aurawin.core.stored.Driver;
@@ -30,7 +30,7 @@ import java.net.InetSocketAddress;
 
 
 public class AuraDiskClientTest {
-    public static final String basePackage = "com.aurawin";
+
     long DiskId=1;
     long DomainId=1;
     long OwnerId=1;
@@ -42,8 +42,8 @@ public class AuraDiskClientTest {
     Node nServer;
     String sJSON;
     cListFiles cmdListFiles;
-    TransportConnect tcData;
     Builder bldr;
+    Item  rsrItem;
     Gson gson;
     long Kind;
     AUDISK t;
@@ -59,7 +59,6 @@ public class AuraDiskClientTest {
         Output = new MemoryStream();
         Input.Write(TestString);
 
-        Kind = Namespace.Entities.Identify(com.aurawin.scs.stored.domain.network.File.class);
         Settings.Initialize(
                 "AuProcess",
                 "Aurawin Social Computing Server",
@@ -77,18 +76,30 @@ public class AuraDiskClientTest {
                 50,                                               // Max statements
                 10,                                                     // timeout
                 Database.Config.Automatic.Update,                               //
-                "AuDiskTest",                                      // database
+                "aus",                                      // database
                 Dialect.Postgresql.getValue(),                                  // Dialect
                 Driver.Postgresql.getValue(),                                   // Driver
                 Bootstrap.buildAnnotations(com.aurawin.core.Package.class,com.aurawin.scs.Package.class)
         );
-
         Entities.Initialize(mf);
+        Kind = Namespace.Entities.Identify(com.aurawin.scs.stored.domain.network.File.class);
 
 
         nServer = Entities.Lookup(Node.class,1l);
         nClient = Entities.Lookup(Node.class,2l);
-        Certificate cert = Entities.Lookup(Certificate.class,1l);
+
+        Certificate cert = Certificate.createSelfSigned(
+                "*",
+                "*",
+                "*",
+                "*",
+                "*",
+                "*",
+                "*",
+                "*",
+                "*",
+                365
+        );
 
         AuDisk.Initialize(nClient,cert);
 
@@ -105,13 +116,13 @@ public class AuraDiskClientTest {
     public void test() throws Exception{
 
         System.out.println("AuraDiskClientTest.testRun()");
-        System.out.println("AuraDiskClientTest.Server.Start()");
+        System.out.println("AuraDiskClientTest.Engine.Start()");
         Engine.Start();
         System.out.println("AuDisk Client is running");
 
         InetSocketAddress saServer  = new InetSocketAddress(IpHelper.fromLong(nServer.getIP()),Settings.Stored.Cloud.Service.Port.AuDisk);
 
-        tcData=Engine.Connect(saServer,true);
+        rsrItem=Engine.Connect(saServer,true);
 
         if (AuDisk.makeFolder(DiskId,Kind,DomainId,OwnerId,FolderId)) {
             if (AuDisk.makeFile(DiskId, Kind, DomainId, OwnerId, FolderId, FileId)) {

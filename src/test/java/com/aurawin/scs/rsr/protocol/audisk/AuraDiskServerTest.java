@@ -82,7 +82,7 @@ public class AuraDiskServerTest {
         Server.Start();
         System.out.println("AuDisk Server is running");
 
-        while (Server.State != EngineState.esFinalize) {
+        while (Server.State != EngineState.esStop) {
 
             Thread.sleep(100);
         }

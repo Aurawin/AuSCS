@@ -38,7 +38,7 @@ public class AuDisk {
     protected static Node Node;
     protected static Certificate Certificate;
 
-    protected static volatile ArrayList<? extends Stored> Disks;
+    protected static volatile ArrayList<? extends Stored> Disks=new ArrayList<>();
 
     public static void Initialize(Node node, Certificate cert) throws Exception {
         randomInt = new Random();

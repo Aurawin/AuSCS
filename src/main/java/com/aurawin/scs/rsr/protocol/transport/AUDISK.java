@@ -6,9 +6,10 @@ import com.aurawin.core.json.Builder;
 import com.aurawin.core.rsr.Item;
 import com.aurawin.core.rsr.Items;
 import com.aurawin.core.rsr.def.CredentialResult;
+import com.aurawin.core.rsr.def.ItemCommand;
 import com.aurawin.core.rsr.def.ItemKind;
 
-import static com.aurawin.core.rsr.def.EngineState.esFinalize;
+import static com.aurawin.core.rsr.def.EngineState.esStop;
 
 import com.aurawin.core.rsr.def.rsrResult;
 import com.aurawin.core.rsr.security.Security;
@@ -35,7 +36,8 @@ import java.time.Instant;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-import static com.aurawin.core.rsr.def.CredentialResult.None;
+import static com.aurawin.core.rsr.def.ItemCommand.cmdSend;
+import static com.aurawin.core.rsr.transport.methods.Result.None;
 import static com.aurawin.core.rsr.def.rsrResult.rFailure;
 import static com.aurawin.core.rsr.def.rsrResult.rPostpone;
 import static com.aurawin.core.rsr.def.rsrResult.rSuccess;
@@ -82,7 +84,7 @@ public class AUDISK extends Item implements Transport
     public AUDISK newInstance(Items aOwner, SocketChannel aChannel, ItemKind aKind)throws InvocationTargetException,NoSuchMethodException,InstantiationException, IllegalAccessException{
         AUDISK itm = new AUDISK(aOwner, aKind);
         itm.Address= new InetSocketAddress(aChannel.socket().getInetAddress(),aChannel.socket().getPort());
-        itm.SocketHandler.Channel=aChannel;
+        itm.Channel=aChannel;
         return itm;
     }
 
@@ -128,6 +130,7 @@ public class AUDISK extends Item implements Transport
     }
     @Override
     public rsrResult onPeek(){
+        Request.TTL = Instant.now().plusMillis(Settings.RSR.ResponseToQueryDelay);
         rsrResult r = rSuccess;
         long iLoc=Buffers.Recv.Find(Settings.RSR.Items.Header.Separator);
         if (iLoc>0) {
@@ -265,13 +268,14 @@ public class AUDISK extends Item implements Transport
         if (Response.Payload.size()>0) {
             Response.Payload.Move(Buffers.Send);
         }
-        queueSend();
+        Commands.add(cmdSend);
     }
 
     public Response Query(Method cmd, MemoryStream Input, MemoryStream Output) {
         Response res = null;
         Request req = new Request(this);
         try {
+            req.TTL = Instant.now().plusMillis(Settings.RSR.ResponseToQueryDelay);
             req.Assign(Request);
             req.Id = Id.Spin();
             req.Protocol = Version.toString();
@@ -294,10 +298,10 @@ public class AUDISK extends Item implements Transport
                 req.Payload.Move(Buffers.Send);
             }
 
-            queueSend();
+            Commands.add(cmdSend);
 
-            Instant ttl = Instant.now().plusMillis(Settings.RSR.ResponseToQueryDelay);
-            while ((Owner.Engine.State != esFinalize) && (res == null) && Instant.now().isBefore(ttl)) {
+
+            while ((Owner.Engine.State != esStop) && (res == null) && Instant.now().isBefore(req.TTL)) {
                 res = Responses.stream()
                         .filter(r -> r.Id == req.Id)
                         .findFirst()
@@ -317,6 +321,10 @@ public class AUDISK extends Item implements Transport
                 }
 
             }
+            if (res == null){
+                res = new Response(this);
+                res.Code = None;
+            }
         } finally {
             req.Release();
         }
@@ -328,7 +336,7 @@ public class AUDISK extends Item implements Transport
     }
     @Override
     public CredentialResult validateCredentials(Session ssn){
-        return None;
+        return CredentialResult.None;
     }
 
 }

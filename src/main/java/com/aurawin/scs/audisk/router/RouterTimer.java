@@ -15,7 +15,7 @@ public class RouterTimer extends Thread {
             }
             while (true){
                 Router.scanForRoutes();
-                FastYield = Router.getRouteCount()>0;
+                FastYield = Router.getRouteCount()==0;
                 Thread.sleep((FastYield)? ScanTimerFastYield:ScanTimerYield);
             }
         } catch (InterruptedException ie){

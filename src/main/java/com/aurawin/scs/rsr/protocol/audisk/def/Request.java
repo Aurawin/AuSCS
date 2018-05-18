@@ -7,6 +7,7 @@ import com.aurawin.core.rsr.transport.methods.Method;
 import com.google.gson.annotations.SerializedName;
 
 import javax.persistence.Transient;
+import java.time.Instant;
 
 public class Request {
     public transient AUDISK Owner;
@@ -33,6 +34,7 @@ public class Request {
     public long Size;
 
     public transient MemoryStream Payload;
+    public transient Instant TTL;
 
     public Request(AUDISK owner) {
         Owner = owner;

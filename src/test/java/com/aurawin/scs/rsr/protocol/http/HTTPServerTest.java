@@ -81,7 +81,7 @@ public class HTTPServerTest {
         System.out.println("HTTPServerTest.Server.Start()");
         Server.Start();
         System.out.println("HTTPServerTest.serverHTTP running");
-        while (Server.State != EngineState.esFinalize) {
+        while (Server.State != EngineState.esStop) {
             Thread.sleep(100);
         }
     }
