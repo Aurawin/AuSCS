@@ -54,7 +54,7 @@ public class AuraDiskServerTest {
         BootstrapTest.dPhoenix = Entities.Lookup(Disk.class,1l);
         Certificate cert = BootstrapTest.createCertificate();
         BootstrapTest.nPhoenix=Entities.Lookup(Node.class,1l);
-        BootstrapTest.svcAUDISK=Entities.Lookup(Service.class,6l);
+        BootstrapTest.svcAUDISK=Entities.Lookup(Service.class,BootstrapTest.dPhoenix.getServiceId());
 
         AuDisk.Initialize(BootstrapTest.nPhoenix,cert);
 
