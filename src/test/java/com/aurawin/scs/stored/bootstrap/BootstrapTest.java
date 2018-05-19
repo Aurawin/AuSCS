@@ -53,7 +53,7 @@ public class BootstrapTest {
 
     public static Certificate createCertificate() throws Exception{
         return Certificate.createSelfSigned(
-                "chump.aurawin.com",
+                "aurawin.com",
                 "NOC",
                 "Aurawin LLC",
                 "19309 Stage Line Trail",
@@ -129,8 +129,8 @@ public class BootstrapTest {
         nDelete= Bootstrap.Cloud.addNode(rcChump,"nDelete","172.16.54.1");
 
 
-        nHTTP = nChump;
-        nDisk = nChump;
+        nHTTP = nPhoenix;
+        nDisk = nPhoenix;
 
         svcAUDISK = Bootstrap.Cloud.addService(
                 nDisk,

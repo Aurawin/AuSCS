@@ -36,7 +36,9 @@ import java.time.Instant;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+import static com.aurawin.core.rsr.def.ItemCommand.cmdError;
 import static com.aurawin.core.rsr.def.ItemCommand.cmdSend;
+import static com.aurawin.core.rsr.def.ItemCommand.cmdTeardown;
 import static com.aurawin.core.rsr.transport.methods.Result.None;
 import static com.aurawin.core.rsr.def.rsrResult.rFailure;
 import static com.aurawin.core.rsr.def.rsrResult.rPostpone;
@@ -111,11 +113,12 @@ public class AUDISK extends Item implements Transport
             if (cr == CredentialResult.Passed) {
 
             } else {
-                // todo log intruder
-                this.Error();
+                Commands.add(cmdError);
+                Commands.add(cmdTeardown);
             }
         } catch (Exception ex){
-            this.Error();
+            Commands.add(cmdError);
+            Commands.add(cmdTeardown);
         }
 
     }

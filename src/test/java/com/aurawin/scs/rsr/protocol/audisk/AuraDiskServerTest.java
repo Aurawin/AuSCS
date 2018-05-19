@@ -61,14 +61,6 @@ public class AuraDiskServerTest {
         Server = new Server(mf,BootstrapTest.svcAUDISK);
         Server.loadSecurity(cert);
 
-        /*
-        Server.Root= BootstrapTest.account.getName();
-        Server.rootDigest = BootstrapTest.account.getAuth();
-        Server.rootId = BootstrapTest.account.getId();
-        Server.Realm = BootstrapTest.domain.getName();
-        Server.realmId = BootstrapTest.domain.getId();
-        */
-
 
         Server.Configure();
     }
