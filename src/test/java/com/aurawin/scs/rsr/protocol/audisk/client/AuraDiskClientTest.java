@@ -28,6 +28,8 @@ import org.junit.Test;
 
 import java.net.InetSocketAddress;
 
+import static com.aurawin.core.lang.Table.CRLF;
+
 
 public class AuraDiskClientTest {
 
@@ -41,23 +43,19 @@ public class AuraDiskClientTest {
     Node nClient;
     Node nServer;
     String sJSON;
-    cListFiles cmdListFiles;
     Builder bldr;
-    Item  rsrItem;
     Gson gson;
     long Kind;
-    AUDISK t;
-    AuraDiskClientTestClient Engine;
-    String TestString;
 
     @Before
     public void before() throws Exception{
         bldr = new Builder();
         gson = bldr.Create();
-        TestString  = "Testing";
         Input = new MemoryStream();
         Output = new MemoryStream();
-        Input.Write(TestString);
+
+        for (int iLcv=1; iLcv<100000; iLcv++)
+            Input.Write("Test String " + iLcv +  CRLF);
 
         Settings.Initialize(
                 "AuProcess",
@@ -103,26 +101,11 @@ public class AuraDiskClientTest {
 
         AuDisk.Initialize(nClient,cert);
 
-        InetSocketAddress saBind  = new InetSocketAddress(IpHelper.fromLong(nClient.getIP()),Settings.RSR.AnyPort);
-
-        Engine = new AuraDiskClientTestClient(saBind);
-
-        Engine.SSL.Load(cert);
-        Engine.Infinite=true;
-        Engine.Configure();
     }
 
     @Test
     public void test() throws Exception{
-
         System.out.println("AuraDiskClientTest.testRun()");
-        System.out.println("AuraDiskClientTest.Engine.Start()");
-        Engine.Start();
-        System.out.println("AuDisk Client is running");
-
-        InetSocketAddress saServer  = new InetSocketAddress(IpHelper.fromLong(nServer.getIP()),Settings.Stored.Cloud.Service.Port.AuDisk);
-
-        rsrItem=Engine.Connect(saServer,true);
 
         if (AuDisk.makeFolder(DiskId,Kind,DomainId,OwnerId,FolderId)) {
             System.out.println("AuDisk makeFolder completed");
@@ -132,13 +115,16 @@ public class AuraDiskClientTest {
                 System.out.println("AuDisk writeFile completed");
                 AuDisk.readFile(Output, DiskId, Kind, DomainId, OwnerId, FolderId, FileId);
                 System.out.println("AuDisk readFile completed");
-                assert(TestString.equals(Output.toString()));
+                assert(Input.toString().equals(Output.toString()));
             } else {
                 throw new Exception("AuDisk [makeFile] command failed.");
             }
-
         } else {
             throw new Exception("AuDisk [makeFolder] command failed.");
+        }
+
+        while (true){
+            Thread.sleep(100);
         }
     }
 }

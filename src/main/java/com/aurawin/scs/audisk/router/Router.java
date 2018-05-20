@@ -2,6 +2,7 @@ package com.aurawin.scs.audisk.router;
 
 import com.aurawin.core.log.Syslog;
 import com.aurawin.core.rsr.IpHelper;
+import com.aurawin.core.rsr.def.EngineState;
 import com.aurawin.core.stored.Stored;
 import com.aurawin.core.stored.annotations.QueryAll;
 import com.aurawin.core.stored.annotations.QueryByOwnerId;
@@ -26,6 +27,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 import static com.aurawin.core.rsr.def.EngineState.esStop;
+import static com.aurawin.core.rsr.def.ItemState.isEstablished;
+import static com.aurawin.core.rsr.def.ItemState.isFinalize;
 import static com.aurawin.core.rsr.transport.methods.Result.Ok;
 
 public class Router {
@@ -82,7 +85,6 @@ public class Router {
                 if (r!=null) {
                     r.Valid = true;
                     if (r.Client==null) {
-
                         InetSocketAddress bind = new InetSocketAddress(IpHelper.fromLong(Node.getIP()), Settings.RSR.AnyPort);
                         InetSocketAddress remote = new InetSocketAddress(IpHelper.fromLong(r.Service.getIP()), r.Service.getPort());
                         try {
@@ -163,6 +165,7 @@ public class Router {
         // construct query...
         // send query
         // get result...
+        boolean interrupted=false;
         Route r = getRoute(DiskId);
         AUDISK T = (AUDISK) r.getItemOrWait();
 
@@ -176,8 +179,8 @@ public class Router {
 
 
         if (r != null) {
-            while (r.Client.State != esStop) {
-                if (r.Connection.readyForUse()) {
+            while ((!interrupted) && (r.Client.State != EngineState.esStop) && (T.State!=isFinalize) && (!T.Response.Obtained)) {
+                if (T.State== isEstablished) {
                     int loops = 10;
                     int iLcv = 1;
                     while (iLcv <= loops) {
@@ -189,6 +192,11 @@ public class Router {
                         }
                     }
 
+                }
+                try {
+                    Thread.sleep(Settings.RSR.Client.CommandYield);
+                } catch (InterruptedException ie){
+                    interrupted=true;
                 }
             }
         } else {

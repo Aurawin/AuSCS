@@ -11,6 +11,7 @@ import static com.aurawin.core.rsr.transport.methods.Result.None;
 public class Response {
     public transient AUDISK Owner;
     public transient MemoryStream Payload;
+    public volatile transient boolean Obtained = false;
 
     @Expose(serialize = true, deserialize = true)
     @SerializedName("P")
@@ -45,6 +46,7 @@ public class Response {
     }
 
     public void Reset(){
+        Obtained=false;
         Protocol = "";
         Method = "";
         Size = 0;
@@ -77,7 +79,11 @@ public class Response {
         Method = src.Method;
         Code = src.Code;
         Size = src.Size;
-        Payload.CopyFrom(src.Payload);
+        if (src.Payload!=null) {
+            if (Payload==null)
+                Payload=new MemoryStream();
+            Payload.CopyFrom(src.Payload);
+        }
     }
 
 }

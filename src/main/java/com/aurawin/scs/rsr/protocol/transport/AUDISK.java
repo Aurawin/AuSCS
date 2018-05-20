@@ -56,6 +56,7 @@ public class AUDISK extends Item implements Transport
     public Gson gson = bldr.Create();
     public Request Request;
     public Response Response;
+
     public Queue<Response>Responses = new ConcurrentLinkedQueue<Response>();
     public Queue<Request> Requests = new ConcurrentLinkedQueue<Request>();
 
@@ -164,7 +165,7 @@ public class AUDISK extends Item implements Transport
                         Buffers.Recv.Move(Response.Payload, Response.Size);
                         break;
                 }
-
+                Response.Obtained=true;
                 return rSuccess;
             } else {
                 return rPostpone;
@@ -304,7 +305,7 @@ public class AUDISK extends Item implements Transport
             Commands.add(cmdSend);
 
 
-            while ((Owner.Engine.State != esStop) && (res == null) && Instant.now().isBefore(req.TTL)) {
+            while ((Owner.Engine.State != esStop) && (res == null) ) {
                 res = Responses.stream()
                         .filter(r -> r.Id == req.Id)
                         .findFirst()
