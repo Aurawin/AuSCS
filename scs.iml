@@ -15,7 +15,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="jid3lib-0.5.4" level="project" />
     <orderEntry type="library" name="0.9" level="project" />
-    <orderEntry type="library" name="Maven: com.aurawin:core:2018.5.20.5" level="project" />
+    <orderEntry type="library" name="Maven: com.aurawin:core:2018.5.21.4" level="project" />
     <orderEntry type="library" name="Maven: net.sourceforge.jtds:jtds:1.3.1" level="project" />
     <orderEntry type="library" name="Maven: org.bouncycastle:bcpg-jdk15on:1.53" level="project" />
     <orderEntry type="library" name="Maven: org.bouncycastle:bcprov-jdk15on:1.53" level="project" />
