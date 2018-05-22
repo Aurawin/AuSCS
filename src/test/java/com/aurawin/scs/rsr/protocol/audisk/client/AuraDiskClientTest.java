@@ -54,8 +54,8 @@ public class AuraDiskClientTest {
         Input = new MemoryStream();
         Output = new MemoryStream();
 
-        for (int iLcv=1; iLcv<100000; iLcv++)
-            Input.Write("Test String " + iLcv +  CRLF);
+        for (int iLcv=1; iLcv<=15000000; iLcv++)
+            Input.Write("Test String Padding for the Testing" + iLcv +  CRLF);
 
         Settings.Initialize(
                 "AuProcess",
