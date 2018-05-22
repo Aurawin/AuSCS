@@ -27,12 +27,16 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.net.InetSocketAddress;
+import java.util.Random;
 
 import static com.aurawin.core.lang.Table.CRLF;
 
 
 public class AuraDiskClientTest {
-
+    final String alphabet = "abcdefghigjklmnopqrstuvwzyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    final int len = alphabet.length();
+    final Random r = new Random();
+    String line = "";
     long DiskId=1;
     long DomainId=1;
     long OwnerId=1;
@@ -48,14 +52,21 @@ public class AuraDiskClientTest {
     long Kind;
 
     @Before
-    public void before() throws Exception{
+    public void before() throws Exception {
         bldr = new Builder();
         gson = bldr.Create();
         Input = new MemoryStream();
         Output = new MemoryStream();
 
-        for (int iLcv=1; iLcv<=15000000; iLcv++)
-            Input.Write("Test String Padding for the Testing" + iLcv +  CRLF);
+        for (int iLcv = 1; iLcv <= 15000; iLcv++){
+            line = "";
+            for (int jLcv = 1; jLcv <= 2048; jLcv++) {
+                line += alphabet.charAt(r.nextInt(len));
+            }
+            Input.Write(line + " " + iLcv + CRLF);
+        }
+
+
 
         Settings.Initialize(
                 "AuProcess",
