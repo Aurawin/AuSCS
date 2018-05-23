@@ -57,12 +57,10 @@ public class AuraDiskClientTest {
         gson = bldr.Create();
         Input = new MemoryStream();
         Output = new MemoryStream();
-
-        for (int iLcv = 1; iLcv <= 15000; iLcv++){
-            line = "";
-            for (int jLcv = 1; jLcv <= 2048; jLcv++) {
-                line += alphabet.charAt(r.nextInt(len));
-            }
+        for (int jLcv = 1; jLcv <= 1024*2; jLcv++) {
+            line += alphabet.charAt(r.nextInt(len));
+        }
+        for (int iLcv = 1; iLcv <= 1024*800; iLcv++){
             Input.Write(line + " " + iLcv + CRLF);
         }
 
@@ -118,6 +116,7 @@ public class AuraDiskClientTest {
     public void test() throws Exception{
         System.out.println("AuraDiskClientTest.testRun()");
 
+
         if (AuDisk.makeFolder(DiskId,Kind,DomainId,OwnerId,FolderId)) {
             System.out.println("AuDisk makeFolder completed");
             if (AuDisk.makeFile(DiskId, Kind, DomainId, OwnerId, FolderId, FileId)) {
@@ -126,7 +125,6 @@ public class AuraDiskClientTest {
                 System.out.println("AuDisk writeFile completed");
                 AuDisk.readFile(Output, DiskId, Kind, DomainId, OwnerId, FolderId, FileId);
                 System.out.println("AuDisk readFile completed");
-                assert(Input.toString().equals(Output.toString()));
             } else {
                 throw new Exception("AuDisk [makeFile] command failed.");
             }
@@ -134,8 +132,8 @@ public class AuraDiskClientTest {
             throw new Exception("AuDisk [makeFolder] command failed.");
         }
 
-        while (true){
+/*        while (true){
             Thread.sleep(100);
-        }
+        }*/
     }
 }

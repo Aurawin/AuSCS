@@ -139,11 +139,6 @@ public class AUDISK extends Item implements Transport
         long iLoc=Buffers.Recv.Find(Settings.RSR.Items.Header.Separator);
         if (iLoc>0) {
             r = Read(Buffers.Recv.Read(0,iLoc+Settings.RSR.Items.Header.SeparatorLength,true ));
-            if (r==rSuccess){
-                r =  ( (Request.Size==0) || ( (Request.Size+iLoc+Settings.RSR.Items.Header.SeparatorLength)<=Buffers.Recv.Size) ) ? rSuccess : rPostpone;
-            } else{
-                r = rPostpone;
-            }
         } else if (Buffers.Recv.Size<Settings.RSR.Items.Header.MaxSize) {
             r  =  rPostpone;
         } else {
@@ -165,7 +160,6 @@ public class AUDISK extends Item implements Transport
                         Buffers.Recv.Move(Response.Payload, Response.Size);
                         break;
                 }
-                Response.Obtained=true;
                 return rSuccess;
             } else {
                 return rPostpone;
@@ -195,12 +189,13 @@ public class AUDISK extends Item implements Transport
                 switch (Kind) {
                     case Server:
                         Request.Assign(gson.fromJson(sLine, com.aurawin.scs.rsr.protocol.audisk.def.Request.class));
-                        break;
+                        return (Buffers.Recv.Size>=iChunk+Request.Size)? rSuccess: rPostpone;
                     case Client:
                         Response.Assign(gson.fromJson(sLine, com.aurawin.scs.rsr.protocol.audisk.def.Response.class));
-                        break;
+                        return (Buffers.Recv.Size>=iChunk+Response.Size)? rSuccess: rPostpone;
+
                 }
-                return rSuccess;
+                return rPostpone;
             } catch (Exception e) {
                 return rFailure;
             }
@@ -228,10 +223,10 @@ public class AUDISK extends Item implements Transport
                     Respond();
                     break;
                 case Client:
-
                     mr =Methods.Process(Response.Method,ssn,this);
                     switch (mr){
                         case Ok:
+                            Response.Obtained=true;
                             Response.Code=Ok;
                             break;
                         default :
@@ -239,9 +234,9 @@ public class AUDISK extends Item implements Transport
                             break;
 
                     }
-
                     Response res = new Response(this);
                     res.Assign(Response);
+                    Responses.add(res);
 
                     break;
             }
@@ -279,6 +274,7 @@ public class AUDISK extends Item implements Transport
         Response res = null;
         Request req = new Request(this);
         try {
+            Requests.add(req);
             req.TTL = Instant.now().plusMillis(Settings.RSR.ResponseToQueryDelay);
             req.Assign(Request);
             req.Id = Id.Spin();
@@ -305,25 +301,22 @@ public class AUDISK extends Item implements Transport
             Commands.add(cmdSend);
 
 
-            while ((Owner.Engine.State != esStop) && (res == null) ) {
-                res = Responses.stream()
-                        .filter(r -> r.Id == req.Id)
-                        .findFirst()
-                        .orElse(null);
+            while ((Owner.Engine.State != esStop) && ((res == null) || !res.Obtained))  {
                 try {
-
-                    if (res == null) {
+                    res = Responses.stream()
+                            .filter(r -> r.Id == req.Id)
+                            .findFirst()
+                            .orElse(null);
+                    if ((res == null) || !res.Obtained)
                         Thread.sleep(Settings.RSR.TransportConnect.ResponseDelay);
-                    } else {
-                        if (Output!=null){
-                            res.Payload.Move(Output);
-                        }
-                    }
 
                 } catch (InterruptedException ie) {
                     return null;
                 }
+            }
 
+            if (Output!=null){
+                    res.Payload.Move(Output);
             }
             if (res == null){
                 res = new Response(this);

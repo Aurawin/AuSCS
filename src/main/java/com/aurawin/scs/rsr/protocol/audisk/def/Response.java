@@ -42,7 +42,6 @@ public class Response {
     public Response(AUDISK owner) {
         Owner = owner;
         Payload = new MemoryStream();
-        Owner.Responses.add(this);
     }
 
     public void Reset(){
@@ -79,6 +78,7 @@ public class Response {
         Method = src.Method;
         Code = src.Code;
         Size = src.Size;
+        Obtained=src.Obtained;
         if (src.Payload!=null) {
             if (Payload==null)
                 Payload=new MemoryStream();

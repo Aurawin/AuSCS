@@ -39,7 +39,6 @@ public class Request {
     public Request(AUDISK owner) {
         Owner = owner;
         Payload = new MemoryStream();
-        Owner.Requests.add(this);
     }
 
     public void Reset(){
