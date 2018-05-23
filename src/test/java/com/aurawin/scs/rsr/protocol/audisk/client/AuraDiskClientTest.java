@@ -61,6 +61,7 @@ public class AuraDiskClientTest {
             line += alphabet.charAt(r.nextInt(len));
         }
         for (int iLcv = 1; iLcv <= 1024*800; iLcv++){
+
             Input.Write(line + " " + iLcv + CRLF);
         }
 
