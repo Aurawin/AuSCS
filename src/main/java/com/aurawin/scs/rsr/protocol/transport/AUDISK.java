@@ -29,6 +29,8 @@ import com.google.gson.Gson;
 import org.hibernate.Session;
 import com.aurawin.scs.rsr.protocol.audisk.def.Request;
 
+import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.InetSocketAddress;
 import java.nio.channels.SocketChannel;
@@ -142,6 +144,9 @@ public class AUDISK extends Item implements Transport
         } else if (Buffers.Recv.Size<Settings.RSR.Items.Header.MaxSize) {
             r  =  rPostpone;
         } else {
+            try {
+                Buffers.Recv.SaveToFile(new File("/home/atbrunner/Desktop/Peek.txt"));
+            } catch (IOException ioe) {}
             r = rFailure;
         }
         return r;
