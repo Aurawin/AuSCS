@@ -60,7 +60,7 @@ public class AuraDiskClientTest {
         for (int jLcv = 1; jLcv <= 1024*2; jLcv++) {
             line += alphabet.charAt(r.nextInt(len));
         }
-        for (int iLcv = 1; iLcv <= 1024*800; iLcv++){
+        for (int iLcv = 1; iLcv <= 1024*400; iLcv++){
 
             Input.Write(line + " " + iLcv + CRLF);
         }

@@ -33,8 +33,16 @@ public class cPartialReadFile extends Method{
     @SerializedName("FLD")
     public long FolderId;
 
+    @Expose(serialize = true, deserialize = true)
+    @SerializedName("SRT")
+    public long Start;
+
+    @Expose(serialize = true, deserialize = true)
+    @SerializedName("END")
+    public long End;
+
     public cPartialReadFile() {
-        super(Settings.AuDisk.Method.File+"."+Settings.AuDisk.Method.Command.Read);
+        super(Settings.AuDisk.Method.File+"."+Settings.AuDisk.Method.Command.PartialRead);
     }
 
     @Override

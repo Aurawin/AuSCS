@@ -24,6 +24,7 @@ public class Settings extends com.aurawin.core.solution.Settings {
                 public static final String Make = "MKE";
                 public static final String Delete = "DEL";
                 public static final String Read = "REA";
+                public static final String PartialRead = "PRD";
                 public static final String Write = "WRI";
             }
             public static final String File = "FLE";
