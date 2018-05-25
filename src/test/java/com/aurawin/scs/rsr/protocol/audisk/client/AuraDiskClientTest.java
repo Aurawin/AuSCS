@@ -26,6 +26,7 @@ import com.google.gson.Gson;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.File;
 import java.net.InetSocketAddress;
 import java.util.Random;
 
@@ -60,7 +61,7 @@ public class AuraDiskClientTest {
         for (int jLcv = 1; jLcv <= 1024*2; jLcv++) {
             line += alphabet.charAt(r.nextInt(len));
         }
-        for (int iLcv = 1; iLcv <= 1024*400; iLcv++){
+        for (int iLcv = 1; iLcv <= 1024*120; iLcv++){
 
             Input.Write(line + " " + iLcv + CRLF);
         }
@@ -126,6 +127,7 @@ public class AuraDiskClientTest {
                 System.out.println("AuDisk writeFile completed");
                 AuDisk.readFile(Output, DiskId, Kind, DomainId, OwnerId, FolderId, FileId);
                 System.out.println("AuDisk readFile completed");
+                Output.SaveToFile(new File("/home/atbrunner/Desktop/check.txt"));
             } else {
                 throw new Exception("AuDisk [makeFile] command failed.");
             }
