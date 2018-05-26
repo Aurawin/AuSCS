@@ -11,6 +11,7 @@ import com.aurawin.core.rsr.def.ItemKind;
 
 import static com.aurawin.core.rsr.def.EngineState.esStop;
 
+import com.aurawin.core.rsr.def.http.Field;
 import com.aurawin.core.rsr.def.rsrResult;
 import com.aurawin.core.rsr.security.Security;
 import com.aurawin.core.rsr.transport.Transport;
@@ -140,7 +141,7 @@ public class AUDISK extends Item implements Transport
         rsrResult r = rSuccess;
         long iLoc=Buffers.Recv.Find(Settings.RSR.Items.Header.Separator);
         if (iLoc>0) {
-            r = Read(Buffers.Recv.Read(0,iLoc+Settings.RSR.Items.Header.SeparatorLength,true ));
+            r = Read(Buffers.Recv.Read(0,iLoc+ Settings.RSR.Items.Header.SeparatorLength,true ));
         } else if (Buffers.Recv.Size<Settings.RSR.Items.Header.MaxSize) {
             r  =  rPostpone;
         } else {
