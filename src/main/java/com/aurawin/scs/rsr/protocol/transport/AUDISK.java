@@ -142,7 +142,7 @@ public class AUDISK extends Item implements Transport
         long iLoc=Buffers.Recv.Find(Settings.RSR.Items.Header.Separator);
         if (iLoc>0) {
             r = Read(Buffers.Recv.Read(0,iLoc+ Settings.RSR.Items.Header.SeparatorLength,true ));
-        } else if (Buffers.Recv.Size<Settings.RSR.Items.Header.MaxSize) {
+        } else if (Buffers.Recv.size()<Settings.RSR.Items.Header.MaxSize) {
             r  =  rPostpone;
         } else {
             try {
@@ -195,10 +195,10 @@ public class AUDISK extends Item implements Transport
                 switch (Kind) {
                     case Server:
                         Request.Assign(gson.fromJson(sLine, com.aurawin.scs.rsr.protocol.audisk.def.Request.class));
-                        return (Buffers.Recv.Size>=iChunk+Request.Size)? rSuccess: rPostpone;
+                        return (Buffers.Recv.size()>=iChunk+Request.Size)? rSuccess: rPostpone;
                     case Client:
                         Response.Assign(gson.fromJson(sLine, com.aurawin.scs.rsr.protocol.audisk.def.Response.class));
-                        return (Buffers.Recv.Size>=iChunk+Response.Size)? rSuccess: rPostpone;
+                        return (Buffers.Recv.size()>=iChunk+Response.Size)? rSuccess: rPostpone;
 
                 }
                 return rPostpone;
@@ -261,7 +261,7 @@ public class AUDISK extends Item implements Transport
 
     public void Respond() {
         Response.Id=Request.Id;
-        Response.Size = Response.Payload.Size;
+        Response.Size = Response.Payload.size();
         Response.Protocol=Version.toString();
         Response.Method=Request.Method;
 
@@ -290,7 +290,7 @@ public class AUDISK extends Item implements Transport
             if (Input != null) {
                 Input.position(0);
                 Input.Move(req.Payload);
-                req.Size = req.Payload.Size;
+                req.Size = req.Payload.size();
             } else {
                 req.Size = 0;
             }
