@@ -123,8 +123,8 @@ public class AuraDiskClientTest {
             System.out.println("AuDisk makeFolder completed");
             if (AuDisk.makeFile(DiskId, Kind, DomainId, OwnerId, FolderId, FileId)) {
                 System.out.println("AuDisk makeFile completed");
-                AuDisk.writeFile(Input, DiskId, Kind, DomainId, OwnerId, FolderId, FileId);
-                System.out.println("AuDisk writeFile completed");
+                //AuDisk.writeFile(Input, DiskId, Kind, DomainId, OwnerId, FolderId, FileId);
+                //System.out.println("AuDisk writeFile completed");
                 AuDisk.readFile(Output, DiskId, Kind, DomainId, OwnerId, FolderId, FileId);
                 System.out.println("AuDisk readFile completed");
                 Output.SaveToFile(new File("/home/atbrunner/Desktop/check.txt"));
