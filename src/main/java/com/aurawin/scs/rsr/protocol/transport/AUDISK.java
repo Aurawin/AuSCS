@@ -288,7 +288,7 @@ public class AUDISK extends Item implements Transport
             req.Method = cmd.getKey();
             req.Command = gson.toJson(cmd);
             if (Input != null) {
-                Input.Position=0;
+                Input.position(0);
                 Input.Move(req.Payload);
                 req.Size = req.Payload.Size;
             } else {
