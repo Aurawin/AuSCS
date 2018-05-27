@@ -157,7 +157,7 @@ public class AUDISK extends Item implements Transport
         Reset();
         long iLoc=Buffers.Recv.Find(Settings.RSR.Items.Header.Separator);
         if (iLoc>0) {
-            if (Read(Buffers.Recv.Read(0,iLoc+Settings.RSR.Items.Header.SeparatorLength,false ))==rSuccess){
+            if (Read(Buffers.Recv.Read(0    ,iLoc+Settings.RSR.Items.Header.SeparatorLength,false ))==rSuccess){
                 switch (Kind) {
                     case Server:
                         Buffers.Recv.Move(Request.Payload, Request.Size);
@@ -267,7 +267,6 @@ public class AUDISK extends Item implements Transport
 
         String sHeader=gson.toJson(Response);
 
-        Buffers.Send.position(Buffers.Send.size());
         Buffers.Send.Write(sHeader);
         Buffers.Send.Write(Settings.RSR.Items.Header.Separator);
         if (Response.Payload.size()>0) {
