@@ -296,8 +296,7 @@ public class AUDISK extends Item implements Transport
             }
 
             String sHeader = gson.toJson(req);
-
-            Buffers.Send.position(Buffers.Send.size());
+            // no stream positioning needed.  Writes are appended
             Buffers.Send.Write(sHeader);
             Buffers.Send.Write(Settings.RSR.Items.Header.Separator);
             if (req.Payload.size() > 0) {
