@@ -53,7 +53,7 @@ public class cWritePartialFile extends Method{
             case Server:
                 Server s = (Server) t.Owner.Engine;
                 cWritePartialFile cmd = t.gson.fromJson(t.Request.Command, cWritePartialFile.class);
-                if (AuDisk.writePartialFile(t.Response.Payload,cmd.DiskId,cmd.NamespaceId,cmd.DomainId,cmd.OwnerId,cmd.FolderId,cmd.FileId,cmd.Start,cmd.Length)){
+                if (AuDisk.writePartialFile(t.Request.Payload,cmd.DiskId,cmd.NamespaceId,cmd.DomainId,cmd.OwnerId,cmd.FolderId,cmd.FileId,cmd.Start,cmd.Length)){
                     r = Ok;
                 } else {
                     r = Failure;

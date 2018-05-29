@@ -381,7 +381,7 @@ public class Disk extends Stored {
             try{
                 f.seek(position); // need testing
                 f.write(Data.Read());
-;               return true;
+                return true;
             }finally{
                 f.close();
             }
