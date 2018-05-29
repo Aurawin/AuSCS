@@ -18,6 +18,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import java.io.File;
+import java.io.RandomAccessFile;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -314,6 +315,33 @@ public class Disk extends Stored {
             return false;
         }
     }
+
+    public boolean readPartialFile(MemoryStream Data, long namespaceId, long domainId, long ownerId, long folderId, long fileId, long position, int size){
+        Path dPath = Settings.Stored.Domain.Network.File.buildFilename(
+                Mount,
+                namespaceId,
+                domainId,
+                ownerId,
+                folderId,
+                fileId
+        );
+        try {
+            RandomAccessFile f = new RandomAccessFile(dPath.toString(), "r");
+            try{
+                byte[] bData = new byte[size];
+                f.seek(position);
+                Data.Clear();
+                Data.Write(bData);
+                return true;
+            }finally{
+                f.close();
+            }
+
+        } catch (Exception e) {
+            Syslog.Append(getClass().getCanonicalName(), "readPartialFile", com.aurawin.core.lang.Table.Format(com.aurawin.core.lang.Table.Error.RSR.MethodFailure, e.getMessage()));
+            return false;
+        }
+    }
     public boolean writeFile(MemoryStream Data, long namespaceId, long domainId, long ownerId, long folderId, long fileId) {
         Path dPath = Settings.Stored.Domain.Network.File.buildFilename(
                 Mount,
@@ -328,6 +356,30 @@ public class Disk extends Stored {
             return true;
         } catch (Exception e) {
             Syslog.Append(getClass().getCanonicalName(), "writeFile", com.aurawin.core.lang.Table.Format(com.aurawin.core.lang.Table.Error.RSR.MethodFailure, e.getMessage()));
+            return false;
+        }
+    }
+    public boolean writePartialFile(MemoryStream Data, long namespaceId, long domainId, long ownerId, long folderId, long fileId, long position, int size){
+        Path dPath = Settings.Stored.Domain.Network.File.buildFilename(
+                Mount,
+                namespaceId,
+                domainId,
+                ownerId,
+                folderId,
+                fileId
+        );
+        try {
+            RandomAccessFile f = new RandomAccessFile(dPath.toString(), "rw");
+            try{
+                f.seek(position); // need testing
+                f.write(Data.Read());
+;               return true;
+            }finally{
+                f.close();
+            }
+
+        } catch (Exception e) {
+            Syslog.Append(getClass().getCanonicalName(), "writePartialFile", com.aurawin.core.lang.Table.Format(com.aurawin.core.lang.Table.Error.RSR.MethodFailure, e.getMessage()));
             return false;
         }
     }

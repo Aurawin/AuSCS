@@ -45,6 +45,8 @@ public class AuraDiskClientTest {
     long FileId = 1;
     MemoryStream Input;
     MemoryStream Output;
+    MemoryStream writePartial1;
+    MemoryStream writePartial2;
     Node nClient;
     Node nServer;
     String sJSON;
@@ -61,6 +63,8 @@ public class AuraDiskClientTest {
         for (int jLcv = 1; jLcv <= 1024*2; jLcv++) {
             line += alphabet.charAt(r.nextInt(len));
         }
+        writePartial1.Write(line+CRLF);
+        writePartial2.Write(line+CRLF);
         for (int iLcv = 1; iLcv <= 1024*720; iLcv++){
 
             Input.Write(line + " " + iLcv + CRLF);
@@ -124,6 +128,9 @@ public class AuraDiskClientTest {
             if (AuDisk.makeFile(DiskId, Kind, DomainId, OwnerId, FolderId, FileId)) {
                 System.out.println("AuDisk makeFile completed");
                 //AuDisk.writeFile(Input, DiskId, Kind, DomainId, OwnerId, FolderId, FileId);
+                AuDisk.writePartialFile(writePartial1,DiskId,Kind,DomainId,OwnerId,FolderId,FileId,0,2050);
+                AuDisk.writePartialFile(writePartial2,DiskId,Kind,DomainId,OwnerId,FolderId,FileId,2051,2050);
+
                 //System.out.println("AuDisk writeFile completed");
                 AuDisk.readFile(Output, DiskId, Kind, DomainId, OwnerId, FolderId, FileId);
                 System.out.println("AuDisk readFile completed");

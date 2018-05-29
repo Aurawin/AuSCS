@@ -153,6 +153,24 @@ public class AuDisk {
         }
     }
 
+    public static boolean writePartialFile(MemoryStream Data, long DiskId, long NamespaceId, long DomainId, long OwnerId, long FolderId, long FileId, long Start, int Length) {
+        Disk d = isDiskLocal(DiskId);
+        if (d != null) {
+            return d.writePartialFile(
+                    Data,
+                    NamespaceId,
+                    DomainId,
+                    OwnerId,
+                    FolderId,
+                    FileId,
+                    Start,
+                    Length
+            );
+        } else {
+            return Router.writePartialFile(Data,DiskId, NamespaceId, DomainId, OwnerId, FolderId,FileId,Start,Length);
+        }
+    }
+
 
     public static boolean readFile(MemoryStream Data, long DiskId, long NamespaceId, long DomainId, long OwnerId, long FolderId, long FileId) {
         Disk d = isDiskLocal(DiskId);
@@ -167,6 +185,25 @@ public class AuDisk {
             );
         } else {
             return Router.readFile(Data,DiskId, NamespaceId, DomainId, OwnerId, FolderId,FileId);
+        }
+    }
+
+    public static boolean readPartialFile(MemoryStream Data, long DiskId, long NamespaceId, long DomainId, long OwnerId, long FolderId, long FileId, long Position, int Length) {
+        Disk d = isDiskLocal(DiskId);
+        if (d != null) {
+            return d.readPartialFile(
+                    Data,
+                    NamespaceId,
+                    DomainId,
+                    OwnerId,
+                    FolderId,
+                    FileId,
+                    Position,
+                    Length
+
+            );
+        } else {
+            return Router.readPartialFile(Data,DiskId, NamespaceId, DomainId, OwnerId, FolderId,FileId, Position, Length);
         }
     }
     public static boolean moveFile(long DiskId, long NamespaceId, long DomainId, long OwnerId, long OldFolderId, long NewFolderId, long FileId) {

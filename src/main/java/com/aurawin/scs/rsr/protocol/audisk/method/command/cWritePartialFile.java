@@ -13,7 +13,7 @@ import org.hibernate.Session;
 
 import static com.aurawin.core.rsr.transport.methods.Result.*;
 
-public class cPartialReadFile extends Method{
+public class cWritePartialFile extends Method{
     @Expose(serialize = true, deserialize = true)
     @SerializedName("DSK")
     public long DiskId;
@@ -38,11 +38,11 @@ public class cPartialReadFile extends Method{
     public long Start;
 
     @Expose(serialize = true, deserialize = true)
-    @SerializedName("END")
-    public long End;
+    @SerializedName("LNH")
+    public int Length;
 
-    public cPartialReadFile() {
-        super(Settings.AuDisk.Method.File+"."+Settings.AuDisk.Method.Command.PartialRead);
+    public cWritePartialFile() {
+        super(Settings.AuDisk.Method.File+"."+Settings.AuDisk.Method.Command.PartialWrite);
     }
 
     @Override
@@ -52,8 +52,8 @@ public class cPartialReadFile extends Method{
         switch (t.Kind) {
             case Server:
                 Server s = (Server) t.Owner.Engine;
-                cPartialReadFile cmd = t.gson.fromJson(t.Request.Command, cPartialReadFile.class);
-                if (AuDisk.readFile(t.Response.Payload,cmd.DiskId,cmd.NamespaceId,cmd.DomainId,cmd.OwnerId,cmd.FolderId,cmd.FileId)){
+                cWritePartialFile cmd = t.gson.fromJson(t.Request.Command, cWritePartialFile.class);
+                if (AuDisk.writePartialFile(t.Response.Payload,cmd.DiskId,cmd.NamespaceId,cmd.DomainId,cmd.OwnerId,cmd.FolderId,cmd.FileId,cmd.Start,cmd.Length)){
                     r = Ok;
                 } else {
                     r = Failure;

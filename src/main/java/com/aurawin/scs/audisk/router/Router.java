@@ -19,6 +19,7 @@ import com.aurawin.scs.solution.Settings;
 import com.aurawin.scs.stored.cloud.Disk;
 import com.aurawin.scs.stored.cloud.Node;
 import com.aurawin.scs.stored.cloud.Service;
+import javafx.geometry.Pos;
 
 import java.net.InetSocketAddress;
 import java.util.ArrayList;
@@ -361,6 +362,47 @@ public class Router {
 
         return false;
     }
+    public static boolean writePartialFile(MemoryStream Input,long DiskId, long NamespaceId, long DomainId, long OwnerId, long FolderId, long FileId, long Position, int Length){
+        // construct query...
+        // send query
+        // get result...
+        Route r = getRoute(DiskId);
+        AUDISK T = (AUDISK) r.getItemOrWait();
+
+
+        cWritePartialFile cmd = new cWritePartialFile();
+        cmd.DiskId=DiskId;
+        cmd.NamespaceId=NamespaceId;
+        cmd.DomainId=DomainId;
+        cmd.OwnerId=OwnerId;
+        cmd.FolderId=FolderId;
+        cmd.FileId=FileId;
+        cmd.Start=Position;
+        cmd.Length=Length;
+
+        if (r != null) {
+            while (r.Client.State != esStop) {
+                if (r.Connection.readyForUse()) {
+                    int loops = 10;
+                    int iLcv = 1;
+                    while (iLcv <= loops) {
+                        Response res = T.Query(cmd, Input, null);
+                        try {
+                            res.Payload = null;
+                            return (res.Code == Ok);
+                        } finally {
+                            res.Release();
+                        }
+                    }
+
+                }
+            }
+        } else {
+            return false;
+        }
+
+        return false;
+    }
     public static boolean readFile(MemoryStream Data, long DiskId, long NamespaceId, long DomainId, long OwnerId, long FolderId, long FileId){
         // construct query...
         // send query
@@ -376,6 +418,48 @@ public class Router {
         cmd.OwnerId=OwnerId;
         cmd.FolderId=FolderId;
         cmd.FileId=FileId;
+
+
+        if (r != null) {
+            while (r.Client.State != esStop) {
+                if (r.Connection.readyForUse()) {
+                    int loops = 10;
+                    int iLcv = 1;
+                    while (iLcv <= loops) {
+                        Response res = T.Query(cmd, null, Data);
+                        try {
+                            res.Payload.Move(Data);
+                            return (res.Code == Ok);
+                        } finally {
+                            res.Release();
+                        }
+                    }
+
+                }
+            }
+        } else {
+            return false;
+        }
+
+        return false;
+    }
+    public static boolean readPartialFile(MemoryStream Data, long DiskId, long NamespaceId, long DomainId, long OwnerId, long FolderId, long FileId, long Position, int Length){
+        // construct query...
+        // send query
+        // get result...
+        Route r = getRoute(DiskId);
+        AUDISK T = (AUDISK) r.getItemOrWait();
+
+
+        cReadPartialFile cmd = new cReadPartialFile();
+        cmd.DiskId=DiskId;
+        cmd.NamespaceId=NamespaceId;
+        cmd.DomainId=DomainId;
+        cmd.OwnerId=OwnerId;
+        cmd.FolderId=FolderId;
+        cmd.FileId=FileId;
+        cmd.Start=Position;
+        cmd.Length=Length;
 
 
         if (r != null) {

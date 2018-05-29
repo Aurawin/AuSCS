@@ -26,6 +26,7 @@ public class Settings extends com.aurawin.core.solution.Settings {
                 public static final String Read = "REA";
                 public static final String PartialRead = "PRD";
                 public static final String Write = "WRI";
+                public static final String PartialWrite = "PWR";
             }
             public static final String File = "FLE";
             public static final String Folder = "FLDR";
