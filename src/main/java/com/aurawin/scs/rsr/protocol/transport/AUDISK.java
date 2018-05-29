@@ -73,7 +73,9 @@ public class AUDISK extends Item implements Transport
         Request = new Request(this);
 
         Methods.registerMethod(new cReadFile());
+        Methods.registerMethod(new cReadPartialFile());
         Methods.registerMethod(new cWriteFile());
+        Methods.registerMethod(new cWritePartialFile());
         Methods.registerMethod(new cMakeFile());
         Methods.registerMethod(new cDeleteFile());
         Methods.registerMethod(new cDeleteFolder());
