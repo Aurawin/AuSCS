@@ -1,6 +1,7 @@
 package com.aurawin.scs.stored.cloud;
 
 import com.aurawin.core.log.Syslog;
+import com.aurawin.core.stream.FileStream;
 import com.aurawin.core.stream.MemoryStream;
 import com.aurawin.scs.solution.Settings;
 import com.aurawin.core.stored.Stored;
@@ -232,6 +233,13 @@ public class Disk extends Stored {
             f.setExecutable(false);
             f.setReadable(true);
             f.setWritable(true);
+            FileStream fs = new FileStream(f,"rw");
+            try {
+                fs.truncate(0);
+            } finally {
+                fs.close();
+            }
+
             return true;
         } catch (Exception e){
             Syslog.Append(getClass().getCanonicalName(),"makeFile", e.getMessage());

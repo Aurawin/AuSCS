@@ -60,6 +60,9 @@ public class AuraDiskClientTest {
         gson = bldr.Create();
         Input = new MemoryStream();
         Output = new MemoryStream();
+        writePartial1=new MemoryStream();
+        writePartial2=new MemoryStream();
+
         for (int jLcv = 1; jLcv <= 1024*2; jLcv++) {
             line += alphabet.charAt(r.nextInt(len));
         }
