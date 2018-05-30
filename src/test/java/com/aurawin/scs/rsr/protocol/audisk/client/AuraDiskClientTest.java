@@ -132,7 +132,7 @@ public class AuraDiskClientTest {
                 System.out.println("AuDisk makeFile completed");
                 //AuDisk.writeFile(Input, DiskId, Kind, DomainId, OwnerId, FolderId, FileId);
                 AuDisk.writePartialFile(writePartial1,DiskId,Kind,DomainId,OwnerId,FolderId,FileId,0,2050);
-                AuDisk.writePartialFile(writePartial2,DiskId,Kind,DomainId,OwnerId,FolderId,FileId,2051,2050);
+                AuDisk.writePartialFile(writePartial2,DiskId,Kind,DomainId,OwnerId,FolderId,FileId,2050,2050);
 
                 //System.out.println("AuDisk writeFile completed");
                 AuDisk.readFile(Output, DiskId, Kind, DomainId, OwnerId, FolderId, FileId);

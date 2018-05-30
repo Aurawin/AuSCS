@@ -13,7 +13,33 @@ public class Settings extends com.aurawin.core.solution.Settings {
             public static long RecentItemsTimeWindowInSeconds=60*2; // 2 minutes
         }
     }
+    public static class RSR extends com.aurawin.core.solution.Settings.RSR{
+        public static class Items extends com.aurawin.core.solution.Settings.RSR.Items{
+            public static class IMAP extends com.aurawin.core.solution.Settings.RSR.Items.IMAP{
+                public static class Tags{
+                    public static boolean On = true;
+                    public static boolean Off = false;
+                }
 
+
+                public static class Authenticate {
+                    public static String Name = "Authenticate";
+                    public static String Plain = "Plain";
+                    public static String Login = "Login";
+                    public static String DigestMD5 = "DIGEST-MD5";
+                }
+                public static class Search {
+                    public static String Flags          = "flags";
+                    public static String FlagsSilent    = "flags.silent";
+                    public static String FlagsSilentOn  = "+flags.silent";
+                    public static String FlagsSilentOff = "-flags.silent";
+                    public static String FlagsOn        = "+flags";
+                    public static String FlagsOff       = "-flags";
+                    public static long MaxBytes = 1024;
+                }
+            }
+        }
+    }
     public static class AuDisk{
 
         public static final String Protocol = "AUDISK";
