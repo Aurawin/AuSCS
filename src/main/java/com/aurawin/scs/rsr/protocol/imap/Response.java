@@ -9,11 +9,12 @@ import com.aurawin.scs.rsr.protocol.imap.def.status.Status;
 import static com.aurawin.scs.rsr.protocol.imap.def.status.Status.sNone;
 
 public class Response {
-    public volatile KeyPairs Parameters;
-    public volatile Status Status;
-    public volatile ResolveResult Result;
-    public volatile Version Version;
-    public volatile MemoryStream Payload;
+    public KeyPairs Parameters;
+    public Status Status;
+    public String Sequence;
+    public ResolveResult Result;
+    public Version Version;
+    public MemoryStream Payload;
 
     public Response() {
         Parameters = new KeyPairs();

@@ -34,6 +34,7 @@ public class HTTPServerTest {
     public void before() throws Exception{
         Settings.Initialize(
                 "AuProcess",
+                "Aurawin LLC",
                 "Aurawin Social Computing Server",
                 "Universal"
         );

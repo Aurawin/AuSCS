@@ -77,6 +77,7 @@ public class AuraDiskClientTest {
 
         Settings.Initialize(
                 "AuProcess",
+                "Aurawin LLC",
                 "Aurawin Social Computing Server",
                 "Universal"
         );
