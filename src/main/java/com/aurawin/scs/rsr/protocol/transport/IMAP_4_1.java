@@ -5,22 +5,30 @@ import com.aurawin.core.rsr.Items;
 import com.aurawin.core.rsr.def.CredentialResult;
 import com.aurawin.core.rsr.def.ItemKind;
 import com.aurawin.core.rsr.def.rsrResult;
+
 import com.aurawin.core.rsr.security.Security;
 import com.aurawin.core.rsr.transport.Transport;
 import com.aurawin.core.rsr.transport.annotations.Protocol;
 import com.aurawin.core.rsr.transport.methods.Result;
-import com.aurawin.core.rsr.transport.methods.imap.*;
+import com.aurawin.scs.rsr.protocol.imap.def.ResolveResult;
+import com.aurawin.scs.rsr.protocol.imap.def.SecurityMechanismBasic;
+import com.aurawin.scs.rsr.protocol.imap.def.Version_4_1;
+import com.aurawin.scs.rsr.protocol.imap.Request;
+import com.aurawin.scs.rsr.protocol.imap.Response;
+import com.aurawin.scs.rsr.protocol.imap.method.*;
 import org.hibernate.Session;
+
 
 import java.lang.reflect.InvocationTargetException;
 import java.nio.channels.SocketChannel;
 
-import static com.aurawin.core.rsr.def.imap.ResolveResult.rrNone;
-import static com.aurawin.core.rsr.def.imap.Status.sFail;
-import static com.aurawin.core.rsr.def.imap.Status.sOK;
+
 import static com.aurawin.core.rsr.def.rsrResult.rFailure;
 import static com.aurawin.core.rsr.def.rsrResult.rSuccess;
 import static com.aurawin.core.rsr.transport.methods.Result.None;
+import static com.aurawin.scs.rsr.protocol.imap.def.ResolveResult.rrNone;
+import static com.aurawin.scs.rsr.protocol.imap.def.status.Status.sFail;
+import static com.aurawin.scs.rsr.protocol.imap.def.status.Status.sOK;
 
 @Protocol(
         Version = Version_4_1.class

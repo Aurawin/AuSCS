@@ -15,7 +15,7 @@ public class Settings extends com.aurawin.core.solution.Settings {
     }
     public static class RSR extends com.aurawin.core.solution.Settings.RSR{
         public static class Items extends com.aurawin.core.solution.Settings.RSR.Items{
-            public static class IMAP extends com.aurawin.core.solution.Settings.RSR.Items.IMAP{
+            public static class IMAP {
                 public static class Tags{
                     public static boolean On = true;
                     public static boolean Off = false;

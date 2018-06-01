@@ -1,9 +1,10 @@
 package com.aurawin.scs.rsr.protocol.imap.method;
 
-import com.aurawin.core.rsr.client.protocol.imap.IMAP_4_1;
+
 import com.aurawin.core.rsr.transport.Transport;
 import com.aurawin.core.rsr.transport.methods.Method;
 import com.aurawin.core.rsr.transport.methods.Result;
+import com.aurawin.scs.rsr.protocol.transport.IMAP_4_1;
 import org.hibernate.Session;
 
 import java.lang.reflect.InvocationTargetException;

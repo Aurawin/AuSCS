@@ -6,9 +6,12 @@ import com.aurawin.core.rsr.def.Version;
 
 import com.aurawin.core.rsr.def.rsrResult;
 import com.aurawin.core.stream.MemoryStream;
+import com.aurawin.scs.rsr.protocol.imap.def.QueryResolver;
+import com.aurawin.scs.rsr.protocol.imap.def.ResolveResult;
+import com.aurawin.scs.rsr.protocol.imap.def.Version_4_1;
 import org.hibernate.Session;
 
-import static com.aurawin.core.rsr.def.imap.ResolveResult.rrNone;
+import static com.aurawin.scs.rsr.protocol.imap.def.ResolveResult.rrNone;
 import static com.aurawin.core.rsr.def.rsrResult.rPostpone;
 
 
@@ -22,7 +25,7 @@ public class Request implements QueryResolver {
     public Request(Item owner) {
         Method = null;
         Owner=owner;
-        Version = new Version_4_1(4,1);
+        Version = new Version_4_1();
     }
     @Override
     public void Release(){

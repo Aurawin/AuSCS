@@ -3,8 +3,10 @@ package com.aurawin.scs.rsr.protocol.imap;
 import com.aurawin.core.array.KeyPairs;
 import com.aurawin.core.stream.MemoryStream;
 import com.aurawin.core.rsr.def.Version;
-import static com.aurawin.core.rsr.def.imap.Status.sNone;
-
+import com.aurawin.scs.rsr.protocol.imap.def.ResolveResult;
+import com.aurawin.scs.rsr.protocol.imap.def.Version_4_1;
+import com.aurawin.scs.rsr.protocol.imap.def.status.Status;
+import static com.aurawin.scs.rsr.protocol.imap.def.status.Status.sNone;
 
 public class Response {
     public volatile KeyPairs Parameters;
